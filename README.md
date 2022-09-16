@@ -18,3 +18,8 @@
   <img src="./logo.png">
   <br>
 </p>
+<p align="center">
+  <br>
+  <img src="./logo_dark.png">
+  <br>
+</p>
