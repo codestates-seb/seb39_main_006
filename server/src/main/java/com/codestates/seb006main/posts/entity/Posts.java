@@ -31,7 +31,7 @@ public class Posts {
     private LocalDateTime modifiedAt; // 없어도 되지 않나?
 
 //    private Member member;
-//    private Matching matching;
+//    private Group matching;
 
     @Builder
     public Posts(Long postId, String title, String body, PostsStatus postsStatus, LocalDateTime createdAt, LocalDateTime modifiedAt) {

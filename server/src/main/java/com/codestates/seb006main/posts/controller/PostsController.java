@@ -32,7 +32,7 @@ public class PostsController {
     }
 
     @GetMapping
-    public ResponseEntity getAllPosts(@PageableDefault(page = 1, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
+    public ResponseEntity getAllPosts(@PageableDefault(page = 1, sort = "postId", direction = Sort.Direction.DESC)Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
         MultiResponseDto responseDto = postsService.readAllPosts(pageRequest);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
