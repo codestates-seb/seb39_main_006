@@ -20,6 +20,10 @@
 </p>
 <p align="center">
   <br>
-  <img src="./logo_dark.png">
+   <img src="./darkLogo.png">
+ 
   <br>
+  <img src="./logo_dark.png">
+ <br>
+
 </p>
