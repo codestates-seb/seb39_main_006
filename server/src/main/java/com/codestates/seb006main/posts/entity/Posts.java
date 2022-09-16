@@ -29,9 +29,9 @@ public class Posts {
     private PostsStatus postsStatus;
     private LocalDateTime createdAt; // TODO: audit 처리 예정
     private LocalDateTime modifiedAt; // 없어도 되지 않나?
-
 //    private Member member;
-//    private Group matching;
+    // TODO: Group 매핑 maybe OneToOne
+//    private Group group;
 
     @Builder
     public Posts(Long postId, String title, String body, PostsStatus postsStatus, LocalDateTime createdAt, LocalDateTime modifiedAt) {

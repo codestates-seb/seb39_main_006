@@ -13,6 +13,7 @@ public class PostsDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Post {
+        // TODO: groupDto.Post를 받거나, posts와 group의 postDto를 둘 다 받는 방식.
         private String title;
         private String body;
 

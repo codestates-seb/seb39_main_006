@@ -21,6 +21,7 @@ public class PostsController {
 
     @PostMapping
     public ResponseEntity postPosts(@RequestBody PostsDto.Post postDto) {
+        // TODO: groupDto.Post를 받거나, posts와 group의 postDto를 둘 다 받는 방식.
         PostsDto.Response responseDto = postsService.createPosts(postDto);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
