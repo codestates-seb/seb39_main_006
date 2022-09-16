@@ -1,6 +1,7 @@
 package com.codestates.seb006main.group.dto;
 
 import com.codestates.seb006main.group.entity.Group;
+import com.codestates.seb006main.util.Period;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +9,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class GroupDto {
 
@@ -55,10 +55,10 @@ public class GroupDto {
         private LocalDate closeDate;
 
         @Builder
-        public Response(Long groupId, LocalDate startDate, LocalDate endDate, String location, Integer headcount, Group.GroupStatus groupStatus, LocalDate closeDate) {
+        public Response(Long groupId, Period travelPeriod, String location, Integer headcount, Group.GroupStatus groupStatus, LocalDate closeDate) {
             this.groupId = groupId;
-            this.startDate = startDate;
-            this.endDate = endDate;
+            this.startDate = travelPeriod.getStartDate();
+            this.endDate = travelPeriod.getEndDate();
             this.location = location;
             this.headcount = headcount;
             this.groupStatus = groupStatus;

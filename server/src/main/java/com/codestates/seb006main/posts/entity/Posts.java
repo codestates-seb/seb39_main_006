@@ -1,15 +1,14 @@
 package com.codestates.seb006main.posts.entity;
 
+import com.codestates.seb006main.group.entity.Group;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,17 +29,21 @@ public class Posts {
     private LocalDateTime createdAt; // TODO: audit 처리 예정
     private LocalDateTime modifiedAt; // 없어도 되지 않나?
 //    private Member member;
-    // TODO: Group 매핑 maybe OneToOne
-//    private Group group;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "group_id")
+    private Group group;
+
+    // TODO: 조회수, 추천수, 즐겨찾기
 
     @Builder
-    public Posts(Long postId, String title, String body, PostsStatus postsStatus, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public Posts(Long postId, String title, String body, PostsStatus postsStatus, LocalDateTime createdAt, LocalDateTime modifiedAt, Group group) {
         this.postId = postId;
         this.title = title;
         this.body = body;
-        this.postsStatus = postsStatus;
+        this.postsStatus = Objects.requireNonNullElse(postsStatus, PostsStatus.RECRUITING);
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
+        this.group = group;
     }
 
     public enum PostsStatus {
@@ -61,6 +64,10 @@ public class Posts {
 
 
     // 비즈니스 로직
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
     public void updateTitle(String title) {
         this.title = title;
         // TODO: 추후 audit 처리 시 제거

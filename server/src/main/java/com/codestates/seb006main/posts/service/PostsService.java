@@ -1,6 +1,9 @@
 package com.codestates.seb006main.posts.service;
 
 import com.codestates.seb006main.dto.MultiResponseDto;
+import com.codestates.seb006main.group.entity.Group;
+import com.codestates.seb006main.group.mapper.GroupMapper;
+import com.codestates.seb006main.group.repository.GroupRepository;
 import com.codestates.seb006main.posts.dto.PostsDto;
 import com.codestates.seb006main.posts.entity.Posts;
 import com.codestates.seb006main.posts.mapper.PostsMapper;
@@ -17,9 +20,13 @@ import java.util.Optional;
 @Service
 public class PostsService {
     private final PostsRepository postsRepository;
+    private final GroupRepository groupRepository;
     private final PostsMapper postsMapper;
+    private final GroupMapper groupMapper;
     public PostsDto.Response createPosts(PostsDto.Post postDto) {
         Posts posts = postsMapper.postDtoToPosts(postDto);
+        Group group = groupMapper.postDtoToGroup(postDto.getGroup());
+        posts.setGroup(group);
         postsRepository.save(posts);
         return postsMapper.postsToResponseDto(posts);
     }

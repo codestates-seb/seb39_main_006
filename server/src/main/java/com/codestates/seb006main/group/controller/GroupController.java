@@ -40,7 +40,7 @@ public class GroupController {
     }
 
     @GetMapping
-    public ResponseEntity getAllGroups(@PageableDefault(page = 1, sort = "groupId", direction = Sort.Direction.DESC)Pageable pageable) {
+    public ResponseEntity getAllGroups(@PageableDefault(sort = "groupId", direction = Sort.Direction.DESC)Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
         MultiResponseDto responseDto = groupService.readAllGroups(pageRequest);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);

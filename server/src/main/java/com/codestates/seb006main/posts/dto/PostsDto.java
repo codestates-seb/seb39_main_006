@@ -1,11 +1,11 @@
 package com.codestates.seb006main.posts.dto;
 
+import com.codestates.seb006main.group.dto.GroupDto;
 import com.codestates.seb006main.posts.entity.Posts;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -16,13 +16,13 @@ public class PostsDto {
         // TODO: groupDto.Post를 받거나, posts와 group의 postDto를 둘 다 받는 방식.
         private String title;
         private String body;
-
-        //        private Match match;
+        private GroupDto.Post group;
 
         @Builder
-        public Post(String title, String body) {
+        public Post(String title, String body, GroupDto.Post groupPost) {
             this.title = title;
             this.body = body;
+            this.group = groupPost;
         }
     }
 
@@ -32,7 +32,7 @@ public class PostsDto {
         private String title;
         private String body;
 
-        //        private Match match;
+//        private GroupDto.Patch groupPatch;
 
         @Builder
         public Patch(String title, String body) {
@@ -54,16 +54,19 @@ public class PostsDto {
         private Posts.PostsStatus postsStatus;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
-//        private Match match;
+        // TODO: Group의 id를 꺼내줄 것이냐. group 전체를 보여줄 것이냐.
+        private GroupDto.Response group;
+//        private Long groupId;
 
         @Builder
-        public Response(Long postId, String title, String body, Posts.PostsStatus postsStatus, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+        public Response(Long postId, String title, String body, Posts.PostsStatus postsStatus, LocalDateTime createdAt, LocalDateTime modifiedAt, GroupDto.Response group) {
             this.postId = postId;
             this.title = title;
             this.body = body;
             this.postsStatus = postsStatus;
             this.createdAt = createdAt;
             this.modifiedAt = modifiedAt;
+            this.group = group;
         }
     }
 }
