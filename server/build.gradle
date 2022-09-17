@@ -37,6 +37,10 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
+//tasks.named('test') {
+//    useJUnitPlatform()
+//}
+
 ext {
     snippetsDir = file('build/generated-snippets')
 }
