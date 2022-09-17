@@ -24,7 +24,7 @@ public class MemberController {
     }
 
     @PatchMapping("/{member-id}")
-    public ResponseEntity patchMapping(@PathVariable("member-id") Long memberId,
+    public ResponseEntity patchMember(@PathVariable("member-id") Long memberId,
                                         @RequestBody MemberDto.Patch patch){
         return new ResponseEntity<>(memberService.modifyMember(patch,memberId),HttpStatus.OK);
     }
@@ -39,6 +39,12 @@ public class MemberController {
         memberService.verifyExistDisplayName(display_name);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/{member-id}")
+    public ResponseEntity getMember(@PathVariable("member-id") Long memberId){
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 
 
 }

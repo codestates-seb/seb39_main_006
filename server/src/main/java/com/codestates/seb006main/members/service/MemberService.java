@@ -34,6 +34,10 @@ public class MemberService {
         return memberMapper.memberToMemberResponse(memberRepository.save(findMember));
     }
 
+    public MemberDto.Response findMember(Long memberId){
+        return memberMapper.memberToMemberResponse(verifyExistMemberWithId(memberId));
+    }
+
     public String authenticateEmail(String email){
         verifyExistMemberWithEmail(email);
         String code = createCode();
