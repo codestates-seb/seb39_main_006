@@ -1,0 +1,75 @@
+package com.codestates.seb006main.members.dto;
+
+import com.codestates.seb006main.members.entity.Member;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+public class MemberDto {
+
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class Post {
+        private String email;
+        private String password;
+        private String displayName;
+
+        @Builder
+        public Post(String email, String password, String displayName) {
+            this.email = email;
+            this.password = password;
+            this.displayName = displayName;
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class Response{
+        private Long memberId;
+        private String email;
+        private String displayName;
+        private String phone;
+        private String content;
+        private Member.MemberStatus memberStatus;
+        private String profileImage;
+        private Member.Role role;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
+
+        @Builder
+        public Response(Long memberId, String email, String displayName, String phone, String content, Member.MemberStatus memberStatus, String profileImage, Member.Role role, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+            this.memberId = memberId;
+            this.email = email;
+            this.displayName = displayName;
+            this.phone = phone;
+            this.content = content;
+            this.memberStatus = memberStatus;
+            this.profileImage = profileImage;
+            this.role = role;
+            this.createdAt = createdAt;
+            this.modifiedAt = modifiedAt;
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class Patch{
+        private String displayName;
+        private String password;
+        private String phone;
+        private String content;
+        private String profileImage;
+
+        @Builder
+        public Patch( String displayName, String password, String phone, String content, String profileImage) {
+            this.displayName = displayName;
+            this.password=password;
+            this.phone = phone;
+            this.content = content;
+            this.profileImage = profileImage;
+        }
+    }
+}
