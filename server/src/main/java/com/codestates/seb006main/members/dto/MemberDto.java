@@ -15,13 +15,13 @@ public class MemberDto {
     public static class Post {
         private String email;
         private String password;
-        private String display_name;
+        private String displayName;
 
         @Builder
-        public Post(String email, String password, String display_name) {
+        public Post(String email, String password, String displayName) {
             this.email = email;
             this.password = password;
-            this.display_name = display_name;
+            this.displayName = displayName;
         }
     }
 
@@ -30,7 +30,7 @@ public class MemberDto {
     public static class Response{
         private Long memberId;
         private String email;
-        private String display_name;
+        private String displayName;
         private String phone;
         private String content;
         private Member.MemberStatus memberStatus;
@@ -40,10 +40,10 @@ public class MemberDto {
         private LocalDateTime modifiedAt;
 
         @Builder
-        public Response(Long memberId, String email, String display_name, String phone, String content, Member.MemberStatus memberStatus, String profileImage, Member.Role role, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+        public Response(Long memberId, String email, String displayName, String phone, String content, Member.MemberStatus memberStatus, String profileImage, Member.Role role, LocalDateTime createdAt, LocalDateTime modifiedAt) {
             this.memberId = memberId;
             this.email = email;
-            this.display_name = display_name;
+            this.displayName = displayName;
             this.phone = phone;
             this.content = content;
             this.memberStatus = memberStatus;
@@ -57,15 +57,15 @@ public class MemberDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Patch{
-        private String display_name;
+        private String displayName;
         private String password;
         private String phone;
         private String content;
         private String profileImage;
 
         @Builder
-        public Patch( String display_name, String password, String phone, String content, String profileImage) {
-            this.display_name = display_name;
+        public Patch( String displayName, String password, String phone, String content, String profileImage) {
+            this.displayName = displayName;
             this.password=password;
             this.phone = phone;
             this.content = content;

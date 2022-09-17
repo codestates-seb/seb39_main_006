@@ -8,6 +8,7 @@ import com.codestates.seb006main.members.mapper.MemberMapper;
 import com.codestates.seb006main.members.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.BeanCreationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,7 +21,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;
-    private final Random random;
+
 
     public MemberDto.Response joinMember(MemberDto.Post post){
         verifyExistMemberWithEmail(post.getEmail());
@@ -31,7 +32,7 @@ public class MemberService {
     public MemberDto.Response modifyMember(MemberDto.Patch patch, Long memberId){
         Member findMember =verifyExistMemberWithId(memberId);
         //프로필 이미지 처리할 방법 생각할 것
-        findMember.updateMember(patch.getDisplay_name(),patch.getPassword(), patch.getPhone(), patch.getContent(), patch.getProfileImage(), LocalDateTime.now());
+        findMember.updateMember(patch.getDisplayName(),patch.getPassword(), patch.getPhone(), patch.getContent(), patch.getProfileImage(), LocalDateTime.now());
         return memberMapper.memberToMemberResponse(memberRepository.save(findMember));
     }
 
@@ -61,12 +62,13 @@ public class MemberService {
         Optional<Member> checkMember = memberRepository.findById(memberId);
         return checkMember.orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
-    public void verifyExistDisplayName(String display_name){
-        Optional<Member> checkMember = memberRepository.findByDisplayName(display_name);
+    public void verifyExistDisplayName(String displayName){
+        Optional<Member> checkMember = memberRepository.findByDisplayName(displayName);
         if(checkMember.isPresent()) throw new BusinessLogicException(ExceptionCode.DISPLAY_NAME_EXISTS);
     }
 
     private String createCode(){
+        Random random = new Random();
         String result = "";
         for(int i =0; i<6; i++){
             result+=Integer.toString(random.nextInt(9));

@@ -15,7 +15,7 @@ public class Member {
     private Long memberId;
     private String email;
     private String password;
-    private String display_name;
+    private String displayName;
     private String phone;
     private String content;
     private String profileImage;
@@ -27,8 +27,8 @@ public class Member {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public void updateMember(String display_name, String password, String phone, String content, String profileImage, LocalDateTime modifiedAt){
-        this.display_name=display_name;
+    public void updateMember(String displayName, String password, String phone, String content, String profileImage, LocalDateTime modifiedAt){
+        this.displayName=displayName;
         this.password=password;
         this.phone=phone;
         this.content=content;
@@ -37,11 +37,11 @@ public class Member {
     }
 
     @Builder
-    public Member(Long memberId, String email, String password, String display_name, String phone, String content, String profileImage, MemberStatus memberStatus, Role role, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public Member(Long memberId, String email, String password, String displayName, String phone, String content, String profileImage, MemberStatus memberStatus, Role role, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.memberId = memberId;
         this.email = email;
         this.password = password;
-        this.display_name = display_name;
+        this.displayName = displayName;
         this.phone = phone;
         this.content = content;
         this.profileImage = profileImage;

@@ -56,7 +56,7 @@ public class MemberControllerTest {
         MemberDto.Response response = MemberDto.Response.builder()
                 .memberId(1L)
                 .email("rlghd@gmail.com")
-                .display_name("kihong")
+                .displayName("kihong")
                 .phone("").content("")
                 .memberStatus(Member.MemberStatus.ACTIVE)
                 .createdAt(LocalDateTime.now())
@@ -78,7 +78,7 @@ public class MemberControllerTest {
         actions
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.email").value(post.getEmail()))
-                .andExpect(jsonPath("$.display_name").value(post.getDisplay_name()))
+                .andExpect(jsonPath("$.displayName").value(post.getDisplayName()))
                 .andDo(document(
                         "post-member",
                         preprocessRequest(prettyPrint()),
@@ -87,14 +87,14 @@ public class MemberControllerTest {
                                 List.of(
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
                                         fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
-                                        fieldWithPath("display_name").type(JsonFieldType.STRING).description("닉네임")
+                                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("닉네임")
                                 )
                         ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("아이디"),
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
-                                        fieldWithPath("display_name").type(JsonFieldType.STRING).description("닉네임"),
+                                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("닉네임"),
                                         fieldWithPath("phone").type(JsonFieldType.STRING).description("전화번호"),
                                         fieldWithPath("content").type(JsonFieldType.STRING).description("소개"),
                                         fieldWithPath("memberStatus").type(JsonFieldType.STRING).description("회원 상태"),
@@ -115,7 +115,7 @@ public class MemberControllerTest {
         MemberDto.Response response = MemberDto.Response.builder()
                 .memberId(1L)
                 .email("rlghd@gmail.com")
-                .display_name("kkhong")
+                .displayName("kkhong")
                 .phone("01012349876").content("")
                 .memberStatus(Member.MemberStatus.ACTIVE)
                 .createdAt(LocalDateTime.now())
@@ -137,17 +137,17 @@ public class MemberControllerTest {
         //then
         actions
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.display_name").value(patch.getDisplay_name()))
+                .andExpect(jsonPath("$.displayName").value(patch.getDisplayName()))
                 .andExpect(jsonPath("$.phone").value(patch.getPhone()))
                 .andExpect(jsonPath("$.content").value(patch.getContent()))
                 .andExpect(jsonPath("$.profileImage").value(patch.getProfileImage()))
                 .andDo(document(
-                        "post-member",
+                        "patch-member",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
                                 List.of(
-                                        fieldWithPath("display_name").type(JsonFieldType.STRING).description("닉네임"),
+                                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("닉네임"),
                                         fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
                                         fieldWithPath("phone").type(JsonFieldType.STRING).description("휴대전화 번호"),
                                         fieldWithPath("content").type(JsonFieldType.STRING).description("자기소개"),
@@ -158,7 +158,7 @@ public class MemberControllerTest {
                                 List.of(
                                         fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("아이디"),
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
-                                        fieldWithPath("display_name").type(JsonFieldType.STRING).description("닉네임"),
+                                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("닉네임"),
                                         fieldWithPath("phone").type(JsonFieldType.STRING).description("전화번호"),
                                         fieldWithPath("content").type(JsonFieldType.STRING).description("소개"),
                                         fieldWithPath("memberStatus").type(JsonFieldType.STRING).description("회원 상태"),
@@ -242,7 +242,7 @@ public class MemberControllerTest {
         MemberDto.Response response = MemberDto.Response.builder()
                 .memberId(1L)
                 .email("rlghd@gmail.com")
-                .display_name("kkhong")
+                .displayName("kkhong")
                 .phone("01012349876").content("")
                 .memberStatus(Member.MemberStatus.ACTIVE)
                 .createdAt(LocalDateTime.now())
@@ -275,7 +275,7 @@ public class MemberControllerTest {
                                 List.of(
                                         fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("아이디"),
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
-                                        fieldWithPath("display_name").type(JsonFieldType.STRING).description("닉네임"),
+                                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("닉네임"),
                                         fieldWithPath("phone").type(JsonFieldType.STRING).description("전화번호"),
                                         fieldWithPath("content").type(JsonFieldType.STRING).description("소개"),
                                         fieldWithPath("memberStatus").type(JsonFieldType.STRING).description("회원 상태"),
@@ -307,7 +307,7 @@ public class MemberControllerTest {
                 .andExpect(status().isNoContent())
 
                 .andDo(document(
-                        "get-member",
+                        "delete-member",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         pathParameters(
