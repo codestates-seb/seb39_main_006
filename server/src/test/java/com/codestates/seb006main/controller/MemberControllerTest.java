@@ -69,7 +69,7 @@ public class MemberControllerTest {
 
         //when
         ResultActions actions = mockMvc.perform(
-                patch("/api/members")
+                post("/api/members")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content)
@@ -112,7 +112,6 @@ public class MemberControllerTest {
         long memberId = 1L;
         MemberDto.Patch patch = new MemberDto.Patch("kkhong", "123456", "01012349876", "","");
         String content = gson.toJson(patch);
-        System.out.println(content);
         MemberDto.Response response = MemberDto.Response.builder()
                 .memberId(1L)
                 .email("rlghd@gmail.com")
@@ -209,4 +208,32 @@ public class MemberControllerTest {
 
                 ));
     }
+
+    @Test
+    public void checkDisplayNameTest() throws Exception {
+        //given
+        String display_name = "kkhong";
+
+        doNothing().when(memberService).verifyExistDisplayName(display_name);
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                get("/api/members/display-name?display_name="+display_name)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+        //then
+        actions
+                .andExpect(status().isOk())
+
+                .andDo(document(
+                        "get-member-display-name",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParameters(
+                                parameterWithName("display_name").description("닉네임")
+                        )
+                ));
+    }
+
 }
