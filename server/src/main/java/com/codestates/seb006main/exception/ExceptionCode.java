@@ -4,8 +4,8 @@ import lombok.Getter;
 
 public enum ExceptionCode {
     MEMBER_EXISTS(409, "Member exists"),
-    DISPLAY_NAME_EXISTS(409, "Member exists"),
-    EMAIL_EXISTS(409, "Email exists");
+    MEMBER_NOT_FOUND(404, "Member not found"),
+    DISPLAY_NAME_EXISTS(409, "Member exists");
 
 
     @Getter

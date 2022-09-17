@@ -19,7 +19,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
@@ -167,6 +169,44 @@ public class MemberControllerTest {
                                         fieldWithPath("role").type(JsonFieldType.STRING).description("회원권한")
                                 )
                         )
+                ));
+    }
+
+    @Test
+    public void checkEmailTest() throws Exception {
+        //given
+        String email = "rlghd@gmail.com";
+        String code = "123456";
+        Map<String,String> map = new HashMap<>();
+        map.put(code,code);
+        String content = gson.toJson(map);
+
+
+        //Mock
+        given(memberService.authenticateEmail(Mockito.anyString())).willReturn(code);
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                get("/api/members/email?email=rlghd@gmail.com")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(content)
+        );
+        //then
+        actions
+                .andExpect(status().isOk())
+
+                .andDo(document(
+                        "get-member-email",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParameters(
+                                parameterWithName("email").description("이메일")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.STRING).description("인증코드")
+                        )
+
                 ));
     }
 }

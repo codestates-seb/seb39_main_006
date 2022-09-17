@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/members")
 public class MemberController {
@@ -29,7 +31,7 @@ public class MemberController {
 
     @GetMapping("/email")
     public ResponseEntity checkEmail(@RequestParam String email){
-        return new ResponseEntity<>(memberService.authenticateEmail(email),HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("code",memberService.authenticateEmail(email)),HttpStatus.OK);
     }
 
     @GetMapping("/display-name")
