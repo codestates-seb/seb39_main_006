@@ -19,6 +19,7 @@ public class Member {
     private String phone;
     private String content;
     private String profileImage;
+    @Setter
     @Enumerated(value = EnumType.STRING)
     private MemberStatus memberStatus;
     @Enumerated(value = EnumType.STRING)

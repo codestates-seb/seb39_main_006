@@ -30,12 +30,19 @@ public class MemberService {
 
     public MemberDto.Response modifyMember(MemberDto.Patch patch, Long memberId){
         Member findMember =verifyExistMemberWithId(memberId);
+        //프로필 이미지 처리할 방법 생각할 것
         findMember.updateMember(patch.getDisplay_name(),patch.getPassword(), patch.getPhone(), patch.getContent(), patch.getProfileImage(), LocalDateTime.now());
         return memberMapper.memberToMemberResponse(memberRepository.save(findMember));
     }
 
     public MemberDto.Response findMember(Long memberId){
         return memberMapper.memberToMemberResponse(verifyExistMemberWithId(memberId));
+    }
+
+    public void withdrawalMember(Long memberId){
+        Member findMember = verifyExistMemberWithId(memberId);
+        findMember.setMemberStatus(Member.MemberStatus.WITHDRAWAL);
+        memberRepository.save(findMember);
     }
 
     public String authenticateEmail(String email){
