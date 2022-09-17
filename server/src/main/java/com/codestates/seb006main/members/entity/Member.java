@@ -1,9 +1,6 @@
 package com.codestates.seb006main.members.entity;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
     @Id
+    @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
     private String email;
@@ -27,6 +25,15 @@ public class Member {
     private Role role;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+
+    public void updateMember(String display_name, String password, String phone, String content, String profileImage, LocalDateTime modifiedAt){
+        this.display_name=display_name;
+        this.password=password;
+        this.phone=phone;
+        this.content=content;
+        this.profileImage=profileImage;
+        this.modifiedAt=modifiedAt;
+    }
 
     @Builder
     public Member(Long memberId, String email, String password, String display_name, String phone, String content, String profileImage, MemberStatus memberStatus, Role role, LocalDateTime createdAt, LocalDateTime modifiedAt) {

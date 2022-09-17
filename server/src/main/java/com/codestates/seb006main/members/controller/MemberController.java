@@ -21,9 +21,22 @@ public class MemberController {
         return new ResponseEntity<>(memberService.joinMember(post), HttpStatus.CREATED);
     }
 
+    @PatchMapping("/{member-id}")
+    public ResponseEntity patchMapping(@PathVariable("member-id") Long memberId,
+                                        @RequestBody MemberDto.Patch patch){
+        return new ResponseEntity<>(memberService.modifyMember(patch,memberId),HttpStatus.OK);
+    }
+
     @GetMapping("/email")
     public ResponseEntity checkEmail(@RequestParam String email){
-        return null;
+        return new ResponseEntity<>(memberService.authenticateEmail(email),HttpStatus.OK);
     }
+
+    @GetMapping("/display-name")
+    public ResponseEntity checkDisplayName(@RequestParam String display_name){
+        memberService.verifyExistDisplayName(display_name);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }

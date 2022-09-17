@@ -53,4 +53,23 @@ public class MemberDto {
             this.modifiedAt = modifiedAt;
         }
     }
+
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class Patch{
+        private String display_name;
+        private String password;
+        private String phone;
+        private String content;
+        private String profileImage;
+
+        @Builder
+        public Patch( String display_name, String password, String phone, String content, String profileImage) {
+            this.display_name = display_name;
+            this.password=password;
+            this.phone = phone;
+            this.content = content;
+            this.profileImage = profileImage;
+        }
+    }
 }
