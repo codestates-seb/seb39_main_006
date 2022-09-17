@@ -1,6 +1,7 @@
-package com.codestates.seb006main.member.entity;
+package com.codestates.seb006main.members.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -18,6 +18,7 @@ public class Member {
     private Long memberId;
     private String email;
     private String password;
+    private String nickname;
     private String phone;
     private String profileImage;
     @Enumerated(value = EnumType.STRING)
@@ -25,10 +26,12 @@ public class Member {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
-    public Member(Long memberId, String email, String password, String phone, String profileImage, MemberStatus memberStatus, Role role) {
+    @Builder
+    public Member(Long memberId, String email, String password, String nickname, String phone, String profileImage, MemberStatus memberStatus, Role role) {
         this.memberId = memberId;
         this.email = email;
         this.password = password;
+        this.nickname = nickname;
         this.phone = phone;
         this.profileImage = profileImage;
         this.memberStatus = memberStatus;
