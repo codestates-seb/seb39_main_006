@@ -15,13 +15,13 @@ public class MemberDto {
     public static class Post {
         private String email;
         private String password;
-        private String nickname;
+        private String display_name;
 
         @Builder
-        public Post(String email, String password, String nickname) {
+        public Post(String email, String password, String display_name) {
             this.email = email;
             this.password = password;
-            this.nickname = nickname;
+            this.display_name = display_name;
         }
     }
 
@@ -30,23 +30,27 @@ public class MemberDto {
     public static class Response{
         private Long memberId;
         private String email;
-        private String nickname;
+        private String display_name;
         private String phone;
+        private String content;
         private Member.MemberStatus memberStatus;
-        private LocalDateTime createdAt;
         private String profileImage;
         private Member.Role role;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
 
         @Builder
-        public Response(Long memberId, String email, String nickname, String phone, Member.MemberStatus memberStatus, LocalDateTime createdAt, String profileImage, Member.Role role) {
+        public Response(Long memberId, String email, String display_name, String phone, String content, Member.MemberStatus memberStatus, String profileImage, Member.Role role, LocalDateTime createdAt, LocalDateTime modifiedAt) {
             this.memberId = memberId;
             this.email = email;
-            this.nickname = nickname;
+            this.display_name = display_name;
             this.phone = phone;
+            this.content = content;
             this.memberStatus = memberStatus;
-            this.createdAt = createdAt;
             this.profileImage = profileImage;
             this.role = role;
+            this.createdAt = createdAt;
+            this.modifiedAt = modifiedAt;
         }
     }
 }

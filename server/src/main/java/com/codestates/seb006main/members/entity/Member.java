@@ -5,38 +5,44 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
     private String email;
     private String password;
-    private String nickname;
+    private String display_name;
     private String phone;
+    private String content;
     private String profileImage;
     @Enumerated(value = EnumType.STRING)
     private MemberStatus memberStatus;
     @Enumerated(value = EnumType.STRING)
     private Role role;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
 
     @Builder
-    public Member(Long memberId, String email, String password, String nickname, String phone, String profileImage, MemberStatus memberStatus, Role role) {
+    public Member(Long memberId, String email, String password, String display_name, String phone, String content, String profileImage, MemberStatus memberStatus, Role role, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.memberId = memberId;
         this.email = email;
         this.password = password;
-        this.nickname = nickname;
+        this.display_name = display_name;
         this.phone = phone;
+        this.content = content;
         this.profileImage = profileImage;
-        this.memberStatus = memberStatus;
-        this.role = role;
+        this.memberStatus = memberStatus==null?MemberStatus.ACTIVE:memberStatus;
+        this.role = role==null?Role.ROLE_MEMBER:role;
+        this.createdAt = createdAt==null?LocalDateTime.now():createdAt;
+        this.modifiedAt = modifiedAt==null?LocalDateTime.now():modifiedAt;
     }
+
 
     public enum MemberStatus{
 
