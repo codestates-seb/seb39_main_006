@@ -189,7 +189,6 @@ public class MemberControllerTest {
                 get("/api/members/email?email=rlghd@gmail.com")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(content)
         );
         //then
         actions
@@ -232,6 +231,58 @@ public class MemberControllerTest {
                         preprocessResponse(prettyPrint()),
                         requestParameters(
                                 parameterWithName("display_name").description("닉네임")
+                        )
+                ));
+    }
+
+    @Test
+    public void getMemberTest() throws Exception {
+        //given
+        long memberId = 1L;
+        MemberDto.Response response = MemberDto.Response.builder()
+                .memberId(1L)
+                .email("rlghd@gmail.com")
+                .display_name("kkhong")
+                .phone("01012349876").content("")
+                .memberStatus(Member.MemberStatus.ACTIVE)
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
+                .profileImage("")
+                .role(Member.Role.ROLE_MEMBER)
+                .build();
+        given(memberService.findMember(Mockito.anyLong())).willReturn(response);
+
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                get("/api/members/{member-id}",memberId)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        actions
+                .andExpect(status().isOk())
+
+                .andDo(document(
+                        "get-member",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("member-id").description("아이디")
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("아이디"),
+                                        fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
+                                        fieldWithPath("display_name").type(JsonFieldType.STRING).description("닉네임"),
+                                        fieldWithPath("phone").type(JsonFieldType.STRING).description("전화번호"),
+                                        fieldWithPath("content").type(JsonFieldType.STRING).description("소개"),
+                                        fieldWithPath("memberStatus").type(JsonFieldType.STRING).description("회원 상태"),
+                                        fieldWithPath("createdAt").type(JsonFieldType.STRING).description("계정 생성일"),
+                                        fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("계정 수정일").optional(),
+                                        fieldWithPath("profileImage").type(JsonFieldType.STRING).description("프로필 이미지"),
+                                        fieldWithPath("role").type(JsonFieldType.STRING).description("회원권한")
+                                )
                         )
                 ));
     }
