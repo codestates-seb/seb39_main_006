@@ -16,17 +16,17 @@ public class GroupDto {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Post{
         @DateTimeFormat(pattern = "YYYY-MM-DD")
-        private LocalDate startDate;
+        private String startDate;
         @DateTimeFormat(pattern = "YYYY-MM-DD")
-        private LocalDate endDate;
+        private String endDate;
         // TODO: 지역에 관련된 객체를 만들어 받는 것이 좋다. (확장성 + 세부 지역)
         private String location;
         private Integer headcount;
         @DateTimeFormat(pattern = "YYYY-MM-DD")
-        private LocalDate closeDate;
+        private String closeDate;
 
         @Builder
-        public Post(LocalDate startDate, LocalDate endDate, String location, Integer headcount, LocalDate closeDate) {
+        public Post(String startDate, String endDate, String location, Integer headcount, String closeDate) {
             this.startDate = startDate;
             this.endDate = endDate;
             this.location = location;

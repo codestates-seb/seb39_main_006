@@ -19,10 +19,10 @@ public class PostsDto {
         private GroupDto.Post group;
 
         @Builder
-        public Post(String title, String body, GroupDto.Post groupPost) {
+        public Post(String title, String body, GroupDto.Post group) {
             this.title = title;
             this.body = body;
-            this.group = groupPost;
+            this.group = group;
         }
     }
 

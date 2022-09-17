@@ -40,7 +40,7 @@ public class Posts {
         this.postId = postId;
         this.title = title;
         this.body = body;
-        this.postsStatus = Objects.requireNonNullElse(postsStatus, PostsStatus.RECRUITING);
+        this.postsStatus = Objects.requireNonNullElse(postsStatus, PostsStatus.ACTIVE);
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
         this.group = group;
@@ -50,8 +50,9 @@ public class Posts {
         INACTIVE(0, "비활성화"),
         ACTIVE(1, "활성화"),
 //        BEFORE_RECRUITMENT(1, "모집 예정"),
-        RECRUITING(2, "모집중"),
-        COMPLETED(3, "모집완료");
+//        RECRUITING(2, "모집중"),
+//        COMPLETED(3, "모집완료");
+        CLOSED(2, "종료");
 
         int stepNumber;
         String postsDescription;
