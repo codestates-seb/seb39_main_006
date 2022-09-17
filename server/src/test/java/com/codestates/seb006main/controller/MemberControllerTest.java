@@ -260,6 +260,7 @@ public class MemberControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
         );
 
+        //then
         actions
                 .andExpect(status().isOk())
 
@@ -283,6 +284,34 @@ public class MemberControllerTest {
                                         fieldWithPath("profileImage").type(JsonFieldType.STRING).description("프로필 이미지"),
                                         fieldWithPath("role").type(JsonFieldType.STRING).description("회원권한")
                                 )
+                        )
+                ));
+    }
+
+    @Test
+    public void deleteMemberTest() throws Exception {
+        //given
+        long memberId = 1L;
+
+        doNothing().when(memberService).withdrawalMember(memberId);
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                delete("/api/members/{member-id}",memberId)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        actions
+                .andExpect(status().isNoContent())
+
+                .andDo(document(
+                        "get-member",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("member-id").description("아이디")
                         )
                 ));
     }
