@@ -49,6 +49,11 @@ public class PostsService {
                 .ifPresent(posts::updateTitle);
         Optional.ofNullable(patchDto.getBody())
                 .ifPresent(posts::updateBody);
+        // TODO: 반영이 되는지 안되는지 테스트.
+        Optional.ofNullable(patchDto.getGroup().getCloseDate())
+                .ifPresent(posts.getGroup()::updateCloseDate);
+        Optional.ofNullable(patchDto.getGroup().getHeadcount())
+                .ifPresent(posts.getGroup()::updateHeadcount);
 
         postsRepository.save(posts);
         return postsMapper.postsToResponseDto(posts);

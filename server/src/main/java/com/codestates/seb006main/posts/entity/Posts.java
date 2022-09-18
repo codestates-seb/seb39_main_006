@@ -25,6 +25,7 @@ public class Posts {
         2. 이미지를 게시글에 올리는 시점에 저장소(서버 or 로컬)에 저장해서 imageUrl을 body에 포함하는 방식도 있다.
      */
 //    private String imageUrl;
+    @Enumerated(EnumType.STRING)
     private PostsStatus postsStatus;
     private LocalDateTime createdAt; // TODO: audit 처리 예정
     private LocalDateTime modifiedAt; // 없어도 되지 않나?

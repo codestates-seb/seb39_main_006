@@ -26,6 +26,7 @@ public class Group {
     private String location;
     // TODO: 연관관계 매핑된 멤버의 수를 headcount에서 빼면 현재 인원 수가 나온다. -> response로 전달.
     private Integer headcount;
+    @Enumerated(EnumType.STRING)
     private GroupStatus groupStatus;
     private LocalDate closeDate;
     @OneToOne(mappedBy = "group")
@@ -62,5 +63,13 @@ public class Group {
 
     // 비즈니스 로직
     public void checkStatus() {
+    }
+
+    public void updateHeadcount(Integer headcount) {
+        this.headcount = headcount;
+    }
+
+    public void updateCloseDate(String closeDate) {
+        this.closeDate = LocalDate.parse(closeDate);
     }
 }

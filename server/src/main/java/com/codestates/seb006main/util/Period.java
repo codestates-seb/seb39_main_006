@@ -7,6 +7,9 @@ import lombok.Setter;
 import javax.persistence.Embeddable;
 import java.time.LocalDate;
 
+/**
+ * 여행 기간 Embedded Type
+ */
 @Getter
 @Setter
 @NoArgsConstructor
