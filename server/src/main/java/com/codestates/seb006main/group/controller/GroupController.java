@@ -49,7 +49,8 @@ public class GroupController {
     @PatchMapping("/{group-id}")
     public ResponseEntity patchGroup(@PathVariable("group-id") Long groupId,
                                      @RequestBody GroupDto.Patch patchDto) {
-        return new ResponseEntity<>(HttpStatus.OK);
+        GroupDto.Response responseDto = groupService.updateGroup(groupId, patchDto);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/{group-id}")

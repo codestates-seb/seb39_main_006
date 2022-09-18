@@ -32,7 +32,7 @@ public class PostsDto {
         private String title;
         private String body;
 
-//        private GroupDto.Patch groupPatch;
+        private GroupDto.Patch group;
 
         @Builder
         public Patch(String title, String body) {
