@@ -23,7 +23,7 @@ public class FileHandler {
 
         String originName = multipartFile.getOriginalFilename();
         String storedName = createStoredName(originName);
-        multipartFile.transferTo(new File(getFullPath(storedName)));
+//        multipartFile.transferTo(new File(getFullPath(storedName)));
 
         return storedName;
     }
