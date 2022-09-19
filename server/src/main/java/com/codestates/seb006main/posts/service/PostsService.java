@@ -1,9 +1,11 @@
 package com.codestates.seb006main.posts.service;
 
+import com.codestates.seb006main.Image.entity.Image;
+import com.codestates.seb006main.util.FileHandler;
+import com.codestates.seb006main.Image.repository.ImageRepository;
 import com.codestates.seb006main.dto.MultiResponseDto;
 import com.codestates.seb006main.group.entity.Group;
 import com.codestates.seb006main.group.mapper.GroupMapper;
-import com.codestates.seb006main.group.repository.GroupRepository;
 import com.codestates.seb006main.posts.dto.PostsDto;
 import com.codestates.seb006main.posts.entity.Posts;
 import com.codestates.seb006main.posts.mapper.PostsMapper;
@@ -12,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,14 +24,20 @@ import java.util.Optional;
 @Service
 public class PostsService {
     private final PostsRepository postsRepository;
-    private final GroupRepository groupRepository;
+    private final ImageRepository imageRepository;
+    private final FileHandler fileHandler;
     private final PostsMapper postsMapper;
     private final GroupMapper groupMapper;
-    public PostsDto.Response createPosts(PostsDto.Post postDto) {
+    public PostsDto.Response createPosts(PostsDto.Post postDto, List<MultipartFile> images) throws IOException {
         Posts posts = postsMapper.postDtoToPosts(postDto);
         Group group = groupMapper.postDtoToGroup(postDto.getGroup());
         posts.setGroup(group);
         postsRepository.save(posts);
+
+        if (images != null){
+            saveImages(images, posts);
+        }
+
         return postsMapper.postsToResponseDto(posts);
     }
 
@@ -62,5 +72,19 @@ public class PostsService {
     public void deletePosts(Long postId) {
         // TODO: 삭제 대신 게시물을 비활성화 시킨다. 일정 시간이 지나면 삭제를 하도록 처리.
         postsRepository.deleteById(postId);
+    }
+
+    public void saveImages(List<MultipartFile> images, Posts posts) throws IOException {
+        for(MultipartFile img : images) {
+            Image image = Image.builder()
+                    .originName(img.getOriginalFilename())
+                    .storedName(fileHandler.storeFile(img))
+                    .storedPath("")
+                    .fileSize(img.getSize())
+                    .build();
+//            image.setPosts(posts);
+            imageRepository.save(image);
+            posts.addImage(image);
+        }
     }
 }
