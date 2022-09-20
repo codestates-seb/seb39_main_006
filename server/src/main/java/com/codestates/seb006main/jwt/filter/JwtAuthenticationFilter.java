@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.codestates.seb006main.auth.PrincipalDetails;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
+import com.codestates.seb006main.jwt.JwtUtils;
 import com.codestates.seb006main.members.entity.Member;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,9 +24,11 @@ import java.util.Date;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
+    private final JwtUtils jwtUtils;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager,JwtUtils jwtUtils) {
         this.authenticationManager = authenticationManager;
+        this.jwtUtils=jwtUtils;
         this.setFilterProcessesUrl("/api/members/login");
     }
 
@@ -59,13 +62,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         if(!principalDetails.getMember().getMemberStatus().name().equals("ACTIVE")){
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_ACTIVE);
         }
-        String jwtToken = JWT.create()
-                .withSubject("cos jwt token")
-                .withExpiresAt(new Date(System.currentTimeMillis() + (360 * 1000 * 10)))
-                .withClaim("id", principalDetails.getMember().getMemberId())
-                .withClaim("username", principalDetails.getMember().getEmail())
-                .sign(Algorithm.HMAC512("cos_jwt_token"));
-        response.addHeader("Authorization", "Bearer " + jwtToken);
+        Long memberId = principalDetails.getMember().getMemberId();
+        String email = principalDetails.getMember().getEmail();
+        String accessToken = jwtUtils.createAccessToken(memberId,email);
+        String refreshToken = jwtUtils.createRefreshToken(memberId,email);
+        response.addHeader("Access_HH", accessToken);
+        response.addHeader("Refresh_HH",refreshToken);
         chain.doFilter(request,response);
     }
 

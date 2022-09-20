@@ -1,5 +1,6 @@
 package com.codestates.seb006main.config;
 
+import com.codestates.seb006main.jwt.JwtUtils;
 import com.codestates.seb006main.jwt.filter.JwtAuthenticationFilter;
 import com.codestates.seb006main.jwt.filter.JwtAuthorizationFilter;
 import com.codestates.seb006main.members.repository.MemberRepository;
@@ -53,7 +54,7 @@ public class SecurityConfig {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
             builder
                     .addFilter(corsFilter())
-                    .addFilter(new JwtAuthenticationFilter(authenticationManager))
+                    .addFilter(new JwtAuthenticationFilter(authenticationManager, new JwtUtils()))
                     .addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepository));
         }
 
@@ -79,5 +80,10 @@ public class SecurityConfig {
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public JwtUtils jwtUtils(){
+        return new JwtUtils();
     }
 }
