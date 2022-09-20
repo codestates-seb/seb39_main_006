@@ -3,6 +3,9 @@ spring:
 #    import: application-local.yml
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+    url:  ${MYSQL_URL}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -20,3 +23,6 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
+    credentials:
+      access-key: ${AWS_ACCESS_KEY_ID}
+      secret-key: ${AWS_SECRET_ACCESS_KEY}
