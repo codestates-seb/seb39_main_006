@@ -16,6 +16,7 @@ permissions:
   
 env:
   S3_BUCKET_NAME: seb-main-006
+  RESOURCE_PATH: ./server/src/main/resources/application.yml
 
 jobs:
   build:
@@ -29,6 +30,17 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
+    
+    - name: Set YML
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: ${{ env.RESOURCE_PATH }}
+      env:
+        spring.datasource.url: ${{ secrets.MYSQL_URL }}
+        spring.datasource.username: ${{ secrets.MYSQL_USERNAME }}
+        spring.datasource.password: ${{ secrets.MYSQL_PASSWORD }}
+        cloud.aws.credentials.access-key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        cloud.aws.credentials.secret-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         
     - name: Server Build
       run: |                                        # 개별 실행 옵션, 없으면 29 ~ 35줄까지 모두 한줄에 실행됨
