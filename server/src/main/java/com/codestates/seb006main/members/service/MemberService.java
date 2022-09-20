@@ -1,5 +1,6 @@
 package com.codestates.seb006main.members.service;
 
+import com.codestates.seb006main.auth.PrincipalDetails;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
 import com.codestates.seb006main.members.dto.MemberDto;
@@ -7,8 +8,8 @@ import com.codestates.seb006main.members.entity.Member;
 import com.codestates.seb006main.members.mapper.MemberMapper;
 import com.codestates.seb006main.members.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.BeanCreationException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,10 +22,18 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;
+    private final PasswordEncoder passwordEncoder;
 
+    public MemberDto.Response loginMember(Authentication authentication){
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        Member loginMember = memberRepository.findByEmail(principalDetails.getMember().getEmail())
+                .orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        return memberMapper.memberToMemberResponse(loginMember);
+    }
 
     public MemberDto.Response joinMember(MemberDto.Post post){
         verifyExistMemberWithEmail(post.getEmail());
+        post.setPassword(passwordEncoder.encode(post.getPassword()));
         Member createdMember =  memberRepository.save(memberMapper.memberPostToMember(post));
         return memberMapper.memberToMemberResponse(createdMember);
     }

@@ -4,6 +4,7 @@ import com.codestates.seb006main.members.dto.MemberDto;
 import com.codestates.seb006main.members.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -16,6 +17,12 @@ public class MemberController {
 
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity loginMember(Authentication authentication){
+
+        return new ResponseEntity<>(memberService.loginMember(authentication),HttpStatus.OK);
     }
 
     @PostMapping
