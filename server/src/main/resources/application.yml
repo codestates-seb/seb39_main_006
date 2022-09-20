@@ -3,7 +3,6 @@ spring:
 #    import: application-local.yml
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://seb-006-db.cksyykc53fig.ap-northeast-2.rds.amazonaws.com:3306/hitchhiker-server?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
