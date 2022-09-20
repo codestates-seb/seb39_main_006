@@ -13,7 +13,7 @@ import java.util.Objects;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "GROUPS")
+@Table(name = "GROUP_TABLE")
 @Entity
 public class Group {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
