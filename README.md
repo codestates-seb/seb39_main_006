@@ -18,13 +18,7 @@
   <img src="./logo.png">
   <br>
 </p>
-<p align = "center">
 
-| JavaScript | Spring Boot |  React   |  Node   |
-| :--------: | :---------: | :------: | :-----: |
-|   ![js]   |    ![sb]    | ![react] | ![node] |
-
-</p>
 
 ## 팀원 소개
 
@@ -35,10 +29,6 @@
 |   ![김기홍]    |    ![배자현]    | ![정윤조] | ![이동기] |
 
 <br>
-
-<p align="justify">
-
-</p>
 
 <br>
 <p align="center">
@@ -51,6 +41,17 @@
 
 </p>
 
+<p align="justify">
+
+<p align = "center">
+  
+| JavaScript | Spring Boot |  React   |  Node   |
+| :--------: | :---------: | :------: | :-----: |
+|   ![js]   |    ![sb]    | ![react] | ![node] |
+
+</p>
+
+</p>
 
 ## 라이센스 
 
