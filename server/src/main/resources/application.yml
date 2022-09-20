@@ -3,9 +3,7 @@ spring:
 #    import: application-local.yml
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${{ secrets.MYSQL_URL }}
-    username: ${{ secrets.MYSQL_USERNAME }}
-    password: ${{ secrets.MYSQL_PASSWORD }}
+    url: jdbc:mysql://seb-006-db.cksyykc53fig.ap-northeast-2.rds.amazonaws.com:3306/hitchhiker-server?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -23,6 +21,3 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
-    credentials:
-      access-key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      secret-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
