@@ -51,7 +51,7 @@ public class ImageService {
 //        posts.addImage(image);
 
         return new HashMap<String, String>() {{
-            put("Url", imagePath);
+            put("imageUrl", imagePath);
         }};
     }
 
