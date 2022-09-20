@@ -3,9 +3,9 @@ spring:
 #    import: application-local.yml
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${/spring-boot-aws/seb-006/spring.datasource.url}
-    username: ${/spring-boot-aws/seb-006/spring.datasource.username}
-    password: ${/spring-boot-aws/seb-006/spring.datasource.password}
+    url: ${{ secrets.MYSQL_URL }}
+    username: ${{ secrets.MYSQL_USERNAME }}
+    password: ${{ secrets.MYSQL_PASSWORD }}
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -20,9 +20,9 @@ spring:
 cloud:
   aws:
     region:
-      static: ${/spring-boot-aws/seb-006/cloud.aws.region.static}
+      static: ap-northeast-2
     stack:
       auto: false
     credentials:
-      access-key: ${/spring-boot-aws/seb-006/cloud.aws.credentials.access-key}
-      secret-key: ${/spring-boot-aws/seb-006/cloud.aws.credentials.secret-key}
+      access-key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      secret-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
