@@ -14,6 +14,7 @@ public class AWSConfig {
     private String iamAccessKey;
     @Value("${cloud.aws.credentials.secret-key}")
     private String iamSecretKey;
+    @Value("${cloud.aws.region.static}")
     private String region = "ap-northeast-2";
 
     @Bean

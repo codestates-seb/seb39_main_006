@@ -1,3 +1,13 @@
 spring:
-  config:
-    import: application-local.yml
+#  config:
+#    import: application-local.yml
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 50MB
