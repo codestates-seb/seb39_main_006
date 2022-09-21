@@ -24,9 +24,11 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
@@ -53,6 +55,7 @@ public class PostsControllerTest {
     @Test
     public void postPostsTest() throws Exception {
         //given
+        List<MultipartFile> images = new ArrayList<>();
         PostsDto.Post postDto = PostsDto.Post.builder()
                 .title("사이판 여행 모집")
                 .body("사이판으로 여행가실 여자분 2명 구합니다. 여자 혼자 가기 너무 심심하네요. 호호호.")
