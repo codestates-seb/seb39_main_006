@@ -25,10 +25,11 @@ public class PostsController {
     private final PostsService postsService;
 
     @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity postPosts(@RequestPart(value = "key") PostsDto.Post postDto,
-                                    @RequestPart(value = "images", required = false) List<MultipartFile> images) throws IOException {
+    public ResponseEntity postPosts(@RequestPart(value = "key") PostsDto.Post postDto
+//            , @RequestPart(value = "images", required = false) List<MultipartFile> images
+                                                                                    ) throws IOException {
         // TODO: groupDto.Post를 받거나, posts와 group의 postDto를 둘 다 받는 방식.
-        PostsDto.Response responseDto = postsService.createPosts(postDto, images);
+        PostsDto.Response responseDto = postsService.createPosts(postDto);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 

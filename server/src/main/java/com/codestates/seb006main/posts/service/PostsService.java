@@ -28,15 +28,15 @@ public class PostsService {
     private final FileHandler fileHandler;
     private final PostsMapper postsMapper;
     private final GroupMapper groupMapper;
-    public PostsDto.Response createPosts(PostsDto.Post postDto, List<MultipartFile> images) throws IOException {
+    public PostsDto.Response createPosts(PostsDto.Post postDto) throws IOException {
         Posts posts = postsMapper.postDtoToPosts(postDto);
         Group group = groupMapper.postDtoToGroup(postDto.getGroup());
         posts.setGroup(group);
         postsRepository.save(posts);
 
-        if (images != null){
-            saveImages(images, posts);
-        }
+//        if (images != null){
+//            saveImages(images, posts);
+//        }
 
         return postsMapper.postsToResponseDto(posts);
     }
