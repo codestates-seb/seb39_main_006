@@ -7,6 +7,7 @@ import com.codestates.seb006main.members.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,11 +22,13 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
+@Order(3)
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
     private final MemberRepository memberRepository;
+    private final JwtUtils jwtUtils;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -54,7 +57,7 @@ public class SecurityConfig {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
             builder
                     .addFilter(corsFilter())
-                    .addFilter(new JwtAuthenticationFilter(authenticationManager, new JwtUtils()))
+                    .addFilter(new JwtAuthenticationFilter(authenticationManager, jwtUtils))
                     .addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepository));
         }
 
@@ -82,8 +85,5 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public JwtUtils jwtUtils(){
-        return new JwtUtils();
-    }
+
 }

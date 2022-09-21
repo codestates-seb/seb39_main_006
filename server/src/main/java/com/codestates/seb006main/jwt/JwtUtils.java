@@ -10,10 +10,10 @@ import java.util.Map;
 
 public class JwtUtils {
 
-//    @Value("${jwt.access}")
-    private String accessKey="hitch_hiker_token_access";
-//    @Value("${jwt.refresh}")
-    private String refreshKey="hitch_hiker_token_refresh";
+    @Value("${jwt.access}")
+    private String accessKey;
+    @Value("${jwt.refresh}")
+    private String refreshKey;
 
 
     public String createAccessToken(Long memberId, String email){
