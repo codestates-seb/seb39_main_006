@@ -37,7 +37,7 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'com.auth0:java-jwt:4.0.0'
-
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 //tasks.named('test') {

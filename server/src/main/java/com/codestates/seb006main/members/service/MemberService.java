@@ -3,6 +3,7 @@ package com.codestates.seb006main.members.service;
 import com.codestates.seb006main.auth.PrincipalDetails;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
+import com.codestates.seb006main.mail.service.EmailSender;
 import com.codestates.seb006main.members.dto.MemberDto;
 import com.codestates.seb006main.members.entity.Member;
 import com.codestates.seb006main.members.mapper.MemberMapper;
@@ -12,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
@@ -23,6 +26,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
+    private final EmailSender emailSender;
 
     public MemberDto.Response loginMember(Authentication authentication){
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
@@ -58,7 +62,13 @@ public class MemberService {
     public String authenticateEmail(String email){
         verifyExistMemberWithEmail(email);
         String code = createCode();
-        //이메일 발송 로직 추가해야함.
+        try {
+            emailSender.sendEmail(email,code);
+        } catch (GeneralSecurityException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         return code;
     }
 

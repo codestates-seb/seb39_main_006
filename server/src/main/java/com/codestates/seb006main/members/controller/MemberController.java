@@ -21,7 +21,6 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseEntity loginMember(Authentication authentication){
-
         return new ResponseEntity<>(memberService.loginMember(authentication),HttpStatus.OK);
     }
 
