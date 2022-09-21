@@ -91,7 +91,7 @@ public class PostsControllerTest {
                 .build();
 
         //mock
-        given(postsService.createPosts(Mockito.any(PostsDto.Post.class), images)).willReturn(responseDto);
+        given(postsService.createPosts(Mockito.any(PostsDto.Post.class))).willReturn(responseDto);
 
         //when
         ResultActions actions = mockMvc.perform(

@@ -36,7 +36,7 @@ public class Posts {
         1. 게시글을 업로드 할 때 이미지를 저장한다면 imageUrl 필드를 선언
         2. 이미지를 게시글에 올리는 시점에 저장소(서버 or 로컬)에 저장해서 imageUrl을 body에 포함하는 방식도 있다.
      */
-    @OneToMany(mappedBy = "posts")
+    @OneToMany(mappedBy = "posts", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
 
     // TODO: 조회수, 추천수, 즐겨찾기
