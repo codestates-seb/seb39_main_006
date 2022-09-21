@@ -60,23 +60,23 @@ public class TestDataInit {
                 .profileImage("")
                 .build());
 
-        Group 사이판 = groupRepository.save(Group.builder()
+        Group 사이판 = Group.builder()
                 .travelPeriod(new Period(LocalDate.of(2022, 11, 11),
                         LocalDate.of(2022, 11, 14)))
                 .location("사이판")
                 .headcount(2)
                 .groupStatus(Group.GroupStatus.RECRUITING)
                 .closeDate(LocalDate.of(2022, 10, 12))
-                .build());
+                .build();
 
-        Group 보라카이 = groupRepository.save(Group.builder()
+        Group 보라카이 = Group.builder()
                 .travelPeriod(new Period(LocalDate.of(2022, 11, 11),
                         LocalDate.of(2022, 11, 14)))
                 .location("보라카이")
                 .headcount(2)
                 .groupStatus(Group.GroupStatus.RECRUITING)
                 .closeDate(LocalDate.of(2022, 10, 12))
-                .build());
+                .build();
 
         Posts 첫번째 = postsRepository.save(Posts.builder()
                 .title("(급합니다) 사이판 여행 모집 구해봐요")
