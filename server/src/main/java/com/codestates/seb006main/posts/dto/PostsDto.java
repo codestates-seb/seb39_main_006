@@ -40,9 +40,10 @@ public class PostsDto {
         private GroupDto.Patch group;
 
         @Builder
-        public Patch(String title, String body) {
+        public Patch(String title, String body, GroupDto.Patch group) {
             this.title = title;
             this.body = body;
+            this.group = group;
         }
     }
 
