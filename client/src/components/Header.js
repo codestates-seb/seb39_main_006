@@ -1,6 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import classes from "./Header.module.css";
 import { authActions } from "../store/auth";
+//react 에서 img import 하는법 https://velog.io/@ingdol2/React-image-%EA%B2%BD%EB%A1%9C-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0
+import imgLogo from "../img/newWave.gif";
+import loginBtn from "../img/darkLogo.png";
+
 const Header = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
@@ -10,15 +14,32 @@ const Header = () => {
   };
   return (
     <header className={classes.header}>
-      <h1>Redux Auth</h1>
+      <h1>HITCH : HICKER</h1>
       {isAuth && (
         <nav>
           <ul>
+            <div align="center">
+              <img
+                className="banner"
+                src={imgLogo}
+                alt="./newWave.gif"
+                width="400"
+                height="140"
+              />
+            </div>
             <li>
-              <a href="/">My Products</a>
+              <a href="/">
+                <img
+                  className="login"
+                  src={loginBtn}
+                  alt="./darkLogo.png"
+                  width="50"
+                  height="50"
+                />
+              </a>
             </li>
             <li>
-              <a href="/">My Sales</a>
+              <a href="/">User BTN</a>
             </li>
             <li>
               <button onClick={logoutHandler}>Logout</button>
