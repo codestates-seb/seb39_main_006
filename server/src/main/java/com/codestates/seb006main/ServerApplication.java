@@ -5,6 +5,7 @@ import com.codestates.seb006main.members.repository.MemberRepository;
 import com.codestates.seb006main.posts.repository.PostsRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -16,6 +17,7 @@ public class ServerApplication {
         SpringApplication.run(ServerApplication.class, args);
     }
 
+    @Bean
     public TestDataInit dataInit(MemberRepository memberRepository,
                                  PostsRepository postsRepository,
                                  GroupRepository groupRepository,

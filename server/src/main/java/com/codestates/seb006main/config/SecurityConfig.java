@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .apply(new CustomDsl())
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET,"/api/posts/**","/api/groups/**").access("hasRole('ROLE_MEMBER')")
+                .antMatchers(HttpMethod.GET,"/api/groups/**").access("hasRole('ROLE_MEMBER')")
                 .antMatchers(HttpMethod.POST,"/api/posts/**","/api/groups/**").access("hasRole('ROLE_MEMBER')")
                 .antMatchers(HttpMethod.PATCH,"/api/posts/**","/api/groups/**","/api/members/**").access("hasRole('ROLE_MEMBER')")
                 .antMatchers(HttpMethod.DELETE,"/api/posts/**","/api/groups/**","/api/members/**").access("hasRole('ROLE_MEMBER')")
