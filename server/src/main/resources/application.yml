@@ -26,3 +26,15 @@ cloud:
     credentials:
       access-key: ${AWS_ACCESS_KEY_ID}
       secret-key: ${AWS_SECRET_ACCESS_KEY}
+jwt:
+  access: ${ACCESS_TOKEN_KEY}
+  refresh: ${REFRESH_TOKEN_KEY}
+mail:
+  smtp:
+    host: ${EMAIL_HOST}
+    port: ${EMAIL_PORT}
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    auth: ${EMAIL_AUTH}
+    starttls:
+      enable: ${EMAIL_ENABLE}
