@@ -147,13 +147,10 @@ public class PostsControllerTest {
         PostsDto.Patch patchDto = PostsDto.Patch.builder()
                 .title("(급합니다) 사이판 여행 모집 구해봐요")
                 .body("일정이 촉박해 빠르게 구해봅니다. 사이판으로 여행가실 여자분 2명 구합니다. 여자 혼자 가기 너무 심심하네요. 흑흑흑.")
-//                .group(GroupDto.Post.builder()
-//                        .startDate("2022-11-11")
-//                        .endDate("2022-11-14")
-//                        .location("사이판")
-//                        .headcount(2)
-//                        .closeDate("2022-10-12")
-//                        .build())
+                .group(GroupDto.Patch.builder()
+                        .headcount(2)
+                        .closeDate("2022-10-12")
+                        .build())
                 .build();
         String content = gson.toJson(patchDto);
 
@@ -201,13 +198,10 @@ public class PostsControllerTest {
                         requestFields(
                                 List.of(
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("게시글 제목"),
-                                        fieldWithPath("body").type(JsonFieldType.STRING).description("게시글 내용")
-//                                        fieldWithPath("group").type(JsonFieldType.OBJECT).description("관련 모집 정보"),
-//                                        fieldWithPath("group.startDate").type(JsonFieldType.STRING).description("여행 시작 날짜"),
-//                                        fieldWithPath("group.endDate").type(JsonFieldType.STRING).description("여행 종료 날짜"),
-//                                        fieldWithPath("group.location").type(JsonFieldType.STRING).description("여행 지역"),
-//                                        fieldWithPath("group.headcount").type(JsonFieldType.NUMBER).description("모집 인원"),
-//                                        fieldWithPath("group.closeDate").type(JsonFieldType.STRING).description("모집 종료 날짜")
+                                        fieldWithPath("body").type(JsonFieldType.STRING).description("게시글 내용"),
+                                        fieldWithPath("group").type(JsonFieldType.OBJECT).description("관련 모집 정보"),
+                                        fieldWithPath("group.headcount").type(JsonFieldType.NUMBER).description("모집 인원"),
+                                        fieldWithPath("group.closeDate").type(JsonFieldType.STRING).description("모집 종료 날짜")
                                 )
                         ),
                         responseFields(
