@@ -1,5 +1,6 @@
 package com.codestates.seb006main.posts.entity;
 
+import com.codestates.seb006main.Image.entity.Image;
 import com.codestates.seb006main.group.entity.Group;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -8,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -19,12 +22,6 @@ public class Posts {
     private Long postId;
     private String title;
     private String body;
-    /*
-    TODO: image 처리 두가지 방법에 따른 처리
-        1. 게시글을 업로드 할 때 이미지를 저장한다면 imageUrl 필드를 선언
-        2. 이미지를 게시글에 올리는 시점에 저장소(서버 or 로컬)에 저장해서 imageUrl을 body에 포함하는 방식도 있다.
-     */
-//    private String imageUrl;
     @Enumerated(EnumType.STRING)
     private PostsStatus postsStatus;
     private LocalDateTime createdAt; // TODO: audit 처리 예정
@@ -33,6 +30,14 @@ public class Posts {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "group_id")
     private Group group;
+
+    /*
+    TODO: image 처리 두가지 방법에 따른 처리
+        1. 게시글을 업로드 할 때 이미지를 저장한다면 imageUrl 필드를 선언
+        2. 이미지를 게시글에 올리는 시점에 저장소(서버 or 로컬)에 저장해서 imageUrl을 body에 포함하는 방식도 있다.
+     */
+    @OneToMany(mappedBy = "posts", cascade = CascadeType.ALL)
+    private List<Image> images = new ArrayList<>();
 
     // TODO: 조회수, 추천수, 즐겨찾기
 
@@ -80,5 +85,12 @@ public class Posts {
         this.body = body;
         // TODO: 추후 audit 처리 시 제거
         this.modifiedAt = LocalDateTime.now();
+    }
+
+    public void addImage(Image image) {
+        this.images.add(image);
+        if(image.getPosts() != this) {
+            image.setPosts(this);
+        }
     }
 }
