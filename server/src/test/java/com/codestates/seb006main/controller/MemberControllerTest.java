@@ -145,6 +145,9 @@ public class MemberControllerTest {
                         "patch-member",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("member-id").description("아이디")
+                        ),
                         requestFields(
                                 List.of(
                                         fieldWithPath("displayName").type(JsonFieldType.STRING).description("닉네임"),
