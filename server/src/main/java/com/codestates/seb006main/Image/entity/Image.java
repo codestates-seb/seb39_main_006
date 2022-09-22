@@ -1,5 +1,6 @@
 package com.codestates.seb006main.Image.entity;
 
+import com.codestates.seb006main.members.entity.Member;
 import com.codestates.seb006main.posts.entity.Posts;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -23,6 +24,9 @@ public class Image {
     private String storedName;
     private String storedPath;
     private Long fileSize;
+    @OneToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
     @ManyToOne
     @JoinColumn(name = "posts_id")
     private Posts posts;
@@ -42,5 +46,9 @@ public class Image {
         if(!posts.getImages().contains(this)) {
             posts.getImages().add(this);
         }
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
     }
 }
