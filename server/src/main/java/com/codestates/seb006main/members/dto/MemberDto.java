@@ -73,10 +73,10 @@ public class MemberDto {
         private String password;
         private String phone;
         private String content;
-        private MultipartFile profileImage;
+        private String profileImage;
 
         @Builder
-        public Patch( String displayName, String password, String phone, String content, MultipartFile profileImage) {
+        public Patch( String displayName, String password, String phone, String content, String profileImage) {
             this.displayName = displayName;
             this.password=password;
             this.phone = phone;

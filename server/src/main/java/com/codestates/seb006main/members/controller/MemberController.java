@@ -17,7 +17,7 @@ public class MemberController {
 
     private MemberService memberService;
 
-    public MemberController(MemberService memberService, ImageService imageService) {
+    public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
 
@@ -31,10 +31,10 @@ public class MemberController {
         return new ResponseEntity<>(memberService.joinMember(post), HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{member-id}")
-    public ResponseEntity patchMember(@PathVariable("member-id") Long memberId,
+    @PatchMapping
+    public ResponseEntity patchMember(Authentication authentication,
                                         @RequestBody MemberDto.Patch patch) {
-        return new ResponseEntity<>(memberService.modifyMember(patch,memberId),HttpStatus.OK);
+        return new ResponseEntity<>(memberService.modifyMember(patch,authentication),HttpStatus.OK);
     }
 
     @GetMapping("/email")
@@ -53,9 +53,9 @@ public class MemberController {
         return new ResponseEntity(memberService.findMember(memberId),HttpStatus.OK);
     }
 
-    @DeleteMapping("/{member-id}")
-    public ResponseEntity deleteMember(@PathVariable("member-id")Long memberId){
-        memberService.withdrawalMember(memberId);
+    @DeleteMapping
+    public ResponseEntity deleteMember(@RequestBody String password, Authentication authentication){
+        memberService.withdrawalMember(password,authentication);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 

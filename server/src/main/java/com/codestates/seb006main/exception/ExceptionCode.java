@@ -8,7 +8,8 @@ public enum ExceptionCode {
     DISPLAY_NAME_EXISTS(409, "Member exists"),
     MEMBER_NOT_ACTIVE(409, "Member not active"),
     TOKEN_EXPIRED(401, "token is expired"),
-    IMAGE_NOT_FOUND(404, "Image not found");
+    IMAGE_NOT_FOUND(404, "Image not found"),
+    PASSWORD_NOT_MATCHED(401, "password not matched");
 
 
     @Getter

@@ -51,26 +51,23 @@ public class MemberService {
         return memberMapper.memberToMemberResponse(createdMember);
     }
 
-    public MemberDto.Response modifyMember(MemberDto.Patch patch, Long memberId) {
-        Member findMember =verifyExistMemberWithId(memberId);
+    public MemberDto.Response modifyMember(MemberDto.Patch patch, Authentication authentication) {
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        Member findMember =principalDetails.getMember();
         String path="";
-        if(patch.getProfileImage()!=null){
-            try {
-                path=imageService.uploadImage(patch.getProfileImage()).get("imageUrl");
-                Image image=imageRepository.findByStorePath(path).orElseThrow(()->new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
+        if(!patch.getProfileImage().isBlank()){
+                path=patch.getProfileImage();
+                Image image=imageRepository.findByStoredPath(path).orElseThrow(()->new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
                 image.setMember(findMember);
                 imageRepository.save(image);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            if(!findMember.getProfileImage().isEmpty()){
+            if(!findMember.getProfileImage().isBlank()){
                 String beforePath = findMember.getProfileImage();
                 amazonS3Client.deleteObject(S3Bucket,beforePath.substring(beforePath.lastIndexOf("/")+1));
-                Image beforeImage=imageRepository.findByStorePath(beforePath).orElseThrow(()->new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
+                Image beforeImage=imageRepository.findByStoredPath(beforePath).orElseThrow(()->new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
                 imageRepository.delete(beforeImage);
             }
         }
-        findMember.updateMember(patch.getDisplayName(),patch.getPassword(), patch.getPhone(), patch.getContent(), path, LocalDateTime.now());
+        findMember.updateMember(patch.getDisplayName(),passwordEncoder.encode(patch.getPassword()), patch.getPhone(), patch.getContent(), path, LocalDateTime.now());
         return memberMapper.memberToMemberResponse(memberRepository.save(findMember));
     }
 
@@ -78,10 +75,12 @@ public class MemberService {
         return memberMapper.memberToMemberResponse(verifyExistMemberWithId(memberId));
     }
 
-    public void withdrawalMember(Long memberId){
-        Member findMember = verifyExistMemberWithId(memberId);
-        findMember.setMemberStatus(Member.MemberStatus.WITHDRAWAL);
-        memberRepository.save(findMember);
+    public void withdrawalMember(String password, Authentication authentication){
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        Member member = principalDetails.getMember();
+        checkPassword(password, member.getPassword());
+        member.setMemberStatus(Member.MemberStatus.WITHDRAWAL);
+        memberRepository.save(member);
     }
 
     public String authenticateEmail(String email){
@@ -118,5 +117,11 @@ public class MemberService {
             result+=Integer.toString(random.nextInt(9));
         }
         return result;
+    }
+
+    private void checkPassword(String password, String encodePassword){
+        if(!passwordEncoder.matches(password,encodePassword)){
+            throw new BusinessLogicException(ExceptionCode.PASSWORD_NOT_MATCHED);
+        }
     }
 }
