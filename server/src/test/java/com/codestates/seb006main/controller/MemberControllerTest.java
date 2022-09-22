@@ -51,6 +51,9 @@ public class MemberControllerTest {
     @MockBean
     private PrincipalDetails principalDetails;
 
+    @MockBean
+    private Authentication authentication;
+
     @Test
     public void postMemberTest() throws Exception {
         //given
@@ -191,11 +194,11 @@ public class MemberControllerTest {
                 .build();
 
         //Mock
-        given(memberService.modifyMember(Mockito.any(MemberDto.Patch.class),Mockito.anyLong())).willReturn(response);
+        given(memberService.modifyMember(Mockito.any(MemberDto.Patch.class),Mockito.any(Authentication.class))).willReturn(response);
 
         //when
         ResultActions actions = mockMvc.perform(
-                patch("/api/members/{member-id}", memberId)
+                patch("/api/members/")
                         .with(csrf())
                         .with(user(principalDetails))
                         .accept(MediaType.APPLICATION_JSON)
@@ -213,9 +216,6 @@ public class MemberControllerTest {
                         "patch-member",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        pathParameters(
-                                parameterWithName("member-id").description("아이디")
-                        ),
                         requestFields(
                                 List.of(
                                         fieldWithPath("displayName").type(JsonFieldType.STRING).description("닉네임"),
@@ -366,17 +366,19 @@ public class MemberControllerTest {
     @Test
     public void deleteMemberTest() throws Exception {
         //given
-        long memberId = 1L;
-
-        doNothing().when(memberService).withdrawalMember(memberId);
+        String password = "1234566";
+        String content = gson.toJson(password);
+        System.out.println(content);
+        doNothing().when(memberService).withdrawalMember("123456",authentication);
 
         //when
         ResultActions actions = mockMvc.perform(
-                delete("/api/members/{member-id}",memberId)
+                delete("/api/members")
                         .with(csrf())
                         .with(user(principalDetails))
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .content(content)
         );
 
         //then
@@ -386,10 +388,7 @@ public class MemberControllerTest {
                 .andDo(document(
                         "delete-member",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        pathParameters(
-                                parameterWithName("member-id").description("아이디")
-                        )
+                        preprocessResponse(prettyPrint())
                 ));
     }
 
