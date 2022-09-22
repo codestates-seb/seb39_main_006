@@ -9,11 +9,12 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "GROUP_TABLE")
+@Table(name = "GROUPS")
 @Entity
 public class Group {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +32,8 @@ public class Group {
     private LocalDate closeDate;
     @OneToOne(mappedBy = "group")
     private Posts posts;
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
+    private List<MemberGroup> memberGroups;
 
     // TODO: 모집 완료된 시간, 혹은 닫힌 시간에 대한 필드도 필요할까?
 
