@@ -14,6 +14,7 @@ const Auth = () => {
   return (
     <main className={classes.auth}>
       <section>
+        <h1>로그인</h1>
         <form onSubmit={loginHandler}>
           <div className={classes.control}>
             <label htmlFor="email">Email</label>
