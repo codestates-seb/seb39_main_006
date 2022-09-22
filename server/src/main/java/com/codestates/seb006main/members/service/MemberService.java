@@ -9,9 +9,13 @@ import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
 import com.codestates.seb006main.mail.service.EmailSender;
 import com.codestates.seb006main.members.dto.MemberDto;
+import com.codestates.seb006main.members.entity.Bookmark;
 import com.codestates.seb006main.members.entity.Member;
 import com.codestates.seb006main.members.mapper.MemberMapper;
+import com.codestates.seb006main.members.repository.BookmarkRepository;
 import com.codestates.seb006main.members.repository.MemberRepository;
+import com.codestates.seb006main.posts.entity.Posts;
+import com.codestates.seb006main.posts.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,10 +36,11 @@ public class MemberService {
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
     private final EmailSender emailSender;
-    private final ImageService imageService;
     private final ImageRepository imageRepository;
     final AmazonS3Client amazonS3Client;
     private final String S3Bucket = "seb-main-006";
+    private final BookmarkRepository bookmarkRepository;
+    private final PostsRepository postsRepository;
 
     public MemberDto.Response loginMember(Authentication authentication){
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
@@ -94,6 +99,18 @@ public class MemberService {
             throw new RuntimeException(e);
         }
         return code;
+    }
+
+    public void changeBookmark(Long postId, Authentication authentication){
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        Member member=principalDetails.getMember();
+        Posts post=postsRepository.findById(postId).orElseThrow(()-> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
+        Optional<Bookmark> bookmark = bookmarkRepository.findByMemberAndPost(member,post);
+        if(bookmark.isPresent()){
+            bookmarkRepository.delete(bookmark.orElseThrow(()->new BusinessLogicException(ExceptionCode.BOOKMARK_NOT_FOUND)));
+        }else{
+            bookmarkRepository.save(Bookmark.builder().member(member).post(post).build());
+        }
     }
 
     private void verifyExistMemberWithEmail(String email){
