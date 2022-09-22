@@ -1,19 +1,30 @@
 package com.codestates.seb006main.members.dto;
 
 import com.codestates.seb006main.members.entity.Member;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 public class MemberDto {
 
     @Getter
+    @NoArgsConstructor
+    public static class Login{
+        private String email;
+        private String password;
+
+        @Builder
+        public Login(String email, String password) {
+            this.email = email;
+            this.password = password;
+        }
+    }
+
+    @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Post {
         private String email;
+        @Setter
         private String password;
         private String displayName;
 

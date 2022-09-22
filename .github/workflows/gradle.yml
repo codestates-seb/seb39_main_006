@@ -1,0 +1,89 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ "feat/back" ]
+
+permissions:
+  contents: read
+  
+env:
+  S3_BUCKET_NAME: seb-main-006
+  RESOURCE_PATH: ./server/src/main/resources/application.yml
+
+jobs:
+  build:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+    
+    - name: Set YML
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: ${{ env.RESOURCE_PATH }}
+      env:
+        spring.datasource.url: ${{ secrets.MYSQL_URL }}
+        spring.datasource.username: ${{ secrets.MYSQL_USERNAME }}
+        spring.datasource.password: ${{ secrets.MYSQL_PASSWORD }}
+        cloud.aws.credentials.access-key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        cloud.aws.credentials.secret-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        jwt.access: ${{ secrets.ACCESS_TOKEN_KEY }}
+        jwt.refresh: ${{ secrets.REFRESH_TOKEN_KEY }}
+        mail.smtp.host: ${{ secrets.EMAIL_HOST }}
+        mail.smtp.port: ${{ secrets.EMAIL_PORT }}
+        mail.smtp.username: ${{ secrets.EMAIL_USERNAME }}
+        mail.smtp.password: ${{ secrets.EMAIL_PASSWORD }}
+        mail.smtp.auth: ${{ secrets.EMAIL_AUTH }}
+        mail.smtp.starttls.enable: ${{ secrets.EMAIL_ENABLE }}
+        
+    - name: Server Build
+      run: |                                        # 개별 실행 옵션, 없으면 29 ~ 35줄까지 모두 한줄에 실행됨
+        mkdir -p deploy-server/                     # 압축할 임시 폴더 생성 (deploy-server)
+        cd server/                                  # 리포지토리에서 server 폴더로 이동
+        chmod +x ./gradlew                          # GitHub Action 에서 gradle build를 위한 권한설정
+        ./gradlew clean bootjar -x test -x asciidoctor   # 테스트를 제외한 빌드 진행, 테스트를 원하면 -x test 옵션 삭제
+        cd ..                                       # 리포지토리 기본 위치로 이동
+        cp server/build/libs/*.jar deploy-server/   # jar 파일 임시 폴더로 복사
+      shell: bash
+    
+    # build한 후 프로젝트를 압축합니다.
+    - name: Make zip file
+      run: |
+        cp appspec.yml deploy-server/appspec.yml
+        cp -r scripts/deploy-aws deploy-server/scripts
+        zip -r deploy-server.zip ./deploy-server        # 임시 폴더 전체 deploy.zip 폴더로
+      shell: bash
+    
+    # Access Key와 Secret Access Key를 통해 권한을 확인합니다.
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-2
+    
+    # 압축한 프로젝트를 S3로 전송합니다.
+    - name: Upload to S3
+      run: aws s3 cp --region ap-northeast-2 ./deploy-server.zip s3://$S3_BUCKET_NAME/deploy-server.zip
+    
+    # CodeDeploy에게 배로 명령을 내립니다.
+    - name: Code Deploy
+      run: >
+        aws deploy create-deployment --application-name seb-main-006
+        --deployment-config-name CodeDeployDefault.AllAtOnce
+        --deployment-group-name seb-main-006-group
+        --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=deploy-server.zip

@@ -1,5 +1,6 @@
 package com.codestates.seb006main.controller;
 
+import com.codestates.seb006main.auth.PrincipalDetails;
 import com.codestates.seb006main.members.controller.MemberController;
 import com.codestates.seb006main.members.dto.MemberDto;
 import com.codestates.seb006main.members.entity.Member;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.core.Authentication;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -30,9 +32,9 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @WebMvcTest(MemberController.class)
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
@@ -46,6 +48,8 @@ public class MemberControllerTest {
     private MemberService memberService;
     @Autowired
     private Gson gson;
+    @MockBean
+    private PrincipalDetails principalDetails;
 
     @Test
     public void postMemberTest() throws Exception {
@@ -70,6 +74,8 @@ public class MemberControllerTest {
         //when
         ResultActions actions = mockMvc.perform(
                 post("/api/members")
+                        .with(csrf())
+                        .with(user(principalDetails))
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content)
@@ -88,6 +94,66 @@ public class MemberControllerTest {
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
                                         fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
                                         fieldWithPath("displayName").type(JsonFieldType.STRING).description("닉네임")
+                                )
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("아이디"),
+                                        fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
+                                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("닉네임"),
+                                        fieldWithPath("phone").type(JsonFieldType.STRING).description("전화번호"),
+                                        fieldWithPath("content").type(JsonFieldType.STRING).description("소개"),
+                                        fieldWithPath("memberStatus").type(JsonFieldType.STRING).description("회원 상태"),
+                                        fieldWithPath("createdAt").type(JsonFieldType.STRING).description("계정 생성일"),
+                                        fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("계정 수정일").optional(),
+                                        fieldWithPath("profileImage").type(JsonFieldType.STRING).description("프로필 이미지"),
+                                        fieldWithPath("role").type(JsonFieldType.STRING).description("회원권한")
+                                )
+                        )
+                ));
+    }
+
+    @Test
+    public void  loginMemberTest() throws Exception {
+        //given
+        MemberDto.Login login = new MemberDto.Login("rlghd@gmail.com","123456");
+        String content = gson.toJson(login);
+        MemberDto.Response response = MemberDto.Response.builder()
+                .memberId(1L)
+                .email("rlghd@gmail.com")
+                .displayName("kihong")
+                .phone("").content("")
+                .memberStatus(Member.MemberStatus.ACTIVE)
+                .createdAt(LocalDateTime.now())
+                .profileImage("")
+                .role(Member.Role.ROLE_MEMBER)
+                .build();
+
+        //mock
+        given(memberService.loginMember(Mockito.any(Authentication.class))).willReturn(response);
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                post("/api/members/login")
+                        .with(csrf())
+                        .with(user(principalDetails))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(content)
+        );
+
+        //then
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.email").value(login.getEmail()))
+                .andDo(document(
+                        "post-login",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                List.of(
+                                        fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
+                                        fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호")
                                 )
                         ),
                         responseFields(
@@ -130,6 +196,8 @@ public class MemberControllerTest {
         //when
         ResultActions actions = mockMvc.perform(
                 patch("/api/members/{member-id}", memberId)
+                        .with(csrf())
+                        .with(user(principalDetails))
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content)
@@ -190,6 +258,7 @@ public class MemberControllerTest {
         //when
         ResultActions actions = mockMvc.perform(
                 get("/api/members/email?email=rlghd@gmail.com")
+                        .with(user(principalDetails))
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -221,6 +290,7 @@ public class MemberControllerTest {
         //when
         ResultActions actions = mockMvc.perform(
                 get("/api/members/display-name?display_name="+display_name)
+                        .with(user(principalDetails))
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -259,6 +329,8 @@ public class MemberControllerTest {
         //when
         ResultActions actions = mockMvc.perform(
                 get("/api/members/{member-id}",memberId)
+                        .with(csrf())
+                        .with(user(principalDetails))
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -301,6 +373,8 @@ public class MemberControllerTest {
         //when
         ResultActions actions = mockMvc.perform(
                 delete("/api/members/{member-id}",memberId)
+                        .with(csrf())
+                        .with(user(principalDetails))
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
         );
