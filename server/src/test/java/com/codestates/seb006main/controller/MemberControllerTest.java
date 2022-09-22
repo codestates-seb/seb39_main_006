@@ -367,7 +367,8 @@ public class MemberControllerTest {
     public void deleteMemberTest() throws Exception {
         //given
         String password = "1234566";
-        String content = gson.toJson(password);
+        Map<String,String> map = Map.of("password",password);
+        String content = gson.toJson(map);
         System.out.println(content);
         doNothing().when(memberService).withdrawalMember("123456",authentication);
 

@@ -8,7 +8,7 @@
 김기홍 <rlghd153@gmail.com>
 
 만든 날짜 : 2022.09.17
-마지막으로 수정한 날짜 : 2022.09.22
+마지막으로 수정한 날짜 : 2022.09.23
 
 == MemberController
 === 회원 가입
@@ -51,10 +51,10 @@ include::{snippets}/get-member-display-name/curl-request.adoc[]
 include::{snippets}/get-member-display-name/http-request.adoc[]
 
 .request-parameters
-include::{snippets}/get-member-email/request-parameters.adoc[]
+include::{snippets}/get-member-display-name/request-parameters.adoc[]
 
 .http-response
-include::{snippets}/get-member-email/http-response.adoc[]
+include::{snippets}/get-member-display-name/http-response.adoc[]
 
 === 로그인
 .curl-request
@@ -113,8 +113,8 @@ include::{snippets}/get-member/response-fields.adoc[]
 .curl-request
 include::{snippets}/delete-member/curl-request.adoc[]
 
-.path-parameters
-include::{snippets}/delete-member/path-parameters.adoc[]
+.http-request
+include::{snippets}/delete-member/http-request.adoc[]
 
 .http-response
 include::{snippets}/delete-member/http-response.adoc[]
