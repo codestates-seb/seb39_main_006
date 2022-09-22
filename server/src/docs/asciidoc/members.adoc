@@ -118,3 +118,13 @@ include::{snippets}/delete-member/http-request.adoc[]
 
 .http-response
 include::{snippets}/delete-member/http-response.adoc[]
+
+=== 북마크
+.curl-request
+include::{snippets}/get-bookmark/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-bookmark/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-bookmark/http-response.adoc[]
