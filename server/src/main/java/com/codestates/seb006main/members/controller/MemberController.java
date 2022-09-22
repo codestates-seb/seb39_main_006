@@ -59,6 +59,12 @@ public class MemberController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/bookmark")
+    public ResponseEntity bookmark(@RequestParam Long postId, Authentication authentication){
+        memberService.changeBookmark(postId,authentication);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 
 }
