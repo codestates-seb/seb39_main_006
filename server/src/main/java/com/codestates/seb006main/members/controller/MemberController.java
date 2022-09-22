@@ -1,5 +1,6 @@
 package com.codestates.seb006main.members.controller;
 
+import com.codestates.seb006main.Image.service.ImageService;
 import com.codestates.seb006main.members.dto.MemberDto;
 import com.codestates.seb006main.members.service.MemberService;
 import org.springframework.http.HttpStatus;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Map;
 
 @RestController
@@ -15,7 +17,7 @@ public class MemberController {
 
     private MemberService memberService;
 
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, ImageService imageService) {
         this.memberService = memberService;
     }
 
@@ -31,7 +33,7 @@ public class MemberController {
 
     @PatchMapping("/{member-id}")
     public ResponseEntity patchMember(@PathVariable("member-id") Long memberId,
-                                        @RequestBody MemberDto.Patch patch){
+                                        @RequestBody MemberDto.Patch patch) {
         return new ResponseEntity<>(memberService.modifyMember(patch,memberId),HttpStatus.OK);
     }
 

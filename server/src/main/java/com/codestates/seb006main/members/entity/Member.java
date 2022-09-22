@@ -1,9 +1,12 @@
 package com.codestates.seb006main.members.entity;
 
+import com.codestates.seb006main.Image.entity.Image;
+import com.codestates.seb006main.group.entity.MemberGroup;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Entity
@@ -26,6 +29,10 @@ public class Member {
     private Role role;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private List<MemberGroup> memberGroups;
+//    @Convert
+//    private List<Long> bookmark;
 
     public void updateMember(String displayName, String password, String phone, String content, String profileImage, LocalDateTime modifiedAt){
         this.displayName=displayName;

@@ -2,6 +2,7 @@ package com.codestates.seb006main.members.dto;
 
 import com.codestates.seb006main.members.entity.Member;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -72,10 +73,10 @@ public class MemberDto {
         private String password;
         private String phone;
         private String content;
-        private String profileImage;
+        private MultipartFile profileImage;
 
         @Builder
-        public Patch( String displayName, String password, String phone, String content, String profileImage) {
+        public Patch( String displayName, String password, String phone, String content, MultipartFile profileImage) {
             this.displayName = displayName;
             this.password=password;
             this.phone = phone;

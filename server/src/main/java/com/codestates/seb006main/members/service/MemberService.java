@@ -1,5 +1,9 @@
 package com.codestates.seb006main.members.service;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.codestates.seb006main.Image.entity.Image;
+import com.codestates.seb006main.Image.repository.ImageRepository;
+import com.codestates.seb006main.Image.service.ImageService;
 import com.codestates.seb006main.auth.PrincipalDetails;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
@@ -13,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.time.LocalDateTime;
@@ -27,6 +32,10 @@ public class MemberService {
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
     private final EmailSender emailSender;
+    private final ImageService imageService;
+    private final ImageRepository imageRepository;
+    final AmazonS3Client amazonS3Client;
+    private final String S3Bucket = "seb-main-006";
 
     public MemberDto.Response loginMember(Authentication authentication){
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
@@ -42,10 +51,26 @@ public class MemberService {
         return memberMapper.memberToMemberResponse(createdMember);
     }
 
-    public MemberDto.Response modifyMember(MemberDto.Patch patch, Long memberId){
+    public MemberDto.Response modifyMember(MemberDto.Patch patch, Long memberId) {
         Member findMember =verifyExistMemberWithId(memberId);
-        //프로필 이미지 처리할 방법 생각할 것
-        findMember.updateMember(patch.getDisplayName(),patch.getPassword(), patch.getPhone(), patch.getContent(), patch.getProfileImage(), LocalDateTime.now());
+        String path="";
+        if(patch.getProfileImage()!=null){
+            try {
+                path=imageService.uploadImage(patch.getProfileImage()).get("imageUrl");
+                Image image=imageRepository.findByStorePath(path).orElseThrow(()->new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
+                image.setMember(findMember);
+                imageRepository.save(image);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            if(!findMember.getProfileImage().isEmpty()){
+                String beforePath = findMember.getProfileImage();
+                amazonS3Client.deleteObject(S3Bucket,beforePath.substring(beforePath.lastIndexOf("/")+1));
+                Image beforeImage=imageRepository.findByStorePath(beforePath).orElseThrow(()->new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
+                imageRepository.delete(beforeImage);
+            }
+        }
+        findMember.updateMember(patch.getDisplayName(),patch.getPassword(), patch.getPhone(), patch.getContent(), path, LocalDateTime.now());
         return memberMapper.memberToMemberResponse(memberRepository.save(findMember));
     }
 
