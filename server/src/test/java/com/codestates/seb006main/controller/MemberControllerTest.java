@@ -393,4 +393,30 @@ public class MemberControllerTest {
                 ));
     }
 
+    @Test
+    public void bookmarkTest() throws Exception {
+        //given
+        Long postId = 1L;
+
+        doNothing().when(memberService).changeBookmark(postId,authentication);
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                get("/api/members/bookmark?postId="+postId)
+                        .with(csrf())
+                        .with(user(principalDetails))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        actions
+                .andExpect(status().isOk())
+                .andDo(document(
+                        "get-bookmark",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
+    }
+
 }
