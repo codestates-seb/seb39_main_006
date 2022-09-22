@@ -58,7 +58,7 @@ public class SecurityConfig {
             builder
                     .addFilter(corsFilter())
                     .addFilter(new JwtAuthenticationFilter(authenticationManager, jwtUtils))
-                    .addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepository));
+                    .addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepository, jwtUtils));
         }
 
 

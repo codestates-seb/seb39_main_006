@@ -2,6 +2,7 @@ package com.codestates.seb006main.posts.entity;
 
 import com.codestates.seb006main.Image.entity.Image;
 import com.codestates.seb006main.group.entity.Group;
+import com.codestates.seb006main.members.entity.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +18,6 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Posts {
-    // Bulletin?
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
     private String title;
@@ -26,7 +26,9 @@ public class Posts {
     private PostsStatus postsStatus;
     private LocalDateTime createdAt; // TODO: audit 처리 예정
     private LocalDateTime modifiedAt; // 없어도 되지 않나?
-//    private Member member;
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "group_id")
     private Group group;
@@ -42,13 +44,14 @@ public class Posts {
     // TODO: 조회수, 추천수, 즐겨찾기
 
     @Builder
-    public Posts(Long postId, String title, String body, PostsStatus postsStatus, LocalDateTime createdAt, LocalDateTime modifiedAt, Group group) {
+    public Posts(Long postId, String title, String body, PostsStatus postsStatus, LocalDateTime createdAt, LocalDateTime modifiedAt, Member member, Group group) {
         this.postId = postId;
         this.title = title;
         this.body = body;
         this.postsStatus = Objects.requireNonNullElse(postsStatus, PostsStatus.ACTIVE);
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
+        this.member = member;
         this.group = group;
     }
 
@@ -73,6 +76,9 @@ public class Posts {
     // 비즈니스 로직
     public void setGroup(Group group) {
         this.group = group;
+    }
+    public void setMember(Member member) {
+        this.member = member;
     }
 
     public void updateTitle(String title) {

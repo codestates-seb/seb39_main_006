@@ -1,9 +1,11 @@
 package com.codestates.seb006main.members.entity;
 
+import com.codestates.seb006main.posts.entity.Posts;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Entity
@@ -26,6 +28,8 @@ public class Member {
     private Role role;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+    @OneToMany(mappedBy = "member")
+    private List<Posts> posts;
 
     public void updateMember(String displayName, String password, String phone, String content, String profileImage, LocalDateTime modifiedAt){
         this.displayName=displayName;
