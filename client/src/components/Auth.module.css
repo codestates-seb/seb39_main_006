@@ -1,3 +1,7 @@
+body {
+  background-image: url(../img/flower7.jpeg);
+  opacity: 80%;
+}
 main .auth {
   width: 100%;
   display: flex;
