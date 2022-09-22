@@ -3,6 +3,7 @@ package com.codestates.seb006main.posts.dto;
 import com.codestates.seb006main.Image.dto.ImageDto;
 import com.codestates.seb006main.Image.entity.Image;
 import com.codestates.seb006main.group.dto.GroupDto;
+import com.codestates.seb006main.members.entity.Member;
 import com.codestates.seb006main.posts.entity.Posts;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -55,8 +56,8 @@ public class PostsDto {
         private String body;
 //        private String imageUrl;
 //        private MultipartFile image;
-//        private Long memberId;
-//        private String memberName;
+        private Long memberId;
+        private String memberName;
         private Posts.PostsStatus postsStatus;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
@@ -65,10 +66,14 @@ public class PostsDto {
         private List<ImageDto.Response> images;
 
         @Builder
-        public Response(Long postId, String title, String body, Posts.PostsStatus postsStatus, LocalDateTime createdAt, LocalDateTime modifiedAt, GroupDto.Response group, List<ImageDto.Response> images) {
+        public Response(Long postId, String title, String body, Member member, Posts.PostsStatus postsStatus, LocalDateTime createdAt, LocalDateTime modifiedAt, GroupDto.Response group, List<ImageDto.Response> images) {
             this.postId = postId;
             this.title = title;
             this.body = body;
+            if(member != null) {
+                this.memberId = member.getMemberId();
+                this.memberName = member.getDisplayName();
+            }
             this.postsStatus = postsStatus;
             this.createdAt = createdAt;
             this.modifiedAt = modifiedAt;

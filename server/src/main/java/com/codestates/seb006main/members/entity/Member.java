@@ -1,5 +1,6 @@
 package com.codestates.seb006main.members.entity;
 
+import com.codestates.seb006main.posts.entity.Posts;
 import com.codestates.seb006main.Image.entity.Image;
 import com.codestates.seb006main.group.entity.MemberGroup;
 import lombok.*;
@@ -29,6 +30,8 @@ public class Member {
     private Role role;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+    @OneToMany(mappedBy = "member")
+    private List<Posts> posts;
     @OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
     private List<MemberGroup> memberGroups;
     @OneToMany(mappedBy = "memberId",fetch = FetchType.LAZY)
