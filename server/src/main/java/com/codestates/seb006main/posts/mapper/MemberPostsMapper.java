@@ -67,4 +67,25 @@ public interface MemberPostsMapper {
         }
         return responses;
     }
+
+    @Named("memberPostsToMemberParticipants")
+    default MemberDto.Participants memberPostsToMemberParticipants(MemberPosts memberPosts) {
+        Member member = memberPosts.getMember();
+        return MemberDto.Participants.builder()
+                .memberId(member.getMemberId())
+                .displayName(member.getDisplayName())
+                .profileImage(member.getProfileImage())
+                .content(member.getContent())
+                .build();
+
+    }
+
+    @Named("memberPostsListToMemberParticipantsList")
+    default List<MemberDto.Participants> memberPostsListToMemberParticipantsList(List<MemberPosts> memberPosts) {
+        List<MemberDto.Participants> responses = new ArrayList<>();
+        for (int i = 0; i < memberPosts.size(); i++) {
+            responses.add(memberPostsToMemberParticipants(memberPosts.get(i)));
+        }
+        return responses;
+    }
 }

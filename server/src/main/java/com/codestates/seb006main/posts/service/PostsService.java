@@ -30,12 +30,11 @@ public class PostsService {
     private final PostsRepository postsRepository;
     private final ImageRepository imageRepository;
     private final PostsMapper postsMapper;
-    private final GroupMapper groupMapper;
     final AmazonS3Client amazonS3Client;
     private final String S3Bucket = "seb-main-006/img";
     private final MemberPostsRepository memberPostsRepository;
 
-    public PostsDto.Response createPosts(PostsDto.Post postDto, Authentication authentication) throws IOException {
+    public PostsDto.Response createPosts(PostsDto.Post postDto, Authentication authentication) {
         Posts posts = postsMapper.postDtoToPosts(postDto);
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         posts.setMember(principalDetails.getMember());
@@ -80,6 +79,9 @@ public class PostsService {
         Optional.ofNullable(patchDto.getTotalCount())
                 .ifPresent(posts::updateTotalCount);
 
+        //TODO: 이미지 수정 로직 -> 프론트와 지속적으로 주고받는 데이터에 대한 상의가 필요함.
+
+        posts.updatePosts(patchDto.getTitle(), patchDto.getBody(), patchDto.getTotalCount(), patchDto.getCloseDate());
         postsRepository.save(posts);
         return postsMapper.postsToResponseDto(posts);
     }
@@ -101,7 +103,7 @@ public class PostsService {
         postsRepository.deleteById(postId);
     }
 
-    public void saveImages(List<Long> images, Posts posts) throws IOException {
+    public void saveImages(List<Long> images, Posts posts) {
         for (Long imageId : images) {
             Image image = imageRepository.findById(imageId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
             image.setPosts(posts);

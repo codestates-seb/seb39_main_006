@@ -1,6 +1,8 @@
 package com.codestates.seb006main.posts.entity;
 
 import com.codestates.seb006main.Image.entity.Image;
+import com.codestates.seb006main.exception.BusinessLogicException;
+import com.codestates.seb006main.exception.ExceptionCode;
 import com.codestates.seb006main.members.entity.Member;
 import com.codestates.seb006main.util.Period;
 import lombok.AccessLevel;
@@ -86,7 +88,14 @@ public class Posts {
         this.member = member;
     }
 
-    // TODO: update 메서드 하나로 합칠까?
+    public void updatePosts(String title, String body, Integer totalCount, String closeDate) {
+        this.title = title;
+        this.body = body;
+        this.totalCount = totalCount;
+        this.closeDate = LocalDate.parse(closeDate);
+        this.modifiedAt = LocalDateTime.now();
+    }
+
     public void updateTitle(String title) {
         this.title = title;
         // TODO: 추후 audit 처리 시 제거
@@ -107,11 +116,35 @@ public class Posts {
         this.closeDate = LocalDate.parse(closeDate);
     }
 
-    public void updateImage() {
+    public void updateImages() {
 
     }
 
+    public boolean isFull() {
+        return this.participants.size() == totalCount || this.participants.size() > totalCount || this.postsStatus == PostsStatus.COMPLETED;
+    }
+
+    public boolean isParticipated(MemberPosts participants) {
+        return this.participants.contains(participants);
+    }
+
+    public void checkStatus() {
+        if (this.participants.size() == this.totalCount) {
+            this.postsStatus = PostsStatus.COMPLETED;
+        } else if (this.participants.size() > 1) {
+            //TODO:
+            this.postsStatus = PostsStatus.RECRUITING;
+        }
+    }
+
+    // TODO: CASCADE 처리, 총 인원보다 많은 인원이 모집되었을 때 처리.
     public void addMemberPosts(MemberPosts participants) {
+        if (isFull()) { // TODO: 굳이 여기서 체크하지 말고 꽉찼는지 안 찾는지는 서비스에서 체크해도 된다.
+            throw new BusinessLogicException(ExceptionCode.GROUP_IS_FULL);
+        }
+        if (isParticipated(participants)) {
+            throw new BusinessLogicException(ExceptionCode.ALREADY_PARTICIPATED);
+        }
         this.participants.add(participants);
         if (participants.getPosts() != this) {
             participants.setPosts(this);

@@ -13,7 +13,7 @@ public interface PostsMapper {
     Posts postDtoToPosts(PostsDto.Post postDto);
     Posts patchDtoToPosts(PostsDto.Patch patchDto);
 //    @Mapping(target = "images", qualifiedByName = "imageListToResponseDtoList")
-    @Mapping(target = "participants", qualifiedByName = "memberPostsListToMemberResponseList")
+    @Mapping(target = "participants", qualifiedByName = "memberPostsListToMemberParticipantsList")
     PostsDto.Response postsToResponseDto(Posts posts);
     List<PostsDto.Response> postsListToResponseDtoList(List<Posts> postsList);
 }

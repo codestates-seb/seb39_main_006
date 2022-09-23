@@ -56,6 +56,7 @@ public class PostsDto {
         private String closeDate;
         private List<Long> images;
 
+        @Builder
         public Patch(String title, String body, Integer totalCount, String closeDate, List<Long> images) {
             this.title = title;
             this.body = body;
@@ -77,7 +78,7 @@ public class PostsDto {
         private LocalDate endDate;
         private String location;
         private Integer totalCount;
-        private List<MemberDto.Response> participants;
+        private List<MemberDto.Participants> participants;
         private Integer participantsCount;
         private LocalDate closeDate;
         private Posts.PostsStatus postsStatus;
@@ -89,7 +90,7 @@ public class PostsDto {
 //        private List<ImageDto.Response> images;
 
         @Builder
-        public Response(Long postId, String title, String body, Member member, Period travelPeriod, String location, Integer totalCount, List<MemberDto.Response> participants, LocalDate closeDate, Posts.PostsStatus postsStatus, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+        public Response(Long postId, String title, String body, Member member, Period travelPeriod, String location, Integer totalCount, List<MemberDto.Participants> participants, LocalDate closeDate, Posts.PostsStatus postsStatus, LocalDateTime createdAt, LocalDateTime modifiedAt) {
             this.postId = postId;
             this.title = title;
             this.body = body;

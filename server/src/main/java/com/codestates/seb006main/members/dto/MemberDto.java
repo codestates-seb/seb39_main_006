@@ -84,4 +84,21 @@ public class MemberDto {
             this.profileImage = profileImage;
         }
     }
+
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class Participants {
+        private Long memberId;
+        private String displayName;
+        private String content;
+        private String profileImage;
+
+        @Builder
+        public Participants(Long memberId, String displayName, String content, String profileImage) {
+            this.memberId = memberId;
+            this.displayName = displayName;
+            this.content = content;
+            this.profileImage = profileImage;
+        }
+    }
 }
