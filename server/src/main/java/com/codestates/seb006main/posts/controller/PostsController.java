@@ -9,13 +9,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -24,12 +22,12 @@ public class PostsController {
 
     private final PostsService postsService;
 
-    @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity postPosts(@RequestPart(value = "key") PostsDto.Post postDto
+    @PostMapping
+    public ResponseEntity postPosts(@RequestBody PostsDto.Post postDto, Authentication authentication
 //            , @RequestPart(value = "images", required = false) List<MultipartFile> images
                                                                                     ) throws IOException {
         // TODO: groupDto.Post를 받거나, posts와 group의 postDto를 둘 다 받는 방식.
-        PostsDto.Response responseDto = postsService.createPosts(postDto);
+        PostsDto.Response responseDto = postsService.createPosts(postDto, authentication);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
@@ -48,14 +46,16 @@ public class PostsController {
 
     @PatchMapping("/{post-id}")
     public ResponseEntity patchPosts(@PathVariable("post-id") Long postId,
-                                     @RequestBody PostsDto.Patch patchDto) {
-        PostsDto.Response responseDto = postsService.updatePosts(postId, patchDto);
+                                     @RequestBody PostsDto.Patch patchDto,
+                                     Authentication authentication) {
+        PostsDto.Response responseDto = postsService.updatePosts(postId, patchDto, authentication);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/{post-id}")
-    public ResponseEntity deletePosts(@PathVariable("post-id") Long postId) {
-        postsService.deletePosts(postId);
+    public ResponseEntity deletePosts(@PathVariable("post-id") Long postId,
+                                      Authentication authentication) {
+        postsService.deletePosts(postId, authentication);
         return new ResponseEntity<>("정상적으로 삭제되었습니다.", HttpStatus.NO_CONTENT);
     }
 }

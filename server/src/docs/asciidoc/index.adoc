@@ -12,9 +12,6 @@
 
 == MemberController
 === 회원 가입
-.curl-request
-include::{snippets}/post-member/curl-request.adoc[]
-
 .http-request
 include::{snippets}/post-member/http-request.adoc[]
 
@@ -28,9 +25,6 @@ include::{snippets}/post-member/http-response.adoc[]
 include::{snippets}/post-member/response-fields.adoc[]
 
 === 이메일 인증
-.curl-request
-include::{snippets}/get-member-email/curl-request.adoc[]
-
 .http-request
 include::{snippets}/get-member-email/http-request.adoc[]
 
@@ -44,9 +38,6 @@ include::{snippets}/get-member-email/http-response.adoc[]
 include::{snippets}/get-member-email/response-fields.adoc[]
 
 === 닉네임 중복 확인
-.curl-request
-include::{snippets}/get-member-display-name/curl-request.adoc[]
-
 .http-request
 include::{snippets}/get-member-display-name/http-request.adoc[]
 
@@ -57,9 +48,6 @@ include::{snippets}/get-member-display-name/request-parameters.adoc[]
 include::{snippets}/get-member-display-name/http-response.adoc[]
 
 === 로그인
-.curl-request
-include::{snippets}/post-login/curl-request.adoc[]
-
 .http-request
 include::{snippets}/post-login/http-request.adoc[]
 
@@ -73,9 +61,6 @@ include::{snippets}/post-login/http-response.adoc[]
 include::{snippets}/post-login/response-fields.adoc[]
 
 === 회원 정보 수정
-.curl-request
-include::{snippets}/patch-member/curl-request.adoc[]
-
 .http-request
 include::{snippets}/patch-member/http-request.adoc[]
 
@@ -88,11 +73,7 @@ include::{snippets}/patch-member/http-response.adoc[]
 .response-fields
 include::{snippets}/patch-member/response-fields.adoc[]
 
-
 === 회원 정보 조회
-.curl-request
-include::{snippets}/get-member/curl-request.adoc[]
-
 .http-request
 include::{snippets}/get-member/http-request.adoc[]
 
@@ -105,11 +86,7 @@ include::{snippets}/get-member/http-response.adoc[]
 .response-fields
 include::{snippets}/get-member/response-fields.adoc[]
 
-
 === 회원 삭제
-.curl-request
-include::{snippets}/delete-member/curl-request.adoc[]
-
 .http-request
 include::{snippets}/delete-member/http-request.adoc[]
 
@@ -117,11 +94,74 @@ include::{snippets}/delete-member/http-request.adoc[]
 include::{snippets}/delete-member/http-response.adoc[]
 
 === 북마크
-.curl-request
-include::{snippets}/get-bookmark/curl-request.adoc[]
-
 .http-request
 include::{snippets}/get-bookmark/http-request.adoc[]
 
 .http-response
 include::{snippets}/get-bookmark/http-response.adoc[]
+
+== PostsController
+=== 게시글 등록
+.http-request
+include::{snippets}/post-posts/http-request.adoc[]
+
+.request-fields
+include::{snippets}/post-posts/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-posts/http-response.adoc[]
+
+.response-fields
+include::{snippets}/post-posts/response-fields.adoc[]
+
+=== 게시글 수정
+.http-request
+include::{snippets}/patch-posts/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/patch-posts/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/patch-posts/request-fields.adoc[]
+
+.http-response
+include::{snippets}/patch-posts/http-response.adoc[]
+
+.response-fields
+include::{snippets}/patch-posts/response-fields.adoc[]
+
+=== 게시글 조회
+.http-request
+include::{snippets}/get-posts/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/get-posts/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-posts/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-posts/response-fields.adoc[]
+
+=== 전체 게시글 조회 (with Pagination)
+.http-request
+include::{snippets}/get-all-posts/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/get-all-posts/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-all-posts/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-all-posts/response-fields.adoc[]
+
+=== 게시글 삭제
+.http-request
+include::{snippets}/delete-posts/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/delete-posts/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/delete-posts/http-response.adoc[]

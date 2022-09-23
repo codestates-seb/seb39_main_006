@@ -22,12 +22,14 @@ public class ImageDto {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Response {
         private Long imageId;
-        private String storedName;
+        private String originName;
+        private String storedPath;
 
         @Builder
-        public Response(Long imageId, String storedName) {
+        public Response(Long imageId, String originName, String storedPath) {
             this.imageId = imageId;
-            this.storedName = storedName;
+            this.originName = originName;
+            this.storedPath = storedPath;
         }
     }
 }

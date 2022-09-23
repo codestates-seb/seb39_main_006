@@ -1,9 +1,12 @@
 package com.codestates.seb006main.members.entity;
 
+import com.codestates.seb006main.posts.entity.Posts;
+import com.codestates.seb006main.posts.entity.MemberPosts;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Entity
@@ -26,6 +29,12 @@ public class Member {
     private Role role;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+    @OneToMany(mappedBy = "member")
+    private List<Posts> posts;
+    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
+    private List<MemberPosts> memberPosts;
+    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
+    private List<Bookmark> bookmark;
 
     public void updateMember(String displayName, String password, String phone, String content, String profileImage, LocalDateTime modifiedAt){
         this.displayName=displayName;
@@ -54,7 +63,6 @@ public class Member {
 
     public enum MemberStatus{
 
-        INACTIVE(0,"인증 전"),
         ACTIVE(1,"활동 중"),
         SUSPENSION(2,"정지 계정"),
         SLEEPER(3,"휴면 계정"),

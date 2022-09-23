@@ -1,5 +1,6 @@
 package com.codestates.seb006main.members.controller;
 
+import com.codestates.seb006main.Image.service.ImageService;
 import com.codestates.seb006main.members.dto.MemberDto;
 import com.codestates.seb006main.members.service.MemberService;
 import org.springframework.http.HttpStatus;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Map;
 
 @RestController
@@ -29,10 +31,10 @@ public class MemberController {
         return new ResponseEntity<>(memberService.joinMember(post), HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{member-id}")
-    public ResponseEntity patchMember(@PathVariable("member-id") Long memberId,
-                                        @RequestBody MemberDto.Patch patch){
-        return new ResponseEntity<>(memberService.modifyMember(patch,memberId),HttpStatus.OK);
+    @PatchMapping
+    public ResponseEntity patchMember(Authentication authentication,
+                                        @RequestBody MemberDto.Patch patch) {
+        return new ResponseEntity<>(memberService.modifyMember(patch,authentication),HttpStatus.OK);
     }
 
     @GetMapping("/email")
@@ -51,10 +53,16 @@ public class MemberController {
         return new ResponseEntity(memberService.findMember(memberId),HttpStatus.OK);
     }
 
-    @DeleteMapping("/{member-id}")
-    public ResponseEntity deleteMember(@PathVariable("member-id")Long memberId){
-        memberService.withdrawalMember(memberId);
+    @DeleteMapping
+    public ResponseEntity deleteMember(@RequestBody String password, Authentication authentication){
+        memberService.withdrawalMember(password,authentication);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/bookmark")
+    public ResponseEntity bookmark(@RequestParam Long postId, Authentication authentication){
+        memberService.changeBookmark(postId,authentication);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
