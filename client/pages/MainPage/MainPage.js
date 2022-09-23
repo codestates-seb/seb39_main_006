@@ -27,4 +27,4 @@ const MainPage = () => {
   );
 };
 
-export default Auth;
+export default MainPage;

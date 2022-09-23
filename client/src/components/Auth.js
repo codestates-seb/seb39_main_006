@@ -12,7 +12,7 @@ const Auth = () => {
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
-  const submitHandler = (event) => {
+  const usesubmitHandler = (event) => {
     event.preventDefault();
 
     const enteredEmail = emailInputRef.current.value;
@@ -21,7 +21,7 @@ const Auth = () => {
 
     if (isLogin) {
     } else {
-      fetch("/api/members", {
+      fetch(`${process.env.REACT_APP_URL}/api/members`, {
         method: "POST",
         body: JSON.stringify({
           email: enteredEmail,
@@ -34,19 +34,13 @@ const Auth = () => {
       });
     }
   };
-  const dispatch = useDispatch();
-
-  const loginHandler = (event) => {
-    event.preventDefault();
-
-    dispatch(authActions.login());
-  };
-
+  // dispatch(authActions.login());
+  // const dispatch = useDispatch();
   return (
     <main className={classes.auth}>
       <section>
         <h1>{isLogin ? "로그인" : "회원가입"}</h1>
-        <form onSubmit={loginHandler}>
+        <form onSubmit={usesubmitHandler}>
           <div className={classes.control}>
             <label htmlFor="displayName">User Name</label>
             <input
