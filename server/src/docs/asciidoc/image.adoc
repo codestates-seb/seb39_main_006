@@ -1,0 +1,23 @@
+== ImageController
+=== 이미지 등록
+.http-request
+include::{snippets}/upload-image/http-request.adoc[]
+
+.request-parts
+include::{snippets}/upload-image/request-parts.adoc[]
+
+.http-response
+include::{snippets}/upload-image/http-response.adoc[]
+
+.response-fields
+include::{snippets}/upload-image/response-fields.adoc[]
+
+=== 이미지 삭제
+.http-request
+include::{snippets}/delete-image/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/delete-image/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/delete-image/http-response.adoc[]
