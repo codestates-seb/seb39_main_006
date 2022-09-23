@@ -2,7 +2,10 @@ import { useDispatch } from "react-redux";
 import classes from "./Auth.module.css";
 import { authActions } from "../store/auth";
 import { useState, useRef } from "react";
-
+import axios from "axios";
+// axios,toolkit으로 통일
+// islogin 로직
+// token 연결
 const Auth = () => {
   const displaynameInputRef = useRef();
   const emailInputRef = useRef();
@@ -21,15 +24,12 @@ const Auth = () => {
 
     if (isLogin) {
     } else {
-      fetch(`${process.env.REACT_APP_URL}/api/members`, {
+      axios(`${process.env.REACT_APP_URL}/api/members`, {
         method: "POST",
-        body: JSON.stringify({
+        body: {
           email: enteredEmail,
           password: enteredPassword,
           displayName: enteredDisplayName,
-        }),
-        headers: {
-          "Content-Type": "application/json;charset=UTF-8",
         },
       });
     }
