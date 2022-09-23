@@ -38,7 +38,7 @@ public class MemberService {
     private final EmailSender emailSender;
     private final ImageRepository imageRepository;
     final AmazonS3Client amazonS3Client;
-    private final String S3Bucket = "seb-main-006";
+    private final String S3Bucket = "seb-main-006/img";
     private final BookmarkRepository bookmarkRepository;
     private final PostsRepository postsRepository;
 

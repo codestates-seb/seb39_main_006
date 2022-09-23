@@ -1,8 +1,7 @@
 package com.codestates.seb006main.members.entity;
 
 import com.codestates.seb006main.posts.entity.Posts;
-import com.codestates.seb006main.Image.entity.Image;
-import com.codestates.seb006main.group.entity.MemberGroup;
+import com.codestates.seb006main.posts.entity.MemberPosts;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,7 +32,7 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Posts> posts;
     @OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
-    private List<MemberGroup> memberGroups;
+    private List<MemberPosts> memberPosts;
     @OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
     private List<Bookmark> bookmark;
 
