@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
-import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -41,10 +40,10 @@ public class SecurityConfig {
                 .apply(new CustomDsl())
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET,"/api/groups/**").access("hasRole('ROLE_MEMBER')")
-                .antMatchers(HttpMethod.POST,"/api/posts/**","/api/groups/**").access("hasRole('ROLE_MEMBER')")
-                .antMatchers(HttpMethod.PATCH,"/api/posts/**","/api/groups/**","/api/members/**").access("hasRole('ROLE_MEMBER')")
-                .antMatchers(HttpMethod.DELETE,"/api/posts/**","/api/groups/**","/api/members/**").access("hasRole('ROLE_MEMBER')")
+//                .antMatchers(HttpMethod.GET).access("hasRole('ROLE_MEMBER')")
+                .antMatchers(HttpMethod.POST, "/api/posts/**", "/api/images/**").access("hasRole('ROLE_MEMBER')")
+                .antMatchers(HttpMethod.PATCH, "/api/posts/**", "/api/members/**").access("hasRole('ROLE_MEMBER')")
+                .antMatchers(HttpMethod.DELETE, "/api/posts/**", "/api/members/**", "/api/images/**").access("hasRole('ROLE_MEMBER')")
                 .anyRequest().permitAll();
 
         return http.build();

@@ -16,7 +16,7 @@ import java.util.Map;
 public class ImageController {
     private final ImageService imageService;
     @PostMapping("/upload")
-    public ResponseEntity uploadImage(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+    public ResponseEntity uploadImage(@RequestParam("image") MultipartFile multipartFile) throws IOException {
         Map<String, Object> response = imageService.uploadImage(multipartFile);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
