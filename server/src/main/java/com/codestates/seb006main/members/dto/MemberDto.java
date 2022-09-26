@@ -1,10 +1,13 @@
 package com.codestates.seb006main.members.dto;
 
 import com.codestates.seb006main.members.entity.Member;
+import com.codestates.seb006main.posts.dto.PostsDto;
+import com.codestates.seb006main.posts.entity.MemberPosts;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class MemberDto {
 
@@ -50,6 +53,8 @@ public class MemberDto {
         private Member.Role role;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
+        // TODO: Member측에서 참여하고 있는 그룹을 보여줄까?
+//        private List<PostsDto.Group> groups;
 
         @Builder
         public Response(Long memberId, String email, String displayName, String phone, String content, Member.MemberStatus memberStatus, String profileImage, Member.Role role, LocalDateTime createdAt, LocalDateTime modifiedAt) {

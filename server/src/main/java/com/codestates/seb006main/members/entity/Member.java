@@ -1,7 +1,9 @@
 package com.codestates.seb006main.members.entity;
 
-import com.codestates.seb006main.posts.entity.Posts;
+import com.codestates.seb006main.comment.entity.Comment;
+import com.codestates.seb006main.feed.entity.Feed;
 import com.codestates.seb006main.posts.entity.MemberPosts;
+import com.codestates.seb006main.posts.entity.Posts;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,18 +33,22 @@ public class Member {
     private LocalDateTime modifiedAt;
     @OneToMany(mappedBy = "member")
     private List<Posts> posts;
-    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
-    private List<MemberPosts> memberPosts;
-    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<MemberPosts> groups;
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Bookmark> bookmark;
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Feed> feeds;
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Comment> comments;
 
-    public void updateMember(String displayName, String password, String phone, String content, String profileImage, LocalDateTime modifiedAt){
-        this.displayName=displayName;
-        this.password=password;
-        this.phone=phone;
-        this.content=content;
-        this.profileImage=profileImage;
-        this.modifiedAt=modifiedAt;
+    public void updateMember(String displayName, String password, String phone, String content, String profileImage, LocalDateTime modifiedAt) {
+        this.displayName = displayName;
+        this.password = password;
+        this.phone = phone;
+        this.content = content;
+        this.profileImage = profileImage;
+        this.modifiedAt = modifiedAt;
     }
 
     @Builder
@@ -54,19 +60,19 @@ public class Member {
         this.phone = phone;
         this.content = content;
         this.profileImage = profileImage;
-        this.memberStatus = memberStatus==null?MemberStatus.ACTIVE:memberStatus;
-        this.role = role==null?Role.ROLE_MEMBER:role;
-        this.createdAt = createdAt==null?LocalDateTime.now():createdAt;
-        this.modifiedAt = modifiedAt==null?LocalDateTime.now():modifiedAt;
+        this.memberStatus = memberStatus == null ? MemberStatus.ACTIVE : memberStatus;
+        this.role = role == null ? Role.ROLE_MEMBER : role;
+        this.createdAt = createdAt == null ? LocalDateTime.now() : createdAt;
+        this.modifiedAt = modifiedAt == null ? LocalDateTime.now() : modifiedAt;
     }
 
 
-    public enum MemberStatus{
+    public enum MemberStatus {
 
-        ACTIVE(1,"활동 중"),
-        SUSPENSION(2,"정지 계정"),
-        SLEEPER(3,"휴면 계정"),
-        WITHDRAWAL(4,"삭제");
+        ACTIVE(1, "활동 중"),
+        SUSPENSION(2, "정지 계정"),
+        SLEEPER(3, "휴면 계정"),
+        WITHDRAWAL(4, "삭제");
 
         private int stepNumber;
 

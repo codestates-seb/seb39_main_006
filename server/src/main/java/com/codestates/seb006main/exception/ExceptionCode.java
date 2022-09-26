@@ -14,7 +14,9 @@ public enum ExceptionCode {
     IMAGE_NOT_FOUND(404, "Image not found"),
     PASSWORD_NOT_MATCHED(401, "password not matched"),
     PERMISSION_DENIED(403, "Permission denied."),
-    BOOKMARK_NOT_FOUND(404,"Bookmark not found");
+    BOOKMARK_NOT_FOUND(404,"Bookmark not found"),
+    FEED_NOT_FOUND(404, "Feed not found"),
+    COMMENT_NOT_FOUND(404, "Comment not found");
 
 
     @Getter

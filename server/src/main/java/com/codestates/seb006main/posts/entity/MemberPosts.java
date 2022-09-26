@@ -33,17 +33,9 @@ public class MemberPosts {
 
     // TODO: 또 다른 예외가 발생하지 않을까? 예외에 대한 고민을 해보자.
     public void setPosts(Posts posts) {
-        if (this.posts.isFull()) {
-            throw new BusinessLogicException(ExceptionCode.GROUP_IS_FULL);
-        }
-//        if (this.posts.isParticipated(this)) {
-        if (this.posts == posts) {
-            throw new BusinessLogicException(ExceptionCode.ALREADY_PARTICIPATED);
-        }
         this.posts = posts;
-//        if (!this.posts.getParticipants().contains(this)) {
-//            this.posts.getParticipants().add(this);
-//        }
-        this.posts.getParticipants().add(this);
+        if (!this.posts.getParticipants().contains(this)) {
+            this.posts.getParticipants().add(this);
+        }
     }
 }

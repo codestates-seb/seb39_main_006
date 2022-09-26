@@ -10,6 +10,8 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", uses = MemberPostsMapper.class)
 public interface PostsMapper {
+    @Mapping(target = "travelPeriod.startDate", source = "startDate")
+    @Mapping(target = "travelPeriod.endDate", source = "endDate")
     Posts postDtoToPosts(PostsDto.Post postDto);
     Posts patchDtoToPosts(PostsDto.Patch patchDto);
 //    @Mapping(target = "images", qualifiedByName = "imageListToResponseDtoList")
