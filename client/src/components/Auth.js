@@ -25,7 +25,6 @@ const Auth = () => {
   const usesubmitHandler = (event) => {
     event.preventDefault();
     dispatch(authActions.login());
-    navigate("/auth");
     if (isAuth) {
     }
 
@@ -49,7 +48,11 @@ const Auth = () => {
           email: enteredEmail,
           password: enteredPassword,
         },
-      }).then((res) => console.log(res.headers));
+      }).then((res) => {
+        if (res.status) navigate("/auth");
+        sessionStorage.setItem("isLogin", true);
+        window.location.reload();
+      });
     } else {
       const enteredDisplayName = displaynameInputRef.current.value;
       console.log(enteredPassword);

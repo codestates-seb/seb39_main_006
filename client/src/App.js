@@ -17,7 +17,7 @@ function App() {
       <Header />
       <Routes>
         {console.log(isAuth)}
-        {!isAuth ? (
+        {!sessionStorage.getItem("isLogin") ? (
           <Route path="/" element={<Auth />}></Route>
         ) : (
           <>

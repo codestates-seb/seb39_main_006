@@ -13,18 +13,20 @@ const Header = () => {
 
   const logoutHandler = () => {
     dispatch(authActions.logout());
+    sessionStorage.clear();
     navigate(`/`);
+    window.location.reload();
   };
   return (
     <header className={classes.header}>
       <h1
         onClick={() => {
-          navigate(`/`);
+          sessionStorage.getItem("isLogin") ? navigate(`/auth`) : navigate(`/`);
         }}
       >
         HITCH : HICKER
       </h1>
-      {isAuth && (
+      {sessionStorage.getItem("isLogin") && (
         <nav>
           <ul>
             <div align="center">
@@ -37,7 +39,7 @@ const Header = () => {
               />
             </div>
             <li>
-              <a href="/">
+              <a href="/auth">
                 <img
                   className="login"
                   src={loginBtn}
@@ -48,7 +50,7 @@ const Header = () => {
               </a>
             </li>
             <li>
-              <a href="/">User BTN</a>
+              <a href="/auth">User BTN</a>
             </li>
             <li>
               <button onClick={logoutHandler}>Logout</button>
