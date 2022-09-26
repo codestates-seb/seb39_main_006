@@ -4,24 +4,20 @@ const SideBar = () => {
   return (
     <StyledDiv>
       <div className="container">
-        <div class="wrapper">
-          <main>
-            <h1>사이드바 </h1>
-          </main>
-        </div>
+        <div class="wrapper"></div>
         <nav className="nav__cont">
           <ul class="nav">
             <li className="nav__items ">
-              <a href="">Home</a>
+              <a href="">북마크</a>
             </li>
             <li className="nav__items ">
-              <a href="">Search</a>
+              <a href="">유저신고</a>
             </li>
             <li className="nav__items ">
-              <a href="">Map</a>
+              <a href="">차단유저관리</a>
             </li>
             <li className="nav__items ">
-              <a href="">Planner</a>
+              <a href="">등등</a>
             </li>
           </ul>
         </nav>
@@ -36,7 +32,7 @@ const StyledDiv = styled.div`
   .container {
     width: 300px;
     height: 100vh;
-    border: 1px solid black;
+
     height: 100vh;
 
     .nav__cont {
