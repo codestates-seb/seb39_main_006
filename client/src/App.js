@@ -1,5 +1,4 @@
 import { Fragment } from "react";
-import { useSelector } from "react-redux";
 import Header from "./components/Header";
 import MainPage from "./components/MainPage";
 import Auth from "./components/Auth";
@@ -11,12 +10,10 @@ import classes from "./App.module.css";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
-  const isAuth = useSelector((state) => state.auth.isAuthenticated);
   return (
     <Fragment>
       <Header />
       <Routes>
-        {console.log(isAuth)}
         {!sessionStorage.getItem("isLogin") ? (
           <Route path="/" element={<Auth />}></Route>
         ) : (

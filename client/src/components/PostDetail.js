@@ -11,7 +11,7 @@ const PostDetail = () => {
     axios(`https://seb-006.shop/api/posts/${id}`).then((res) => {
       setDetail(res.data);
     });
-  }, []);
+  }, [id]);
   return (
     <div>
       <h1>{detail.title}</h1>
