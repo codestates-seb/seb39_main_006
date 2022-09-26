@@ -1,10 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const PostDetail = () => {
   const { id } = useParams();
   const [detail, setDetail] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios(`https://seb-006.shop/api/posts/${id}`).then((res) => {
@@ -14,7 +15,13 @@ const PostDetail = () => {
   return (
     <div>
       <h1>{detail.title}</h1>
-      <button>게시글 수정</button>
+      <button
+        onClick={() => {
+          navigate(`/edit/${id}`);
+        }}
+      >
+        게시글 수정
+      </button>
       <div>작성자 : {detail.leaderName}</div>
       <div>
         여행일정 : {detail.startDate} ~ {detail.endDate}

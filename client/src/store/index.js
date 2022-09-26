@@ -1,10 +1,10 @@
 //redux 로직
 import { configureStore } from "@reduxjs/toolkit";
 
-import authReducer from "./auth";
+import authSlice from "./auth";
 
 const store = configureStore({
-  reducer: { auth: authReducer },
+  reducer: { auth: authSlice.reducer },
 });
 
 export default store;
