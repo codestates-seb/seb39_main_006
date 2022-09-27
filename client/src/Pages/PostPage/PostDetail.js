@@ -2,6 +2,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
+// Toast-UI Viewer 임포트
+import "@toast-ui/editor/dist/toastui-editor-viewer.css";
+import { Viewer } from "@toast-ui/react-editor";
+
 const PostDetail = () => {
   const { id } = useParams();
   const [detail, setDetail] = useState([]);
@@ -12,6 +16,17 @@ const PostDetail = () => {
       setDetail(res.data);
     });
   }, [id]);
+
+  const deleteHandler = () => {
+    axios(`https://seb-006.shop/api/posts/${id}`, {
+      method: "DELETE",
+      headers: {
+        access_hh: sessionStorage.getItem("AccesToken"),
+      },
+    });
+    navigate(`/auth`);
+  };
+
   return (
     <div>
       <h1>{detail.title}</h1>
@@ -31,7 +46,19 @@ const PostDetail = () => {
       <div>
         모집 인원 {detail.participantsCount} / {detail.totalCount}
       </div>
-      <h3>{detail.body}</h3>
+      {detail.body && (
+        <>
+          <h2>본문</h2>
+          <Viewer initialValue={detail.body} />
+        </>
+      )}
+      <button
+        onClick={() => {
+          deleteHandler();
+        }}
+      >
+        게시글을 삭제한다...!
+      </button>
     </div>
   );
 };

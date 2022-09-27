@@ -5,7 +5,6 @@ import Auth from "./components/Auth";
 import PostDetail from "./Pages/PostPage/PostDetail";
 import EditPost from "./Pages/PostPage/EditPost";
 import NewPost from "./Pages/PostPage/NewPost";
-// import UserProfile from "./components/UserProfile";
 import { Routes, Route } from "react-router-dom";
 
 function App() {

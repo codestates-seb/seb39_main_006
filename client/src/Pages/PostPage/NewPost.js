@@ -1,6 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 // toast
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
@@ -21,23 +22,14 @@ const NewPost = () => {
   const totalCountRef = useRef();
   const closeDateRef = useRef();
 
-  const submitHandle = () => {
+  const submitHandler = () => {
     const enteredTitle = titleRef.current.value;
-    const enteredBody = bodyRef.current?.getInstance().getHTML();
+    const enteredBody = bodyRef.current?.getInstance().getMarkdown();
     const enteredStartDate = startDateRef.current.value;
     const enteredEndDate = endDateRef.current.value;
     const enteredLocation = locationRef.current.value;
     const enteredTotalCount = totalCountRef.current.value;
     const enteredCloseDate = closeDateRef.current.value;
-
-    console.log("enteredTitle = " + enteredTitle);
-    console.log("enteredBody = " + enteredBody);
-    console.log("enteredBodytype = " + typeof enteredBody);
-    console.log("enteredStartDate = " + enteredStartDate);
-    console.log("enteredEndDate = " + enteredEndDate);
-    console.log("enteredLocation = " + enteredLocation);
-    console.log("enteredTotalCount = " + enteredTotalCount);
-    console.log("enteredCloseDate = " + enteredCloseDate);
 
     axios(`https://seb-006.shop/api/posts`, {
       method: "POST",
@@ -52,7 +44,7 @@ const NewPost = () => {
         closeDate: enteredCloseDate,
         images: [],
       },
-    }).then((res) => console.log(res));
+    });
   };
 
   return (
@@ -89,6 +81,7 @@ const NewPost = () => {
         previewStyle="vertical" // 미리보기 스타일 지정
         height="300px" // 에디터 창 높이
         initialEditType="markdown" // 초기 입력모드 설정(디폴트 markdown)
+        hideModeSwitch={true}
         toolbarItems={[
           // 툴바 옵션 설정
           ["heading", "bold", "italic", "strike"],
@@ -101,13 +94,19 @@ const NewPost = () => {
       ></Editor>
       <button
         onClick={() => {
-          // navigate(`/auth`);
-          submitHandle();
+          navigate(`/auth`);
+          submitHandler();
         }}
       >
         작성 완료
       </button>
-      <button>취소</button>
+      <button
+        onClick={() => {
+          navigate(`/auth`);
+        }}
+      >
+        취소
+      </button>
     </div>
   );
 };
