@@ -71,6 +71,7 @@ public class PostsService {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
 
+        // TODO: 필요한가?
         Optional.ofNullable(patchDto.getTitle())
                 .ifPresent(posts::updateTitle);
         Optional.ofNullable(patchDto.getBody())
