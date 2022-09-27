@@ -4,6 +4,7 @@ import { authActions } from "../store/auth";
 import imgLogo from "../img/newWave.gif";
 import loginBtn from "../img/darkLogo.png";
 import singupBtn from "../img/logo.png";
+import profile from "../img/profile.png";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 const Header = () => {
@@ -61,6 +62,13 @@ const Header = () => {
               </li>
               <li>
                 <a href="/">User BTN</a>
+                <img
+                  className="profile"
+                  src={profile}
+                  alt="./profile.png"
+                  width="50"
+                  height="50"
+                />
               </li>
               <li>
                 <button onClick={logoutHandler}>Logout</button>
