@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import classes from "./Auth.module.css";
 import { authActions } from "../store/auth";
 import { useState, useRef } from "react";
 import axios from "axios";
@@ -71,17 +70,17 @@ const Auth = () => {
   // dispatch(authActions.login());
   // const dispatch = useDispatch();
   return (
-    <main className={classes.auth}>
+    <main>
       <section>
         <h1>{isLogin ? "로그인" : "회원가입"}</h1>
         <div>
           {isLogin ? (
             <>
-              <div className={classes.control}>
+              <div>
                 <label htmlFor="email">Email</label>
                 <input type="email" id="email" required ref={emailInputRef} />
               </div>
-              <div className={classes.control}>
+              <div>
                 <label htmlFor="password">Password</label>
                 <input
                   type="password"
@@ -93,7 +92,7 @@ const Auth = () => {
             </>
           ) : (
             <>
-              <div className={classes.control}>
+              <div>
                 <label htmlFor="displayName">User Name</label>
                 <input
                   type="displayName"
@@ -102,11 +101,11 @@ const Auth = () => {
                   ref={displaynameInputRef}
                 />
               </div>
-              <div className={classes.control}>
+              <div>
                 <label htmlFor="email">Email</label>
                 <input type="email" id="email" required ref={emailInputRef} />
               </div>
-              <div className={classes.control}>
+              <div>
                 <label htmlFor="password">Password</label>
                 <input
                   type="password"
@@ -117,15 +116,11 @@ const Auth = () => {
               </div>
             </>
           )}
-          <div className={classes.actions}>
+          <div>
             <button onClick={usesubmitHandler}>
               {isLogin ? "Login" : "Create Account"}
             </button>
-            <button
-              type="button"
-              className={classes.toggle}
-              onClick={switchAuthModeHandler}
-            >
+            <button type="button" onClick={switchAuthModeHandler}>
               {isLogin ? "Create new account" : "Login with existing account"}
             </button>
           </div>

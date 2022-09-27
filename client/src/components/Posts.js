@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import classes from "./Posts.module.css";
 import Post from "./Post";
 
 const Posts = () => {
@@ -11,7 +10,7 @@ const Posts = () => {
     });
   }, []);
   return (
-    <div className={classes.container}>
+    <div>
       {data.map((post) => (
         <div key={post.postId}>
           <Post post={post} />

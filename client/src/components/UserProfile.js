@@ -1,8 +1,6 @@
-import classes from './UserProfile.module.css';
-
 const UserProfile = () => {
   return (
-    <main className={classes.profile}>
+    <main>
       <h2>My User Profile</h2>
     </main>
   );

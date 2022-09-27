@@ -6,7 +6,6 @@ import PostDetail from "./components/PostDetail";
 import EditPost from "./components/EditPost";
 import NewPost from "./components/NewPost";
 // import UserProfile from "./components/UserProfile";
-import classes from "./App.module.css";
 import { Routes, Route } from "react-router-dom";
 
 function App() {

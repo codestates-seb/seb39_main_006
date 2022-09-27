@@ -1,5 +1,4 @@
 import { useDispatch } from "react-redux";
-import classes from "./Header.module.css";
 import { authActions } from "../store/auth";
 //react 에서 img import 하는법 https://velog.io/@ingdol2/React-image-%EA%B2%BD%EB%A1%9C-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0
 import imgLogo from "../img/newWave.gif";
@@ -17,7 +16,7 @@ const Header = () => {
     window.location.reload();
   };
   return (
-    <header className={classes.header}>
+    <header>
       <h1
         onClick={() => {
           sessionStorage.getItem("isLogin") ? navigate(`/auth`) : navigate(`/`);

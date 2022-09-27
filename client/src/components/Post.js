@@ -1,14 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import classes from "./Post.module.css";
-
 const Post = ({ post }) => {
   const navigate = useNavigate();
 
   return (
     <div>
-      <div className={classes.post}>
+      <div>
         <span
           onClick={() => {
             navigate(`/${post.postId}`);
