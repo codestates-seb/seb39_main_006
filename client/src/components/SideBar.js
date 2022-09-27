@@ -31,14 +31,15 @@ export default SideBar;
 const StyledDiv = styled.div`
   .container {
     width: 300px;
+    opacity: 90%;
     height: 100vh;
-
     height: 100vh;
-
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
     .nav__cont {
       position: fixed;
       width: 60px;
-      top: 150px;
+      top: 0px;
       height: 100vh;
       z-index: 100;
       background-image: url(../img/flower4.jpeg);
@@ -64,11 +65,13 @@ const StyledDiv = styled.div`
 
     .nav__items {
       padding-bottom: 4rem;
-      font-family: "roboto";
       a {
         position: relative;
         display: block;
         top: -35px;
+        margin-top: 2rem;
+        font-size: large;
+        font-weight: 700;
         padding-left: 25px;
         padding-right: 15px;
         transition: all 0.3s ease;
@@ -76,7 +79,6 @@ const StyledDiv = styled.div`
         margin-right: 10px;
         text-decoration: none;
         color: white;
-        font-family: "roboto";
         font-weight: 100;
         font-size: 1.35em;
         &:after {
