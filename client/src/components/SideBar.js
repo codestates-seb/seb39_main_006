@@ -31,7 +31,7 @@ export default SideBar;
 const StyledDiv = styled.div`
   .container {
     width: 300px;
-    opacity: 90%;
+    opacity: 70%;
     height: 100vh;
     height: 100vh;
     font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",

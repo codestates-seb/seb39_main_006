@@ -3,6 +3,7 @@ import { authActions } from "../store/auth";
 //react 에서 img import 하는법 https://velog.io/@ingdol2/React-image-%EA%B2%BD%EB%A1%9C-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0
 import imgLogo from "../img/newWave.gif";
 import loginBtn from "../img/darkLogo.png";
+import singupBtn from "../img/logo.png";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 const Header = () => {
@@ -42,6 +43,17 @@ const Header = () => {
                     className="login"
                     src={loginBtn}
                     alt="./darkLogo.png"
+                    width="50"
+                    height="50"
+                  />
+                </a>
+              </li>
+              <li>
+                <a href="/">
+                  <img
+                    className="signup"
+                    src={singupBtn}
+                    alt="./logo.png"
                     width="50"
                     height="50"
                   />
@@ -97,8 +109,9 @@ const StyledHeader = styled.div`
     button {
       font-size: 1.25rem;
       background-color: #ffbb00;
+      width: fit-content;
       border: 1px solid #ffbb00;
-      padding: 0.5rem 1.5rem;
+      padding: 0.5rem 1rem;
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
       color: #2c2922;
       &:hover {
