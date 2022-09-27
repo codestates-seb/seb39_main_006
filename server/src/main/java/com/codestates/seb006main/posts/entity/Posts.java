@@ -138,8 +138,9 @@ public class Posts {
     }
 
     // TODO: CASCADE 처리, 총 인원보다 많은 인원이 모집되었을 때 처리.
+    // TODO: 에외에 대한 것은 굳이 여기서 체크하지 말고 꽉찼는지 안 찾는지는 서비스에서 체크해도 된다.
     public void addMemberPosts(MemberPosts participants) {
-        if (isFull()) { // TODO: 굳이 여기서 체크하지 말고 꽉찼는지 안 찾는지는 서비스에서 체크해도 된다.
+        if (isFull()) {
             throw new BusinessLogicException(ExceptionCode.GROUP_IS_FULL);
         }
         if (isParticipated(participants)) {

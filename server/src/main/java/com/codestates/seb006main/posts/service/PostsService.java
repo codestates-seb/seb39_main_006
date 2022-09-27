@@ -40,9 +40,10 @@ public class PostsService {
         posts.setMember(principalDetails.getMember());
         postsRepository.save(posts);
 
-        memberPostsRepository.save(MemberPosts.builder()
-                .member(principalDetails.getMember())
-                .posts(posts).build());
+        MemberPosts memberPosts = MemberPosts.builder().member(principalDetails.getMember()).build();
+        memberPosts.setPosts(posts);
+        memberPostsRepository.save(memberPosts);
+
 
         if (postDto.getImages() != null) {
             saveImages(postDto.getImages(), posts);
