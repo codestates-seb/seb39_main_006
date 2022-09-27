@@ -120,6 +120,10 @@ public class Posts {
 
     }
 
+    public void inactive() {
+        this.postsStatus = PostsStatus.INACTIVE;
+    }
+
     public boolean isFull() {
         return this.participants.size() == totalCount || this.participants.size() > totalCount || this.postsStatus == PostsStatus.COMPLETED;
     }

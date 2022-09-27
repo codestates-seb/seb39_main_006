@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * TODO: 일정 기간 사용되지 않는 이미지는 삭제 (batch)
@@ -25,6 +26,7 @@ public class Image {
     private String storedName;
     private String storedPath;
     private Long fileSize;
+    private LocalDateTime uploadedAt;
     @OneToOne
     @JoinColumn(name = "member_id")
     private Member member;

@@ -101,7 +101,10 @@ public class PostsService {
                 amazonS3Client.deleteObject(S3Bucket, imagePath.substring(imagePath.lastIndexOf("/") + 1));
             }
         }
-        postsRepository.deleteById(postId);
+        // 삭제는 Batch가 함.
+//        postsRepository.deleteById(postId);
+        posts.inactive();
+        postsRepository.save(posts);
     }
 
     public void saveImages(List<Long> images, Posts posts) {
