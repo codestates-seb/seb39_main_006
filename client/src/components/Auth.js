@@ -1,6 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
-import { authActions } from "../store/auth";
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 // axios,toolkit으로 통일
@@ -11,9 +9,7 @@ const Auth = () => {
   const passwordInputRef = useRef();
   const displaynameInputRef = useRef();
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isAuth = useSelector((state) => state.auth.isAuthenticated);
 
   const [isLogin, setIsLogin] = useState(true);
 
@@ -23,9 +19,6 @@ const Auth = () => {
 
   const usesubmitHandler = (event) => {
     event.preventDefault();
-    dispatch(authActions.login());
-    if (isAuth) {
-    }
 
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
@@ -67,8 +60,6 @@ const Auth = () => {
       });
     }
   };
-  // dispatch(authActions.login());
-  // const dispatch = useDispatch();
   return (
     <main>
       <section>

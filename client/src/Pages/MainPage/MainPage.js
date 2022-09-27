@@ -1,6 +1,6 @@
 import React from "react";
-import Posts from "./Posts";
-import SideBar from "./SideBar";
+import Posts from "../PostPage/Posts";
+import SideBar from "../../components/SideBar";
 import MainSubHeader from "./MainSubHeader";
 
 const MainPage = () => {

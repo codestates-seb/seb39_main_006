@@ -1,5 +1,4 @@
-import { useDispatch } from "react-redux";
-import { authActions } from "../store/auth";
+import React from "react";
 //react 에서 img import 하는법 https://velog.io/@ingdol2/React-image-%EA%B2%BD%EB%A1%9C-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0
 import imgLogo from "../img/newWave.gif";
 import loginBtn from "../img/darkLogo.png";
@@ -7,10 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const logoutHandler = () => {
-    dispatch(authActions.logout());
     sessionStorage.clear();
     navigate(`/`);
     window.location.reload();

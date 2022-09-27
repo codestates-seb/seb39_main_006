@@ -1,16 +1,16 @@
-import { Fragment } from "react";
+import React from "react";
 import Header from "./components/Header";
-import MainPage from "./components/MainPage";
+import MainPage from "./Pages/MainPage/MainPage";
 import Auth from "./components/Auth";
-import PostDetail from "./components/PostDetail";
-import EditPost from "./components/EditPost";
-import NewPost from "./components/NewPost";
+import PostDetail from "./Pages/PostPage/PostDetail";
+import EditPost from "./Pages/PostPage/EditPost";
+import NewPost from "./Pages/PostPage/NewPost";
 // import UserProfile from "./components/UserProfile";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <Fragment>
+    <div>
       <Header />
       <Routes>
         {!sessionStorage.getItem("isLogin") ? (
@@ -24,7 +24,7 @@ function App() {
           </>
         )}
       </Routes>
-    </Fragment>
+    </div>
   );
 }
 
