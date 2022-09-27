@@ -43,11 +43,13 @@ const Auth = () => {
       }).then((res) => {
         if (res.status) navigate("/auth");
         sessionStorage.setItem("isLogin", true);
+        console.log(res.headers);
+        sessionStorage.setItem("AccesToken", res.headers.access_hh);
+        sessionStorage.setItem("RefreshToken", res.headers.refresh_hh);
         window.location.reload();
       });
     } else {
       const enteredDisplayName = displaynameInputRef.current.value;
-      console.log(enteredPassword);
       axios(`https://seb-006.shop/api/members`, {
         method: "POST",
         data: {
