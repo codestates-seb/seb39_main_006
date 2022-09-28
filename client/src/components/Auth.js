@@ -1,6 +1,9 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Button from "../components/ui/Button";
+import styled from "styled-components";
+
 // token 연결
 const Auth = () => {
   const emailInputRef = useRef();
@@ -79,24 +82,31 @@ const Auth = () => {
         <h1>{isLogin ? "로그인" : "회원가입"}</h1>
         <div>
           {isLogin ? (
-            <>
-              <div>
+            <InputWrapper>
+              <div className="container">
                 <label htmlFor="email">Email</label>
-                <input type="email" id="email" required ref={emailInputRef} />
+                <input
+                  className="input-tag"
+                  type="email"
+                  id="email"
+                  required
+                  ref={emailInputRef}
+                />
               </div>
-              <div>
+              <div className="container">
                 <label htmlFor="password">Password</label>
                 <input
+                  className="input-tag"
                   type="password"
                   id="password"
                   required
                   ref={passwordInputRef}
                 />
               </div>
-            </>
+            </InputWrapper>
           ) : (
-            <>
-              <div>
+            <InputWrapper>
+              <div className="container">
                 <label htmlFor="displayName">User Name</label>
                 <input
                   type="displayName"
@@ -105,28 +115,35 @@ const Auth = () => {
                   ref={displaynameInputRef}
                 />
               </div>
-              <div>
+              <div className="container">
                 <label htmlFor="email">Email</label>
-                <input type="email" id="email" required ref={emailInputRef} />
+                <input
+                  className="input-tag"
+                  type="email"
+                  id="email"
+                  required
+                  ref={emailInputRef}
+                />
               </div>
-              <div>
+              <div className="container">
                 <label htmlFor="password">Password</label>
                 <input
+                  className="input-tag"
                   type="password"
                   id="password"
                   required
                   ref={passwordInputRef}
                 />
               </div>
-            </>
+            </InputWrapper>
           )}
           <div>
-            <button onClick={usesubmitHandler}>
+            <Button onClick={usesubmitHandler}>
               {isLogin ? "Login" : "Create Account"}
-            </button>
-            <button type="button" onClick={switchAuthModeHandler}>
+            </Button>
+            <Button type="button" onClick={switchAuthModeHandler}>
               {isLogin ? "Create new account" : "Login with existing account"}
-            </button>
+            </Button>
           </div>
         </div>
       </section>
@@ -135,3 +152,40 @@ const Auth = () => {
 };
 
 export default Auth;
+const InputWrapper = styled.div`
+  .container {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .input-tag {
+    display: block;
+    text-align: left;
+    font-size: 1em;
+  }
+  input {
+    padding: 20px 10px;
+    border-radius: 5px;
+    outline: none;
+    width: 30rem;
+    display: inline-block;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10%;
+    border: 1.5px solid #a19f9f;
+  }
+  #none + label {
+    color: #a19f9f;
+  }
+  #hover:hover {
+    border: 1.5px solid black;
+  }
+  #hover:hover + label {
+    color: black;
+  }
+  #focus:focus + label {
+    color: #2962ff;
+  }
+  #focus:focus {
+    border: 1.5px solid #2962ff;
+  }
+`;
