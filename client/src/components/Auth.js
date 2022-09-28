@@ -101,6 +101,8 @@ const Auth = () => {
                   id="password"
                   required
                   ref={passwordInputRef}
+                  name="password"
+                  autoComplete="off"
                 />
               </div>
             </InputWrapper>
@@ -133,6 +135,8 @@ const Auth = () => {
                   id="password"
                   required
                   ref={passwordInputRef}
+                  name="password"
+                  autoComplete="off"
                 />
               </div>
             </InputWrapper>
