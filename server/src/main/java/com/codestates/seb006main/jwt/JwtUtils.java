@@ -20,7 +20,7 @@ public class JwtUtils {
 
         String accessToken = JWT.create()
                 .withSubject("hitch hiker access token")
-                .withExpiresAt(new Date(System.currentTimeMillis() + (1000 * 60 * 60)))
+                .withExpiresAt(new Date(System.currentTimeMillis() + (1000 * 60 * 2)))
                 .withClaim("id", memberId)
                 .withClaim("email", email)
                 .sign(Algorithm.HMAC512(accessKey));
@@ -31,7 +31,7 @@ public class JwtUtils {
     public String createRefreshToken(Long memberId, String email){
         String refreshToken = JWT.create()
                 .withSubject("hitch hiker refresh token")
-                .withExpiresAt(new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 7)))
+                .withExpiresAt(new Date(System.currentTimeMillis() + (1000 * 60 * 10)))
                 .withClaim("id", memberId)
                 .withClaim("email", email)
                 .sign(Algorithm.HMAC512(refreshKey));
