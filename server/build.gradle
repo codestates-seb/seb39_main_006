@@ -46,6 +46,7 @@ dependencies {
     implementation 'com.auth0:java-jwt:4.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.springframework.batch:spring-batch-test'
 }
 
 //tasks.named('test') {

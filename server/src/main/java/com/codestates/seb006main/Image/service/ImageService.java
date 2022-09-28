@@ -10,6 +10,9 @@ import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
 import com.codestates.seb006main.util.FileHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +28,10 @@ public class ImageService {
     private final ImageRepository imageRepository;
     private final FileHandler fileHandler;
     final AmazonS3Client amazonS3Client;
-    private final String S3Bucket = "seb-main-006/img";
+    @Value("${cloud.aws.s3.bucket}")
+    private String S3Bucket;
+    @Value("${cloud.aws.s3.alter-domain}")
+    private String domain;
 
     public Map<String, Object> uploadImage(MultipartFile image) throws IOException {
         String originName = image.getOriginalFilename();
@@ -40,7 +46,9 @@ public class ImageService {
                         .withCannedAcl(CannedAccessControlList.PublicRead)
         );
 
-        String imagePath = amazonS3Client.getUrl(S3Bucket, storedName).toString();
+//        String imagePath = amazonS3Client.getUrl(S3Bucket, storedName).toString();
+//        String imagePath = "https://" + S3Bucket + "/" + storedName;
+        String imagePath = "https://" + domain + "/" + storedName;
 
         Image saveImage = imageRepository.save(Image.builder()
                 .originName(originName)

@@ -10,6 +10,7 @@ import com.codestates.seb006main.posts.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.repeat.RepeatStatus;
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
+@EnableBatchProcessing
 @Configuration
 public class BatchConfig {
     private final JobBuilderFactory jobBuilderFactory;
@@ -36,8 +38,8 @@ public class BatchConfig {
     public Job deleteUnusedObject() {
         return jobBuilderFactory.get("deleteUnusedObject")
                 .start(deleteUnusedImage())
-                .start(deleteInactivePosts())
-                .start(deleteWithdrawalMember())
+                .next(deleteInactivePosts())
+                .next(deleteWithdrawalMember())
                 .build();
     }
 
