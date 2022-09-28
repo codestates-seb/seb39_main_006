@@ -1,5 +1,5 @@
 import React from "react";
-import Posts from "../PostPage/Posts";
+import Posts from "../postpage/Posts";
 import SideBar from "../../components/SideBar";
 import MainSubHeader from "./MainSubHeader";
 

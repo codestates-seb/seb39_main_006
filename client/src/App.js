@@ -1,10 +1,10 @@
 import React from "react";
 import Header from "./components/Header";
-import MainPage from "./Pages/MainPage/MainPage";
+import MainPage from "./pages/mainpage/MainPage";
 import Auth from "./components/Auth";
-import PostDetail from "./Pages/PostPage/PostDetail";
-import EditPost from "./Pages/PostPage/EditPost";
-import NewPost from "./Pages/PostPage/NewPost";
+import PostDetail from "./pages/postpage/PostDetail";
+import EditPost from "./pages/postpage/EditPost";
+import NewPost from "./pages/postpage/NewPost";
 import { Routes, Route } from "react-router-dom";
 
 function App() {

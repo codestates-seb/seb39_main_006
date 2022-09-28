@@ -13,6 +13,14 @@ const Auth = () => {
 
   const switchAuthModeHandler = () => {
     setIsLogin(!isLogin);
+    if (isLogin) {
+      emailInputRef.current.value = "";
+      passwordInputRef.current.value = "";
+    } else {
+      emailInputRef.current.value = "";
+      passwordInputRef.current.value = "";
+      displaynameInputRef.current.value = "";
+    }
   };
 
   const usesubmitHandler = (event) => {
@@ -43,6 +51,7 @@ const Auth = () => {
         sessionStorage.setItem("isLogin", true);
         sessionStorage.setItem("AccesToken", res.headers.access_hh);
         sessionStorage.setItem("RefreshToken", res.headers.refresh_hh);
+        sessionStorage.setItem("userName", res.data.displayName);
         window.location.reload();
       });
     } else {

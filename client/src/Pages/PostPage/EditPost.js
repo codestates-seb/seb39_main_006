@@ -14,13 +14,20 @@ import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 const EditPost = () => {
   const { id } = useParams();
   const [editData, setEditData] = useState([]);
-  const [title, setTitle] = useState(editData.title);
+  const [title, setTitle] = useState("");
+  const [mate, setMate] = useState();
+  const [body, setBody] = useState("");
+  const [closeDate, setCloseDate] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     axios(`https://seb-006.shop/api/posts/${id}`).then((res) => {
       console.log(res.data);
       setEditData(res.data);
+      setTitle(res.data.title);
+      setMate(res.data.totalCount);
+      setBody(res.data.body);
+      setCloseDate(res.data.closeDate);
     });
   }, [id]);
   return (
@@ -29,17 +36,19 @@ const EditPost = () => {
         <span>제목</span>
         <input
           type="text"
-          value={editData.title}
-          onChange={(e) => setTitle(e.target.value)}
+          defaultValue={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
         />
       </div>
       <div>
         <span>본인을 포함한 총 모집 인원 수 </span>
-        <input type="number" required value={editData.totalCount} />
+        <input type="number" required defaultValue={mate} />
       </div>
       <div>
         <span>모집 마감 </span>
-        <input type="date" required value={editData.closeDate}></input>
+        <input type="date" required defaultValue={closeDate} />
         <span> 까지</span>
       </div>
       {editData.body && (
@@ -48,7 +57,7 @@ const EditPost = () => {
           required
           previewStyle="vertical" // 미리보기 스타일 지정
           height="300px" // 에디터 창 높이
-          initialValue={editData.body ? editData.body : ""}
+          initialValue={body}
           initialEditType="markdown" // 초기 입력모드 설정(디폴트 markdown)
           hideModeSwitch={true}
           toolbarItems={[
@@ -62,6 +71,14 @@ const EditPost = () => {
           plugins={[colorSyntax]} // colorSyntax 플러그인 적용
         ></Editor>
       )}
+      <button>수정 완료</button>
+      <button
+        onClick={() => {
+          navigate(`/${id}`);
+        }}
+      >
+        취소
+      </button>
     </div>
   );
 };
