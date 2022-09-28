@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 // toast
@@ -18,6 +18,8 @@ const EditPost = () => {
   const [mate, setMate] = useState();
   const [body, setBody] = useState("");
   const [closeDate, setCloseDate] = useState("");
+  const editBody = useRef();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,12 +32,28 @@ const EditPost = () => {
       setCloseDate(res.data.closeDate);
     });
   }, [id]);
+
+  const submitEditDataHandler = () => {
+    const enteredBody = editBody.current?.getInstance().getMarkdown();
+    axios(`https://seb-006.shop/api/posts/${id}`, {
+      method: "PATCH",
+      headers: { access_hh: sessionStorage.getItem("AccesToken") },
+      data: {
+        title: title,
+        body: enteredBody,
+        totalCount: mate,
+        closeDate: closeDate,
+        images: [],
+      },
+    }).then(navigate(`/${id}`));
+  };
   return (
     <div>
       <div>
         <span>제목</span>
         <input
           type="text"
+          required
           defaultValue={title}
           onChange={(e) => {
             setTitle(e.target.value);
@@ -44,17 +62,32 @@ const EditPost = () => {
       </div>
       <div>
         <span>본인을 포함한 총 모집 인원 수 </span>
-        <input type="number" required defaultValue={mate} />
+        <input
+          type="number"
+          required
+          defaultValue={mate}
+          onChange={(e) => {
+            setMate(e.target.value);
+          }}
+        />
       </div>
       <div>
         <span>모집 마감 </span>
-        <input type="date" required defaultValue={closeDate} />
+        <input
+          type="date"
+          required
+          defaultValue={closeDate}
+          onChange={(e) => {
+            setCloseDate(e.target.value);
+          }}
+        />
         <span> 까지</span>
       </div>
       {editData.body && (
         <Editor
           placeholder="내용을 입력해주세요."
           required
+          ref={editBody}
           previewStyle="vertical" // 미리보기 스타일 지정
           height="300px" // 에디터 창 높이
           initialValue={body}
@@ -71,7 +104,15 @@ const EditPost = () => {
           plugins={[colorSyntax]} // colorSyntax 플러그인 적용
         ></Editor>
       )}
-      <button>수정 완료</button>
+      {sessionStorage.getItem("userName") === editData.leaderName ? (
+        <button
+          onClick={() => {
+            submitEditDataHandler();
+          }}
+        >
+          수정 완료
+        </button>
+      ) : null}
       <button
         onClick={() => {
           navigate(`/${id}`);
