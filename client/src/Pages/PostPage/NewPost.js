@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -14,34 +14,33 @@ import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 const NewPost = () => {
   const navigate = useNavigate();
 
-  const titleRef = useRef();
   const bodyRef = useRef();
-  const startDateRef = useRef();
-  const endDateRef = useRef();
-  const locationRef = useRef();
-  const totalCountRef = useRef();
-  const closeDateRef = useRef();
+  const [title, setTitle] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [location, setLocation] = useState("");
+  const [totalCount, setTotalCount] = useState(0);
+  const [closeDate, setCloseDate] = useState("");
+
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const date = today.getDate();
 
   const submitHandler = () => {
-    const enteredTitle = titleRef.current.value;
     const enteredBody = bodyRef.current?.getInstance().getMarkdown();
-    const enteredStartDate = startDateRef.current.value;
-    const enteredEndDate = endDateRef.current.value;
-    const enteredLocation = locationRef.current.value;
-    const enteredTotalCount = totalCountRef.current.value;
-    const enteredCloseDate = closeDateRef.current.value;
 
     axios(`https://seb-006.shop/api/posts`, {
       method: "POST",
       headers: { access_hh: sessionStorage.getItem("AccesToken") },
       data: {
-        title: enteredTitle,
+        title: title,
         body: enteredBody,
-        startDate: enteredStartDate,
-        endDate: enteredEndDate,
-        location: enteredLocation,
-        totalCount: enteredTotalCount,
-        closeDate: enteredCloseDate,
+        startDate: startDate,
+        endDate: endDate,
+        location: location,
+        totalCount: totalCount,
+        closeDate: closeDate,
         images: [],
       },
     });
@@ -51,28 +50,66 @@ const NewPost = () => {
     <div>
       <div>
         <span>제목 </span>
-        <input type="text" required ref={titleRef} />
+        <input
+          type="text"
+          required
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
+        />
       </div>
       <div>
         <span>여행 출발 날짜 </span>
-        <input type="date" required ref={startDateRef}></input>
+        <input
+          type="date"
+          required
+          onChange={(e) => {
+            setStartDate(e.target.value);
+          }}
+        />
       </div>
       <div>
         <span>여행 종료? 날짜 </span>
-        <input type="date" required ref={endDateRef}></input>
+        <input
+          type="date"
+          required
+          onChange={(e) => {
+            setEndDate(e.target.value);
+          }}
+          min={startDate}
+        />
       </div>
       <div>
         <span>모집 마감 </span>
-        <input type="date" required ref={closeDateRef}></input>
+        <input
+          type="date"
+          required
+          onChange={(e) => {
+            setCloseDate(e.target.value);
+          }}
+          min={`${year}-${("0" + month).slice(-2)}-${date}`}
+        />
         <span> 까지</span>
       </div>
       <div>
         <span>여행지 </span>
-        <input type="text" required ref={locationRef}></input>
+        <input
+          type="text"
+          required
+          onChange={(e) => {
+            setLocation(e.target.value);
+          }}
+        />
       </div>
       <div>
         <span>본인을 포함한 총 모집 인원 수 </span>
-        <input type="number" required ref={totalCountRef}></input>
+        <input
+          type="number"
+          required
+          onChange={(e) => {
+            setTotalCount(e.target.value);
+          }}
+        />
       </div>
       <Editor
         placeholder="내용을 입력해주세요."

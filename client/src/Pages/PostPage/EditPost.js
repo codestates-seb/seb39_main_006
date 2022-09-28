@@ -24,7 +24,6 @@ const EditPost = () => {
 
   useEffect(() => {
     axios(`https://seb-006.shop/api/posts/${id}`).then((res) => {
-      console.log(res.data);
       setEditData(res.data);
       setTitle(res.data.title);
       setMate(res.data.totalCount);
@@ -45,7 +44,7 @@ const EditPost = () => {
         closeDate: closeDate,
         images: [],
       },
-    }).then(navigate(`/${id}`));
+    }).then(navigate(`/auth`));
   };
   return (
     <div>
