@@ -56,7 +56,6 @@ const EditPost = () => {
         window.location.reload();
       })
       .catch((err) => {
-        console.log(err);
         if (err.response.status === 500) {
           alert("세션이 만료되어 로그아웃합니다.");
           sessionStorage.clear();
