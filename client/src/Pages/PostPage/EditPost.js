@@ -36,7 +36,10 @@ const EditPost = () => {
     const enteredBody = editBody.current?.getInstance().getMarkdown();
     axios(`https://seb-006.shop/api/posts/${id}`, {
       method: "PATCH",
-      headers: { access_hh: sessionStorage.getItem("AccesToken") },
+      headers: {
+        access_hh: sessionStorage.getItem("AccessToken"),
+        refresh_hh: sessionStorage.getItem("RefreshToken"),
+      },
       data: {
         title: title,
         body: enteredBody,
@@ -44,7 +47,23 @@ const EditPost = () => {
         closeDate: closeDate,
         images: [],
       },
-    }).then(navigate(`/auth`));
+    })
+      .then((res) => {
+        if (res.headers.access_hh) {
+          sessionStorage.setItem("AccessToken", res.headers.access_hh);
+        }
+        navigate(`/${id}`);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.response.status === 500) {
+          alert("세션이 만료되어 로그아웃합니다.");
+          sessionStorage.clear();
+          navigate(`/`);
+          window.location.reload();
+        }
+      });
   };
   return (
     <div>

@@ -8,7 +8,7 @@ const Posts = () => {
     axios(`https://seb-006.shop/api/posts?page=1&size=10`).then((res) => {
       setData([...res.data.data]);
     });
-  }, [data]);
+  }, []);
   return (
     <div>
       {data.map((post) => (

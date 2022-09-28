@@ -32,7 +32,10 @@ const NewPost = () => {
 
     axios(`https://seb-006.shop/api/posts`, {
       method: "POST",
-      headers: { access_hh: sessionStorage.getItem("AccesToken") },
+      headers: {
+        access_hh: sessionStorage.getItem("AccessToken"),
+        refresh_hh: sessionStorage.getItem("RefreshToken"),
+      },
       data: {
         title: title,
         body: enteredBody,
@@ -43,7 +46,22 @@ const NewPost = () => {
         closeDate: closeDate,
         images: [],
       },
-    });
+    })
+      .then((res) => {
+        if (res.headers.access_hh) {
+          sessionStorage.setItem("AccessToken", res.headers.access_hh);
+        }
+        navigate(`/auth`);
+        window.location.reload();
+      })
+      .catch((err) => {
+        if (err.response.status === 500) {
+          alert("세션이 만료되어 로그아웃합니다.");
+          sessionStorage.clear();
+          navigate(`/`);
+          window.location.reload();
+        }
+      });
   };
 
   return (
@@ -66,6 +84,7 @@ const NewPost = () => {
           onChange={(e) => {
             setStartDate(e.target.value);
           }}
+          min={`${year}-${("0" + month).slice(-2)}-${date}`}
         />
       </div>
       <div>
@@ -131,7 +150,6 @@ const NewPost = () => {
       ></Editor>
       <button
         onClick={() => {
-          navigate(`/auth`);
           submitHandler();
         }}
       >

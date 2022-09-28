@@ -46,14 +46,21 @@ const Auth = () => {
           email: enteredEmail,
           password: enteredPassword,
         },
-      }).then((res) => {
-        if (res.status) navigate("/auth");
-        sessionStorage.setItem("isLogin", true);
-        sessionStorage.setItem("AccesToken", res.headers.access_hh);
-        sessionStorage.setItem("RefreshToken", res.headers.refresh_hh);
-        sessionStorage.setItem("userName", res.data.displayName);
-        window.location.reload();
-      });
+      })
+        .then((res) => {
+          if (res.status) navigate("/auth");
+          sessionStorage.setItem("isLogin", true);
+          sessionStorage.setItem("AccessToken", res.headers.access_hh);
+          sessionStorage.setItem("RefreshToken", res.headers.refresh_hh);
+          sessionStorage.setItem("userName", res.data.displayName);
+          window.location.reload();
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            alert("다시 확인하고 입력해주세요");
+            window.location.reload();
+          }
+        });
     } else {
       const enteredDisplayName = displaynameInputRef.current.value;
       axios(`https://seb-006.shop/api/members`, {

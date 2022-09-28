@@ -15,7 +15,7 @@ const Post = ({ post }) => {
           {post.title}
         </span>
         <span>
-          <span>모집 인원</span>
+          <span> 모집 인원</span>
           <span>
             {post.participantsCount} / {post.totalCount}
           </span>
