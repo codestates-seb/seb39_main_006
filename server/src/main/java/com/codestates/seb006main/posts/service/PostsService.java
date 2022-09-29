@@ -7,7 +7,7 @@ import com.codestates.seb006main.auth.PrincipalDetails;
 import com.codestates.seb006main.dto.MultiResponseDto;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
-import com.codestates.seb006main.group.mapper.GroupMapper;
+import com.codestates.seb006main.posts.dto.PostsCond;
 import com.codestates.seb006main.posts.dto.PostsDto;
 import com.codestates.seb006main.posts.entity.MemberPosts;
 import com.codestates.seb006main.posts.entity.Posts;
@@ -20,7 +20,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,8 +56,8 @@ public class PostsService {
         return postsMapper.postsToResponseDto(posts);
     }
 
-    public MultiResponseDto readAllPosts(PageRequest pageRequest) {
-        Page<Posts> postsPage = postsRepository.findAll(pageRequest);
+    public MultiResponseDto readAllPosts(PageRequest pageRequest, PostsCond postsCond) {
+        Page<Posts> postsPage = postsRepository.findAllWithCondition(postsCond, pageRequest);
         List<Posts> postsList = postsPage.getContent();
         return new MultiResponseDto<>(postsMapper.postsListToResponseDtoList(postsList), postsPage);
     }

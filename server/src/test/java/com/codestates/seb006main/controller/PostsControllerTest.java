@@ -384,7 +384,7 @@ public class PostsControllerTest {
                 List.of(responseDto2, responseDto1), postsPage);
 
         //mock
-        given(postsService.readAllPosts((Mockito.any()))).willReturn(responseDto);
+        given(postsService.readAllPosts((Mockito.any()), postsCond)).willReturn(responseDto);
 
         //when
         ResultActions actions = mockMvc.perform(

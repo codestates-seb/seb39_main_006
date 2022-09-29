@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PostsRepository extends JpaRepository<Posts, Long> {
+public interface PostsRepository extends JpaRepository<Posts, Long>, PostsRepositoryCustom{
     List<Posts> findByPostsStatus(Posts.PostsStatus postsStatus);
 }

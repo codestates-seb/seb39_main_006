@@ -22,7 +22,7 @@ public class BatchScheduler {
 
     // TODO: 원래 계획은 매주 특정 요일 아침 9시. 지금은 테스트용으로 1시간마다.
 //    @Scheduled(cron = "0 0 9 * * WED")
-    @Scheduled(cron = "0 0/5 * * * *")
+    @Scheduled(cron = "0 0 * * * *")
     public void runJob() {
         Map<String, JobParameter> confMap = new HashMap<>();
         confMap.put("time", new JobParameter(System.currentTimeMillis()));
