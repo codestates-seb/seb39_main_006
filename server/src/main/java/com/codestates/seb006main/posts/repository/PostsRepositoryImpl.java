@@ -138,7 +138,7 @@ public class PostsRepositoryImpl implements PostsRepositoryCustom {
                 Order direction = order.getDirection().isAscending() ? Order.ASC : Order.DESC;
                 // 서비스에서 넣어준 정렬 조건을 스위치 케이스 문을 활용하여 셋팅하여 준다.
                 switch (order.getProperty()) {
-                    case "postId":
+                    case "postId": case "newest":
                         return new OrderSpecifier<>(direction, posts.postId);
                     case "title":
                         return new OrderSpecifier<>(direction, posts.title);
