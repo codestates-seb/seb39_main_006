@@ -26,6 +26,14 @@ const Auth = () => {
     }
   };
 
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
   const usesubmitHandler = (event) => {
     event.preventDefault();
 
@@ -33,6 +41,17 @@ const Auth = () => {
     const enteredPassword = passwordInputRef.current.value;
 
     if (isLogin) {
+      // var checkEmail = validateEmail(enteredEmail);
+      if (validateEmail(enteredEmail) === null) {
+        alert("이메일 형식으로 입력해 주세요");
+        return;
+      }
+
+      if (enteredPassword.length < 6) {
+        alert("비밀번호 6글자 이상 입력해주세요 ");
+        return;
+      }
+
       // fetch(`${process.env.REACT_APP_URL}/api/members/login`, {
       //   method: "POST",
       //   headers: {
@@ -45,18 +64,24 @@ const Auth = () => {
       // }).then((res) => console.log(res.headers.Access_HH));
       axios(`${process.env.REACT_APP_URL}/api/members/login`, {
         method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Length": 61,
+        },
         data: {
           email: enteredEmail,
           password: enteredPassword,
         },
       })
         .then((res) => {
-          if (res.status) navigate("/auth");
-          sessionStorage.setItem("isLogin", true);
-          sessionStorage.setItem("AccessToken", res.headers.access_hh);
-          sessionStorage.setItem("RefreshToken", res.headers.refresh_hh);
-          sessionStorage.setItem("userName", res.data.displayName);
-          window.location.reload();
+          if (res.status) {
+            navigate("/auth");
+            sessionStorage.setItem("isLogin", true);
+            sessionStorage.setItem("AccessToken", res.headers.access_hh);
+            sessionStorage.setItem("RefreshToken", res.headers.refresh_hh);
+            sessionStorage.setItem("userName", res.data.displayName);
+            window.location.reload();
+          }
         })
         .catch((err) => {
           if (err.response.status === 401) {
@@ -66,6 +91,22 @@ const Auth = () => {
         });
     } else {
       const enteredDisplayName = displaynameInputRef.current.value;
+
+      if (enteredDisplayName.length < 2) {
+        alert("닉네임을 2글자 이상 입력해 주세요 ");
+        return;
+      }
+
+      if (validateEmail(enteredEmail) === null) {
+        alert("이메일 형식으로 입력해 주세요");
+        return;
+      }
+
+      if (enteredPassword.length < 6) {
+        alert("비밀번호 6글자 이상 입력해주세요 ");
+        return;
+      }
+
       axios(`${process.env.REACT_APP_URL}/api/members`, {
         method: "POST",
         data: {
