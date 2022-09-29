@@ -66,7 +66,7 @@ const Auth = () => {
         });
     } else {
       const enteredDisplayName = displaynameInputRef.current.value;
-      axios(`https://seb-006.shop/api/members`, {
+      axios(`${process.env.REACT_APP_URL}/api/members`, {
         method: "POST",
         data: {
           email: enteredEmail,
@@ -83,62 +83,66 @@ const Auth = () => {
         <div>
           {isLogin ? (
             <InputWrapper>
-              <div className="container">
+              <form onSubmit={(e) => e.preventDefault()}>
                 <label htmlFor="email">Email</label>
-                <input
-                  className="input-tag"
-                  type="email"
-                  id="email"
-                  required
-                  ref={emailInputRef}
-                />
-              </div>
-              <div className="container">
+                <div className="container">
+                  <input
+                    className="input-tag"
+                    type="email"
+                    id="email"
+                    required
+                    ref={emailInputRef}
+                  />
+                </div>
                 <label htmlFor="password">Password</label>
-                <input
-                  className="input-tag"
-                  type="password"
-                  id="password"
-                  required
-                  ref={passwordInputRef}
-                  name="password"
-                  autoComplete="off"
-                />
-              </div>
+                <div className="container">
+                  <input
+                    className="input-tag"
+                    type="password"
+                    id="password"
+                    required
+                    ref={passwordInputRef}
+                    name="password"
+                    autoComplete="off"
+                  />
+                </div>
+              </form>
             </InputWrapper>
           ) : (
             <InputWrapper>
-              <div className="container">
+              <form onSubmit={(e) => e.preventDefault()}>
                 <label htmlFor="displayName">User Name</label>
-                <input
-                  type="displayName"
-                  id="displayName"
-                  required
-                  ref={displaynameInputRef}
-                />
-              </div>
-              <div className="container">
+                <div className="container">
+                  <input
+                    type="displayName"
+                    id="displayName"
+                    required
+                    ref={displaynameInputRef}
+                  />
+                </div>
                 <label htmlFor="email">Email</label>
-                <input
-                  className="input-tag"
-                  type="email"
-                  id="email"
-                  required
-                  ref={emailInputRef}
-                />
-              </div>
-              <div className="container">
+                <div className="container">
+                  <input
+                    className="input-tag"
+                    type="email"
+                    id="email"
+                    required
+                    ref={emailInputRef}
+                  />
+                </div>
                 <label htmlFor="password">Password</label>
-                <input
-                  className="input-tag"
-                  type="password"
-                  id="password"
-                  required
-                  ref={passwordInputRef}
-                  name="password"
-                  autoComplete="off"
-                />
-              </div>
+                <div className="container">
+                  <input
+                    className="input-tag"
+                    type="password"
+                    id="password"
+                    required
+                    ref={passwordInputRef}
+                    name="password"
+                    autoComplete="off"
+                  />
+                </div>
+              </form>
             </InputWrapper>
           )}
           <div>
@@ -176,6 +180,11 @@ const InputWrapper = styled.div`
     border-radius: 5px;
     margin-right: 10%;
     border: 1.5px solid #a19f9f;
+  }
+  label {
+    font-size: large;
+    line-height: normal;
+    padding: 0.5rem;
   }
   #none + label {
     color: #a19f9f;
