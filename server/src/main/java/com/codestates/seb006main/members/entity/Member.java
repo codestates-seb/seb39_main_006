@@ -1,5 +1,6 @@
 package com.codestates.seb006main.members.entity;
 
+import com.codestates.seb006main.audit.Auditable;
 import com.codestates.seb006main.comment.entity.Comment;
 import com.codestates.seb006main.feed.entity.Feed;
 import com.codestates.seb006main.posts.entity.MemberPosts;
@@ -13,7 +14,7 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class Member extends Auditable {
     @Id
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
