@@ -64,8 +64,6 @@ public class TestDataInit {
                 .title("(급합니다) 사이판 여행 모집 구해봐요")
                 .body("일정이 촉박해 빠르게 구해봅니다. 사이판으로 여행가실 여자분 최대 2명 구합니다. 여자 혼자 가기 너무 심심하네요. 흑흑흑.")
                 .postsStatus(Posts.PostsStatus.READY)
-                .createdAt(LocalDateTime.of(2022, 9, 17, 12, 0, 0))
-                .modifiedAt(LocalDateTime.now())
                 .travelPeriod(new Period(LocalDate.of(2022, 11, 11),
                         LocalDate.of(2022, 11, 14)))
                 .location("사이판")
@@ -80,8 +78,6 @@ public class TestDataInit {
                 .title("보라카이 혼자 가시는 분 같이 가요")
                 .body("보라카이로 여행가시는 남자분 1명 구합니다. 남자 혼자 가기 외롭네요. 허허허.")
                 .postsStatus(Posts.PostsStatus.READY)
-                .createdAt(LocalDateTime.of(2022, 9, 17, 12, 0, 0))
-                .modifiedAt(LocalDateTime.now())
                 .travelPeriod(new Period(LocalDate.of(2022, 11, 11),
                         LocalDate.of(2022, 11, 14)))
                 .location("보라카이")
@@ -96,8 +92,6 @@ public class TestDataInit {
                 .title("제주도에서 즐거운 시간을 보낼 사람 있을까요")
                 .body("이번 가을 제주도 함께 하실 분 구해봅니다. 혼자라서 여행 경비 부담이 되시는 분 적극 연락해주세요! 3명까지지만 다 차지 않아도 괜찮습니다.")
                 .postsStatus(Posts.PostsStatus.READY)
-                .createdAt(LocalDateTime.of(2022, 9, 17, 12, 0, 0))
-                .modifiedAt(LocalDateTime.now())
                 .travelPeriod(new Period(LocalDate.of(2022, 11, 11),
                         LocalDate.of(2022, 11, 14)))
                 .location("제주도")
@@ -112,8 +106,6 @@ public class TestDataInit {
                 .title("미국 샌프란시스코 여행 경비가 부담되어서 함께 다닐 사람 구합니다.")
                 .body("인원은 2명 정도 생각하고 있습니다. 혼자서는 여행 경비가 부담스러워서 함께 다니면서 좋은 인연을 만들 사람이 있으면 좋겠습니다. 연락주세요!")
                 .postsStatus(Posts.PostsStatus.READY)
-                .createdAt(LocalDateTime.of(2022, 9, 17, 12, 0, 0))
-                .modifiedAt(LocalDateTime.now())
                 .travelPeriod(new Period(LocalDate.of(2022, 11, 11),
                         LocalDate.of(2022, 11, 18)))
                 .location("샌프란시스코")

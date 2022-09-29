@@ -1,5 +1,6 @@
 package com.codestates.seb006main.comment.entity;
 
+import com.codestates.seb006main.audit.Auditable;
 import com.codestates.seb006main.feed.entity.Feed;
 import com.codestates.seb006main.members.entity.Member;
 import lombok.AccessLevel;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Comment {
+public class Comment extends Auditable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
     private String body;
@@ -23,17 +24,13 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "feed_id")
     private Feed feed;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
 
     @Builder
-    public Comment(Long commentId, String body, Member member, Feed feed, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public Comment(Long commentId, String body, Member member, Feed feed) {
         this.commentId = commentId;
         this.body = body;
         this.member = member;
         this.feed = feed;
-        this.createdAt = createdAt;
-        this.modifiedAt = modifiedAt;
     }
 
     public void setMember(Member member) {
@@ -46,6 +43,5 @@ public class Comment {
 
     public void updateComment(String body) {
         this.body = body;
-        this.modifiedAt = LocalDateTime.now();
     }
 }

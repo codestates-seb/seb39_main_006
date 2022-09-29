@@ -1,6 +1,7 @@
 package com.codestates.seb006main.posts.entity;
 
 import com.codestates.seb006main.Image.entity.Image;
+import com.codestates.seb006main.audit.Auditable;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
 import com.codestates.seb006main.members.entity.Member;
@@ -20,7 +21,7 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Posts {
+public class Posts extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
@@ -34,8 +35,8 @@ public class Posts {
     private LocalDate closeDate;
     @Enumerated(EnumType.STRING)
     private PostsStatus postsStatus;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+//    private LocalDateTime createdAt;
+//    private LocalDateTime modifiedAt;
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
@@ -53,7 +54,7 @@ public class Posts {
     // TODO: 조회수, 추천수, 즐겨찾기
 
     @Builder
-    public Posts(Long postId, String title, String body, Member member, Period travelPeriod, String location, Integer totalCount, LocalDate closeDate, PostsStatus postsStatus, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public Posts(Long postId, String title, String body, Member member, Period travelPeriod, String location, Integer totalCount, LocalDate closeDate, PostsStatus postsStatus) {
         this.postId = postId;
         this.title = title;
         this.body = body;
@@ -63,8 +64,6 @@ public class Posts {
         this.totalCount = totalCount;
         this.closeDate = closeDate;
         this.postsStatus = Objects.requireNonNullElse(postsStatus, PostsStatus.READY);
-        this.createdAt = createdAt;
-        this.modifiedAt = modifiedAt;
     }
 
     public enum PostsStatus {
@@ -93,19 +92,14 @@ public class Posts {
         this.body = body;
         this.totalCount = totalCount;
         this.closeDate = LocalDate.parse(closeDate);
-        this.modifiedAt = LocalDateTime.now();
     }
 
     public void updateTitle(String title) {
         this.title = title;
-        // TODO: 추후 audit 처리 시 제거
-        this.modifiedAt = LocalDateTime.now();
     }
 
     public void updateBody(String body) {
         this.body = body;
-        // TODO: 추후 audit 처리 시 제거
-        this.modifiedAt = LocalDateTime.now();
     }
 
     public void updateTotalCount(Integer totalCount) {
@@ -118,6 +112,10 @@ public class Posts {
 
     public void updateImages() {
 
+    }
+
+    public void inactive() {
+        this.postsStatus = PostsStatus.INACTIVE;
     }
 
     public boolean isFull() {

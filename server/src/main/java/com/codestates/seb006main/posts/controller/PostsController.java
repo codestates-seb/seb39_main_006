@@ -1,6 +1,7 @@
 package com.codestates.seb006main.posts.controller;
 
 import com.codestates.seb006main.dto.MultiResponseDto;
+import com.codestates.seb006main.posts.dto.PostsCond;
 import com.codestates.seb006main.posts.dto.PostsDto;
 import com.codestates.seb006main.posts.service.PostsService;
 import lombok.RequiredArgsConstructor;
@@ -38,9 +39,10 @@ public class PostsController {
     }
 
     @GetMapping
-    public ResponseEntity getAllPosts(@PageableDefault(page = 1, sort = "postId", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity getAllPosts(@PageableDefault(page = 1, sort = "postId", direction = Sort.Direction.DESC) Pageable pageable,
+                                      PostsCond postsCond) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
-        MultiResponseDto responseDto = postsService.readAllPosts(pageRequest);
+        MultiResponseDto responseDto = postsService.readAllPosts(pageRequest, postsCond);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 

@@ -22,17 +22,21 @@ repositories {
 
 dependencies {
     implementation 'mysql:mysql-connector-java'
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    implementation 'org.springframework.boot:spring-boot-starter-quartz'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.cloud:spring-cloud-starter-aws-parameter-store-config:2.2.6.RELEASE'
-//    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
     implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.2'
     implementation 'org.mapstruct:mapstruct:1.5.2.Final'
     implementation 'com.google.code.gson:gson'
+    implementation 'com.querydsl:querydsl-jpa:5.0.0'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
+    annotationProcessor("javax.annotation:javax.annotation-api",
+            "javax.persistence:javax.persistence-api",
+            "com.querydsl:querydsl-apt:5.0.0:jpa")
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
@@ -42,12 +46,7 @@ dependencies {
     implementation 'com.auth0:java-jwt:4.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     testImplementation 'org.springframework.security:spring-security-test'
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-starter-parent:2021.0.3"
-    }
+    testImplementation 'org.springframework.batch:spring-batch-test'
 }
 
 //tasks.named('test') {
