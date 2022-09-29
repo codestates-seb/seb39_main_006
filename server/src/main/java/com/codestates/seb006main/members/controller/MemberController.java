@@ -75,6 +75,12 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/blocked")
+    public ResponseEntity blockedMember(@RequestParam("blocked-member-id") Long blockedMemberId, Authentication authentication){
+        memberService.changeBlocked(blockedMemberId,authentication);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 
 }

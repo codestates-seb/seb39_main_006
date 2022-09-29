@@ -35,8 +35,9 @@ public class Member {
     @OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
     private List<MemberGroup> memberGroups;
     @OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
-    private List<Bookmark> bookmark;
-
+    private List<Bookmark> bookmarks;
+    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
+    private List<Block> blocks;
     public void updateMember(String displayName, String password, String phone, String content, String profileImage, LocalDateTime modifiedAt){
         this.displayName=displayName;
         this.password=password;
