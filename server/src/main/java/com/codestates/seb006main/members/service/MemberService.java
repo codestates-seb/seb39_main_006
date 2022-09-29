@@ -7,11 +7,14 @@ import com.codestates.seb006main.Image.service.ImageService;
 import com.codestates.seb006main.auth.PrincipalDetails;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
+import com.codestates.seb006main.jwt.JwtUtils;
 import com.codestates.seb006main.mail.service.EmailSender;
 import com.codestates.seb006main.members.dto.MemberDto;
+import com.codestates.seb006main.members.entity.Block;
 import com.codestates.seb006main.members.entity.Bookmark;
 import com.codestates.seb006main.members.entity.Member;
 import com.codestates.seb006main.members.mapper.MemberMapper;
+import com.codestates.seb006main.members.repository.BlockRepository;
 import com.codestates.seb006main.members.repository.BookmarkRepository;
 import com.codestates.seb006main.members.repository.MemberRepository;
 import com.codestates.seb006main.posts.entity.Posts;
@@ -41,12 +44,22 @@ public class MemberService {
     private final String S3Bucket = "seb-main-006/img";
     private final BookmarkRepository bookmarkRepository;
     private final PostsRepository postsRepository;
+    private final JwtUtils jwtUtils;
+    private final BlockRepository blockRepository;
 
     public MemberDto.Response loginMember(Authentication authentication){
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Member loginMember = memberRepository.findByEmail(principalDetails.getMember().getEmail())
                 .orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         return memberMapper.memberToMemberResponse(loginMember);
+    }
+
+    public MemberDto.OAuthResponse oauthLoginMember(Long memberId, String email){
+        Member loginMember = memberRepository.findByEmail(email)
+                .orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        MemberDto.OAuthResponse oAuthResponse = memberMapper.memberToMemberOAuthResponse(loginMember);
+        oAuthResponse.addToken(jwtUtils.createAccessToken(memberId,email),jwtUtils.createRefreshToken(memberId,email));
+        return oAuthResponse;
     }
 
     public MemberDto.Response joinMember(MemberDto.Post post){
@@ -110,6 +123,17 @@ public class MemberService {
             bookmarkRepository.delete(bookmark.orElseThrow(()->new BusinessLogicException(ExceptionCode.BOOKMARK_NOT_FOUND)));
         }else{
             bookmarkRepository.save(Bookmark.builder().member(member).post(post).build());
+        }
+    }
+
+    public void changeBlocked(Long blockedMemberId, Authentication authentication){
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        Member member = principalDetails.getMember();
+        Optional<Block> block = blockRepository.findByMemberAndBlockedMemberId(member,blockedMemberId);
+        if(block.isPresent()){
+            blockRepository.delete(block.orElseThrow(()-> new BusinessLogicException(ExceptionCode.BLOCK_NOT_FOUND)));
+        }else{
+            blockRepository.save(Block.builder().member(member).blockedMemberId(blockedMemberId).build());
         }
     }
 

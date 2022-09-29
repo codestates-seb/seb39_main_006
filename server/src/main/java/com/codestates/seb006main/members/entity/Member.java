@@ -37,11 +37,13 @@ public class Member extends Auditable {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<MemberPosts> groups;
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-    private List<Bookmark> bookmark;
+    private List<Bookmark> bookmarks;
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Feed> feeds;
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Comment> comments;
+    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
+    private List<Block> blocks;
 
     public void updateMember(String displayName, String password, String phone, String content, String profileImage, LocalDateTime modifiedAt) {
         this.displayName = displayName;
@@ -50,6 +52,12 @@ public class Member extends Auditable {
         this.content = content;
         this.profileImage = profileImage;
         this.modifiedAt = modifiedAt;
+    }
+
+    public Member updateOAuth(String displayName, String profileImage){
+        this.displayName=displayName;
+        this.profileImage=profileImage;
+        return this;
     }
 
     @Builder

@@ -92,6 +92,42 @@ public class MemberDto {
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class OAuthResponse{
+        private Long memberId;
+        private String email;
+        private String displayName;
+        private String phone;
+        private String content;
+        private Member.MemberStatus memberStatus;
+        private String profileImage;
+        private Member.Role role;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
+
+        private String access_HH;
+        private String refresh_HH;
+
+        public void addToken(String access_HH, String refresh_HH){
+            this.access_HH=access_HH;
+            this.refresh_HH=refresh_HH;
+        }
+        @Builder
+        public OAuthResponse(Long memberId, String email, String displayName, String phone, String content, Member.MemberStatus memberStatus, String profileImage, Member.Role role, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+            this.memberId = memberId;
+            this.email = email;
+            this.displayName = displayName;
+            this.phone = phone;
+            this.content = content;
+            this.memberStatus = memberStatus;
+            this.profileImage = profileImage;
+            this.role = role;
+            this.createdAt = createdAt;
+            this.modifiedAt = modifiedAt;
+            }
+    }
+    
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Participants {
         private Long memberId;
         private String displayName;
