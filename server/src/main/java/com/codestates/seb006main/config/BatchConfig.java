@@ -30,7 +30,7 @@ public class BatchConfig {
     private final MemberRepository memberRepository;
     private final PostsRepository postsRepository;
     private final ImageService imageService;
-    LocalDateTime aHourAgo = LocalDateTime.now().minusHours(1);
+    LocalDateTime aHourAgo = LocalDateTime.now().minusMinutes(1);
 
     // TODO: 대용량 데이터 처리, chunkSize 조정이 필요하다. 그건 어떻게 할까? 너는 알고 있다. 구현하지 않았을 뿐.
 
