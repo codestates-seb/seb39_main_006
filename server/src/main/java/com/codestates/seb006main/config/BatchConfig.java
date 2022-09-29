@@ -48,7 +48,7 @@ public class BatchConfig {
         return stepBuilderFactory.get("deleteUnusedImage")
                 .tasklet((contribution, chunkContext) -> {
                     // TODO: queryDsl로 고치면 조건문 하나 삭제 가능
-                    List<Image> unusedImages = imageRepository.findByUploadedAtLessThan(aHourAgo);
+                    List<Image> unusedImages = imageRepository.findByUploadedAtBefore(aHourAgo);
                     if (unusedImages.size() > 0) {
                         for (Image image : unusedImages) {
                             if (image.getPosts() == null && image.getFeed() == null && image.getMember() == null) {

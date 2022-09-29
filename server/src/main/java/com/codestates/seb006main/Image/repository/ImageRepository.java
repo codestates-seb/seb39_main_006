@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface ImageRepository extends JpaRepository<Image, Long> {
     Optional<Image> findByStoredPath(String storedPath);
     List<Image> findByUploadedAtLessThan(LocalDateTime uploadedAt);
+    List<Image> findByUploadedAtBefore(LocalDateTime uploadedAt);
 }
