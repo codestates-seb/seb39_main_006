@@ -384,7 +384,7 @@ public class PostsControllerTest {
                 List.of(responseDto2, responseDto1), postsPage);
 
         //mock
-        given(postsService.readAllPosts((Mockito.any()), postsCond)).willReturn(responseDto);
+        given(postsService.readAllPosts(Mockito.any(), Mockito.any())).willReturn(responseDto);
 
         //when
         ResultActions actions = mockMvc.perform(
@@ -409,8 +409,16 @@ public class PostsControllerTest {
                                 List.of(
                                         parameterWithName("page").description("Page 번호 (기본값 : 1)"),
                                         parameterWithName("size").description("Page 크기 (기본값 : 10)"),
-                                        parameterWithName("_csrf").description("csrf").ignored()
-
+                                        parameterWithName("_csrf").description("csrf").ignored(),
+                                        parameterWithName("title").description("제목 검색 키워드").optional(),
+                                        parameterWithName("body").description("내용 검색 키워드").optional(),
+                                        parameterWithName("location").description("지역 검색 키워드").optional(),
+                                        parameterWithName("startDate").description("여행 시작 날짜 검색 키워드 (YYYY-MM-DD)").optional(),
+                                        parameterWithName("endDate").description("여행 종료 날짜 검색 키워드 (YYYY-MM-DD)").optional(),
+                                        parameterWithName("sort").description("정렬 키워드" +
+                                                "(postId: 최신순/ startDate: 여행 시작 날짜순/ endDate: 여행 종료 날짜순/ " +
+                                                "closeDate: 모집 종료 날짜순/ totalCount: 모집 인원순/ limited: 남은 인원순").optional(),
+                                        parameterWithName("filters").description("필터 키워드(Recruiting: 모집중)").optional()
                                 )
                         ),
                         responseFields(

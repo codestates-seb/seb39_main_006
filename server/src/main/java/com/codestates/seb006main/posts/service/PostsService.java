@@ -88,7 +88,6 @@ public class PostsService {
     }
 
     public void deletePosts(Long postId, Authentication authentication) {
-        // TODO: 삭제 대신 게시물을 비활성화 시킨다. 일정 시간이 지나면 삭제를 하도록 처리.
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Posts posts = postsRepository.findById(postId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
