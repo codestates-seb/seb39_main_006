@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * TODO: 일정 기간 사용되지 않는 이미지는 삭제 (batch)
@@ -25,6 +26,7 @@ public class Image {
     private String storedName;
     private String storedPath;
     private Long fileSize;
+    private LocalDateTime uploadedAt;
     @OneToOne
     @JoinColumn(name = "member_id")
     private Member member;
@@ -37,7 +39,7 @@ public class Image {
     private Feed feed;
 
     @Builder
-    public Image(Long imageId, String originName, String storedName, String storedPath, Long fileSize, Posts posts, Feed feed) {
+    public Image(Long imageId, String originName, String storedName, String storedPath, Long fileSize, Posts posts, Feed feed, LocalDateTime uploadedAt) {
         this.imageId = imageId;
         this.originName = originName;
         this.storedName = storedName;
@@ -46,6 +48,7 @@ public class Image {
         // TODO: 굳이 생성자에 넣을 필요가 있을까? => 필드를 만들 필요가 있을까? Many 에선 생성만 하고 One에선 조회만 하면 된다.
         this.posts = posts;
         this.feed = feed;
+        this.uploadedAt = uploadedAt;
     }
 
     public void setPosts(Posts posts) {
