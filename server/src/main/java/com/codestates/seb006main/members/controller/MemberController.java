@@ -75,6 +75,11 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/my-bookmark")
+    public ResponseEntity myBookmark(Authentication authentication){
+        return new ResponseEntity<>(memberService.findMyBookmark(authentication),HttpStatus.OK);
+    }
+
     @GetMapping("/blocked")
     public ResponseEntity blockedMember(@RequestParam("blocked-member-id") Long blockedMemberId, Authentication authentication){
         memberService.changeBlocked(blockedMemberId,authentication);
