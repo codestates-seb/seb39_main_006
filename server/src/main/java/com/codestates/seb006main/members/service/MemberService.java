@@ -9,6 +9,7 @@ import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
 import com.codestates.seb006main.jwt.JwtUtils;
 import com.codestates.seb006main.mail.service.EmailSender;
+import com.codestates.seb006main.members.dto.BookmarkDto;
 import com.codestates.seb006main.members.dto.MemberDto;
 import com.codestates.seb006main.members.entity.Block;
 import com.codestates.seb006main.members.entity.Bookmark;
@@ -28,6 +29,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -137,6 +140,11 @@ public class MemberService {
         }
     }
 
+    public List<BookmarkDto.Response> findMyBookmark(Authentication authentication){
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        Member member = principalDetails.getMember();
+        return memberMapper.bookmarksToResponses(bookmarkRepository.findByMember(member));
+    }
     private void verifyExistMemberWithEmail(String email){
         Optional<Member> checkMember =  memberRepository.findByEmail(email);
         if(checkMember.isPresent()) throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
