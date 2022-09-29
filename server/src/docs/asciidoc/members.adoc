@@ -119,7 +119,7 @@ include::{snippets}/delete-member/http-request.adoc[]
 .http-response
 include::{snippets}/delete-member/http-response.adoc[]
 
-=== 북마크
+=== 북마크 등록/삭제
 .curl-request
 include::{snippets}/get-bookmark/curl-request.adoc[]
 
@@ -128,3 +128,16 @@ include::{snippets}/get-bookmark/http-request.adoc[]
 
 .http-response
 include::{snippets}/get-bookmark/http-response.adoc[]
+
+=== 내 북마크
+.curl-request
+include::{snippets}/get-my-bookmarks/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-my-bookmarks/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-my-bookmarks/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-my-bookmarks/response-fields.adoc[]
