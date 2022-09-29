@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Header from "./components/Header";
+import MainPage from "./pages/mainpage/MainPage";
+import Auth from "./components/Auth";
+import PostDetail from "./pages/postpage/PostDetail";
+import EditPost from "./pages/postpage/EditPost";
+import NewPost from "./pages/postpage/NewPost";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header />
+      <Routes>
+        {!sessionStorage.getItem("isLogin") ? (
+          <Route path="/" element={<Auth />}></Route>
+        ) : (
+          <>
+            <Route path="/auth" element={<MainPage />}></Route>
+            <Route path="/:id" element={<PostDetail />}></Route>
+            <Route path="/edit/:id" element={<EditPost />}></Route>
+            <Route path="/new" element={<NewPost />}></Route>
+          </>
+        )}
+      </Routes>
     </div>
   );
 }
