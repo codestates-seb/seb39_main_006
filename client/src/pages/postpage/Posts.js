@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import Post from "./Post";
 
 const Posts = () => {
@@ -10,14 +11,19 @@ const Posts = () => {
     });
   }, []);
   return (
-    <div>
+    <Container>
       {data.map((post) => (
         <div key={post.postId}>
           <Post post={post} />
         </div>
       ))}
-    </div>
+    </Container>
   );
 };
 
 export default Posts;
+
+const Container = styled.div`
+  border: 1px solid black;
+  flex-grow: 1;
+`;

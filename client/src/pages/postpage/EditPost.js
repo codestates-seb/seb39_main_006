@@ -22,6 +22,11 @@ const EditPost = () => {
 
   const navigate = useNavigate();
 
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const date = today.getDate();
+
   useEffect(() => {
     axios(`https://seb-006.shop/api/posts/${id}`).then((res) => {
       setEditData(res.data);
@@ -97,6 +102,7 @@ const EditPost = () => {
           onChange={(e) => {
             setCloseDate(e.target.value);
           }}
+          min={`${year}-${("0" + month).slice(-2)}-${date}`}
         />
         <span> 까지</span>
       </div>
