@@ -79,9 +79,6 @@ include::{snippets}/patch-member/curl-request.adoc[]
 .http-request
 include::{snippets}/patch-member/http-request.adoc[]
 
-.path-parameters
-include::{snippets}/patch-member/path-parameters.adoc[]
-
 .request-fields
 include::{snippets}/patch-member/request-fields.adoc[]
 

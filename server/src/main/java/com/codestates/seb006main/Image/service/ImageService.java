@@ -6,15 +6,22 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.codestates.seb006main.Image.entity.Image;
 import com.codestates.seb006main.Image.repository.ImageRepository;
+import com.codestates.seb006main.exception.BusinessLogicException;
+import com.codestates.seb006main.exception.ExceptionCode;
 import com.codestates.seb006main.util.FileHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -22,9 +29,12 @@ public class ImageService {
     private final ImageRepository imageRepository;
     private final FileHandler fileHandler;
     final AmazonS3Client amazonS3Client;
-    private final String S3Bucket = "seb-main-006";
+    @Value("${cloud.aws.s3.bucket}")
+    private String S3Bucket;
+    @Value("${cloud.aws.s3.alter-domain}")
+    private String domain;
 
-    public Map<String, String> uploadImage(MultipartFile image) throws IOException {
+    public Map<String, Object> uploadImage(MultipartFile image) throws IOException {
         String originName = image.getOriginalFilename();
         String storedName = fileHandler.storeFile(image);
 
@@ -37,22 +47,28 @@ public class ImageService {
                         .withCannedAcl(CannedAccessControlList.PublicRead)
         );
 
-        String imagePath = amazonS3Client.getUrl(S3Bucket, storedName).toString();
+//        String imagePath = amazonS3Client.getUrl(S3Bucket, storedName).toString();
+//        String imagePath = "https://" + S3Bucket + "/" + storedName;
+        String imagePath = "https://" + domain + "/" + storedName;
 
-        Image saveImage = Image.builder()
+        Image saveImage = imageRepository.save(Image.builder()
                 .originName(originName)
                 .storedName(storedName)
                 .storedPath(imagePath)
                 .fileSize(image.getSize())
-                .build();
+                .uploadedAt(LocalDateTime.now())
+                .build());
 
-//        image.setPosts(posts);
-        imageRepository.save(saveImage);
-//        posts.addImage(image);
-
-        return new HashMap<String, String>() {{
+        return new HashMap<String, Object>() {{
+            put("imageId" , saveImage.getImageId());
             put("imageUrl", imagePath);
         }};
+    }
+
+    public void deleteImage(Long imageId) {
+        Image image = imageRepository.findById(imageId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
+        amazonS3Client.deleteObject(S3Bucket, image.getStoredPath().substring(image.getStoredPath().lastIndexOf("/")+1));
+        imageRepository.deleteById(imageId);
     }
 
     public void saveImage(MultipartFile image) throws IOException {
@@ -77,9 +93,7 @@ public class ImageService {
                 .fileSize(image.getSize())
                 .build();
 
-//            image.setPosts(posts);
         imageRepository.save(newImage);
-//            posts.addImage(image);
     }
 
     public void saveImages(List<MultipartFile> images) throws IOException {
@@ -105,9 +119,7 @@ public class ImageService {
                     .fileSize(img.getSize())
                     .build();
 
-//            image.setPosts(posts);
             imageRepository.save(image);
-//            posts.addImage(image);
         }
     }
 }

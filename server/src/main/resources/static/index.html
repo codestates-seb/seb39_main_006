@@ -450,9 +450,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_회원_가입">1.1. 회원 가입</a></li>
 <li><a href="#_이메일_인증">1.2. 이메일 인증</a></li>
 <li><a href="#_닉네임_중복_확인">1.3. 닉네임 중복 확인</a></li>
-<li><a href="#_회원_정보_수정">1.4. 회원 정보 수정</a></li>
-<li><a href="#_회원_정보_조회">1.5. 회원 정보 조회</a></li>
-<li><a href="#_회원_삭제">1.6. 회원 삭제</a></li>
+<li><a href="#_로그인">1.4. 로그인</a></li>
+<li><a href="#_회원_정보_수정">1.5. 회원 정보 수정</a></li>
+<li><a href="#_회원_정보_조회">1.6. 회원 정보 조회</a></li>
+<li><a href="#_회원_삭제">1.7. 회원 삭제</a></li>
+<li><a href="#_북마크">1.8. 북마크</a></li>
 </ul>
 </li>
 <li><a href="#_postscontroller">2. PostsController</a>
@@ -464,6 +466,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_게시글_삭제">2.5. 게시글 삭제</a></li>
 </ul>
 </li>
+<li><a href="#_imagecontroller">3. ImageController</a>
+<ul class="sectlevel2">
+<li><a href="#_이미지_등록">3.1. 이미지 등록</a></li>
+<li><a href="#_이미지_삭제">3.2. 이미지 삭제</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -471,12 +479,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>김기홍 &lt;<a href="mailto:rlghd153@gmail.com">rlghd153@gmail.com</a>&gt;
-정윤조 &lt;<a href="mailto:jyjgom@gmail.com">jyjgom@gmail.com</a>&gt;</p>
+<p>김기홍 &lt;<a href="mailto:rlghd153@gmail.com">rlghd153@gmail.com</a>&gt;</p>
 </div>
 <div class="paragraph">
 <p>만든 날짜 : 2022.09.17
-마지막으로 수정한 날짜 : 2022.09.17</p>
+마지막으로 수정한 날짜 : 2022.09.23</p>
 </div>
 </div>
 </div>
@@ -488,7 +495,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /api/members HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /api/members?_csrf=b320b599-dfd7-4417-b86a-9ecf8f514832 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 90
@@ -538,6 +545,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 201 Created
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 Content-Length: 272
 
 {
@@ -549,7 +562,7 @@ Content-Length: 272
   "memberStatus" : "ACTIVE",
   "profileImage" : "",
   "role" : "ROLE_MEMBER",
-  "createdAt" : "2022-09-21T16:26:18.0236392",
+  "createdAt" : "2022-09-24T00:22:08.4298088",
   "modifiedAt" : null
 }</code></pre>
 </div>
@@ -657,6 +670,12 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 Content-Length: 25
 
 {
@@ -712,8 +731,65 @@ Host: localhost:8080</code></pre>
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>display_name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">닉네임</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">http-response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_로그인">1.4. 로그인</h3>
+<div class="listingblock">
+<div class="title">http-request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /api/members/login?_csrf=717f4edc-50c7-4ab1-8c88-ee38ec3cb10f HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Content-Length: 61
+Host: localhost:8080
+
+{
+  "email" : "rlghd@gmail.com",
+  "password" : "123456"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. request-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비밀번호</p></td>
 </tr>
 </tbody>
 </table>
@@ -722,20 +798,102 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 25
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 272
 
 {
-  "code" : "123456"
+  "memberId" : 1,
+  "email" : "rlghd@gmail.com",
+  "displayName" : "kihong",
+  "phone" : "",
+  "content" : "",
+  "memberStatus" : "ACTIVE",
+  "profileImage" : "",
+  "role" : "ROLE_MEMBER",
+  "createdAt" : "2022-09-24T00:22:08.4058073",
+  "modifiedAt" : null
 }</code></pre>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. response-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>displayName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>phone</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전화번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소개</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberStatus</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 상태</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createdAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">계정 생성일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>modifiedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">계정 수정일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로필 이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>role</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원권한</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
-<h3 id="_회원_정보_수정">1.4. 회원 정보 수정</h3>
+<h3 id="_회원_정보_수정">1.5. 회원 정보 수정</h3>
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">PATCH /api/members/1 HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">PATCH /api/members/?_csrf=0a89f052-3a21-48db-a2eb-6556467581d6 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 129
@@ -751,26 +909,7 @@ Host: localhost:8080
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. /api/members/{member-id}</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>member-id</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원 식별자</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. request-fields</caption>
+<caption class="title">Table 8. request-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -816,6 +955,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 Content-Length: 308
 
 {
@@ -827,13 +972,13 @@ Content-Length: 308
   "memberStatus" : "ACTIVE",
   "profileImage" : "",
   "role" : "ROLE_MEMBER",
-  "createdAt" : "2022-09-21T16:26:17.4806402",
-  "modifiedAt" : "2022-09-21T16:26:17.4806402"
+  "createdAt" : "2022-09-24T00:22:08.2418071",
+  "modifiedAt" : "2022-09-24T00:22:08.2418071"
 }</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. response-fields</caption>
+<caption class="title">Table 9. response-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -901,18 +1046,18 @@ Content-Length: 308
 </table>
 </div>
 <div class="sect2">
-<h3 id="_회원_정보_조회">1.5. 회원 정보 조회</h3>
+<h3 id="_회원_정보_조회">1.6. 회원 정보 조회</h3>
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /api/members/1 HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /api/members/1?_csrf=c4d74c0f-0376-4ea7-8d48-c93fce064d56 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. /api/members/{member-id}</caption>
+<caption class="title">Table 10. /api/members/{member-id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -935,6 +1080,12 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 Content-Length: 308
 
 {
@@ -946,13 +1097,13 @@ Content-Length: 308
   "memberStatus" : "ACTIVE",
   "profileImage" : "",
   "role" : "ROLE_MEMBER",
-  "createdAt" : "2022-09-21T16:26:17.9016366",
-  "modifiedAt" : "2022-09-21T16:26:17.9016366"
+  "createdAt" : "2022-09-24T00:22:08.3358111",
+  "modifiedAt" : "2022-09-24T00:22:08.3358111"
 }</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 10. response-fields</caption>
+<caption class="title">Table 11. response-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -1020,39 +1171,55 @@ Content-Length: 308
 </table>
 </div>
 <div class="sect2">
-<h3 id="_회원_삭제">1.6. 회원 삭제</h3>
+<h3 id="_회원_삭제">1.7. 회원 삭제</h3>
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /api/members/1 HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /api/members?_csrf=896a99ea-456e-485d-99cc-020a2d69fee2 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Content-Length: 30
+Host: localhost:8080
+
+{
+  "password" : "1234566"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">http-response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 204 No Content
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_북마크">1.8. 북마크</h3>
+<div class="listingblock">
+<div class="title">http-request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /api/members/bookmark?postId=1&amp;_csrf=fbade6ed-2125-48cd-8a21-1a878ff5986a HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 11. /api/members/{member-id}</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>member-id</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">아이디</p></td>
-</tr>
-</tbody>
-</table>
 <div class="listingblock">
 <div class="title">http-response</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 204 No Content</code></pre>
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
@@ -1066,22 +1233,21 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /api/posts HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /api/posts?_csrf=c8152ae5-7a1d-44e8-8acf-04aaf0c41b1e HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 342
+Content-Length: 332
 Host: localhost:8080
 
 {
   "title" : "사이판 여행 모집",
   "body" : "사이판으로 여행가실 여자분 2명 구합니다. 여자 혼자 가기 너무 심심하네요. 호호호.",
-  "group" : {
-    "startDate" : "2022-11-11",
-    "endDate" : "2022-11-14",
-    "location" : "사이판",
-    "headcount" : 2,
-    "closeDate" : "2022-10-12"
-  }
+  "startDate" : "2022-11-11",
+  "endDate" : "2022-11-14",
+  "location" : "사이판",
+  "totalCount" : 3,
+  "closeDate" : "2022-10-12",
+  "images" : [ ]
 }</code></pre>
 </div>
 </div>
@@ -1111,34 +1277,34 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시글 내용</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">관련 모집 정보</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.startDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>startDate</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">여행 시작 날짜</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 시작 날짜("YYYY-MM-DD")</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.endDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>endDate</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">여행 종료 날짜</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 종료 날짜("YYYY-MM-DD")</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.location</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>location</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">여행 지역</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.headcount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalCount</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">모집 인원</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.closeDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>closeDate</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모집 종료 날짜</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 종료 날짜("YYYY-MM-DD")</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>images</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 ID 리스트</p></td>
 </tr>
 </tbody>
 </table>
@@ -1147,24 +1313,35 @@ Host: localhost:8080
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 201 Created
 Content-Type: application/json
-Content-Length: 515
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 653
 
 {
   "postId" : 1,
   "title" : "사이판 여행 모집",
   "body" : "사이판으로 여행가실 여자분 2명 구합니다. 여자 혼자 가기 너무 심심하네요. 호호호.",
-  "postsStatus" : "ACTIVE",
-  "createdAt" : "2022-09-21T16:26:19.1826335",
-  "modifiedAt" : null,
-  "group" : {
-    "groupId" : 1,
-    "startDate" : "2022-11-11",
-    "endDate" : "2022-11-14",
-    "location" : "사이판",
-    "headcount" : 2,
-    "groupStatus" : "RECRUITING",
-    "closeDate" : "2022-10-12"
-  }
+  "leaderId" : 1,
+  "leaderName" : "테스트",
+  "startDate" : "2022-11-11",
+  "endDate" : "2022-11-14",
+  "location" : "사이판",
+  "totalCount" : 3,
+  "participants" : [ {
+    "memberId" : 1,
+    "displayName" : "테스트",
+    "content" : "자기소개",
+    "profileImage" : ""
+  } ],
+  "participantsCount" : 1,
+  "closeDate" : "2022-10-12",
+  "postsStatus" : "READY",
+  "createdAt" : "2022-09-24T00:22:09.1588084",
+  "modifiedAt" : null
 }</code></pre>
 </div>
 </div>
@@ -1199,9 +1376,74 @@ Content-Length: 515
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시글 내용</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>leaderId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자/ 그룹장 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>leaderName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자/ 그룹장 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>startDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 시작 날짜("YYYY-MM-DD")</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>endDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 종료 날짜("YYYY-MM-DD")</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>location</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 지역</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 인원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>participants</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>participants[].memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>participants[].displayName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>participants[].profileImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 프로필 이미지 경로</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>participants[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 자기소개</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>participantsCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>closeDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 종료 날짜("YYYY-MM-DD")</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>postsStatus</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 상태</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 상태 (INACTIVE: 비활성화 / READY: 모집 예정 / RECRUITING: 모집 중 / COMPLETED: 모집 완료)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>createdAt</code></p></td>
@@ -1213,46 +1455,6 @@ Content-Length: 515
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">마지막으로 수정한 날짜</p></td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">관련 모집 정보</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.groupId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">관련 모집 정보</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.startDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">여행 시작 날짜</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.endDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">여행 종료 날짜</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.location</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">여행 지역</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.headcount</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모집 인원</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.groupStatus</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모집 상태</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.closeDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모집 종료 날짜</p></td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -1261,19 +1463,18 @@ Content-Length: 515
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">PATCH /api/posts/1 HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">PATCH /api/posts/1?_csrf=34f87b62-5562-48eb-8e59-aab76fe4fde3 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 322
+Content-Length: 295
 Host: localhost:8080
 
 {
   "title" : "(급합니다) 사이판 여행 모집 구해봐요",
-  "body" : "일정이 촉박해 빠르게 구해봅니다. 사이판으로 여행가실 여자분 2명 구합니다. 여자 혼자 가기 너무 심심하네요. 흑흑흑.",
-  "group" : {
-    "headcount" : 2,
-    "closeDate" : "2022-10-12"
-  }
+  "body" : "일정이 촉박해 빠르게 사이판으로 함께 갈 1명만 구해봅니다. 여자 혼자 가기 너무 심심하네요. 흑흑흑.",
+  "totalCount" : 2,
+  "closeDate" : "2022-10-12",
+  "images" : [ ]
 }</code></pre>
 </div>
 </div>
@@ -1322,19 +1523,19 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시글 내용</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">관련 모집 정보</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.headcount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalCount</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">모집 인원</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.closeDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>closeDate</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모집 종료 날짜</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 종료 날짜("YYYY-MM-DD")</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>images</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 ID 목록</p></td>
 </tr>
 </tbody>
 </table>
@@ -1343,24 +1544,35 @@ Host: localhost:8080
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 607
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 722
 
 {
   "postId" : 1,
   "title" : "(급합니다) 사이판 여행 모집 구해봐요",
-  "body" : "일정이 촉박해 빠르게 구해봅니다. 사이판으로 여행가실 여자분 2명 구합니다. 여자 혼자 가기 너무 심심하네요. 흑흑흑.",
-  "postsStatus" : "ACTIVE",
+  "body" : "일정이 촉박해 빠르게 사이판으로 함께 갈 1명만 구해봅니다. 여자 혼자 가기 너무 심심하네요. 흑흑흑.",
+  "leaderId" : 1,
+  "leaderName" : "테스트",
+  "startDate" : "2022-11-11",
+  "endDate" : "2022-11-14",
+  "location" : "사이판",
+  "totalCount" : 2,
+  "participants" : [ {
+    "memberId" : 1,
+    "displayName" : "테스트",
+    "content" : "자기소개",
+    "profileImage" : ""
+  } ],
+  "participantsCount" : 1,
+  "closeDate" : "2022-10-12",
+  "postsStatus" : "READY",
   "createdAt" : "2022-09-17T12:00:00",
-  "modifiedAt" : "2022-09-21T16:26:19.2176348",
-  "group" : {
-    "groupId" : 1,
-    "startDate" : "2022-11-11",
-    "endDate" : "2022-11-14",
-    "location" : "사이판",
-    "headcount" : 2,
-    "groupStatus" : "RECRUITING",
-    "closeDate" : "2022-10-12"
-  }
+  "modifiedAt" : "2022-09-24T00:22:09.1878067"
 }</code></pre>
 </div>
 </div>
@@ -1395,9 +1607,74 @@ Content-Length: 607
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시글 내용</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>leaderId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자/ 그룹장 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>leaderName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자/ 그룹장 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>startDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 시작 날짜("YYYY-MM-DD")</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>endDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 종료 날짜("YYYY-MM-DD")</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>location</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 지역</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 인원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>participants</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>participants[].memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>participants[].displayName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>participants[].profileImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 프로필 이미지 경로</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>participants[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 자기소개</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>participantsCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>closeDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 종료 날짜("YYYY-MM-DD")</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>postsStatus</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 상태</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 상태 (INACTIVE: 비활성화 / READY: 모집 예정 / RECRUITING: 모집 중 / COMPLETED: 모집 완료)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>createdAt</code></p></td>
@@ -1409,46 +1686,6 @@ Content-Length: 607
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">마지막으로 수정한 날짜</p></td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">관련 모집 정보</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.groupId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">관련 모집 정보</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.startDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">여행 시작 날짜</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.endDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">여행 종료 날짜</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.location</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">여행 지역</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.headcount</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모집 인원</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.groupStatus</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모집 상태</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.closeDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모집 종료 날짜</p></td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -1457,7 +1694,7 @@ Content-Length: 607
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /api/posts/1 HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /api/posts/1?_csrf=7be7d356-77a1-4b38-beda-495e85ad0f2a HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Host: localhost:8080</code></pre>
@@ -1487,24 +1724,35 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 607
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 669
 
 {
   "postId" : 1,
-  "title" : "(급합니다) 사이판 여행 모집 구해봐요",
-  "body" : "일정이 촉박해 빠르게 구해봅니다. 사이판으로 여행가실 여자분 2명 구합니다. 여자 혼자 가기 너무 심심하네요. 흑흑흑.",
-  "postsStatus" : "ACTIVE",
+  "title" : "사이판 여행 모집",
+  "body" : "사이판으로 여행가실 여자분 2명 구합니다. 여자 혼자 가기 너무 심심하네요. 호호호.",
+  "leaderId" : 1,
+  "leaderName" : "테스트",
+  "startDate" : "2022-11-11",
+  "endDate" : "2022-11-14",
+  "location" : "사이판",
+  "totalCount" : 3,
+  "participants" : [ {
+    "memberId" : 1,
+    "displayName" : "테스트",
+    "content" : "자기소개",
+    "profileImage" : ""
+  } ],
+  "participantsCount" : 1,
+  "closeDate" : "2022-10-12",
+  "postsStatus" : "READY",
   "createdAt" : "2022-09-17T12:00:00",
-  "modifiedAt" : "2022-09-21T16:26:19.2506397",
-  "group" : {
-    "groupId" : 1,
-    "startDate" : "2022-11-11",
-    "endDate" : "2022-11-14",
-    "location" : "사이판",
-    "headcount" : 2,
-    "groupStatus" : "RECRUITING",
-    "closeDate" : "2022-10-12"
-  }
+  "modifiedAt" : "2022-09-24T00:22:09.217809"
 }</code></pre>
 </div>
 </div>
@@ -1539,9 +1787,74 @@ Content-Length: 607
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시글 내용</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>leaderId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자/ 그룹장 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>leaderName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자/ 그룹장 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>startDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 시작 날짜("YYYY-MM-DD")</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>endDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 종료 날짜("YYYY-MM-DD")</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>location</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 지역</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 인원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>participants</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>participants[].memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>participants[].displayName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>participants[].profileImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 프로필 이미지 경로</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>participants[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 자기소개</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>participantsCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>closeDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 종료 날짜("YYYY-MM-DD")</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>postsStatus</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 상태</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 상태 (INACTIVE: 비활성화 / READY: 모집 예정 / RECRUITING: 모집 중 / COMPLETED: 모집 완료)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>createdAt</code></p></td>
@@ -1553,46 +1866,6 @@ Content-Length: 607
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">마지막으로 수정한 날짜</p></td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">관련 모집 정보</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.groupId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">관련 모집 정보</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.startDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">여행 시작 날짜</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.endDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">여행 종료 날짜</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.location</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">여행 지역</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.headcount</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모집 인원</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.groupStatus</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모집 상태</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group.closeDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모집 종료 날짜</p></td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -1601,7 +1874,7 @@ Content-Length: 607
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /api/posts?page=1&amp;size=10 HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /api/posts?page=1&amp;size=10&amp;_csrf=29759016-2c24-40cc-9057-46c381fc0de7 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Host: localhost:8080</code></pre>
@@ -1635,41 +1908,57 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 1353
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 1578
 
 {
   "data" : [ {
     "postId" : 2,
     "title" : "보라카이 혼자 가시는 분 같이 가요",
     "body" : "보라카이로 여행가시는 남자분 1명 구합니다. 남자 혼자 가기 외롭네요. 허허허.",
-    "postsStatus" : "ACTIVE",
+    "leaderId" : 2,
+    "leaderName" : "테스트2",
+    "startDate" : "2022-11-11",
+    "endDate" : "2022-11-14",
+    "location" : "보라카이",
+    "totalCount" : 2,
+    "participants" : [ {
+      "memberId" : 2,
+      "displayName" : "테스트2",
+      "content" : "자기소개",
+      "profileImage" : ""
+    } ],
+    "participantsCount" : 1,
+    "closeDate" : "2022-10-12",
+    "postsStatus" : "READY",
     "createdAt" : "2022-09-17T12:00:00",
-    "modifiedAt" : "2022-09-21T16:26:19.1266353",
-    "group" : {
-      "groupId" : 2,
-      "startDate" : "2022-11-11",
-      "endDate" : "2022-11-14",
-      "location" : "보라카이",
-      "headcount" : 2,
-      "groupStatus" : "RECRUITING",
-      "closeDate" : "2022-10-12"
-    }
+    "modifiedAt" : "2022-09-24T00:22:09.1108066"
   }, {
     "postId" : 1,
-    "title" : "(급합니다) 사이판 여행 모집 구해봐요",
-    "body" : "일정이 촉박해 빠르게 구해봅니다. 사이판으로 여행가실 여자분 2명 구합니다. 여자 혼자 가기 너무 심심하네요. 흑흑흑.",
-    "postsStatus" : "ACTIVE",
+    "title" : "사이판 여행 모집",
+    "body" : "사이판으로 여행가실 여자분 2명 구합니다. 여자 혼자 가기 너무 심심하네요. 호호호.",
+    "leaderId" : 1,
+    "leaderName" : "테스트1",
+    "startDate" : "2022-11-11",
+    "endDate" : "2022-11-14",
+    "location" : "사이판",
+    "totalCount" : 3,
+    "participants" : [ {
+      "memberId" : 1,
+      "displayName" : "테스트1",
+      "content" : "자기소개",
+      "profileImage" : ""
+    } ],
+    "participantsCount" : 1,
+    "closeDate" : "2022-10-12",
+    "postsStatus" : "READY",
     "createdAt" : "2022-09-17T12:00:00",
-    "modifiedAt" : "2022-09-21T16:26:19.1256348",
-    "group" : {
-      "groupId" : 1,
-      "startDate" : "2022-11-11",
-      "endDate" : "2022-11-14",
-      "location" : "사이판",
-      "headcount" : 2,
-      "groupStatus" : "RECRUITING",
-      "closeDate" : "2022-10-12"
-    }
+    "modifiedAt" : "2022-09-24T00:22:09.1108066"
   } ],
   "pageInfo" : {
     "page" : 1,
@@ -1716,9 +2005,74 @@ Content-Length: 1353
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시글 내용</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].leaderId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자/ 그룹장 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].leaderName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자/ 그룹장 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].startDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 시작 날짜("YYYY-MM-DD")</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].endDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 종료 날짜("YYYY-MM-DD")</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].location</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 지역</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].totalCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 인원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].participants</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].participants[].memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].participants[].displayName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].participants[].profileImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 프로필 이미지 경로</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].participants[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 자기소개</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].participantsCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여 인원 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].closeDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 종료 날짜("YYYY-MM-DD")</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].postsStatus</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 상태</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 상태 (INACTIVE: 비활성화 / READY: 모집 예정 / RECRUITING: 모집 중 / COMPLETED: 모집 완료)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].createdAt</code></p></td>
@@ -1729,46 +2083,6 @@ Content-Length: 1353
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].modifiedAt</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">마지막으로 수정한 날짜</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].group</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">관련 모집 정보</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].group.groupId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">관련 모집 정보</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].group.startDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">여행 시작 날짜</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].group.endDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">여행 종료 날짜</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].group.location</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">여행 지역</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].group.headcount</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모집 인원</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].group.groupStatus</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모집 상태</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].group.closeDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모집 종료 날짜</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageInfo.page</code></p></td>
@@ -1798,7 +2112,7 @@ Content-Length: 1353
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /api/posts/1 HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /api/posts/1?_csrf=a9be80a4-e4f5-4b01-91fe-2d8ce7aeccc5 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1827,8 +2141,147 @@ Host: localhost:8080</code></pre>
 <pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 204 No Content
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 38
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 
 정상적으로 삭제되었습니다.</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_imagecontroller">3. ImageController</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_이미지_등록">3.1. 이미지 등록</h3>
+<div class="listingblock">
+<div class="title">http-request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /api/images/upload HTTP/1.1
+Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Host: localhost:8080
+
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=_csrf
+
+1550ab29-9f3f-412c-81f4-b23e1ec9539d
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=image; filename=image.png
+Content-Type: image/png
+
+&lt;&lt;png data&gt;&gt;
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm--</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 22. request-parts</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Part</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>image</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 파일</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">http-response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 57
+
+{
+  "imageId" : 1,
+  "imageUrl" : "이미지 경로"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 23. response-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imageId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">업로드한 이미지 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">업로드한 이미지 URL 경로</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_이미지_삭제">3.2. 이미지 삭제</h3>
+<div class="listingblock">
+<div class="title">http-request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /api/images/1?_csrf=cf4e7c6e-57d9-4fa5-b027-582e614ad11d HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 24. /api/images/{image-id}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>image-id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 식별자</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">http-response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
@@ -1838,7 +2291,7 @@ Content-Length: 38
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-09-21 16:20:55 +0900
+Last updated 2022-09-24 00:20:59 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">

@@ -30,7 +30,7 @@ public class EmailConfiguration {
         mailSender.setUsername(username);
         mailSender.setPassword(password);
         Properties properties = mailSender.getJavaMailProperties();
-        properties.put("mail.smtm.auth", auth);
+        properties.put("mail.smtp.auth", auth);
         properties.put("mail.smtp.starttls.enable", tlsEnable);
 
         return mailSender;
