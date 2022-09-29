@@ -29,10 +29,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -140,10 +137,15 @@ public class MemberService {
         }
     }
 
-    public List<BookmarkDto.Response> findMyBookmark(Authentication authentication){
+    public Map<String,List<Long>> findMyBookmark(Authentication authentication){
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Member member = principalDetails.getMember();
-        return memberMapper.bookmarksToResponses(bookmarkRepository.findByMember(member));
+        List<Bookmark> bookmarks = bookmarkRepository.findByMember(member);
+        List<Long> postIds = new ArrayList<>();
+        for (int i = 0; i < bookmarks.size(); i++) {
+            postIds.add(bookmarks.get(i).getPost().getPostId());
+        }
+        return Map.of("postIds",postIds);
     }
     private void verifyExistMemberWithEmail(String email){
         Optional<Member> checkMember =  memberRepository.findByEmail(email);
