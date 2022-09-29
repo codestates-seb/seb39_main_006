@@ -4,12 +4,13 @@ import com.codestates.seb006main.jwt.JwtUtils;
 import com.codestates.seb006main.jwt.filter.JwtAuthenticationFilter;
 import com.codestates.seb006main.jwt.filter.JwtAuthorizationFilter;
 import com.codestates.seb006main.members.repository.MemberRepository;
+import com.codestates.seb006main.oauth.CustomOAuth2SuccessHandler;
+import com.codestates.seb006main.oauth.CustomOAuth2Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
-import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,6 +30,7 @@ public class SecurityConfig {
 
     private final MemberRepository memberRepository;
     private final JwtUtils jwtUtils;
+    private final CustomOAuth2Service customOAuth2Service;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -40,12 +42,16 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .apply(new CustomDsl())
                 .and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.GET,"/api/groups/**").access("hasRole('ROLE_MEMBER')")
-                .antMatchers(HttpMethod.POST,"/api/posts/**","/api/groups/**").access("hasRole('ROLE_MEMBER')")
-                .antMatchers(HttpMethod.PATCH,"/api/posts/**","/api/groups/**","/api/members/**").access("hasRole('ROLE_MEMBER')")
-                .antMatchers(HttpMethod.DELETE,"/api/posts/**","/api/groups/**","/api/members/**").access("hasRole('ROLE_MEMBER')")
-                .anyRequest().permitAll();
+                .authorizeRequests(authorize -> authorize
+                        .antMatchers(HttpMethod.GET,"/api/groups/**").access("hasRole('ROLE_MEMBER')")
+                        .antMatchers(HttpMethod.POST,"/api/posts/**","/api/groups/**").access("hasRole('ROLE_MEMBER')")
+                        .antMatchers(HttpMethod.PATCH,"/api/posts/**","/api/groups/**","/api/members/**").access("hasRole('ROLE_MEMBER')")
+                        .antMatchers(HttpMethod.DELETE,"/api/posts/**","/api/groups/**","/api/members/**").access("hasRole('ROLE_MEMBER')")
+                        .anyRequest().permitAll())
+                .oauth2Login()
+                .successHandler(oAuth2AuthenticationSuccessHandler())
+                .userInfoEndpoint()
+                .userService(customOAuth2Service);
 
         return http.build();
     }
@@ -85,5 +91,8 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
+    @Bean
+    public CustomOAuth2SuccessHandler oAuth2AuthenticationSuccessHandler(){
+        return new CustomOAuth2SuccessHandler(jwtUtils,memberRepository);
+    }
 }

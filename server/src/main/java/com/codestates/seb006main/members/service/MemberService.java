@@ -7,6 +7,7 @@ import com.codestates.seb006main.Image.service.ImageService;
 import com.codestates.seb006main.auth.PrincipalDetails;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
+import com.codestates.seb006main.jwt.JwtUtils;
 import com.codestates.seb006main.mail.service.EmailSender;
 import com.codestates.seb006main.members.dto.MemberDto;
 import com.codestates.seb006main.members.entity.Bookmark;
@@ -41,12 +42,21 @@ public class MemberService {
     private final String S3Bucket = "seb-main-006";
     private final BookmarkRepository bookmarkRepository;
     private final PostsRepository postsRepository;
+    private final JwtUtils jwtUtils;
 
     public MemberDto.Response loginMember(Authentication authentication){
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Member loginMember = memberRepository.findByEmail(principalDetails.getMember().getEmail())
                 .orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         return memberMapper.memberToMemberResponse(loginMember);
+    }
+
+    public MemberDto.OAuthResponse oauthLoginMember(Long memberId, String email){
+        Member loginMember = memberRepository.findByEmail(email)
+                .orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        MemberDto.OAuthResponse oAuthResponse = memberMapper.memberToMemberOAuthResponse(loginMember);
+        oAuthResponse.addToken(jwtUtils.createAccessToken(memberId,email),jwtUtils.createRefreshToken(memberId,email));
+        return oAuthResponse;
     }
 
     public MemberDto.Response joinMember(MemberDto.Post post){

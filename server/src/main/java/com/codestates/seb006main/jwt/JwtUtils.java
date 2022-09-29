@@ -50,4 +50,8 @@ public class JwtUtils {
         Long id = JWT.require(Algorithm.HMAC512(key)).build().verify(token).getClaim("id").asLong();
         return Map.of("email",email,"id",id);
     }
+
+    public String getEmailFromToken(String token){
+        return JWT.decode(token).getClaim("email").asString();
+    }
 }

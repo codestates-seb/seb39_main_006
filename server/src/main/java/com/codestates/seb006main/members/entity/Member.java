@@ -46,6 +46,12 @@ public class Member {
         this.modifiedAt=modifiedAt;
     }
 
+    public Member updateOAuth(String displayName, String profileImage){
+        this.displayName=displayName;
+        this.profileImage=profileImage;
+        return this;
+    }
+
     @Builder
     public Member(Long memberId, String email, String password, String displayName, String phone, String content, String profileImage, MemberStatus memberStatus, Role role, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.memberId = memberId;

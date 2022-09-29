@@ -24,8 +24,6 @@ dependencies {
     implementation 'mysql:mysql-connector-java'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.cloud:spring-cloud-starter-aws-parameter-store-config:2.2.6.RELEASE'
-//    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
     implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.2'
     implementation 'org.mapstruct:mapstruct:1.5.2.Final'
     implementation 'com.google.code.gson:gson'
@@ -42,13 +40,9 @@ dependencies {
     implementation 'com.auth0:java-jwt:4.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     testImplementation 'org.springframework.security:spring-security-test'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-starter-parent:2021.0.3"
-    }
-}
 
 //tasks.named('test') {
 //    useJUnitPlatform()
