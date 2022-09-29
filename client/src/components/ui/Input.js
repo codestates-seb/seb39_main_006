@@ -28,6 +28,11 @@ const Input = () => {
 };
 export default Input;
 const StyledInput = styled.div`
+  span {
+    display: block;
+    text-align: left;
+    font-size: 1em;
+  }
   .container {
     display: flex;
     flex-direction: column-reverse;
