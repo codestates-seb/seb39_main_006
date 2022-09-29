@@ -2,6 +2,7 @@ package com.codestates.seb006main.controller;
 
 import com.codestates.seb006main.auth.PrincipalDetails;
 import com.codestates.seb006main.members.controller.MemberController;
+import com.codestates.seb006main.members.dto.BookmarkDto;
 import com.codestates.seb006main.members.dto.MemberDto;
 import com.codestates.seb006main.members.entity.Member;
 import com.codestates.seb006main.members.mapper.MemberMapper;
@@ -21,6 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -417,6 +419,40 @@ public class MemberControllerTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())
                 ));
+    }
+
+    @Test
+    public void myBookmarkTest() throws Exception {
+        //given
+
+        List<Long> responses = new ArrayList<>();
+        responses.add(1L);
+        responses.add(2L);
+        Map<String,List<Long>> response=Map.of("postIds",responses);
+        given(memberService.findMyBookmark(Mockito.any(Authentication.class))).willReturn(response);
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                get("/api/members/my-bookmark")
+                        .with(csrf())
+                        .with(user(principalDetails))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        actions
+                .andExpect(status().isOk())
+                .andDo(document(
+                        "get-my-bookmarks",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                responseFields(
+
+                                fieldWithPath("postIds").type(JsonFieldType.ARRAY).description("게시물 아이디")
+
+                )));
+
     }
 
 }
