@@ -15,27 +15,29 @@ public class MatchingController {
     private final MatchingService matchingService;
 
     @PostMapping("/posts/{post-id}")
-    public ResponseEntity postMatching(@PathVariable("post-id") Long postId, Authentication authentication) {
-        MatchingDto.Response responseDto = matchingService.createMatching(postId, authentication);
+    public ResponseEntity postMatching(@PathVariable("post-id") Long postId,
+                                       @RequestBody MatchingDto.Post postDto,
+                                       Authentication authentication) {
+        MatchingDto.Response responseDto = matchingService.createMatching(postId, postDto, authentication);
         return new ResponseEntity(responseDto, HttpStatus.CREATED);
     }
 
     @GetMapping("/{matching-id}")
-    public ResponseEntity readMatching(@PathVariable("matching-id") Long matchingId, Authentication authentication) {
+    public ResponseEntity getMatching(@PathVariable("matching-id") Long matchingId, Authentication authentication) {
         MatchingDto.Response responseDto = matchingService.readMatching(matchingId, authentication);
         return new ResponseEntity(responseDto, HttpStatus.OK);
     }
 
     @GetMapping("/{matching-id}/accept")
     public ResponseEntity acceptMatching(@PathVariable("matching-id") Long matchingId, Authentication authentication) {
-        matchingService.acceptMatching(matchingId, authentication);
-        return new ResponseEntity<>(HttpStatus.OK);
+        MatchingDto.Response responseDto = matchingService.acceptMatching(matchingId, authentication);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @GetMapping("/{matching-id}/refuse")
     public ResponseEntity refuseMatching(@PathVariable("matching-id") Long matchingId, Authentication authentication) {
-        matchingService.refuseMatching(matchingId, authentication);
-        return new ResponseEntity<>(HttpStatus.OK);
+        MatchingDto.Response responseDto = matchingService.refuseMatching(matchingId, authentication);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/{matching-id}")

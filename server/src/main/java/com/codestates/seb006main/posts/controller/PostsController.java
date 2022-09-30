@@ -47,7 +47,7 @@ public class PostsController {
     }
 
     @GetMapping("/{post-id}/matching")
-    public ResponseEntity getAllMatching(@PageableDefault(page = 1, sort = "postId", direction = Sort.Direction.DESC) Pageable pageable,
+    public ResponseEntity getAllMatching(@PageableDefault(page = 1, sort = "matchingId", direction = Sort.Direction.DESC) Pageable pageable,
                                          @PathVariable("post-id") Long postId) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
         MultiResponseDto responseDto = postsService.readAllMatching(postId, pageRequest);
@@ -55,7 +55,7 @@ public class PostsController {
     }
 
     @GetMapping("/{post-id}/participants")
-    public ResponseEntity getAllParticipants(@PageableDefault(page = 1, sort = "postId", direction = Sort.Direction.DESC) Pageable pageable,
+    public ResponseEntity getAllParticipants(@PageableDefault(page = 1, sort = "memberPostsId", direction = Sort.Direction.DESC) Pageable pageable,
                                          @PathVariable("post-id") Long postId) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
         MultiResponseDto responseDto = postsService.readAllParticipants(postId, pageRequest);

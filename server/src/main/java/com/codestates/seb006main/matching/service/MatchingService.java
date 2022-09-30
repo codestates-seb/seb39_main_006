@@ -1,8 +1,6 @@
 package com.codestates.seb006main.matching.service;
 
 import com.codestates.seb006main.auth.PrincipalDetails;
-import com.codestates.seb006main.comment.entity.Comment;
-import com.codestates.seb006main.dto.MultiResponseDto;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
 import com.codestates.seb006main.matching.dto.MatchingDto;
@@ -26,7 +24,7 @@ public class MatchingService {
     private final PostsRepository postsRepository;
     private final MemberPostsRepository memberPostsRepository;
     private final MatchingMapper matchingMapper;
-    public MatchingDto.Response createMatching(Long postId, Authentication authentication) {
+    public MatchingDto.Response createMatching(Long postId, MatchingDto.Post postDto, Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Posts posts = postsRepository.findById(postId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
         if (posts.isFull()) {
@@ -36,6 +34,7 @@ public class MatchingService {
             throw new BusinessLogicException(ExceptionCode.ALREADY_PARTICIPATED);
         }
         Matching matching = Matching.builder()
+                .body(postDto.getBody())
                 .member(principalDetails.getMember()).build();
         matching.setPosts(posts);
         matching.checkPostsStatus();
@@ -54,7 +53,7 @@ public class MatchingService {
         return matchingMapper.matchingToResponseDto(matching);
     }
 
-    public void acceptMatching(Long matchingId, Authentication authentication) {
+    public MatchingDto.Response acceptMatching(Long matchingId, Authentication authentication) {
         Matching matching = matchingRepository.findById(matchingId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MATCHING_NOT_FOUND));
         if(!checkLeader(matching, authentication)) {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
@@ -66,15 +65,17 @@ public class MatchingService {
         memberPosts.setPosts(matching.getPosts());
         memberPosts.checkPostsStatus();
         memberPostsRepository.save(memberPosts);
+        return matchingMapper.matchingToResponseDto(matching);
     }
 
-    public void refuseMatching(Long matchingId, Authentication authentication) {
+    public MatchingDto.Response refuseMatching(Long matchingId, Authentication authentication) {
         Matching matching = matchingRepository.findById(matchingId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MATCHING_NOT_FOUND));
         if (!checkLeader(matching, authentication)){
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
         matching.refuse();
         matchingRepository.save(matching);
+        return matchingMapper.matchingToResponseDto(matching);
     }
 
     public void cancelMatching(Long matchingId, Authentication authentication) {

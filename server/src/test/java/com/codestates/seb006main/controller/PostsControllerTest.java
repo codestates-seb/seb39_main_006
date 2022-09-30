@@ -2,10 +2,13 @@ package com.codestates.seb006main.controller;
 
 import com.codestates.seb006main.auth.PrincipalDetails;
 import com.codestates.seb006main.dto.MultiResponseDto;
+import com.codestates.seb006main.matching.dto.MatchingDto;
+import com.codestates.seb006main.matching.entity.Matching;
 import com.codestates.seb006main.members.dto.MemberDto;
 import com.codestates.seb006main.members.entity.Member;
 import com.codestates.seb006main.posts.controller.PostsController;
 import com.codestates.seb006main.posts.dto.PostsDto;
+import com.codestates.seb006main.posts.entity.MemberPosts;
 import com.codestates.seb006main.posts.entity.Posts;
 import com.codestates.seb006main.posts.service.PostsService;
 import com.codestates.seb006main.util.Period;
@@ -444,6 +447,163 @@ public class PostsControllerTest {
                                                 "(INACTIVE: 비활성화 / READY: 모집 예정 / RECRUITING: 모집 중 / COMPLETED: 모집 완료)"),
                                         fieldWithPath("data[].createdAt").type(JsonFieldType.STRING).description("작성한 날짜"),
                                         fieldWithPath("data[].modifiedAt").type(JsonFieldType.STRING).description("마지막으로 수정한 날짜"),
+                                        fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("페이지 번호"),
+                                        fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("페이지 크기"),
+                                        fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("전체 건 수"),
+                                        fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("전체 페이지 수")
+                                )
+                        )
+                ));
+    }
+
+    @Test
+    public void getAllMatching() throws Exception {
+        //given
+        Page<Matching> matchingPage = new PageImpl<>(
+                List.of(
+                        Matching.builder().matchingId(1L).build(),
+                        Matching.builder().matchingId(2L).build()
+                ),
+                PageRequest.of(0, 10, Sort.by("matchingId").descending()), 2);
+
+        MatchingDto.Response responseDto1 = MatchingDto.Response.builder()
+                .matchingId(1L)
+                .body("테스트1")
+                .member(Member.builder().memberId(1L).displayName("테스트 멤버 1").build())
+                .posts(Posts.builder().postId(1L).title("테스트 게시글").build())
+                .matchingStatus(Matching.MatchingStatus.READ)
+                .createdAt(LocalDateTime.now())
+                .build();
+
+        MatchingDto.Response responseDto2 = MatchingDto.Response.builder()
+                .matchingId(2L)
+                .body("테스트2")
+                .member(Member.builder().memberId(2L).displayName("테스트 멤버 2").build())
+                .posts(Posts.builder().postId(1L).title("테스트 게시글").build())
+                .matchingStatus(Matching.MatchingStatus.NOT_READ)
+                .createdAt(LocalDateTime.now())
+                .build();
+
+        MultiResponseDto responseDto = new MultiResponseDto<>(
+                List.of(responseDto2, responseDto1), matchingPage);
+
+        //mock
+        given(postsService.readAllPosts(Mockito.any(), Mockito.any())).willReturn(responseDto);
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                get("/api/posts")
+                        .param("page", "1")
+                        .param("size", "10")
+                        .with(csrf())
+                        .with(user(principalDetails))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data").isArray())
+                .andDo(document(
+                        "get-all-posts",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParameters(
+                                List.of(
+                                        parameterWithName("page").description("Page 번호 (기본값 : 1)"),
+                                        parameterWithName("size").description("Page 크기 (기본값 : 10)"),
+                                        parameterWithName("_csrf").description("csrf").ignored()
+                                )
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.ARRAY).description("게시글 식별자"),
+                                        fieldWithPath("data[].matchingId").type(JsonFieldType.NUMBER).description("매칭 식별자"),
+                                        fieldWithPath("data[].body").type(JsonFieldType.STRING).description("짧은 소개"),
+                                        fieldWithPath("data[].memberId").type(JsonFieldType.NUMBER).description("신청자 식별자"),
+                                        fieldWithPath("data[].memberName").type(JsonFieldType.STRING).description("신청자 이름"),
+                                        fieldWithPath("data[].postId").type(JsonFieldType.NUMBER).description("게시글 식별자"),
+                                        fieldWithPath("data[].postTitle").type(JsonFieldType.STRING).description("게시글 제목"),
+                                        fieldWithPath("data[].matchingStatus").type(JsonFieldType.STRING).description("매칭 상태 " +
+                                                "(NOT_READ: 읽지 않음 / READ: 읽음(리더가) / ACCEPTED: 수락됨 / REFUSED: 거절됨)"),
+                                        fieldWithPath("data[].createdAt").type(JsonFieldType.STRING).description("작성한 날짜"),
+                                        fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("페이지 번호"),
+                                        fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("페이지 크기"),
+                                        fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("전체 건 수"),
+                                        fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("전체 페이지 수")
+                                )
+                        )
+                ));
+    }
+
+    @Test
+    public void getAllParticipants() throws Exception {
+        //given
+        Page<MemberPosts> memberPostsPage = new PageImpl<>(
+                List.of(
+                        MemberPosts.builder().memberPostId(1L).build(),
+                        MemberPosts.builder().memberPostId(2L).build()
+                ),
+                PageRequest.of(0, 10, Sort.by("memberPostId").descending()), 2);
+
+
+        MemberDto.Participants responseDto1 = MemberDto.Participants.builder()
+                .memberPostId(1L)
+                .memberId(1L)
+                .displayName("테스트 멤버 1")
+                .content("짧은 자기소개")
+                .profileImage("프사")
+                .build();
+
+        MemberDto.Participants responseDto2 = MemberDto.Participants.builder()
+                .memberPostId(2L)
+                .memberId(2L)
+                .displayName("테스트 멤버 2")
+                .content("짧은 자기소개")
+                .profileImage("프사")
+                .build();
+
+        MultiResponseDto responseDto = new MultiResponseDto<>(
+                List.of(responseDto2, responseDto1), memberPostsPage);
+
+        //mock
+        given(postsService.readAllPosts(Mockito.any(), Mockito.any())).willReturn(responseDto);
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                get("/api/posts")
+                        .param("page", "1")
+                        .param("size", "10")
+                        .with(csrf())
+                        .with(user(principalDetails))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data").isArray())
+                .andDo(document(
+                        "get-all-posts",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParameters(
+                                List.of(
+                                        parameterWithName("page").description("Page 번호 (기본값 : 1)"),
+                                        parameterWithName("size").description("Page 크기 (기본값 : 10)"),
+                                        parameterWithName("_csrf").description("csrf").ignored()
+                                )
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.ARRAY).description("게시글 식별자"),
+                                        fieldWithPath("data[].memberPostId").type(JsonFieldType.NUMBER).description("참여 관계 식별자"),
+                                        fieldWithPath("data[].memberId").type(JsonFieldType.NUMBER).description("참여자 식별자"),
+                                        fieldWithPath("data[].displayName").type(JsonFieldType.STRING).description("참여자 이름"),
+                                        fieldWithPath("data[].content").type(JsonFieldType.STRING).description("자기소개"),
+                                        fieldWithPath("data[].profileImage").type(JsonFieldType.STRING).description("프로필 사진"),
                                         fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("페이지 번호"),
                                         fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("페이지 크기"),
                                         fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("전체 건 수"),
