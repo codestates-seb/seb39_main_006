@@ -94,13 +94,25 @@ include::{snippets}/delete-member/http-request.adoc[]
 .http-response
 include::{snippets}/delete-member/http-response.adoc[]
 
-=== 북마크
+=== 북마크 등록/취소 (토글)
 .http-request
 include::{snippets}/get-bookmark/http-request.adoc[]
 
 .http-response
 include::{snippets}/get-bookmark/http-response.adoc[]
 
+=== 내 북마크
+.curl-request
+include::{snippets}/get-my-bookmarks/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-my-bookmarks/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-my-bookmarks/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-my-bookmarks/response-fields.adoc[]
 
 == PostsController
 === 게시글 등록
@@ -221,7 +233,7 @@ include::{snippets}/delete-image/http-response.adoc[]
 
 
 == MatchingController
-=== 매칭 신청
+=== 매칭 신청 (모든 이용자가 가능)
 .http-request
 include::{snippets}/post-matching/http-request.adoc[]
 
@@ -237,7 +249,7 @@ include::{snippets}/post-matching/http-response.adoc[]
 .response-fields
 include::{snippets}/post-matching/response-fields.adoc[]
 
-=== 매칭 조회
+=== 매칭 조회 (게시글 주인과 신청자만 가능)
 .http-request
 include::{snippets}/get-matching/http-request.adoc[]
 
@@ -250,7 +262,7 @@ include::{snippets}/get-matching/http-response.adoc[]
 .response-fields
 include::{snippets}/get-matching/response-fields.adoc[]
 
-=== 매칭 수락
+=== 매칭 수락 (게시글 주인만 가능)
 .http-request
 include::{snippets}/accept-matching/http-request.adoc[]
 
@@ -263,7 +275,7 @@ include::{snippets}/accept-matching/http-response.adoc[]
 .response-fields
 include::{snippets}/accept-matching/response-fields.adoc[]
 
-=== 매칭 거절
+=== 매칭 거절 (게시글 주인만 가능)
 .http-request
 include::{snippets}/refuse-matching/http-request.adoc[]
 
@@ -276,7 +288,7 @@ include::{snippets}/refuse-matching/http-response.adoc[]
 .response-fields
 include::{snippets}/refuse-matching/response-fields.adoc[]
 
-=== 매칭 취소
+=== 매칭 취소 (신청자만 가능)
 .http-request
 include::{snippets}/delete-matching/http-request.adoc[]
 
@@ -287,7 +299,7 @@ include::{snippets}/delete-matching/path-parameters.adoc[]
 include::{snippets}/delete-matching/http-response.adoc[]
 
 == MemberPostsController
-=== 참여자 삭제
+=== 참여자 삭제 (게시글 주인과 참여자만 가능)
 .http-request
 include::{snippets}/delete-participants/http-request.adoc[]
 

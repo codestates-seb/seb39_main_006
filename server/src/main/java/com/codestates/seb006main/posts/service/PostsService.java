@@ -18,6 +18,7 @@ import com.codestates.seb006main.posts.mapper.PostsMapper;
 import com.codestates.seb006main.posts.repository.MemberPostsRepository;
 import com.codestates.seb006main.posts.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -34,7 +35,8 @@ public class PostsService {
     private final ImageRepository imageRepository;
     private final PostsMapper postsMapper;
     final AmazonS3Client amazonS3Client;
-    private final String S3Bucket = "seb-main-006/img";
+    @Value("${cloud.aws.s3.bucket}")
+    private final String S3Bucket;
     private final MemberPostsRepository memberPostsRepository;
     private final MemberPostsMapper memberPostsMapper;
     private final MatchingMapper matchingMapper;
