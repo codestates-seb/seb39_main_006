@@ -1,5 +1,7 @@
 package com.codestates.seb006main.Image.entity;
 
+import com.codestates.seb006main.exception.BusinessLogicException;
+import com.codestates.seb006main.exception.ExceptionCode;
 import com.codestates.seb006main.feed.entity.Feed;
 import com.codestates.seb006main.members.entity.Member;
 import com.codestates.seb006main.posts.entity.Posts;
@@ -52,19 +54,23 @@ public class Image {
     }
 
     public void setPosts(Posts posts) {
-        this.posts = posts;
-        if(!posts.getImages().contains(this)) {
-            posts.getImages().add(this);
+        if (this.posts != posts && this.posts != null && this.member != null && this.feed != null) {
+            throw new BusinessLogicException(ExceptionCode.ALREADY_USED_IMAGE);
         }
+        this.posts = posts;
     }
 
     public void setMember(Member member) {
+        if (this.member != member && this.posts != null && this.member != null && this.feed != null) {
+            throw new BusinessLogicException(ExceptionCode.ALREADY_USED_IMAGE);
+        }
         this.member = member;
     }
 
     public void setFeed(Feed feed) {
+        if (this.feed != feed && this.posts != null && this.member != null && this.feed != null) {
+            throw new BusinessLogicException(ExceptionCode.ALREADY_USED_IMAGE);
+        }
         this.feed = feed;
-        if(!feed.getImages().contains(this))
-            feed.getImages().add(this);
     }
 }
