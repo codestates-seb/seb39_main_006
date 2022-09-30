@@ -51,7 +51,7 @@ public class PostsService {
         memberPosts.setPosts(posts);
         memberPostsRepository.save(memberPosts);
 
-        if (postDto.getImages().isEmpty()) {
+        if (!postDto.getImages().isEmpty()) {
             saveImages(postDto.getImages(), posts);
         }
 
