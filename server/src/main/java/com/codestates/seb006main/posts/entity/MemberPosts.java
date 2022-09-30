@@ -1,7 +1,5 @@
 package com.codestates.seb006main.posts.entity;
 
-import com.codestates.seb006main.exception.BusinessLogicException;
-import com.codestates.seb006main.exception.ExceptionCode;
 import com.codestates.seb006main.members.entity.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -37,5 +35,9 @@ public class MemberPosts {
         if (!this.posts.getParticipants().contains(this)) {
             this.posts.getParticipants().add(this);
         }
+    }
+
+    public void checkPostsStatus() {
+        this.posts.checkStatus();
     }
 }
