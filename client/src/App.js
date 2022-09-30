@@ -5,7 +5,7 @@ import Auth from "./components/Auth";
 import PostDetail from "./pages/postpage/PostDetail";
 import EditPost from "./pages/postpage/EditPost";
 import NewPost from "./pages/postpage/NewPost";
-import Test from "./pages/mypage/Test";
+import Test from "./pages/mypage/Matching";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
