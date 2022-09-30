@@ -9,8 +9,8 @@ export default function WrapperBox() {
 }
 const Box = styled.div`
   z-index: -888;
-  width: 500px;
-  height: 340px;
+  width: 700px;
+  height: 700px;
   background-color: #d5eaf1;
   border-radius: 10px;
   position: absolute;
