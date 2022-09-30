@@ -23,7 +23,7 @@ const Header = () => {
       </h1>
       {sessionStorage.getItem("isLogin") && (
         <nav>
-          <ul>
+          <HeaderFlex>
             <div align="center">
               <img src={imgLogo} alt="./newWave.gif" width="400" height="140" />
             </div>
@@ -34,7 +34,7 @@ const Header = () => {
             <li>
               <button onClick={logoutHandler}>Logout</button>
             </li>
-          </ul>
+          </HeaderFlex>
         </nav>
       )}
     </HeaderContainer>
@@ -43,5 +43,8 @@ const Header = () => {
 
 export default Header;
 const HeaderContainer = styled.div`
+  display: flex;
+`;
+const HeaderFlex = styled.ul`
   display: flex;
 `;

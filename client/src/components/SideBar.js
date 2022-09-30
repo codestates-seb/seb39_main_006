@@ -2,7 +2,16 @@ import React from "react";
 import styled from "styled-components";
 
 const SideBar = () => {
-  return <SideBarBorder>사이드바 아마 지역이 들어가겠지...?</SideBarBorder>;
+  return (
+    <SideBarBorder>
+      <div>사이드바</div>
+      <div>사이드바</div>
+      <div>사이드바</div>
+      <div>사이드바</div>
+      <div>사이드바</div>
+      <div>사이드바</div>
+    </SideBarBorder>
+  );
 };
 
 export default SideBar;
