@@ -21,11 +21,11 @@ public class ServerApplication {
         SpringApplication.run(ServerApplication.class, args);
     }
 
-//    @Bean
-//    public TestDataInit dataInit(MemberRepository memberRepository,
-//                                 PostsRepository postsRepository,
-//                                 MemberPostsRepository memberPostsRepository,
-//                                 BCryptPasswordEncoder bCryptPasswordEncoder) {
-//        return new TestDataInit(memberRepository, postsRepository, memberPostsRepository, bCryptPasswordEncoder);
-//    }
+    @Bean
+    public TestDataInit dataInit(MemberRepository memberRepository,
+                                 PostsRepository postsRepository,
+                                 MemberPostsRepository memberPostsRepository,
+                                 BCryptPasswordEncoder bCryptPasswordEncoder) {
+        return new TestDataInit(memberRepository, postsRepository, memberPostsRepository, bCryptPasswordEncoder);
+    }
 }
