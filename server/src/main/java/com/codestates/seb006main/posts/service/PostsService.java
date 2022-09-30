@@ -51,7 +51,6 @@ public class PostsService {
         memberPosts.setPosts(posts);
         memberPostsRepository.save(memberPosts);
 
-
         if (postDto.getImages() != null) {
             saveImages(postDto.getImages(), posts);
         }
@@ -92,17 +91,16 @@ public class PostsService {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
 
-        // TODO: 필요한가?
-        Optional.ofNullable(patchDto.getTitle())
-                .ifPresent(posts::updateTitle);
-        Optional.ofNullable(patchDto.getBody())
-                .ifPresent(posts::updateBody);
-        Optional.ofNullable(patchDto.getCloseDate())
-                .ifPresent(posts::updateCloseDate);
-        Optional.ofNullable(patchDto.getTotalCount())
-                .ifPresent(posts::updateTotalCount);
-
         //TODO: 이미지 수정 로직 -> 프론트와 지속적으로 주고받는 데이터에 대한 상의가 필요함.
+
+        if (patchDto.getImages() != null) {
+            if (!posts.getImages().isEmpty()) {
+                for (Image image : posts.getImages()) {
+                    posts.deleteImage(image);
+                }
+            }
+            saveImages(patchDto.getImages(), posts);
+        }
 
         posts.updatePosts(patchDto.getTitle(), patchDto.getBody(), patchDto.getTotalCount(), patchDto.getCloseDate());
         postsRepository.save(posts);
@@ -116,12 +114,12 @@ public class PostsService {
         if (posts.getMember().getMemberId() != principalDetails.getMember().getMemberId()) {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
-        if (posts.getImages().size() != 0) {
+        if (!posts.getImages().isEmpty()) {
             for (Image image : posts.getImages()) {
                 String imagePath = image.getStoredPath();
                 amazonS3Client.deleteObject(S3Bucket, imagePath.substring(imagePath.lastIndexOf("/") + 1));
-                imageRepository.deleteAll(posts.getImages());
-                posts.getImages().clear();
+                posts.deleteImage(image);
+                imageRepository.delete(image);
             }
         }
         posts.inactive();
