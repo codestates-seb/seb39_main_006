@@ -22,7 +22,7 @@ const Posts = () => {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
   const [totalElements, setTotalElements] = useState(0);
-
+  // 테스트 푸시
   useEffect(() => {
     axios(
       `https://seb-006.shop/api/posts?page=${page}&size=${size}&title=${title}&body=${body}&location=${location}&startDate=${startDate}&endDate=${endDate}&sort=${sort}`
