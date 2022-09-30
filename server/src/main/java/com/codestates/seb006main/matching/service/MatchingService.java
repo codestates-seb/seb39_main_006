@@ -33,6 +33,9 @@ public class MatchingService {
         if (posts.getParticipants().stream().map(memberPosts -> memberPosts.getMember().getMemberId()).collect(Collectors.toList()).contains(principalDetails.getMember().getMemberId())) {
             throw new BusinessLogicException(ExceptionCode.ALREADY_PARTICIPATED);
         }
+        if (posts.getMatching().stream().map(matching -> matching.getMember().getMemberId()).collect(Collectors.toList()).contains(principalDetails.getMember().getMemberId())) {
+            throw new BusinessLogicException(ExceptionCode.ALREADY_REQUESTED);
+        }
         Matching matching = Matching.builder()
                 .body(postDto.getBody())
                 .member(principalDetails.getMember()).build();

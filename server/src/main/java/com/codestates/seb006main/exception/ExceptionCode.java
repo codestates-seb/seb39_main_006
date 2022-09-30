@@ -11,6 +11,7 @@ public enum ExceptionCode {
     DISPLAY_NAME_EXISTS(409, "Member exists"),
     MEMBER_NOT_ACTIVE(409, "Member not active"),
     ALREADY_PARTICIPATED(409, "Already participated"),
+    ALREADY_REQUESTED(409, "Already requested"),
     ALREADY_USED_IMAGE(409, "Image already used."),
     ALREADY_REFUSED(409, "Already refused"),
     ALREADY_ACCEPTED(409, "Already accepted"),
