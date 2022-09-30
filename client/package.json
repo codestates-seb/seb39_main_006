@@ -3,12 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-<<<<<<< HEAD
-
-=======
     "@babel/core": "^7.19.1",
     "@babel/preset-react": "^7.18.6",
->>>>>>> b6f8df2 ([Test: 백업])
     "@reduxjs/toolkit": "^1.8.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -51,12 +47,8 @@
     ]
   },
   "devDependencies": {
-<<<<<<< HEAD
-
-=======
     "css-loader": "^6.7.1",
     "react-hot-loader": "^4.5.3",
     "style-loader": "^3.3.1"
->>>>>>> b6f8df2 ([Test: 백업])
   }
 }
