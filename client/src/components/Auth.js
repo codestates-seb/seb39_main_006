@@ -25,7 +25,7 @@ const Auth = () => {
       displaynameInputRef.current.value = "";
     }
   };
-
+  //validation 추가
   const validateEmail = (email) => {
     return String(email)
       .toLowerCase()
