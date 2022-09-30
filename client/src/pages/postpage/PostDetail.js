@@ -111,7 +111,7 @@ const PostDetail = () => {
         </button>
       ) : (
         <>
-          {console.log(detail.postsStatus)}
+          {detail.postsStatus && console.log(detail.postsStatus)}
           <div>
             <textarea
               onChange={(e) => {
