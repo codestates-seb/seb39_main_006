@@ -21,6 +21,7 @@ import com.codestates.seb006main.members.repository.MemberRepository;
 import com.codestates.seb006main.posts.entity.Posts;
 import com.codestates.seb006main.posts.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,8 @@ public class MemberService {
     private final EmailSender emailSender;
     private final ImageRepository imageRepository;
     final AmazonS3Client amazonS3Client;
-    private final String S3Bucket = "seb-main-006/img";
+    @Value("${cloud.aws.s3.bucket}")
+    private final String S3Bucket;
     private final BookmarkRepository bookmarkRepository;
     private final PostsRepository postsRepository;
     private final JwtUtils jwtUtils;
