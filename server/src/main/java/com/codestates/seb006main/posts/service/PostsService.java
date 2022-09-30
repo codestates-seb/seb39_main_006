@@ -36,7 +36,7 @@ public class PostsService {
     private final PostsMapper postsMapper;
     final AmazonS3Client amazonS3Client;
     @Value("${cloud.aws.s3.bucket}")
-    private final String S3Bucket;
+    private String S3Bucket;
     private final MemberPostsRepository memberPostsRepository;
     private final MemberPostsMapper memberPostsMapper;
     private final MatchingMapper matchingMapper;

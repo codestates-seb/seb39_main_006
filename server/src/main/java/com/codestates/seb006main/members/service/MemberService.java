@@ -43,7 +43,7 @@ public class MemberService {
     private final ImageRepository imageRepository;
     final AmazonS3Client amazonS3Client;
     @Value("${cloud.aws.s3.bucket}")
-    private final String S3Bucket;
+    private String S3Bucket;
     private final BookmarkRepository bookmarkRepository;
     private final PostsRepository postsRepository;
     private final JwtUtils jwtUtils;
