@@ -51,7 +51,7 @@ public class PostsService {
         memberPosts.setPosts(posts);
         memberPostsRepository.save(memberPosts);
 
-        if (postDto.getImages() != null) {
+        if (postDto.getImages().isEmpty()) {
             saveImages(postDto.getImages(), posts);
         }
 
@@ -93,7 +93,7 @@ public class PostsService {
 
         //TODO: 이미지 수정 로직 -> 프론트와 지속적으로 주고받는 데이터에 대한 상의가 필요함.
 
-        if (patchDto.getImages() != null) {
+        if (!patchDto.getImages().isEmpty()) {
             if (!posts.getImages().isEmpty()) {
                 for (Image image : posts.getImages()) {
                     posts.deleteImage(image);
