@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -21,7 +21,20 @@ const NewPost = () => {
   const [location, setLocation] = useState("");
   const [totalCount, setTotalCount] = useState(0);
   const [closeDate, setCloseDate] = useState("");
+  const [imageId, setImageId] = useState(0);
+  const [imageIds, setImageIds] = useState([]);
+  var mount = useRef(false);
 
+  useEffect(() => {
+    if (mount.current) {
+      addItemsToArray(imageId);
+      mount.current = false;
+    }
+  }, [addItemsToArray]);
+
+  function addItemsToArray(imageId) {
+    setImageIds((imageIds) => [...imageIds, imageId]);
+  }
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
@@ -44,7 +57,7 @@ const NewPost = () => {
         location: location,
         totalCount: totalCount,
         closeDate: closeDate,
-        images: [],
+        images: imageIds,
       },
     })
       .then((res) => {
@@ -61,6 +74,7 @@ const NewPost = () => {
           navigate(`/`);
           window.location.reload();
         }
+        console.log(err);
       });
   };
 
@@ -146,6 +160,26 @@ const NewPost = () => {
           ["table", "image", "link"],
           ["code", "codeblock"],
         ]}
+        hooks={{
+          addImageBlobHook: (blob, callback) => {
+            const formData = new FormData();
+            formData.append("image", blob);
+            axios(`https://seb-006.shop/api/images/upload`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "multipart/form-data",
+                access_hh: sessionStorage.getItem("AccessToken"),
+                refresh_hh: sessionStorage.getItem("RefreshToken"),
+              },
+              data: formData,
+            }).then((res) => {
+              let testid = res.data.imageId;
+              setImageId(testid);
+              mount.current = true;
+              callback(res.data.imageUrl);
+            });
+          },
+        }}
         plugins={[colorSyntax]} // colorSyntax 플러그인 적용
       ></Editor>
       <button
