@@ -46,6 +46,22 @@ public class PostsController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
+    @GetMapping("/{post-id}/matching")
+    public ResponseEntity getAllMatching(@PageableDefault(page = 1, sort = "postId", direction = Sort.Direction.DESC) Pageable pageable,
+                                         @PathVariable("post-id") Long postId) {
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
+        MultiResponseDto responseDto = postsService.readAllMatching(postId, pageRequest);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/{post-id}/participants")
+    public ResponseEntity getAllParticipants(@PageableDefault(page = 1, sort = "postId", direction = Sort.Direction.DESC) Pageable pageable,
+                                         @PathVariable("post-id") Long postId) {
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
+        MultiResponseDto responseDto = postsService.readAllParticipants(postId, pageRequest);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
     @PatchMapping("/{post-id}")
     public ResponseEntity patchPosts(@PathVariable("post-id") Long postId,
                                      @RequestBody PostsDto.Patch patchDto,

@@ -129,13 +129,15 @@ public class MemberDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Participants {
+        private Long memberPostsId;
         private Long memberId;
         private String displayName;
         private String content;
         private String profileImage;
 
         @Builder
-        public Participants(Long memberId, String displayName, String content, String profileImage) {
+        public Participants(Long memberPostsId, Long memberId, String displayName, String content, String profileImage) {
+            this.memberPostsId = memberPostsId;
             this.memberId = memberId;
             this.displayName = displayName;
             this.content = content;

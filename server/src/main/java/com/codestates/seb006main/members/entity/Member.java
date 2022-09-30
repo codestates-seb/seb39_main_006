@@ -3,12 +3,14 @@ package com.codestates.seb006main.members.entity;
 import com.codestates.seb006main.audit.Auditable;
 import com.codestates.seb006main.comment.entity.Comment;
 import com.codestates.seb006main.feed.entity.Feed;
+import com.codestates.seb006main.matching.entity.Matching;
 import com.codestates.seb006main.posts.entity.MemberPosts;
 import com.codestates.seb006main.posts.entity.Posts;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -44,6 +46,8 @@ public class Member extends Auditable {
     private List<Comment> comments;
     @OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
     private List<Block> blocks;
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Matching> matching;
 
     public void updateMember(String displayName, String password, String phone, String content, String profileImage, LocalDateTime modifiedAt) {
         this.displayName = displayName;
