@@ -139,19 +139,19 @@ public class PostsRepositoryImpl implements PostsRepositoryCustom {
                 // 서비스에서 넣어준 정렬 조건을 스위치 케이스 문을 활용하여 셋팅하여 준다.
                 switch (order.getProperty()) {
                     case "postId": case "newest":
-                        return new OrderSpecifier<>(direction, posts.postId);
+                        return new OrderSpecifier<>(Order.DESC, posts.postId);
                     case "title":
                         return new OrderSpecifier<>(direction, posts.title);
                     case "startDate":
-                        return new OrderSpecifier<>(direction, posts.travelPeriod.startDate);
+                        return new OrderSpecifier<>(Order.ASC, posts.travelPeriod.startDate);
                     case "endDate":
-                        return new OrderSpecifier<>(direction, posts.travelPeriod.endDate);
+                        return new OrderSpecifier<>(Order.ASC, posts.travelPeriod.endDate);
                     case "closeDate":
-                        return new OrderSpecifier<>(direction, posts.closeDate);
+                        return new OrderSpecifier<>(Order.ASC, posts.closeDate);
                     case "totalCount":
                         return new OrderSpecifier<>(direction, posts.totalCount);
                     case "limited":
-                        return new OrderSpecifier<>(direction, posts.totalCount.subtract(posts.participants.size()));
+                        return new OrderSpecifier<>(Order.ASC, posts.totalCount.subtract(posts.participants.size()));
                 }
             }
         }

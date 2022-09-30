@@ -72,6 +72,7 @@ public interface MemberPostsMapper {
     default MemberDto.Participants memberPostsToMemberParticipants(MemberPosts memberPosts) {
         Member member = memberPosts.getMember();
         return MemberDto.Participants.builder()
+                .memberPostId(memberPosts.getMemberPostId())
                 .memberId(member.getMemberId())
                 .displayName(member.getDisplayName())
                 .profileImage(member.getProfileImage())

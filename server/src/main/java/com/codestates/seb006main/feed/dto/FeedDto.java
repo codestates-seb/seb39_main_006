@@ -46,6 +46,7 @@ public class FeedDto {
         private String body;
         private Long memberId;
         private String memberName;
+        private String profileImage;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private List<CommentDto.Response> comments;
@@ -56,6 +57,7 @@ public class FeedDto {
             this.body = body;
             this.memberId = member.getMemberId();
             this.memberName = member.getDisplayName();
+            this.profileImage = member.getProfileImage();
             this.createdAt = createdAt;
             this.modifiedAt = modifiedAt;
             this.comments = comments;

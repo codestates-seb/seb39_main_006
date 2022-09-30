@@ -4,6 +4,7 @@ import com.codestates.seb006main.Image.entity.Image;
 import com.codestates.seb006main.audit.Auditable;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
+import com.codestates.seb006main.matching.entity.Matching;
 import com.codestates.seb006main.members.entity.Member;
 import com.codestates.seb006main.util.Period;
 import lombok.AccessLevel;
@@ -13,7 +14,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -35,13 +35,15 @@ public class Posts extends Auditable {
     private LocalDate closeDate;
     @Enumerated(EnumType.STRING)
     private PostsStatus postsStatus;
-//    private LocalDateTime createdAt;
+    //    private LocalDateTime createdAt;
 //    private LocalDateTime modifiedAt;
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
     @OneToMany(mappedBy = "posts", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MemberPosts> participants = new ArrayList<>();
+    @OneToMany(mappedBy = "posts", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Matching> matching = new ArrayList<>();
 
     /*
     TODO: image 처리 두가지 방법에 따른 처리
@@ -129,8 +131,7 @@ public class Posts extends Auditable {
     public void checkStatus() {
         if (this.participants.size() == this.totalCount) {
             this.postsStatus = PostsStatus.COMPLETED;
-        } else if (this.participants.size() > 1) {
-            //TODO:
+        } else {
             this.postsStatus = PostsStatus.RECRUITING;
         }
     }
