@@ -6,6 +6,7 @@
 :source-highlighter: prettify
 
 김기홍 <rlghd153@gmail.com>
+정윤조 <jyjgom@gmail.com>
 
 만든 날짜 : 2022.09.17
 마지막으로 수정한 날짜 : 2022.09.23
@@ -100,6 +101,7 @@ include::{snippets}/get-bookmark/http-request.adoc[]
 .http-response
 include::{snippets}/get-bookmark/http-response.adoc[]
 
+
 == PostsController
 === 게시글 등록
 .http-request
@@ -156,6 +158,32 @@ include::{snippets}/get-all-posts/http-response.adoc[]
 .response-fields
 include::{snippets}/get-all-posts/response-fields.adoc[]
 
+=== 게시글 현재 매칭 조회
+.http-request
+include::{snippets}/get-all-matching/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/get-all-matching/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-all-matching/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-all-matching/response-fields.adoc[]
+
+=== 게시글 현재 참여자 조회
+.http-request
+include::{snippets}/get-all-participants/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/get-all-participants/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-all-participants/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-all-participants/response-fields.adoc[]
+
 === 게시글 삭제
 .http-request
 include::{snippets}/delete-posts/http-request.adoc[]
@@ -165,6 +193,7 @@ include::{snippets}/delete-posts/path-parameters.adoc[]
 
 .http-response
 include::{snippets}/delete-posts/http-response.adoc[]
+
 
 == ImageController
 === 이미지 등록
@@ -189,3 +218,81 @@ include::{snippets}/delete-image/path-parameters.adoc[]
 
 .http-response
 include::{snippets}/delete-image/http-response.adoc[]
+
+
+== MatchingController
+=== 매칭 신청
+.http-request
+include::{snippets}/post-matching/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/post-matching/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/post-matching/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-matching/http-response.adoc[]
+
+.response-fields
+include::{snippets}/post-matching/response-fields.adoc[]
+
+=== 매칭 조회
+.http-request
+include::{snippets}/get-matching/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/get-matching/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-matching/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-matching/response-fields.adoc[]
+
+=== 매칭 수락
+.http-request
+include::{snippets}/accept-matching/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/accept-matching/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/accept-matching/http-response.adoc[]
+
+.response-fields
+include::{snippets}/accept-matching/response-fields.adoc[]
+
+=== 매칭 거절
+.http-request
+include::{snippets}/refuse-matching/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/refuse-matching/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/refuse-matching/http-response.adoc[]
+
+.response-fields
+include::{snippets}/refuse-matching/response-fields.adoc[]
+
+=== 매칭 취소
+.http-request
+include::{snippets}/delete-matching/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/delete-matching/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/delete-matching/http-response.adoc[]
+
+== MemberPostsController
+=== 참여자 삭제
+.http-request
+include::{snippets}/delete-participants/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/delete-participants/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/delete-participants/http-response.adoc[]

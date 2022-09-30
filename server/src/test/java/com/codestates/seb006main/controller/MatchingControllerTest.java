@@ -76,11 +76,11 @@ public class MatchingControllerTest {
                 .build();
 
         //mock
-        given(matchingService.readMatching(Mockito.anyLong(), Mockito.any(Authentication.class))).willReturn(responseDto);
+        given(matchingService.createMatching(Mockito.anyLong(), Mockito.any(), Mockito.any(Authentication.class))).willReturn(responseDto);
 
         //when
         ResultActions actions = mockMvc.perform(
-                get("/api/matching/posts/{post-id}", postId)
+                post("/api/matching/posts/{post-id}", postId)
                         .with(csrf())
                         .with(user(principalDetails))
                         .accept(MediaType.APPLICATION_JSON)
@@ -90,7 +90,7 @@ public class MatchingControllerTest {
 
         //then
         actions
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.matchingId").value(responseDto.getMatchingId()))
                 .andExpect(jsonPath("$.postId").value(postId))
                 .andDo(document(

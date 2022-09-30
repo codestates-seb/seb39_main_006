@@ -91,6 +91,7 @@ public class PostsControllerTest {
                 .totalCount(3)
                 .closeDate(LocalDate.of(2022, 10, 12))
                 .participants(List.of(MemberDto.Participants.builder()
+                        .memberPostId(1L)
                         .memberId(1L)
                         .displayName("테스트")
                         .content("자기소개")
@@ -144,6 +145,7 @@ public class PostsControllerTest {
                                         fieldWithPath("location").type(JsonFieldType.STRING).description("여행 지역"),
                                         fieldWithPath("totalCount").type(JsonFieldType.NUMBER).description("모집 인원"),
                                         fieldWithPath("participants").type(JsonFieldType.ARRAY).description("참여 인원 목록"),
+                                        fieldWithPath("participants[].memberPostId").type(JsonFieldType.NUMBER).description("참여 그룹 식별자"),
                                         fieldWithPath("participants[].memberId").type(JsonFieldType.NUMBER).description("참여 인원 식별자"),
                                         fieldWithPath("participants[].displayName").type(JsonFieldType.STRING).description("참여 인원 이름"),
                                         fieldWithPath("participants[].profileImage").type(JsonFieldType.STRING).description("참여 인원 프로필 이미지 경로"),
@@ -186,6 +188,7 @@ public class PostsControllerTest {
                 .totalCount(2)
                 .closeDate(LocalDate.of(2022, 10, 12))
                 .participants(List.of(MemberDto.Participants.builder()
+                        .memberPostId(1L)
                         .memberId(1L)
                         .displayName("테스트")
                         .content("자기소개")
@@ -239,6 +242,7 @@ public class PostsControllerTest {
                                         fieldWithPath("location").type(JsonFieldType.STRING).description("여행 지역"),
                                         fieldWithPath("totalCount").type(JsonFieldType.NUMBER).description("모집 인원"),
                                         fieldWithPath("participants").type(JsonFieldType.ARRAY).description("참여 인원 목록"),
+                                        fieldWithPath("participants[].memberPostId").type(JsonFieldType.NUMBER).description("참여 그룹 식별자"),
                                         fieldWithPath("participants[].memberId").type(JsonFieldType.NUMBER).description("참여 인원 식별자"),
                                         fieldWithPath("participants[].displayName").type(JsonFieldType.STRING).description("참여 인원 이름"),
                                         fieldWithPath("participants[].profileImage").type(JsonFieldType.STRING).description("참여 인원 프로필 이미지 경로"),
@@ -273,6 +277,7 @@ public class PostsControllerTest {
                 .totalCount(3)
                 .closeDate(LocalDate.of(2022, 10, 12))
                 .participants(List.of(MemberDto.Participants.builder()
+                        .memberPostId(1L)
                         .memberId(1L)
                         .displayName("테스트")
                         .content("자기소개")
@@ -315,6 +320,7 @@ public class PostsControllerTest {
                                         fieldWithPath("location").type(JsonFieldType.STRING).description("여행 지역"),
                                         fieldWithPath("totalCount").type(JsonFieldType.NUMBER).description("모집 인원"),
                                         fieldWithPath("participants").type(JsonFieldType.ARRAY).description("참여 인원 목록"),
+                                        fieldWithPath("participants[].memberPostId").type(JsonFieldType.NUMBER).description("참여 그룹 식별자"),
                                         fieldWithPath("participants[].memberId").type(JsonFieldType.NUMBER).description("참여 인원 식별자"),
                                         fieldWithPath("participants[].displayName").type(JsonFieldType.STRING).description("참여 인원 이름"),
                                         fieldWithPath("participants[].profileImage").type(JsonFieldType.STRING).description("참여 인원 프로필 이미지 경로"),
@@ -355,6 +361,7 @@ public class PostsControllerTest {
                 .totalCount(3)
                 .closeDate(LocalDate.of(2022, 10, 12))
                 .participants(List.of(MemberDto.Participants.builder()
+                        .memberPostId(1L)
                         .memberId(1L)
                         .displayName("테스트1")
                         .content("자기소개")
@@ -376,6 +383,7 @@ public class PostsControllerTest {
                 .totalCount(2)
                 .closeDate(LocalDate.of(2022, 10, 12))
                 .participants(List.of(MemberDto.Participants.builder()
+                        .memberPostId(2L)
                         .memberId(2L)
                         .displayName("테스트2")
                         .content("자기소개")
@@ -437,6 +445,7 @@ public class PostsControllerTest {
                                         fieldWithPath("data[].location").type(JsonFieldType.STRING).description("여행 지역"),
                                         fieldWithPath("data[].totalCount").type(JsonFieldType.NUMBER).description("모집 인원"),
                                         fieldWithPath("data[].participants").type(JsonFieldType.ARRAY).description("참여 인원 목록"),
+                                        fieldWithPath("data[].participants[].memberPostId").type(JsonFieldType.NUMBER).description("참여 그룹 식별자"),
                                         fieldWithPath("data[].participants[].memberId").type(JsonFieldType.NUMBER).description("참여 인원 식별자"),
                                         fieldWithPath("data[].participants[].displayName").type(JsonFieldType.STRING).description("참여 인원 이름"),
                                         fieldWithPath("data[].participants[].profileImage").type(JsonFieldType.STRING).description("참여 인원 프로필 이미지 경로"),
@@ -459,6 +468,8 @@ public class PostsControllerTest {
     @Test
     public void getAllMatching() throws Exception {
         //given
+        long postId = 1L;
+
         Page<Matching> matchingPage = new PageImpl<>(
                 List.of(
                         Matching.builder().matchingId(1L).build(),
@@ -488,11 +499,11 @@ public class PostsControllerTest {
                 List.of(responseDto2, responseDto1), matchingPage);
 
         //mock
-        given(postsService.readAllPosts(Mockito.any(), Mockito.any())).willReturn(responseDto);
+        given(postsService.readAllMatching(Mockito.any(), Mockito.any())).willReturn(responseDto);
 
         //when
         ResultActions actions = mockMvc.perform(
-                get("/api/posts")
+                get("/api/posts/{post-id}/matching", postId)
                         .param("page", "1")
                         .param("size", "10")
                         .with(csrf())
@@ -506,7 +517,7 @@ public class PostsControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").isArray())
                 .andDo(document(
-                        "get-all-posts",
+                        "get-all-matching",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestParameters(
@@ -540,6 +551,8 @@ public class PostsControllerTest {
     @Test
     public void getAllParticipants() throws Exception {
         //given
+        long postId = 1L;
+
         Page<MemberPosts> memberPostsPage = new PageImpl<>(
                 List.of(
                         MemberPosts.builder().memberPostId(1L).build(),
@@ -568,11 +581,11 @@ public class PostsControllerTest {
                 List.of(responseDto2, responseDto1), memberPostsPage);
 
         //mock
-        given(postsService.readAllPosts(Mockito.any(), Mockito.any())).willReturn(responseDto);
+        given(postsService.readAllParticipants(Mockito.any(), Mockito.any())).willReturn(responseDto);
 
         //when
         ResultActions actions = mockMvc.perform(
-                get("/api/posts")
+                get("/api/posts/{post-id}/participants", postId)
                         .param("page", "1")
                         .param("size", "10")
                         .with(csrf())
@@ -586,7 +599,7 @@ public class PostsControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").isArray())
                 .andDo(document(
-                        "get-all-posts",
+                        "get-all-participants",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestParameters(
