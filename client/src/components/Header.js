@@ -3,7 +3,7 @@ import React from "react";
 import imgLogo from "../img/newWave.gif";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
+//
 const Header = () => {
   const navigate = useNavigate();
 
