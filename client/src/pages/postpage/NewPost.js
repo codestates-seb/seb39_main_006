@@ -67,7 +67,7 @@ const NewPost = () => {
         if (res.headers.access_hh) {
           sessionStorage.setItem("AccessToken", res.headers.access_hh);
         }
-        navigate(`/auth`);
+        navigate(`/main`);
         window.location.reload();
       })
       .catch((err) => {
@@ -182,7 +182,7 @@ const NewPost = () => {
           </Button>
           <Button
             onClick={() => {
-              navigate(`/auth`);
+              navigate(`/main`);
             }}
           >
             취소
@@ -236,7 +236,7 @@ const NewPost = () => {
       </button>
       <button
         onClick={() => {
-          navigate(`/auth`);
+          navigate(`/main`);
         }}
       >
         취소

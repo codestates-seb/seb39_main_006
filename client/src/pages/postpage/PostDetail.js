@@ -35,7 +35,7 @@ const PostDetail = () => {
         if (res.headers.access_hh) {
           sessionStorage.setItem("AccessToken", res.headers.access_hh);
         }
-        navigate(`/auth`);
+        navigate(`/main`);
         window.location.reload();
       })
       .catch((err) => {
