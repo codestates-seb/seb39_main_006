@@ -137,12 +137,12 @@ public class PostsService {
         Posts posts = postsRepository.findById(memberPosts.getPosts().getPostId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
         if (posts.getMember().getMemberId() != principalDetails.getMember().getMemberId() &&
-                memberPosts.getMember().getMemberId() != principalDetails.getMember().getMemberId()) {
+                        memberPosts.getMember().getMemberId() != principalDetails.getMember().getMemberId()) {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
         memberPostsRepository.deleteById(participantId);
         posts.checkStatus();
-        postsRepository.save(posts);
+//        postsRepository.save(posts);
     }
 
     public void saveImages(List<String> imagePathList, Posts posts) {
