@@ -55,7 +55,8 @@ const Signup = () => {
     })
       .then((res) => {
         if (res.status) {
-          navigate("/signup");
+          alert("정상적으로 회원가입되었습니다. 로그인하여 진행해주세요.");
+          navigate("/");
         }
       })
       .catch((err) => {
