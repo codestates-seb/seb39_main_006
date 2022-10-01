@@ -1,19 +1,22 @@
 package com.codestates.seb006main.members.entity;
 
+import com.codestates.seb006main.audit.Auditable;
 import com.codestates.seb006main.comment.entity.Comment;
 import com.codestates.seb006main.feed.entity.Feed;
+import com.codestates.seb006main.matching.entity.Matching;
 import com.codestates.seb006main.posts.entity.MemberPosts;
 import com.codestates.seb006main.posts.entity.Posts;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class Member extends Auditable {
     @Id
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,11 +39,15 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<MemberPosts> groups;
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-    private List<Bookmark> bookmark;
+    private List<Bookmark> bookmarks;
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Feed> feeds;
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Comment> comments;
+    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
+    private List<Block> blocks;
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Matching> matching;
 
     public void updateMember(String displayName, String password, String phone, String content, String profileImage, LocalDateTime modifiedAt) {
         this.displayName = displayName;
@@ -49,6 +56,12 @@ public class Member {
         this.content = content;
         this.profileImage = profileImage;
         this.modifiedAt = modifiedAt;
+    }
+
+    public Member updateOAuth(String displayName, String profileImage){
+        this.displayName=displayName;
+        this.profileImage=profileImage;
+        return this;
     }
 
     @Builder

@@ -1,11 +1,15 @@
 package com.codestates.seb006main.members.controller;
 
 import com.codestates.seb006main.Image.service.ImageService;
+import com.codestates.seb006main.jwt.JwtUtils;
 import com.codestates.seb006main.members.dto.MemberDto;
 import com.codestates.seb006main.members.service.MemberService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -24,6 +28,12 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity loginMember(Authentication authentication){
         return new ResponseEntity<>(memberService.loginMember(authentication),HttpStatus.OK);
+    }
+
+    @GetMapping("/oauth/login")
+    public ResponseEntity oauthMember(@RequestParam Long memberId,
+                                      @RequestParam String email){
+        return new ResponseEntity<>(memberService.oauthLoginMember(memberId,email),HttpStatus.OK);
     }
 
     @PostMapping
@@ -62,6 +72,17 @@ public class MemberController {
     @GetMapping("/bookmark")
     public ResponseEntity bookmark(@RequestParam Long postId, Authentication authentication){
         memberService.changeBookmark(postId,authentication);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/my-bookmark")
+    public ResponseEntity myBookmark(Authentication authentication){
+        return new ResponseEntity<>(memberService.findMyBookmark(authentication),HttpStatus.OK);
+    }
+
+    @GetMapping("/blocked")
+    public ResponseEntity blockedMember(@RequestParam("blocked-member-id") Long blockedMemberId, Authentication authentication){
+        memberService.changeBlocked(blockedMemberId,authentication);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

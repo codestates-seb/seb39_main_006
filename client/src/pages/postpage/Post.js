@@ -6,7 +6,7 @@ const Post = ({ post }) => {
 
   return (
     <div>
-      <div>
+      <Test>
         <span
           onClick={() => {
             navigate(`/${post.postId}`);
@@ -20,9 +20,13 @@ const Post = ({ post }) => {
             {post.participantsCount} / {post.totalCount}
           </span>
         </span>
-      </div>
+      </Test>
     </div>
   );
 };
 
 export default Post;
+
+const Test = styled.div`
+  border: 1px solid black;
+`;

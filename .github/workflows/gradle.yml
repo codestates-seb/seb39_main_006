@@ -9,7 +9,7 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "feat/back" ]
+    branches: [ "dev" ]
 
 permissions:
   contents: read
@@ -22,6 +22,8 @@ jobs:
   build:
 
     runs-on: ubuntu-20.04
+    env :
+      APPLICATION: ${{ secrets.APPLICATION_YML }}
 
     steps:
     - uses: actions/checkout@v3
@@ -31,24 +33,30 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     
-    - name: Set YML
-      uses: microsoft/variable-substitution@v1
-      with:
-        files: ${{ env.RESOURCE_PATH }}
-      env:
-        spring.datasource.url: ${{ secrets.MYSQL_URL }}
-        spring.datasource.username: ${{ secrets.MYSQL_USERNAME }}
-        spring.datasource.password: ${{ secrets.MYSQL_PASSWORD }}
-        cloud.aws.credentials.access-key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        cloud.aws.credentials.secret-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        jwt.access: ${{ secrets.ACCESS_TOKEN_KEY }}
-        jwt.refresh: ${{ secrets.REFRESH_TOKEN_KEY }}
-        mail.smtp.host: ${{ secrets.EMAIL_HOST }}
-        mail.smtp.port: ${{ secrets.EMAIL_PORT }}
-        mail.smtp.username: ${{ secrets.EMAIL_USERNAME }}
-        mail.smtp.password: ${{ secrets.EMAIL_PASSWORD }}
-        mail.smtp.auth: ${{ secrets.EMAIL_AUTH }}
-        mail.smtp.starttls.enable: ${{ secrets.EMAIL_ENABLE }}
+    - name: Set Properties
+      run: |
+        cd server/src/main/resources
+        echo "${{ env.APPLICATION }}" > ./application.yml
+      shell: bash
+    
+#     - name: Set YML
+#       uses: microsoft/variable-substitution@v1
+#       with:
+#         files: ${{ env.RESOURCE_PATH }}
+#       env:
+#         spring.datasource.url: ${{ secrets.MYSQL_URL }}
+#         spring.datasource.username: ${{ secrets.MYSQL_USERNAME }}
+#         spring.datasource.password: ${{ secrets.MYSQL_PASSWORD }}
+#         cloud.aws.credentials.access-key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         cloud.aws.credentials.secret-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         jwt.access: ${{ secrets.ACCESS_TOKEN_KEY }}
+#         jwt.refresh: ${{ secrets.REFRESH_TOKEN_KEY }}
+#         mail.smtp.host: ${{ secrets.EMAIL_HOST }}
+#         mail.smtp.port: ${{ secrets.EMAIL_PORT }}
+#         mail.smtp.username: ${{ secrets.EMAIL_USERNAME }}
+#         mail.smtp.password: ${{ secrets.EMAIL_PASSWORD }}
+#         mail.smtp.auth: ${{ secrets.EMAIL_AUTH }}
+#         mail.smtp.starttls.enable: ${{ secrets.EMAIL_ENABLE }}
         
     - name: Server Build
       run: |                                        # 개별 실행 옵션, 없으면 29 ~ 35줄까지 모두 한줄에 실행됨

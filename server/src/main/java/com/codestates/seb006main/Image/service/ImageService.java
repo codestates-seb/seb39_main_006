@@ -56,7 +56,7 @@ public class ImageService {
                 .storedName(storedName)
                 .storedPath(imagePath)
                 .fileSize(image.getSize())
-                .uploadedAt(LocalDateTime.parse(amazonS3Client.getObject(S3Bucket, storedName).getObjectMetadata().getLastModified().toString()))
+                .uploadedAt(LocalDateTime.now())
                 .build());
 
         return new HashMap<String, Object>() {{

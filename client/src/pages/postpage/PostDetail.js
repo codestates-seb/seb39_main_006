@@ -5,15 +5,21 @@ import { useNavigate, useParams } from "react-router-dom";
 // Toast-UI Viewer 임포트
 import "@toast-ui/editor/dist/toastui-editor-viewer.css";
 import { Viewer } from "@toast-ui/react-editor";
+import styled from "styled-components";
 
 const PostDetail = () => {
   const { id } = useParams();
   const [detail, setDetail] = useState([]);
+  const [matchList, setMatchList] = useState([]);
+  const [matchBody, setMatchBody] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     axios(`https://seb-006.shop/api/posts/${id}`).then((res) => {
       setDetail(res.data);
+    });
+    axios(`https://seb-006.shop/api/posts/${id}/matching`).then((res) => {
+      setMatchList(res.data.data);
     });
   }, [id]);
 
@@ -39,7 +45,33 @@ const PostDetail = () => {
           navigate(`/`);
           window.location.reload();
         }
+        console.log(err);
       });
+  };
+
+  const matchSubmitHandler = () => {
+    axios(`https://seb-006.shop/api/matching/posts/${id}`, {
+      method: "POST",
+      headers: {
+        access_hh: sessionStorage.getItem("AccessToken"),
+        refresh_hh: sessionStorage.getItem("RefreshToken"),
+      },
+      data: { body: matchBody },
+    }).then(() => {
+      window.location.reload();
+    });
+  };
+
+  const goAway = (memberPostId) => {
+    axios(`https://seb-006.shop/api/participants/${memberPostId}`, {
+      method: "DELETE",
+      headers: {
+        access_hh: sessionStorage.getItem("AccessToken"),
+        refresh_hh: sessionStorage.getItem("RefreshToken"),
+      },
+    }).then(() => {
+      window.location.reload();
+    });
   };
 
   return (
@@ -77,9 +109,70 @@ const PostDetail = () => {
         >
           게시글을 삭제한다...!
         </button>
-      ) : null}
+      ) : (
+        <>
+          {detail.postsStatus && console.log(detail.postsStatus)}
+          <div>
+            <textarea
+              onChange={(e) => {
+                setMatchBody(e.target.value);
+              }}
+            ></textarea>
+          </div>
+          <button
+            onClick={() => {
+              matchSubmitHandler();
+            }}
+          >
+            매칭 신청
+          </button>
+        </>
+      )}
+      <h2>매칭 신청들~~~</h2>
+      {matchList.map((el, idx) => (
+        <BorderContainer key={idx}>
+          <span>
+            <span>신청자 : {el.memberName} </span>
+            {sessionStorage.getItem("userName") === detail.leaderName ? (
+              <button
+                onClick={() => {
+                  navigate(`/match/${el.matchingId}`);
+                }}
+              >
+                매칭관리
+              </button>
+            ) : null}
+            {el.matchingStatus === "READ" ? <span>읽음</span> : null}
+            {el.matchingStatus === "NOT_READ" ? <span>안읽음</span> : null}
+          </span>
+        </BorderContainer>
+      ))}
+      <h2>참여자 명단~~~</h2>
+      {detail.participants &&
+        detail.participants.map((el, idx) => (
+          <BorderContainer key={idx}>
+            <span>
+              <div>닉네임 : {el.displayName} </div>
+              <div>자기소개 : {el.content}</div>
+              {sessionStorage.getItem("userName") === detail.leaderName &&
+              sessionStorage.getItem("userName") !== el.displayName ? (
+                <button
+                  onClick={() => {
+                    goAway(el.memberPostId);
+                  }}
+                >
+                  여행 추방
+                </button>
+              ) : null}
+            </span>
+          </BorderContainer>
+        ))}
     </div>
   );
 };
 
 export default PostDetail;
+
+const BorderContainer = styled.div`
+  border: 1px solid black;
+`;

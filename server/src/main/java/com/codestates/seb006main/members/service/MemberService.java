@@ -7,16 +7,21 @@ import com.codestates.seb006main.Image.service.ImageService;
 import com.codestates.seb006main.auth.PrincipalDetails;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
+import com.codestates.seb006main.jwt.JwtUtils;
 import com.codestates.seb006main.mail.service.EmailSender;
+import com.codestates.seb006main.members.dto.BookmarkDto;
 import com.codestates.seb006main.members.dto.MemberDto;
+import com.codestates.seb006main.members.entity.Block;
 import com.codestates.seb006main.members.entity.Bookmark;
 import com.codestates.seb006main.members.entity.Member;
 import com.codestates.seb006main.members.mapper.MemberMapper;
+import com.codestates.seb006main.members.repository.BlockRepository;
 import com.codestates.seb006main.members.repository.BookmarkRepository;
 import com.codestates.seb006main.members.repository.MemberRepository;
 import com.codestates.seb006main.posts.entity.Posts;
 import com.codestates.seb006main.posts.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,8 +30,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -38,15 +42,26 @@ public class MemberService {
     private final EmailSender emailSender;
     private final ImageRepository imageRepository;
     final AmazonS3Client amazonS3Client;
-    private final String S3Bucket = "seb-main-006/img";
+    @Value("${cloud.aws.s3.bucket}")
+    private String S3Bucket;
     private final BookmarkRepository bookmarkRepository;
     private final PostsRepository postsRepository;
+    private final JwtUtils jwtUtils;
+    private final BlockRepository blockRepository;
 
     public MemberDto.Response loginMember(Authentication authentication){
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Member loginMember = memberRepository.findByEmail(principalDetails.getMember().getEmail())
                 .orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         return memberMapper.memberToMemberResponse(loginMember);
+    }
+
+    public MemberDto.OAuthResponse oauthLoginMember(Long memberId, String email){
+        Member loginMember = memberRepository.findByEmail(email)
+                .orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        MemberDto.OAuthResponse oAuthResponse = memberMapper.memberToMemberOAuthResponse(loginMember);
+        oAuthResponse.addToken(jwtUtils.createAccessToken(memberId,email),jwtUtils.createRefreshToken(memberId,email));
+        return oAuthResponse;
     }
 
     public MemberDto.Response joinMember(MemberDto.Post post){
@@ -113,6 +128,27 @@ public class MemberService {
         }
     }
 
+    public void changeBlocked(Long blockedMemberId, Authentication authentication){
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        Member member = principalDetails.getMember();
+        Optional<Block> block = blockRepository.findByMemberAndBlockedMemberId(member,blockedMemberId);
+        if(block.isPresent()){
+            blockRepository.delete(block.orElseThrow(()-> new BusinessLogicException(ExceptionCode.BLOCK_NOT_FOUND)));
+        }else{
+            blockRepository.save(Block.builder().member(member).blockedMemberId(blockedMemberId).build());
+        }
+    }
+
+    public Map<String,List<Long>> findMyBookmark(Authentication authentication){
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        Member member = principalDetails.getMember();
+        List<Bookmark> bookmarks = bookmarkRepository.findByMember(member);
+        List<Long> postIds = new ArrayList<>();
+        for (int i = 0; i < bookmarks.size(); i++) {
+            postIds.add(bookmarks.get(i).getPost().getPostId());
+        }
+        return Map.of("postIds",postIds);
+    }
     private void verifyExistMemberWithEmail(String email){
         Optional<Member> checkMember =  memberRepository.findByEmail(email);
         if(checkMember.isPresent()) throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);

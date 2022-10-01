@@ -1,6 +1,7 @@
 package com.codestates.seb006main.feed.entity;
 
 import com.codestates.seb006main.Image.entity.Image;
+import com.codestates.seb006main.audit.Auditable;
 import com.codestates.seb006main.comment.entity.Comment;
 import com.codestates.seb006main.members.entity.Member;
 import lombok.AccessLevel;
@@ -16,12 +17,10 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Feed {
+public class Feed extends Auditable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long feedId;
     private String body;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
@@ -31,12 +30,10 @@ public class Feed {
     private List<Image> images;
 
     @Builder
-    public Feed(Long feedId, String body, LocalDateTime createdAt, LocalDateTime modifiedAt, Member member) {
+    public Feed(Long feedId, String body, Member member) {
         this.feedId = feedId;
         this.body = body;
         this.member = member;
-        this.createdAt = createdAt;
-        this.modifiedAt = modifiedAt;
     }
 
     public void setMember(Member member) {
@@ -45,6 +42,5 @@ public class Feed {
 
     public void updateFeed(String body) {
         this.body = body;
-        this.modifiedAt = LocalDateTime.now();
     }
 }
