@@ -107,7 +107,7 @@ const Signup = () => {
             </form>
           </InputWrapper>
           <div>
-            <Button onClick={usesubmitHandler}>Create Accoun</Button>
+            <Button onClick={usesubmitHandler}>Create Account</Button>
             <Button type="button" onClick={loginHandler}>
               Return to Login Page
             </Button>

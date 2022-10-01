@@ -16,6 +16,7 @@ const MainSubHeader = () => {
   return (
     <SubHeader>
       <input
+        className="inputtext"
         type="text"
         placeholder="제목을 검색하세요"
         value={title}
@@ -24,6 +25,7 @@ const MainSubHeader = () => {
         }}
       ></input>
       <input
+        className="inputtext"
         type="text"
         placeholder="본문을 검색하세요"
         value={body}
@@ -32,6 +34,7 @@ const MainSubHeader = () => {
         }}
       ></input>
       <input
+        className="inputtext"
         type="text"
         placeholder="여행지를 검색하세요"
         value={location}
@@ -40,17 +43,20 @@ const MainSubHeader = () => {
         }}
       ></input>
       <span>
-        <span>여행 시작 날짜</span>
-        <input
-          type="date"
-          value={startDate}
-          onChange={(e) => {
-            dispatch(searchActions.setStartDate(e.target.value));
-          }}
-        ></input>
+        <span className="test2">여행 시작 날짜</span>
+        <span>
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) => {
+              dispatch(searchActions.setStartDate(e.target.value));
+            }}
+          ></input>
+          {/* <div className="test">{startDate}</div> */}
+        </span>
       </span>
       <span>
-        <span>여행 종료 날짜</span>
+        <span className="test2">여행 종료 날짜</span>
         <input
           type="date"
           value={endDate}
@@ -58,6 +64,7 @@ const MainSubHeader = () => {
             dispatch(searchActions.setEndDate(e.target.value));
           }}
         ></input>
+        {/* <div className="test">{endDate}</div> */}
       </span>
       <button>검색</button>
       <button
@@ -85,5 +92,33 @@ const MainSubHeader = () => {
 export default MainSubHeader;
 
 const SubHeader = styled.div`
-  border: 1px solid black;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 30px;
+  height: 60px;
+  background-color: #d5eaf1;
+  border-radius: 10px;
+  button {
+    font-size: 1rem;
+    background-color: #dabbc9;
+    width: fit-content;
+    border: 1px solid #dabbc9;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+    color: #425049;
+    &:hover {
+      background-color: #efd5c8;
+      border-color: #efd5c8;
+    }
+  }
+  .inputtext {
+    width: 200px;
+    height: 40px;
+    font-size: 1rem;
+    border-radius: 10px;
+  }
+  .test {
+    border: 1px solid black;
+  }
 `;
