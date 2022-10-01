@@ -10,8 +10,6 @@ import java.util.UUID;
 @Component
 public class FileHandler {
     private String fileDir;
-
-    // TODO:
     public String getFullPath(String fileName) {
         return fileDir + fileName;
     }

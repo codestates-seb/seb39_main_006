@@ -11,9 +11,8 @@ import com.codestates.seb006main.exception.ExceptionCode;
 import com.codestates.seb006main.util.FileHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -21,9 +20,9 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class ImageService {
     private final ImageRepository imageRepository;

@@ -12,8 +12,10 @@ import com.codestates.seb006main.feed.repository.FeedRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class CommentService {
     private final CommentRepository commentRepository;
