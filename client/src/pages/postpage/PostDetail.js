@@ -98,86 +98,168 @@ const PostDetail = () => {
         ) : null}
       </h1>
       <div>작성자 : {detail.leaderName}</div>
-      <div>
-        <span>
-          여행일정 : {detail.startDate} ~ {detail.endDate}
-        </span>
-        <span>여행지역 : {detail.location}</span>
-        <span>매칭기간 : {detail.closeDate} 까지</span>
-        <span>
-          모집 인원 {detail.participantsCount} / {detail.totalCount}
-        </span>
-      </div>
-      {detail.body && (
-        <>
-          <h2>본문</h2>
-          <Viewer initialValue={detail.body} />
-        </>
-      )}
-      {sessionStorage.getItem("userName") === detail.leaderName ? null : (
-        <>
-          {detail.postsStatus && console.log(detail.postsStatus)}
-          <div>
-            <textarea
-              onChange={(e) => {
-                setMatchBody(e.target.value);
-              }}
-            ></textarea>
-          </div>
-          <button
-            onClick={() => {
-              matchSubmitHandler();
-            }}
-          >
-            매칭 신청
-          </button>
-        </>
-      )}
-      <h2>매칭 신청들~~~</h2>
-      {matchList.map((el, idx) => (
-        <BorderContainer key={idx}>
-          <span>
-            <span>신청자 : {el.memberName} </span>
-            {sessionStorage.getItem("userName") === detail.leaderName ? (
+      <Container>
+        <div>
+          <FlexContainer>
+            <span className="flexbody">
+              <span>여행일정</span>
+              <span>
+                {detail.startDate} ~ {detail.endDate}
+              </span>
+            </span>
+            <span className="flexbody">
+              <span>여행지역</span>
+              <span>{detail.location}</span>
+            </span>
+            <span className="flexbody">
+              <span>매칭기간</span>
+              <span>{detail.closeDate} 까지</span>
+            </span>
+            <span className="flexbody">
+              <span>모집 인원</span>
+              <span>
+                {detail.participantsCount} / {detail.totalCount}
+              </span>
+            </span>
+          </FlexContainer>
+          {detail.body && (
+            <div>
+              <h2>본문</h2>
+              <BodyContainer>
+                <Viewer initialValue={detail.body} />
+              </BodyContainer>
+            </div>
+          )}
+          {sessionStorage.getItem("userName") === detail.leaderName ? null : (
+            <Matchtext>
+              <textarea
+                onChange={(e) => {
+                  setMatchBody(e.target.value);
+                }}
+              ></textarea>
               <button
                 onClick={() => {
-                  navigate(`/match/${el.matchingId}`);
+                  matchSubmitHandler();
                 }}
               >
-                매칭관리
+                매칭 신청
               </button>
-            ) : null}
-            {el.matchingStatus === "READ" ? <span>읽음</span> : null}
-            {el.matchingStatus === "NOT_READ" ? <span>안읽음</span> : null}
-          </span>
-        </BorderContainer>
-      ))}
-      <h2>참여자 명단~~~</h2>
-      {detail.participants &&
-        detail.participants.map((el, idx) => (
-          <BorderContainer key={idx}>
-            <span>
-              <div>닉네임 : {el.displayName} </div>
-              <div>자기소개 : {el.content}</div>
-              {sessionStorage.getItem("userName") === detail.leaderName &&
-              sessionStorage.getItem("userName") !== el.displayName ? (
-                <button
-                  onClick={() => {
-                    goAway(el.memberPostId);
-                  }}
-                >
-                  여행 추방
-                </button>
-              ) : null}
-            </span>
-          </BorderContainer>
-        ))}
+            </Matchtext>
+          )}
+        </div>
+
+        <div>
+          <h2>매칭 신청</h2>
+          {matchList.map((el, idx) => (
+            <Match key={idx}>
+              <span>신청자 : {el.memberName} </span>
+              <span className="isread">
+                {sessionStorage.getItem("userName") === detail.leaderName ? (
+                  <button
+                    onClick={() => {
+                      navigate(`/match/${el.matchingId}`);
+                    }}
+                  >
+                    매칭관리
+                  </button>
+                ) : null}
+                {el.matchingStatus === "READ" ? <span>✅</span> : null}
+                {el.matchingStatus === "NOT_READ" ? <span>❌</span> : null}
+              </span>
+            </Match>
+          ))}
+          <h2>참여자 명단</h2>
+          {detail.participants &&
+            detail.participants.map((el, idx) => (
+              <Match key={idx}>
+                <span>
+                  <div>
+                    닉네임 : {el.displayName}
+                    {sessionStorage.getItem("userName") === detail.leaderName &&
+                    sessionStorage.getItem("userName") !== el.displayName ? (
+                      <button
+                        onClick={() => {
+                          goAway(el.memberPostId);
+                        }}
+                      >
+                        여행 추방
+                      </button>
+                    ) : null}
+                  </div>
+                  <div>자기소개 : {el.content}</div>
+                </span>
+              </Match>
+            ))}
+        </div>
+      </Container>
     </div>
   );
 };
 
 export default PostDetail;
 
-const BorderContainer = styled.div`
+const Match = styled.div`
+  display: flex;
+  justify-content: space-between;
   border: 1px solid black;
+  background-color: #d5eaf1;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  .isread {
+    margin-right: 10px;
+  }
+  button {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+`;
+
+const FlexContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  .flexbody {
+    border: 1px solid black;
+    border-radius: 15px;
+    background-color: #d5eaf1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    margin: 0.5rem;
+  }
+`;
+
+const BodyContainer = styled.div`
+  border: 1px solid black;
+  background-color: #d5eaf1;
+  border-radius: 15px;
+  width: 100%;
+  .toastui-editor-contents {
+    padding: 10px;
+  }
+  .toastui-editor-contents p {
+    font-size: 17px;
+  }
+  margin-bottom: 20px;
+`;
+
+const Container = styled.div`
+  display: flex;
+  justify-content: space-around;
+  /* background-color: yellow; */
+  height: 80vh;
+`;
+
+const Matchtext = styled.div`
+  display: flex;
+  textarea {
+    flex-grow: 1;
+    font-size: 17px;
+    height: 200px;
+    margin-right: 20px;
+  }
 `;
