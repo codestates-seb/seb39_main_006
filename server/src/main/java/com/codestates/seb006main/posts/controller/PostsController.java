@@ -24,10 +24,7 @@ public class PostsController {
     private final PostsService postsService;
 
     @PostMapping
-    public ResponseEntity postPosts(@RequestBody PostsDto.Post postDto, Authentication authentication
-//            , @RequestPart(value = "images", required = false) List<MultipartFile> images
-                                                                                    ) throws IOException {
-        // TODO: groupDto.Post를 받거나, posts와 group의 postDto를 둘 다 받는 방식.
+    public ResponseEntity postPosts(@RequestBody PostsDto.Post postDto, Authentication authentication) {
         PostsDto.Response responseDto = postsService.createPosts(postDto, authentication);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }

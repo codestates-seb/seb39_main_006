@@ -13,11 +13,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-/**
- * TODO: 일정 기간 사용되지 않는 이미지는 삭제 (batch)
- *      -> 중간 비즈니스 로직을 통해 S3에 올라간 데이터까지 삭제
- */
-
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -47,30 +42,38 @@ public class Image {
         this.storedName = storedName;
         this.storedPath = storedPath;
         this.fileSize = fileSize;
-        // TODO: 굳이 생성자에 넣을 필요가 있을까? => 필드를 만들 필요가 있을까? Many 에선 생성만 하고 One에선 조회만 하면 된다.
         this.posts = posts;
         this.feed = feed;
         this.uploadedAt = uploadedAt;
     }
 
     public void setPosts(Posts posts) {
-        if (this.posts != posts && this.posts != null && this.member != null && this.feed != null) {
+        if (posts == null) {
+            this.posts = null;
+        }
+        if (this.posts != posts && (this.posts != null || this.member != null || this.feed != null)) {
             throw new BusinessLogicException(ExceptionCode.ALREADY_USED_IMAGE);
         }
         this.posts = posts;
     }
 
     public void setMember(Member member) {
-        if (this.member != member && this.posts != null && this.member != null && this.feed != null) {
+        if (member == null) {
+            this.member = null;
+        }
+        if (this.member != member && (this.posts != null || this.member != null || this.feed != null)) {
             throw new BusinessLogicException(ExceptionCode.ALREADY_USED_IMAGE);
         }
         this.member = member;
     }
 
     public void setFeed(Feed feed) {
-        if (this.feed != feed && this.posts != null && this.member != null && this.feed != null) {
+        if (feed == null) {
+            this.feed = null;
+        } else if (this.feed != feed && (this.posts != null || this.member != null || this.feed != null)) {
             throw new BusinessLogicException(ExceptionCode.ALREADY_USED_IMAGE);
+        } else {
+            this.feed = feed;
         }
-        this.feed = feed;
     }
 }
