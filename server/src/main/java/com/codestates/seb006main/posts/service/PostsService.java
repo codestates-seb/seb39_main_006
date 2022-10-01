@@ -140,9 +140,10 @@ public class PostsService {
                         memberPosts.getMember().getMemberId() != principalDetails.getMember().getMemberId()) {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
+        posts.deleteParticipant(memberPosts);
         memberPostsRepository.deleteById(participantId);
         posts.checkStatus();
-//        postsRepository.save(posts);
+        postsRepository.save(posts);
     }
 
     public void saveImages(List<String> imagePathList, Posts posts) {

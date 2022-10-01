@@ -33,12 +33,11 @@ public class Posts extends Auditable {
     private LocalDate closeDate;
     @Enumerated(EnumType.STRING)
     private PostsStatus postsStatus;
-    //    private LocalDateTime createdAt;
-//    private LocalDateTime modifiedAt;
+
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
-    @OneToMany(mappedBy = "posts", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "posts", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     private List<MemberPosts> participants = new ArrayList<>();
     @OneToMany(mappedBy = "posts", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Matching> matching = new ArrayList<>();
@@ -91,6 +90,11 @@ public class Posts extends Auditable {
     public void deleteImage(Image image) {
         this.images.remove(image);
         image.setPosts(null);
+    }
+
+    public void deleteParticipant(MemberPosts memberPosts) {
+        this.participants.remove(memberPosts);
+        memberPosts.setPosts(null);
     }
 
     public void inactive() {
