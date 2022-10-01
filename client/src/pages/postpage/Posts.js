@@ -2,12 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Post from "./Post";
+import { useDispatch, useSelector } from "react-redux";
+import { filterActions } from "../../store/filter-slice";
+import { pageActions } from "../../store/page-slice";
 
 // 페이지네이션
 import Pagination from "react-js-pagination";
 import "./Paging.css";
-import { useDispatch, useSelector } from "react-redux";
-import { filterActions } from "../../store/filter-slice";
 
 const Posts = () => {
   const dispatch = useDispatch();
@@ -17,10 +18,10 @@ const Posts = () => {
   const startDate = useSelector((state) => state.search.startDate);
   const endDate = useSelector((state) => state.search.endDate);
   const sort = useSelector((state) => state.filter.filterValue);
+  const page = useSelector((state) => state.page.page);
 
   const [data, setData] = useState([]);
-  const [page, setPage] = useState(1);
-  const [size, setSize] = useState(10);
+  const [size, setSize] = useState(2);
   const [totalElements, setTotalElements] = useState(0);
 
   useEffect(() => {
@@ -33,7 +34,7 @@ const Posts = () => {
   }, [page, size, title, body, location, startDate, endDate, sort]);
 
   const handlePageChange = (page) => {
-    setPage(page);
+    dispatch(pageActions.setPage(page));
   };
 
   return (
