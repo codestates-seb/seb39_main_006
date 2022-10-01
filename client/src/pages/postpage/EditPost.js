@@ -5,6 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 // toast
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import Button from "../../components/ui/Button";
+import Input from "../../components/ui/Input";
 
 // toast color syntax
 import "tui-color-picker/dist/tui-color-picker.css";
@@ -73,7 +75,7 @@ const EditPost = () => {
     <div>
       <div>
         <span>제목</span>
-        <input
+        <Input
           type="text"
           required
           defaultValue={title}
@@ -84,7 +86,7 @@ const EditPost = () => {
       </div>
       <div>
         <span>본인을 포함한 총 모집 인원 수 </span>
-        <input
+        <Input
           type="number"
           required
           defaultValue={mate}
@@ -95,7 +97,7 @@ const EditPost = () => {
       </div>
       <div>
         <span>모집 마감 </span>
-        <input
+        <Input
           type="date"
           required
           defaultValue={closeDate}
@@ -128,21 +130,21 @@ const EditPost = () => {
         ></Editor>
       )}
       {sessionStorage.getItem("userName") === editData.leaderName ? (
-        <button
+        <Button
           onClick={() => {
             submitEditDataHandler();
           }}
         >
           수정 완료
-        </button>
+        </Button>
       ) : null}
-      <button
+      <Button
         onClick={() => {
           navigate(`/${id}`);
         }}
       >
         취소
-      </button>
+      </Button>
     </div>
   );
 };
