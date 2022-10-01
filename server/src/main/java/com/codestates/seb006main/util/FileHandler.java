@@ -33,7 +33,7 @@ public class FileHandler {
 
     public String createStoredName(String originName) {
         String ext = extractedExt(originName);
-        if (!extWhiteList.contains(ext)) {
+        if (!extWhiteList.contains(ext.toLowerCase())) {
             throw new BusinessLogicException(ExceptionCode.NOT_ALLOWED_FILENAME_EXTENSION);
         }
         String uuid = UUID.randomUUID().toString();
