@@ -185,6 +185,16 @@ const PostDetail = () => {
                         여행 추방
                       </button>
                     ) : null}
+                    {sessionStorage.getItem("userName") !== detail.leaderName &&
+                    sessionStorage.getItem("userName") === el.displayName ? (
+                      <button
+                        onClick={() => {
+                          goAway(el.memberPostId);
+                        }}
+                      >
+                        참여 취소
+                      </button>
+                    ) : null}
                   </div>
                   <div>자기소개 : {el.content}</div>
                 </span>
