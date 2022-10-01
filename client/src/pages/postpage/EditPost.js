@@ -75,7 +75,7 @@ const EditPost = () => {
     <div>
       <div>
         <span>제목</span>
-        <Input
+        <input
           type="text"
           required
           defaultValue={title}
@@ -86,7 +86,7 @@ const EditPost = () => {
       </div>
       <div>
         <span>본인을 포함한 총 모집 인원 수 </span>
-        <Input
+        <input
           type="number"
           required
           defaultValue={mate}
@@ -97,7 +97,7 @@ const EditPost = () => {
       </div>
       <div>
         <span>모집 마감 </span>
-        <Input
+        <input
           type="date"
           required
           defaultValue={closeDate}

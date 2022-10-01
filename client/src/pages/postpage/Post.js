@@ -1,12 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 const Post = ({ post }) => {
   const navigate = useNavigate();
 
   return (
     <div>
-      <Test>
+      <div>
         <span
           onClick={() => {
             navigate(`/${post.postId}`);
@@ -20,13 +19,9 @@ const Post = ({ post }) => {
             {post.participantsCount} / {post.totalCount}
           </span>
         </span>
-      </Test>
+      </div>
     </div>
   );
 };
 
 export default Post;
-
-const Test = styled.div`
-  border: 1px solid black;
-`;
