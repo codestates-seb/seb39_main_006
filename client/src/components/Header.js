@@ -1,6 +1,6 @@
 import React from "react";
 //react 에서 img import 하는법 https://velog.io/@ingdol2/React-image-%EA%B2%BD%EB%A1%9C-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0
-import imgLogo from "../img/newWave.gif";
+import imgLogo from "../img/realWave.gif";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 //
