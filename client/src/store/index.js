@@ -3,8 +3,29 @@ import searchReducer from "./search-slice";
 import filterReducer from "./filter-slice";
 import pageReducer from "./page-slice";
 
+// 새로고침 유지
+import storage from "redux-persist/lib/storage";
+import { combineReducers } from "@reduxjs/toolkit";
+import { persistReducer } from "redux-persist";
+import thunk from "redux-thunk";
+
+const reducers = combineReducers({
+  search: searchReducer,
+  filter: filterReducer,
+  page: pageReducer,
+});
+
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, reducers);
+
 const store = configureStore({
-  reducer: { search: searchReducer, filter: filterReducer, page: pageReducer },
+  reducer: persistedReducer,
+  devTools: process.env.NODE_ENV !== "production",
+  middleware: [thunk],
 });
 
 export default store;
