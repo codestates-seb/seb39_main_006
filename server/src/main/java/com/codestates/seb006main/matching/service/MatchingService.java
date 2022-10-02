@@ -1,17 +1,21 @@
 package com.codestates.seb006main.matching.service;
 
 import com.codestates.seb006main.auth.PrincipalDetails;
+import com.codestates.seb006main.config.DomainEvent;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
 import com.codestates.seb006main.matching.dto.MatchingDto;
 import com.codestates.seb006main.matching.entity.Matching;
 import com.codestates.seb006main.matching.mapper.MatchingMapper;
 import com.codestates.seb006main.matching.repository.MatchingRepository;
+import com.codestates.seb006main.message.entity.Message;
+import com.codestates.seb006main.message.repository.MessageRepository;
 import com.codestates.seb006main.posts.entity.MemberPosts;
 import com.codestates.seb006main.posts.entity.Posts;
 import com.codestates.seb006main.posts.repository.MemberPostsRepository;
 import com.codestates.seb006main.posts.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +29,10 @@ public class MatchingService {
     private final MatchingRepository matchingRepository;
     private final PostsRepository postsRepository;
     private final MemberPostsRepository memberPostsRepository;
+    private final MessageRepository messageRepository;
     private final MatchingMapper matchingMapper;
+    private final ApplicationEventPublisher applicationEventPublisher;
+
     public MatchingDto.Response createMatching(Long postId, MatchingDto.Post postDto, Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Posts posts = postsRepository.findById(postId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
@@ -42,6 +49,9 @@ public class MatchingService {
                 .body(postDto.getBody())
                 .member(principalDetails.getMember()).build();
         matching.setPosts(posts);
+
+        applicationEventPublisher.publishEvent(new DomainEvent(this, matching));
+
         matching.checkPostsStatus();
         matchingRepository.save(matching);
         return matchingMapper.matchingToResponseDto(matching);

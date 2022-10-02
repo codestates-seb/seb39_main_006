@@ -1,4 +1,4 @@
-package com.codestates.seb006main.config;
+package com.codestates.seb006main.config.security;
 
 import com.codestates.seb006main.jwt.JwtUtils;
 import org.springframework.context.annotation.Bean;

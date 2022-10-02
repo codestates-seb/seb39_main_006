@@ -1,6 +1,6 @@
 package com.codestates.seb006main.posts.mapper;
 
-import com.codestates.seb006main.group.dto.GroupDto;
+
 import com.codestates.seb006main.members.dto.MemberDto;
 import com.codestates.seb006main.members.entity.Member;
 import com.codestates.seb006main.posts.dto.PostsDto;

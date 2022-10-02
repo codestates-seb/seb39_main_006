@@ -1,4 +1,4 @@
-package com.codestates.seb006main.config;
+package com.codestates.seb006main.config.batch;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.JobParameter;
