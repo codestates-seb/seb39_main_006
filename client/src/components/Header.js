@@ -28,7 +28,7 @@ const Header = () => {
         <nav>
           <ul className="menuItems">
             <li>
-              <a href="/" data-item="Home">
+              <a href="/main" data-item="Home">
                 HOME
               </a>
             </li>
