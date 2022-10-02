@@ -9,11 +9,13 @@ import Login from "./pages/account/Login";
 import SignUp from "./pages/account/SignUp";
 import Matching from "./pages/mypage/Matching";
 import UserInfo from "../src/pages/mypage/UserInfo";
+import Background from "../src/components/ui/Background";
 
 function App() {
   return (
-    <div>
+    <Background>
       <Header />
+
       <Routes>
         {sessionStorage.getItem("isLogin") === null ? (
           <>
@@ -22,7 +24,7 @@ function App() {
           </>
         ) : (
           <>
-            <Route path="/members/:id" element={<UserInfo />}></Route>
+            <Route path="/userinfo" element={<UserInfo />}></Route>
             <Route path="/main" element={<MainPage />}></Route>
             <Route path="/:id" element={<PostDetail />}></Route>
             <Route path="/edit/:id" element={<EditPost />}></Route>
@@ -31,7 +33,7 @@ function App() {
           </>
         )}
       </Routes>
-    </div>
+    </Background>
   );
 }
 

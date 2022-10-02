@@ -28,23 +28,23 @@ const Header = () => {
         <nav>
           <ul className="menuItems">
             <li>
-              <a href="#" data-item="Home">
+              <a href="/" data-item="Home">
                 HOME
               </a>
             </li>
             <li>
-              <a href="#" data-item="MENU">
-                MENU
-              </a>
-            </li>
-            <li>
-              <a href="#" data-item="여행지목록">
-                여행지목록
-              </a>
-            </li>
-            <li>
-              <a data-item="USER INFO" href="/main">
+              <a href="/userinfo" data-item="USER INFO">
                 USER INFO
+              </a>
+            </li>
+            <li>
+              <a href="/main" data-item="MainPage">
+                MainPage
+              </a>
+            </li>
+            <li>
+              <a data-item="매칭신청" href="/members:id">
+                매칭신청
               </a>
             </li>
 
@@ -114,10 +114,6 @@ const HeaderSection = styled.div`
     opacity: 100%;
   }
 
-  #profile {
-    width: 50px;
-    height: 50p;
-  }
   #logout-btn {
     li {
       /* margin: 50px; */
@@ -125,7 +121,7 @@ const HeaderSection = styled.div`
       a {
         text-decoration: none;
         color: #efd5c8;
-        font-size: 24px;
+        font-size: 3rem;
         font-weight: 400;
         transition: all 0.5s ease-in-out;
         position: relative;
@@ -159,15 +155,15 @@ const HeaderSection = styled.div`
     justify-content: center;
     align-items: center;
     position: relative;
-    min-height: 100vh;
+    min-height: 50vh;
     font-family: Hack, monospace;
   }
   button {
-    font-size: 1.25rem;
+    font-size: 1rem;
     background-color: #dabbc9;
     width: fit-content;
     border: 1px solid #dabbc9;
-    padding: 0.5rem 1rem;
+    padding: 0.1rem 1rem;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
     color: #425049;
     &:hover {
@@ -182,7 +178,7 @@ const HeaderSection = styled.div`
 
   p {
     line-height: 4rem;
-    padding-top: 0.1rem;
+
     /* margin-top: 3rem;
     margin-left: 5rem; */
     font-size: 4rem;
@@ -219,14 +215,14 @@ const HeaderSection = styled.div`
     background: #d0e8f0;
     opacity: 90%;
     width: fit-content;
-    padding: 1rem;
+    padding: 0.5rem;
     .menuItems {
       list-style: none;
       display: flex;
       /* margin-left: 2rem; */
 
       li {
-        margin: 1rem;
+        margin: 0.5rem;
 
         a {
           text-decoration: none;
