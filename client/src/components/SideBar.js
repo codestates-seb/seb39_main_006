@@ -39,10 +39,6 @@ const SideBar = () => {
           </li>
         </ul>
       </nav>
-      <section>
-        <h1>Main Page</h1>
-        <h2>여행동행자 모집합니다</h2>
-      </section>
     </SideBars>
   );
 };
