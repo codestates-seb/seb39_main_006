@@ -21,7 +21,7 @@ const Userinfo = () => {
   const [validatePhoneNumberText, SetValidatePhoneNumberText] = useState("");
   const [validateContentText, SetValidateContentText] = useState("");
 
-  const [file, setFile] = useState("");
+  // const [file, setFile] = useState("");
   const [imageURL, setImageURL] = useState("");
 
   const displaynameInputRef = useRef();
@@ -113,9 +113,9 @@ const Userinfo = () => {
       });
   };
   const navigate = useNavigate();
-  const submitHandler = (event) => {
-    event.preventDefault();
-  };
+  // const submitHandler = (event) => {
+  //   event.preventDefault();
+  // };
   return (
     <>
       <h1>userinfo Edit</h1>
