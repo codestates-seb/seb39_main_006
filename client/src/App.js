@@ -8,6 +8,7 @@ import { Routes, Route } from "react-router-dom";
 import Login from "./pages/account/Login";
 import SignUp from "./pages/account/SignUp";
 import Matching from "./pages/mypage/Matching";
+import UserInfo from "../src/pages/mypage/UserInfo";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           </>
         ) : (
           <>
+            <Route path="/members/:id" element={<UserInfo />}></Route>
             <Route path="/main" element={<MainPage />}></Route>
             <Route path="/:id" element={<PostDetail />}></Route>
             <Route path="/edit/:id" element={<EditPost />}></Route>
