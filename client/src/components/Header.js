@@ -18,9 +18,9 @@ const Header = () => {
         onClick={() => {
           sessionStorage.getItem("isLogin") ? navigate(`/main`) : navigate(`/`);
         }}
-        data-item="HITCH : HICKER"
+        data-item="HITCH : HIKER"
       >
-        HITCH : HICKER
+        HITCH : HIKER
       </p>
 
       {sessionStorage.getItem("isLogin") && (
@@ -99,9 +99,9 @@ const HeaderSection = styled.div`
   }
   // Developed by http://grohit.com/
   .Button {
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
     align-items: center;
-    margin-left: 8rem;
+    /* margin-left: 8rem; */
     list-style-type: none;
     border-radius: 10px;
     display: inline-block;
@@ -119,7 +119,7 @@ const HeaderSection = styled.div`
   }
   #logout-btn {
     li {
-      margin: 50px;
+      /* margin: 50px; */
 
       a {
         text-decoration: none;
@@ -182,8 +182,8 @@ const HeaderSection = styled.div`
   p {
     line-height: 90px;
     padding-top: 5rem;
-    margin-top: 3rem;
-    margin-left: 5rem;
+    /* margin-top: 3rem;
+    margin-left: 5rem; */
     font-size: 90px;
     color: #dabbc9;
     text-transform: uppercase;
@@ -214,7 +214,7 @@ const HeaderSection = styled.div`
   nav {
     border-radius: 10px;
     box-shadow: 0 1px 4px rgba(1, 0, 0, 0.6);
-    margin: 70px;
+    /* margin: 70px; */
     background: #d0e8f0;
     opacity: 90%;
     width: fit-content;
@@ -222,10 +222,10 @@ const HeaderSection = styled.div`
     .menuItems {
       list-style: none;
       display: flex;
-      margin-left: 2rem;
+      /* margin-left: 2rem; */
 
       li {
-        margin: 30px 40px 20px 30px;
+        margin: 10px 10px 10px 10px;
 
         a {
           text-decoration: none;
