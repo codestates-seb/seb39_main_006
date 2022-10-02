@@ -84,7 +84,7 @@ const Posts = () => {
             남은 인원 순
           </button>
         </div>
-
+        <div>{sort}</div>
         <div className="contents">
           {data.map((post) => (
             <div key={post.postId} className="post">
