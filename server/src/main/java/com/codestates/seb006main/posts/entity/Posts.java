@@ -29,30 +29,22 @@ public class Posts extends Auditable {
     @Embedded
     private Period travelPeriod;
     private String location;
-    // TODO: 연관관계 매핑된 멤버의 수를 headcount에서 빼면 현재 인원 수가 나온다. -> response로 전달.
     private Integer totalCount;
     private LocalDate closeDate;
     @Enumerated(EnumType.STRING)
     private PostsStatus postsStatus;
-    //    private LocalDateTime createdAt;
-//    private LocalDateTime modifiedAt;
+
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
-    @OneToMany(mappedBy = "posts", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "posts", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     private List<MemberPosts> participants = new ArrayList<>();
     @OneToMany(mappedBy = "posts", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Matching> matching = new ArrayList<>();
-
-    /*
-    TODO: image 처리 두가지 방법에 따른 처리
-        1. 게시글을 업로드 할 때 이미지를 저장한다면 imageUrl 필드를 선언
-        2. 이미지를 게시글에 올리는 시점에 저장소(서버 or 로컬)에 저장해서 imageUrl을 body에 포함하는 방식도 있다.
-     */
     @OneToMany(mappedBy = "posts", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
 
-    // TODO: 조회수, 추천수, 즐겨찾기
+    // TODO: 조회수
 
     @Builder
     public Posts(Long postId, String title, String body, Member member, Period travelPeriod, String location, Integer totalCount, LocalDate closeDate, PostsStatus postsStatus) {
@@ -98,6 +90,11 @@ public class Posts extends Auditable {
     public void deleteImage(Image image) {
         this.images.remove(image);
         image.setPosts(null);
+    }
+
+    public void deleteParticipant(MemberPosts memberPosts) {
+        this.participants.remove(memberPosts);
+        memberPosts.setPosts(null);
     }
 
     public void inactive() {

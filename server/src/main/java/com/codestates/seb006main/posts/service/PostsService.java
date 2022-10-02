@@ -24,12 +24,14 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class PostsService {
     private final PostsRepository postsRepository;
@@ -38,6 +40,8 @@ public class PostsService {
     final AmazonS3Client amazonS3Client;
     @Value("${cloud.aws.s3.bucket}")
     private String S3Bucket;
+    @Value("${cloud.aws.s3.alter-domain}")
+    private String domain;
     private final MemberPostsRepository memberPostsRepository;
     private final MemberPostsMapper memberPostsMapper;
     private final MatchingMapper matchingMapper;
@@ -52,8 +56,9 @@ public class PostsService {
         memberPosts.setPosts(posts);
         memberPostsRepository.save(memberPosts);
 
-        if (!postDto.getImages().isEmpty()) {
-            saveImages(postDto.getImages(), posts);
+        List<String> imagePathList = findImagePathInBody(postDto.getBody());
+        if (!imagePathList.isEmpty()) {
+            saveImages(imagePathList, posts);
         }
 
         return postsMapper.postsToResponseDto(posts);
@@ -92,15 +97,14 @@ public class PostsService {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
 
-        //TODO: 이미지 수정 로직 -> 프론트와 지속적으로 주고받는 데이터에 대한 상의가 필요함.
-
-        if (!patchDto.getImages().isEmpty()) {
+        List<String> imagePathList = findImagePathInBody(patchDto.getBody());
+        if (!imagePathList.isEmpty()) {
             if (!posts.getImages().isEmpty()) {
-                for (Image image : posts.getImages()) {
-                    posts.deleteImage(image);
+                for (int i = 0; i < posts.getImages().size(); i++) {
+                    posts.deleteImage(posts.getImages().get(i));
                 }
             }
-            saveImages(patchDto.getImages(), posts);
+            saveImages(imagePathList, posts);
         }
 
         posts.updatePosts(patchDto.getTitle(), patchDto.getBody(), patchDto.getTotalCount(), patchDto.getCloseDate());
@@ -133,19 +137,33 @@ public class PostsService {
         Posts posts = postsRepository.findById(memberPosts.getPosts().getPostId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
         if (posts.getMember().getMemberId() != principalDetails.getMember().getMemberId() &&
-                memberPosts.getMember().getMemberId() != principalDetails.getMember().getMemberId()) {
+                        memberPosts.getMember().getMemberId() != principalDetails.getMember().getMemberId()) {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
+        posts.deleteParticipant(memberPosts);
         memberPostsRepository.deleteById(participantId);
         posts.checkStatus();
         postsRepository.save(posts);
     }
 
-    public void saveImages(List<Long> images, Posts posts) {
-        for (Long imageId : images) {
-            Image image = imageRepository.findById(imageId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
+    public void saveImages(List<String> imagePathList, Posts posts) {
+        for (String imagePath : imagePathList) {
+            Image image = imageRepository.findByStoredPath(imagePath).orElseThrow(() -> new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
             image.setPosts(posts);
             imageRepository.save(image);
         }
+    }
+
+    public List<String> findImagePathInBody(String body) {
+        List<String> imagePathList = new ArrayList<>();
+            while (body.contains(domain)) {
+                body = body.substring(body.indexOf(domain));
+                int startIdx = 0;
+                int endIdx = body.indexOf(')');
+                String imagePath = "https://" + body.substring(startIdx, endIdx);
+                imagePathList.add(imagePath);
+                body = body.substring(endIdx);
+            }
+            return imagePathList;
     }
 }

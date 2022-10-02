@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-const Test = () => {
+const Matching = () => {
   const { matchid } = useParams();
   const [matchData, setMatchData] = useState([]);
   const navigate = useNavigate();
@@ -44,7 +44,8 @@ const Test = () => {
     <div>
       <h1>매칭 게시글 : {matchData.postTitle}</h1>
       <div>매칭 신청자 : {matchData.memberName}</div>
-      <div>매칭 내용 : {matchData.body}</div>
+      <div>매칭 내용</div>
+      <div>{matchData.body}</div>
       <span>
         <button
           onClick={() => {
@@ -65,4 +66,4 @@ const Test = () => {
   );
 };
 
-export default Test;
+export default Matching;

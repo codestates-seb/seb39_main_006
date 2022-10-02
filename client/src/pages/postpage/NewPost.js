@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
@@ -24,20 +24,21 @@ const NewPost = () => {
   const [location, setLocation] = useState("");
   const [totalCount, setTotalCount] = useState(0);
   const [closeDate, setCloseDate] = useState("");
-  const [imageId, setImageId] = useState(0);
-  const [imageIds, setImageIds] = useState([]);
-  var mount = useRef(false);
 
-  useEffect(() => {
-    if (mount.current) {
-      addItemsToArray(imageId);
-      mount.current = false;
-    }
-  }, [addItemsToArray]);
+  // 기홍님의 잔재....
+  // const [imageId, setImageId] = useState(0);
+  // const [imageIds, setImageIds] = useState([]);
+  // var mount = useRef(false);
+  // useEffect(() => {
+  //   if (mount.current) {
+  //     addItemsToArray(imageId);
+  //     mount.current = false;
+  //   }
+  // }, [addItemsToArray]);
 
-  function addItemsToArray(imageId) {
-    setImageIds((imageIds) => [...imageIds, imageId]);
-  }
+  // function addItemsToArray(imageId) {
+  //   setImageIds((imageIds) => [...imageIds, imageId]);
+  // }
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
@@ -60,14 +61,14 @@ const NewPost = () => {
         location: location,
         totalCount: totalCount,
         closeDate: closeDate,
-        images: imageIds,
+        // images: imageIds,
       },
     })
       .then((res) => {
         if (res.headers.access_hh) {
           sessionStorage.setItem("AccessToken", res.headers.access_hh);
         }
-        navigate(`/auth`);
+        navigate(`/main`);
         window.location.reload();
       })
       .catch((err) => {
@@ -131,6 +132,7 @@ const NewPost = () => {
                 setCloseDate(e.target.value);
               }}
               min={`${year}-${("0" + month).slice(-2)}-${date}`}
+              max={startDate}
             />
             <span>까지</span>
           </InputWrapper>
@@ -150,6 +152,7 @@ const NewPost = () => {
               className="number"
               type="number"
               required
+              min="2"
               onChange={(e) => {
                 setTotalCount(e.target.value);
               }}
@@ -171,6 +174,27 @@ const NewPost = () => {
               ["table", "image", "link"],
               ["code", "codeblock"],
             ]}
+            hooks={{
+              addImageBlobHook: (blob, callback) => {
+                const formData = new FormData();
+                formData.append("image", blob);
+                axios(`https://seb-006.shop/api/images/upload`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                    access_hh: sessionStorage.getItem("AccessToken"),
+                    refresh_hh: sessionStorage.getItem("RefreshToken"),
+                  },
+                  data: formData,
+                }).then((res) => {
+                  // 기홍님의 잔재.....
+                  // let testid = res.data.imageId;
+                  // setImageId(testid);
+                  // mount.current = true;
+                  callback(res.data.imageUrl);
+                });
+              },
+            }}
             plugins={[colorSyntax]} // colorSyntax 플러그인 적용
           ></Editor>
           <Button
@@ -182,65 +206,13 @@ const NewPost = () => {
           </Button>
           <Button
             onClick={() => {
-              navigate(`/auth`);
+              navigate(`/main`);
             }}
           >
             취소
           </Button>
         </div>
       </div>
-      <Editor
-        placeholder="내용을 입력해주세요."
-        required
-        ref={bodyRef}
-        previewStyle="vertical" // 미리보기 스타일 지정
-        height="300px" // 에디터 창 높이
-        initialEditType="markdown" // 초기 입력모드 설정(디폴트 markdown)
-        hideModeSwitch={true}
-        toolbarItems={[
-          // 툴바 옵션 설정
-          ["heading", "bold", "italic", "strike"],
-          ["hr", "quote"],
-          ["ul", "ol", "task", "indent", "outdent"],
-          ["table", "image", "link"],
-          ["code", "codeblock"],
-        ]}
-        hooks={{
-          addImageBlobHook: (blob, callback) => {
-            const formData = new FormData();
-            formData.append("image", blob);
-            axios(`https://seb-006.shop/api/images/upload`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "multipart/form-data",
-                access_hh: sessionStorage.getItem("AccessToken"),
-                refresh_hh: sessionStorage.getItem("RefreshToken"),
-              },
-              data: formData,
-            }).then((res) => {
-              let testid = res.data.imageId;
-              setImageId(testid);
-              mount.current = true;
-              callback(res.data.imageUrl);
-            });
-          },
-        }}
-        plugins={[colorSyntax]} // colorSyntax 플러그인 적용
-      ></Editor>
-      <button
-        onClick={() => {
-          submitHandler();
-        }}
-      >
-        작성 완료
-      </button>
-      <button
-        onClick={() => {
-          navigate(`/auth`);
-        }}
-      >
-        취소
-      </button>
     </>
   );
 };

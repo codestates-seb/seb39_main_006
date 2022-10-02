@@ -1,14 +1,13 @@
 import React from "react";
 import Header from "./components/Header";
 import MainPage from "./pages/mainpage/MainPage";
-import Auth from "./components/Auth";
 import PostDetail from "./pages/postpage/PostDetail";
 import EditPost from "./pages/postpage/EditPost";
 import NewPost from "./pages/postpage/NewPost";
-import Test from "./pages/mypage/Matching";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Login from "./pages/account/Login";
 import SignUp from "./pages/account/SignUp";
+import Matching from "./pages/mypage/Matching";
 
 function App() {
   return (
@@ -21,14 +20,12 @@ function App() {
             <Route path="/" element={<Login />}></Route>
           </>
         ) : (
-          // <Route path="/" element={<Auth />}></Route>
           <>
             <Route path="/main" element={<MainPage />}></Route>
-            <Route path="/auth" element={<MainPage />}></Route>
             <Route path="/:id" element={<PostDetail />}></Route>
             <Route path="/edit/:id" element={<EditPost />}></Route>
             <Route path="/new" element={<NewPost />}></Route>
-            <Route path="/match/:matchid" element={<Test />}></Route>
+            <Route path="/match/:matchid" element={<Matching />}></Route>
           </>
         )}
       </Routes>

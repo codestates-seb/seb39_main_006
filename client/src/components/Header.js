@@ -16,7 +16,7 @@ const Header = () => {
     <HeaderSection>
       <p
         onClick={() => {
-          sessionStorage.getItem("isLogin") ? navigate(`/auth`) : navigate(`/`);
+          sessionStorage.getItem("isLogin") ? navigate(`/main`) : navigate(`/`);
         }}
         data-item="HITCH : HICKER"
       >
@@ -42,7 +42,7 @@ const Header = () => {
               </a>
             </li>
             <li>
-              <a data-item="USER INFO" href="/auth">
+              <a data-item="USER INFO" href="/main">
                 USER INFO
               </a>
             </li>

@@ -2,12 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Post from "./Post";
+import { useDispatch, useSelector } from "react-redux";
+import { filterActions } from "../../store/filter-slice";
+import { pageActions } from "../../store/page-slice";
 
 // 페이지네이션
 import Pagination from "react-js-pagination";
 import "./Paging.css";
-import { useDispatch, useSelector } from "react-redux";
-import { filterActions } from "../../store/filter-slice";
 
 const Posts = () => {
   const dispatch = useDispatch();
@@ -17,13 +18,12 @@ const Posts = () => {
   const startDate = useSelector((state) => state.search.startDate);
   const endDate = useSelector((state) => state.search.endDate);
   const sort = useSelector((state) => state.filter.filterValue);
+  const page = useSelector((state) => state.page.page);
 
   const [data, setData] = useState([]);
-  const [page, setPage] = useState(1);
-  const [size, setSize] = useState(10);
+  const [size, setSize] = useState(2);
   const [totalElements, setTotalElements] = useState(0);
-  // 테스트 푸시
-  // 테스트 푸시22
+
   useEffect(() => {
     axios(
       `https://seb-006.shop/api/posts?page=${page}&size=${size}&title=${title}&body=${body}&location=${location}&startDate=${startDate}&endDate=${endDate}&sort=${sort}`
@@ -34,61 +34,74 @@ const Posts = () => {
   }, [page, size, title, body, location, startDate, endDate, sort]);
 
   const handlePageChange = (page) => {
-    setPage(page);
+    dispatch(pageActions.setPage(page));
   };
 
   return (
     <StyledPost>
-      <button
-        value="newest"
-        onClick={(e) => dispatch(filterActions.setFilter(e.target.value))}
-      >
-        최신순(기본값)
-      </button>
-      <button
-        value="startDate"
-        onClick={(e) => dispatch(filterActions.setFilter(e.target.value))}
-      >
-        여행 시작 날짜 순
-      </button>
-      <button
-        value="endDate"
-        onClick={(e) => dispatch(filterActions.setFilter(e.target.value))}
-      >
-        여행 종료 날짜 순
-      </button>
-      <button
-        value="closeDate"
-        onClick={(e) => dispatch(filterActions.setFilter(e.target.value))}
-      >
-        모집 종료 날짜 순
-      </button>
-      <button
-        value="totalCount"
-        onClick={(e) => dispatch(filterActions.setFilter(e.target.value))}
-      >
-        모집 인원 순
-      </button>
-      <button
-        value="limited"
-        onClick={(e) => dispatch(filterActions.setFilter(e.target.value))}
-      >
-        남은 인원 순
-      </button>
-      {data.map((post) => (
-        <div key={post.postId}>
-          <Post post={post} />
+      <div className="wrapper">
+        <div className="btnflex">
+          <button
+            className="filterbtn"
+            value="newest"
+            onClick={(e) => dispatch(filterActions.setFilter(e.target.value))}
+          >
+            최신순(기본값)
+          </button>
+          <button
+            className="filterbtn"
+            value="startDate"
+            onClick={(e) => dispatch(filterActions.setFilter(e.target.value))}
+          >
+            여행 시작 날짜 순
+          </button>
+          <button
+            className="filterbtn"
+            value="endDate"
+            onClick={(e) => dispatch(filterActions.setFilter(e.target.value))}
+          >
+            여행 종료 날짜 순
+          </button>
+          <button
+            className="filterbtn"
+            value="closeDate"
+            onClick={(e) => dispatch(filterActions.setFilter(e.target.value))}
+          >
+            모집 종료 날짜 순
+          </button>
+          <button
+            className="filterbtn"
+            value="totalCount"
+            onClick={(e) => dispatch(filterActions.setFilter(e.target.value))}
+          >
+            모집 인원 순
+          </button>
+          <button
+            className="filterbtn"
+            value="limited"
+            onClick={(e) => dispatch(filterActions.setFilter(e.target.value))}
+          >
+            남은 인원 순
+          </button>
         </div>
-      ))}
-      <Pagination
-        activePage={page}
-        itemsCountPerPage={size}
-        totalItemsCount={totalElements}
-        pageRangeDisplayed={5}
-        prevPageText={"‹"}
-        nextPageText={"›"}
-        onChange={handlePageChange}
-      />
+
+        <div className="contents">
+          {data.map((post) => (
+            <div key={post.postId} className="post">
+              <Post post={post} />
+            </div>
+          ))}
+          <Pagination
+            activePage={page}
+            itemsCountPerPage={size}
+            totalItemsCount={totalElements}
+            pageRangeDisplayed={5}
+            prevPageText={"‹"}
+            nextPageText={"›"}
+            onChange={handlePageChange}
+          />
+        </div>
+      </div>
     </StyledPost>
   );
 };
@@ -97,29 +110,54 @@ export default Posts;
 const StyledPost = styled.div`
   display: inline-block;
   .wrapper {
-    width: 750px;
-    height: 700px;
+    flex-grow: 1;
+    /* width: 750px; */
+    width: 78%;
+    height: 90vh;
+    margin-right: 20px;
     background-color: #d5eaf1;
     border-radius: 10px;
     position: absolute;
     box-shadow: 0px 3px 10px 1px rgba(0, 0, 0, 0.3);
   }
   .contents {
-    padding: 3.5em;
-    position: relative;
-    height: 65%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   .post {
+    display: flex, inline-flex;
+    justify-content: center;
     margin: 1rem;
     padding: 10px;
     border-radius: 2px;
     outline: none;
-    width: 38rem;
-    display: inline-block;
-    border: none;
+    width: 75vw;
     border-radius: 5px;
     border: 1.5px solid #a19f9f;
     background-color: white;
     font-size: large;
+  }
+  button {
+    font-size: 1rem;
+    background-color: #dabbc9;
+    width: fit-content;
+    border: 1px solid #dabbc9;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+    color: #425049;
+    &:hover {
+      background-color: #efd5c8;
+      border-color: #efd5c8;
+    }
+  }
+  .btnflex {
+    display: flex;
+    justify-content: space-between;
+  }
+  .filterbtn {
+    flex-grow: 1;
+    border-radius: 15px;
+    margin: 5px;
   }
 `;

@@ -18,7 +18,6 @@ public class PostsDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Post {
-        // TODO: groupDto.Post를 받거나, posts와 group의 postDto를 둘 다 받는 방식.
         private String title;
         private String body;
         @DateTimeFormat(pattern = "YYYY-MM-DD")
@@ -30,11 +29,9 @@ public class PostsDto {
         private Integer totalCount;
         @DateTimeFormat(pattern = "YYYY-MM-DD")
         private String closeDate;
-        private List<Long> images;
 
         @Builder
-
-        public Post(String title, String body, String startDate, String endDate, String location, Integer totalCount, String closeDate, List<Long> images) {
+        public Post(String title, String body, String startDate, String endDate, String location, Integer totalCount, String closeDate) {
             this.title = title;
             this.body = body;
             this.startDate = startDate;
@@ -42,7 +39,6 @@ public class PostsDto {
             this.location = location;
             this.totalCount = totalCount;
             this.closeDate = closeDate;
-            this.images = images;
         }
     }
 
@@ -54,15 +50,13 @@ public class PostsDto {
         private Integer totalCount;
         @DateTimeFormat(pattern = "YYYY-MM-DD")
         private String closeDate;
-        private List<Long> images;
 
         @Builder
-        public Patch(String title, String body, Integer totalCount, String closeDate, List<Long> images) {
+        public Patch(String title, String body, Integer totalCount, String closeDate) {
             this.title = title;
             this.body = body;
             this.totalCount = totalCount;
             this.closeDate = closeDate;
-            this.images = images;
         }
     }
 
@@ -84,10 +78,6 @@ public class PostsDto {
         private Posts.PostsStatus postsStatus;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
-        // TODO: Group의 id를 꺼내줄 것이냐. group 전체를 보여줄 것이냐.
-//        private GroupDto.Response group;
-        // TODO: 게시글 등록 당시 URL을 넘겨주었으니 필요 없지 않을까?
-//        private List<ImageDto.Response> images;
 
         @Builder
         public Response(Long postId, String title, String body, Member member, Period travelPeriod, String location, Integer totalCount, List<MemberDto.Participants> participants, LocalDate closeDate, Posts.PostsStatus postsStatus, LocalDateTime createdAt, LocalDateTime modifiedAt) {

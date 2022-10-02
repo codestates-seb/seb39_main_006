@@ -39,7 +39,6 @@ const Login = () => {
       method: "POST",
       headers: {
         Accept: "application/json",
-        "Content-Length": 61,
       },
       data: {
         email: enteredEmail,
@@ -48,7 +47,7 @@ const Login = () => {
     })
       .then((res) => {
         if (res.status) {
-          navigate("/login");
+          navigate("/main");
           sessionStorage.setItem("isLogin", true);
           sessionStorage.setItem("AccessToken", res.headers.access_hh);
           sessionStorage.setItem("RefreshToken", res.headers.refresh_hh);
@@ -98,7 +97,7 @@ const Login = () => {
           <div>
             <Button onClick={usesubmitHandler}>Login</Button>
             <Button type="button" onClick={signupHandler}>
-              "Create new account"
+              Create new account
             </Button>
           </div>
         </div>

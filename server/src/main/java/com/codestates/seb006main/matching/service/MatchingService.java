@@ -14,10 +14,12 @@ import com.codestates.seb006main.posts.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class MatchingService {
     private final MatchingRepository matchingRepository;
