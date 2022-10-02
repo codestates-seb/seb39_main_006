@@ -1,4 +1,4 @@
-package com.codestates.seb006main.config;
+package com.codestates.seb006main.config.batch;
 
 import com.codestates.seb006main.Image.entity.Image;
 import com.codestates.seb006main.Image.repository.ImageRepository;
