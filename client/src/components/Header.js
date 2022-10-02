@@ -180,11 +180,11 @@ const HeaderSection = styled.div`
   }
 
   p {
-    line-height: 90px;
-    padding-top: 5rem;
+    line-height: 4rem;
+    padding-top: 0.1rem;
     /* margin-top: 3rem;
     margin-left: 5rem; */
-    font-size: 90px;
+    font-size: 4rem;
     color: #dabbc9;
     text-transform: uppercase;
     font-weight: 600;
@@ -218,14 +218,14 @@ const HeaderSection = styled.div`
     background: #d0e8f0;
     opacity: 90%;
     width: fit-content;
-    padding: 16px;
+    padding: 1rem;
     .menuItems {
       list-style: none;
       display: flex;
       /* margin-left: 2rem; */
 
       li {
-        margin: 10px 10px 10px 10px;
+        margin: 1rem;
 
         a {
           text-decoration: none;

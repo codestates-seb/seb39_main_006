@@ -1,10 +1,13 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import styled from "styled-components";
 
 const Login = () => {
+  const [validateEmailText, setValidateEmailText] = useState("");
+  const [validatePasswordText, setvalidatePasswordText] = useState("");
+
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
 
@@ -27,12 +30,12 @@ const Login = () => {
     const enteredPassword = passwordInputRef.current.value;
 
     if (validateEmail(enteredEmail) === null) {
-      alert("이메일 형식으로 입력해 주세요");
+      setValidateEmailText("이메일 형식을 입력해 주세요");
       return;
     }
 
     if (enteredPassword.length < 6) {
-      alert("비밀번호 6글자 이상 입력해주세요 ");
+      setvalidatePasswordText("비밀번호 6글자 이상 입력해주세요");
       return;
     }
     axios(`${process.env.REACT_APP_URL}/api/members/login`, {
@@ -79,6 +82,8 @@ const Login = () => {
                   ref={emailInputRef}
                 />
               </div>
+              <p className="validate">{validateEmailText}</p>
+
               <label htmlFor="password">Password</label>
               <div className="container">
                 <input
@@ -91,6 +96,7 @@ const Login = () => {
                   autoComplete="off"
                 />
               </div>
+              <p className="validate">{validatePasswordText}</p>
             </form>
           </InputWrapper>
 
@@ -108,6 +114,10 @@ const Login = () => {
 export default Login;
 
 const InputWrapper = styled.div`
+  .validate {
+    color: red;
+    padding: 0.5rem;
+  }
   .container {
     display: flex;
     flex-direction: column-reverse;
