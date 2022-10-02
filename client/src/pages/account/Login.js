@@ -75,7 +75,7 @@ const Login = () => {
               <label htmlFor="email">Email</label>
               <div className="container">
                 <input
-                  className="input-tag"
+                  className="input-tag possible"
                   type="email"
                   id="email"
                   required

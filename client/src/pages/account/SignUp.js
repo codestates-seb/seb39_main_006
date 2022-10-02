@@ -1,13 +1,36 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import styled from "styled-components";
+import CheckDisplayName from "./CheckDisplayName";
+// usestate 사용법
+// 선언부  const [변수명, 함수이름] = useState(원하는 값 보통은 초기화)
+// 사용부  함수이름(원하는값)
 
 const Signup = () => {
+  const [dpNameCheck, setDpNameCheck] = useState(false);
+  const [checkError, setCheckError] = useState("");
+  const [error, setError] = useState("");
+
+  const [isDisabledInfo, setIsDisabledInfo] = useState(true);
+
+  const onClickDuplicateDisplayName = () => {
+    setIsDisabledInfo(setIsDisabledInfo(displaynameInputRef.current.value));
+
+    // const isDisabledValue = setIsDisabledInfo(
+    //   displaynameInputRef.current.value
+    // );
+    // setIsDisabledInfo(isDisabledValue);
+  };
+
+  const [validateEmailText, setValidateEmailText] = useState("");
+  const [validatePasswordText, setvalidatePasswordText] = useState("");
+  const [validateDisplayNameText, SetValidateDisplayNameText] = useState("");
+
+  const displaynameInputRef = useRef();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
-  const displaynameInputRef = useRef();
 
   const navigate = useNavigate();
 
@@ -31,17 +54,17 @@ const Signup = () => {
     const enteredDisplayName = displaynameInputRef.current.value;
 
     if (enteredDisplayName.length < 2) {
-      alert("닉네임을 2글자 이상 입력해 주세요 ");
+      SetValidateDisplayNameText("닉네임을 2글자 이상 입력해 주세요 ");
       return;
     }
 
     if (validateEmail(enteredEmail) === null) {
-      alert("이메일 형식으로 입력해 주세요");
+      setValidateEmailText("이메일 형식으로 입력해 주세요");
       return;
     }
 
     if (enteredPassword.length < 6) {
-      alert("비밀번호 6글자 이상 입력해주세요 ");
+      setvalidatePasswordText("비밀번호 6글자 이상 입력해주세요 ");
       return;
     }
 
@@ -82,9 +105,12 @@ const Signup = () => {
                   ref={displaynameInputRef}
                 />
               </div>
+              <Button onClick={onClickDuplicateDisplayName}>중복확인</Button>
+              <p className="validate">{validateDisplayNameText}</p>
               <label htmlFor="email">Email</label>
               <div className="container">
                 <input
+                  disabled={isDisabledInfo}
                   className="input-tag"
                   type="email"
                   id="email"
@@ -92,9 +118,11 @@ const Signup = () => {
                   ref={emailInputRef}
                 />
               </div>
+              <p className="validate">{validateEmailText}</p>
               <label htmlFor="password">Password</label>
               <div className="container">
                 <input
+                  disabled={isDisabledInfo}
                   className="input-tag"
                   type="password"
                   id="password"
@@ -104,6 +132,7 @@ const Signup = () => {
                   autoComplete="off"
                 />
               </div>
+              <p className="validate">{validatePasswordText}</p>
             </form>
           </InputWrapper>
           <div>
@@ -120,6 +149,10 @@ const Signup = () => {
 export default Signup;
 
 const InputWrapper = styled.div`
+  .validate {
+    color: red;
+    padding: 0.5rem;
+  }
   .container {
     display: flex;
     flex-direction: column-reverse;
