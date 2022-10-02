@@ -21,13 +21,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebSoc
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(webSocketHandler, "/websocket").setAllowedOrigins("*").setAllowedOriginPatterns("*");
-        registry.addHandler(webSocketHandler, "/websocket").setAllowedOrigins("*").setAllowedOriginPatterns("*").withSockJS();
+        registry.addHandler(webSocketHandler, "/websocket").setAllowedOrigins("http://localhost:3000").setAllowedOriginPatterns("*");
+        registry.addHandler(webSocketHandler, "/websocket").setAllowedOrigins("http://localhost:3000").setAllowedOriginPatterns("*").withSockJS();
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/websocket").setAllowedOrigins("*").setAllowedOriginPatterns("*");
-        registry.addEndpoint("/websocket").setAllowedOrigins("*").setAllowedOriginPatterns("*").withSockJS();
+        registry.addEndpoint("/websocket").setAllowedOrigins("http://localhost:3000").setAllowedOriginPatterns("*");
+        registry.addEndpoint("/websocket").setAllowedOrigins("http://localhost:3000").setAllowedOriginPatterns("*").withSockJS();
     }
 }
