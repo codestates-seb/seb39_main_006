@@ -46,7 +46,6 @@ const Post = ({ post }) => {
           <span>
             {post.participantsCount} / {post.totalCount}
           </span>
-          <span> 게시글 아이디 : {post.postId} </span>
           <button
             onClick={() => {
               bookmarkHandler();

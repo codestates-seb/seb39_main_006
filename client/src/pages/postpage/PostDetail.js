@@ -281,7 +281,7 @@ const BodyContainer = styled.div`
   border: 1px solid black;
   background-color: #d5eaf1;
   border-radius: 15px;
-  width: 100%;
+  width: 70vw;
   .toastui-editor-contents {
     padding: 10px;
   }
