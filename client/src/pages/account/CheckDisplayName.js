@@ -9,23 +9,17 @@ const isDuplicateDisplayName = (enteredDisplayName) => {
   //}
 
   axios(
-    `${process.env.REACT_APP_URL}/api/members/display-name?display_name=${enteredDisplayName}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json;charset=UTF-8",
-        Accept: "application/json",
-      },
-    }
+    `${process.env.REACT_APP_URL}/api/members/display-name?display_name=${enteredDisplayName}`
   )
     .then((res) => {
       if (res.status === 200) {
+        const asdf = res.data;
+        console.log(asdf);
         return false;
       }
     })
     .catch((err) => {
       if (err.response.status === 401) {
-        alert("다시 확인하고 입력해주세요");
       }
     });
 
