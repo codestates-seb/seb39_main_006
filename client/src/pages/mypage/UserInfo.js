@@ -4,16 +4,19 @@ import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import axios from "axios";
 import styled from "styled-components";
+import isDuplicateDisplayName from "../account/CheckDisplayName";
 
 const Userinfo = () => {
   const [isDisabledInfo, setIsDisabledInfo] = useState(true);
   const onClickDuplicateDisplayName = () => {
-    setIsDisabledInfo(setIsDisabledInfo(displaynameInputRef.current.value));
+    isDuplicateDisplayName(
+      setIsDisabledInfo(displaynameInputRef.current.value)
+    );
 
     // const isDisabledValue = setIsDisabledInfo(
     //   displaynameInputRef.current.value
     // );
-    // setIsDisabledInfo(isDisabledValue);
+    // isDuplicateDisplayName(isDisabledValue);
   };
 
   const [validateDisplayNameText, SetValidateDisplayNameText] = useState("");

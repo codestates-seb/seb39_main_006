@@ -16,8 +16,7 @@ const Signup = () => {
   const [isDisabledInfo, setIsDisabledInfo] = useState(true);
 
   const onClickDuplicateDisplayName = () => {
-    setIsDisabledInfo(setIsDisabledInfo(displaynameInputRef.current.value));
-
+    setIsDisabledInfo(CheckDisplayName(displaynameInputRef.current.value));
     // const isDisabledValue = setIsDisabledInfo(
     //   displaynameInputRef.current.value
     // );
