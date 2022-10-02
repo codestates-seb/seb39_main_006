@@ -7,13 +7,13 @@ import styled from "styled-components";
 const MainPage = () => {
   return (
     <>
-      <MainSubHeader />
       <Section>
         <section>
           <h1>Main Page</h1>
           <h2>여행동행자 모집합니다</h2>
         </section>
       </Section>
+      <MainSubHeader />
       <Flex>
         <SideBar />
         <Posts />

@@ -28,8 +28,8 @@ const Header = () => {
         <nav>
           <ul className="menuItems">
             <li>
-              <a href="/main" data-item="Home">
-                HOME
+              <a href="/main" data-item="MainPage">
+                MainPage
               </a>
             </li>
             <li>
@@ -38,12 +38,7 @@ const Header = () => {
               </a>
             </li>
             <li>
-              <a href="/main" data-item="MainPage">
-                MainPage
-              </a>
-            </li>
-            <li>
-              <a data-item="매칭신청" href="/members:id">
+              <a href="/members:id" data-item="매칭신청">
                 매칭신청
               </a>
             </li>
