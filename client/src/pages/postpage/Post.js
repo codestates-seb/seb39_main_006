@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 const Post = ({ post }) => {
   const navigate = useNavigate();
   const [isbookmark, setIsBookmark] = useState(false);
@@ -33,7 +34,7 @@ const Post = ({ post }) => {
 
   return (
     <div>
-      <div>
+      <PostTitle>
         <span
           onClick={() => {
             navigate(`/${post.postId}`);
@@ -42,9 +43,11 @@ const Post = ({ post }) => {
           {post.title}
         </span>
         <span>
-          <span> 모집 인원</span>
-          <span>
-            {post.participantsCount} / {post.totalCount}
+          <span className="participants">
+            <span>모집 인원 </span>
+            <span>
+              {post.participantsCount} / {post.totalCount}
+            </span>
           </span>
           <button
             onClick={() => {
@@ -54,9 +57,19 @@ const Post = ({ post }) => {
             {isbookmark ? "❤️" : "🤍"}
           </button>
         </span>
-      </div>
+      </PostTitle>
     </div>
   );
 };
 
 export default Post;
+
+const PostTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  button {
+    margin-left: 15px;
+  }
+  .participants {
+  }
+`;
