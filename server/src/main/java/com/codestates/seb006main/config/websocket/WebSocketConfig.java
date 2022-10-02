@@ -11,22 +11,23 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSocket
-public class WebSocketConfig implements WebSocketConfigurer {
+@EnableWebSocketMessageBroker
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebSocketConfigurer {
     private final WebSocketHandlerImpl webSocketHandler;
-//    @Override
-//    public void configureMessageBroker(MessageBrokerRegistry registry) {
-//        registry.enableSimpleBroker("/topic", "/queue");
-//    }
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+        registry.enableSimpleBroker("/topic", "/queue");
+    }
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(webSocketHandler, "/websocket").setAllowedOriginPatterns("*");
-        registry.addHandler(webSocketHandler, "/websocket").setAllowedOriginPatterns("*").withSockJS();
+        registry.addHandler(webSocketHandler, "/websocket").setAllowedOrigins("*").setAllowedOriginPatterns("*");
+        registry.addHandler(webSocketHandler, "/websocket").setAllowedOrigins("*").setAllowedOriginPatterns("*").withSockJS();
     }
 
-//    @Override
-//    public void registerStompEndpoints(StompEndpointRegistry registry) {
-//        registry.addEndpoint("/websocket").setAllowedOriginPatterns("*");
-//        registry.addEndpoint("/websocket").setAllowedOriginPatterns("*");
-//    }
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/websocket").setAllowedOrigins("*").setAllowedOriginPatterns("*");
+        registry.addEndpoint("/websocket").setAllowedOrigins("*").setAllowedOriginPatterns("*").withSockJS();
+    }
 }
