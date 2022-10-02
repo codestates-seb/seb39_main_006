@@ -10,7 +10,7 @@ import SignUp from "./pages/account/SignUp";
 import Matching from "./pages/mypage/Matching";
 import UserInfo from "../src/pages/mypage/UserInfo";
 import Background from "../src/components/ui/Background";
-import Wrapper from "./components/ui/Wrapper";
+
 function App() {
   return (
     <Background>
