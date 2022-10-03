@@ -188,14 +188,16 @@ public class MemberService {
 
     public MultiResponseDto readMyPosts(Authentication authentication, PageRequest pageRequest) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        List<Posts> myPostsList = principalDetails.getMember().getPosts();
+        Member member = memberRepository.findById(principalDetails.getMember().getMemberId()).orElseThrow();
+        List<Posts> myPostsList = member.getPosts();
         Page<Posts> myPostsPage = new PageImpl<>(myPostsList, pageRequest, myPostsList.size());
         return new MultiResponseDto<>(postsMapper.postsListToResponseDtoList(myPostsList), myPostsPage);
     }
 
     public MultiResponseDto readBookmarkedPosts(Authentication authentication, PageRequest pageRequest) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        List<Posts> bookmarkedList = principalDetails.getMember().getBookmarks().stream().map(Bookmark::getPost).collect(Collectors.toList());
+        Member member = memberRepository.findById(principalDetails.getMember().getMemberId()).orElseThrow();
+        List<Posts> bookmarkedList = member.getBookmarks().stream().map(Bookmark::getPost).collect(Collectors.toList());
         Page<Posts> bookmarkedPage = new PageImpl<>(bookmarkedList, pageRequest, bookmarkedList.size());
         return new MultiResponseDto<>(postsMapper.postsListToResponseDtoList(bookmarkedList), bookmarkedPage);
     }
