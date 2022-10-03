@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { searchActions } from "../../store/search-slice";
 
@@ -64,7 +64,6 @@ const MainSubHeader = () => {
             dispatch(searchActions.setEndDate(e.target.value));
           }}
         ></input>
-        {/* <div className="test">{endDate}</div> */}
       </span>
       <button>검색</button>
       <button

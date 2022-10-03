@@ -9,7 +9,6 @@ const isDuplicateDisplayName = async (enteredDisplayName) => {
   )
     .then((res) => {
       if (res.status === 200) {
-        console.log("200");
         result = false;
       }
     })

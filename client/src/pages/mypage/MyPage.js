@@ -5,8 +5,7 @@ import WrapperBox from "../../components/ui/WrapperBox";
 const MyPage = () => {
   return (
     <>
-      <SideBar></SideBar>
-
+      <SideBar />
       <Section>
         <section>
           <h1>My Page</h1>
