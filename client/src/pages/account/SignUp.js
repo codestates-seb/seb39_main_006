@@ -61,6 +61,10 @@ const Signup = () => {
 
   const usesubmitHandler = (event) => {
     event.preventDefault();
+    if (isDisabledInfo) {
+      alert("회원가입을 할 수 없습니다 서식을 채워주세요");
+      return;
+    }
 
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
