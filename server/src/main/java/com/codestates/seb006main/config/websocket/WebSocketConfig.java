@@ -45,6 +45,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebSoc
             @Override
             public Message<?> preSend(Message<?> message, MessageChannel channel) {
                 StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+                System.out.println(accessor.getCommand());
+                System.out.println(accessor.getMessage());
                 if (StompCommand.CONNECT.equals(accessor.getCommand())) {
                     System.out.println(accessor.getMessageHeaders());
                 }
