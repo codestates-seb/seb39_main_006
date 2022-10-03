@@ -51,7 +51,7 @@ public class WebSocketController {
         String content = gson.toJson(message);
         template.convertAndSend("/topic/" + session.getMemberId(), content);
     }
-
+    // TODO: 핸들링을 하나로 만들고 인스턴스 체크를 메시지 서비스에서 한다.
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void handleCreateMatching(DomainEvent event) throws IOException {

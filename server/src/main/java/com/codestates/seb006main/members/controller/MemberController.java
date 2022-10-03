@@ -101,8 +101,16 @@ public class MemberController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
+    @GetMapping("/participated")
+    public ResponseEntity getMyParticipated(@PageableDefault(page = 1, sort = "postId", direction = Sort.Direction.DESC) Pageable pageable,
+                                            Authentication authentication) {
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
+        MultiResponseDto responseDto = memberService.readMyParticipated(authentication, pageRequest);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
     @GetMapping("/matching")
-    public ResponseEntity getMyMatching(@PageableDefault(page = 1, sort = "postId", direction = Sort.Direction.DESC) Pageable pageable,
+    public ResponseEntity getMyMatching(@PageableDefault(page = 1, sort = "matchingId", direction = Sort.Direction.DESC) Pageable pageable,
                                              Authentication authentication) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
         MultiResponseDto responseDto = memberService.readMyMatching(authentication, pageRequest);

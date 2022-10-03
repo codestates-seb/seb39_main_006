@@ -19,6 +19,7 @@ import com.codestates.seb006main.members.mapper.MemberMapper;
 import com.codestates.seb006main.members.repository.BlockRepository;
 import com.codestates.seb006main.members.repository.BookmarkRepository;
 import com.codestates.seb006main.members.repository.MemberRepository;
+import com.codestates.seb006main.posts.entity.MemberPosts;
 import com.codestates.seb006main.posts.entity.Posts;
 import com.codestates.seb006main.posts.mapper.PostsMapper;
 import com.codestates.seb006main.posts.repository.PostsRepository;
@@ -211,6 +212,14 @@ public class MemberService {
         List<Matching> myMatchingList = member.getMatching();
         Page<Matching> myMatchingPage = new PageImpl<>(myMatchingList, pageRequest, myMatchingList.size());
         return new MultiResponseDto<>(matchingMapper.matchingListToResponseDtoList(myMatchingList), myMatchingPage);
+    }
+
+    public MultiResponseDto readMyParticipated(Authentication authentication, PageRequest pageRequest) {
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        Member member = memberRepository.findById(principalDetails.getMember().getMemberId()).orElseThrow();
+        List<Posts> myParticipatedList = member.getGroups().stream().map(MemberPosts::getPosts).collect(Collectors.toList());
+        Page<Posts> myParticipatedPage = new PageImpl<>(myParticipatedList, pageRequest, myParticipatedList.size());
+        return new MultiResponseDto<>(postsMapper.postsListToResponseDtoList(myParticipatedList), myParticipatedPage);
     }
 
     // TODO: 신청 받은 매칭에 대한 조회도 필요할까?
