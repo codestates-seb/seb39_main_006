@@ -1,4 +1,4 @@
-package com.codestates.seb006main.config;
+package com.codestates.seb006main.config.aws;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;

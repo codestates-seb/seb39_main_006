@@ -28,13 +28,18 @@ const Header = () => {
         <nav>
           <ul className="menuItems">
             <li>
-              <a href="/mypage" data-item="mypage">
-                mypage
+              <a href="/main" data-item="MainPage">
+                MainPage
               </a>
             </li>
             <li>
-              <a href="/mainpage" data-item="mainpage">
-                mainpage
+              <a href="/userinfo" data-item="USER INFO">
+                USER INFO
+              </a>
+            </li>
+            <li>
+              <a href="/members:id" data-item="매칭신청">
+                매칭신청
               </a>
             </li>
 
