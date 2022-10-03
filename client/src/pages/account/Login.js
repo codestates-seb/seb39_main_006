@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import styled from "styled-components";
+// import AccountInfo from "./AccountInfo";
 
 const Login = () => {
   const [validateEmailText, setValidateEmailText] = useState("");
@@ -23,7 +24,7 @@ const Login = () => {
   const signupHandler = () => {
     navigate("/signup");
   };
-  const usesubmitHandler = (event) => {
+  const usesubmitHandler = async (event) => {
     event.preventDefault();
 
     const enteredEmail = emailInputRef.current.value;
@@ -38,7 +39,7 @@ const Login = () => {
       setvalidatePasswordText("비밀번호 6글자 이상 입력해주세요");
       return;
     }
-    axios(`${process.env.REACT_APP_URL}/api/members/login`, {
+    await axios(`${process.env.REACT_APP_URL}/api/members/login`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -55,6 +56,8 @@ const Login = () => {
           sessionStorage.setItem("AccessToken", res.headers.access_hh);
           sessionStorage.setItem("RefreshToken", res.headers.refresh_hh);
           sessionStorage.setItem("userName", res.data.displayName);
+          sessionStorage.setItem("memberId", res.data.memberId);
+
           window.location.reload();
         }
       })

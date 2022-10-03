@@ -6,37 +6,45 @@ const SideBar = () => {
     <SideBars>
       <nav>
         <ul>
-          <li>
-            <div className="home-icon">
-              <div className="roof">
-                <div className="roof-edge"></div>
+          <a href="/userinfo">
+            <li id="home">
+              <div className="home-icon">
+                <div className="roof">
+                  <div className="roof-edge"></div>
+                </div>
+                <div className="front"></div>
               </div>
-              <div className="front"></div>
-            </div>
-          </li>
-          <li>
-            <div className="about-icon">
-              <div className="head">
-                <div className="eyes"></div>
-                <div className="beard"></div>
+            </li>
+          </a>
+          <a href="#">
+            <li id="about">
+              <div className="about-icon">
+                <div className="head">
+                  <div className="eyes"></div>
+                  <div className="beard"></div>
+                </div>
               </div>
-            </div>
-          </li>
-          <li>
-            <div className="work-icon">
-              <div className="paper"></div>
-              <div className="lines"></div>
-              <div className="lines"></div>
-              <div className="lines"></div>
-            </div>
-          </li>
-          <li>
-            <div className="mail-icon">
-              <div className="mail-base">
-                <div className="mail-top"></div>
+            </li>
+          </a>
+          <a href="#">
+            <li id="work">
+              <div className="work-icon">
+                <div className="paper"></div>
+                <div className="lines"></div>
+                <div className="lines"></div>
+                <div className="lines"></div>
               </div>
-            </div>
-          </li>
+            </li>
+          </a>
+          <a href="/match/:matchid">
+            <li id="mail">
+              <div className="mail-icon">
+                <div className="mail-base">
+                  <div className="mail-top"></div>
+                </div>
+              </div>
+            </li>
+          </a>
         </ul>
       </nav>
     </SideBars>
@@ -85,7 +93,11 @@ const SideBars = styled.div`
     font-size: 14px;
     line-height: 1.4;
   }
-
+  a {
+    width: 50px;
+    color: inherit;
+    text-decoration: none;
+  }
   nav {
     float: left;
     position: relative;
@@ -128,20 +140,20 @@ const SideBars = styled.div`
     transition: all 0.4s ease-out;
   }
 
-  nav ul li:nth-child(1):after {
-    content: "글목록";
+  #home:after {
+    content: "UserInfo";
     line-height: 88px;
   }
-  nav ul li:nth-child(2):after {
+  #about:after {
     content: "북마크";
     line-height: 88px;
   }
-  nav ul li:nth-child(3):after {
-    content: "유저관리";
+  #work:after {
+    content: "유저신고";
     line-height: 85px;
   }
-  nav ul li:nth-child(4):after {
-    content: "기타";
+  #mail:after {
+    content: "매칭현황";
     line-height: 70px;
   }
 
