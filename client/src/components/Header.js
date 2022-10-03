@@ -3,7 +3,7 @@ import React from "react";
 import imgLogo from "../img/realWave.gif";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-//
+//dd
 
 const Header = () => {
   const navigate = useNavigate();
@@ -28,18 +28,13 @@ const Header = () => {
         <nav>
           <ul className="menuItems">
             <li>
-              <a href="/main" data-item="MainPage">
-                MainPage
+              <a href="/mypage" data-item="mypage">
+                mypage
               </a>
             </li>
             <li>
-              <a href="/userinfo" data-item="USER INFO">
-                USER INFO
-              </a>
-            </li>
-            <li>
-              <a href="/members:id" data-item="매칭신청">
-                매칭신청
+              <a href="/mainpage" data-item="mainpage">
+                mainpage
               </a>
             </li>
 
@@ -85,6 +80,9 @@ const Header = () => {
 export default Header;
 
 const HeaderSection = styled.div`
+  display: grid;
+  place-items: center;
+
   * {
     padding: 0;
     margin: 0;
@@ -94,6 +92,7 @@ const HeaderSection = styled.div`
     }
   }
   // Developed by http://grohit.com/
+
   .Button {
     /* margin-top: 1rem; */
     align-items: center;

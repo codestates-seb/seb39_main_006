@@ -3,6 +3,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import styled from "styled-components";
+import Background from "../../components/ui/Background";
+// import AccountInfo from "./AccountInfo";
+import kakaoLogo from "../../img/kakao.png";
 
 const Login = () => {
   const [validateEmailText, setValidateEmailText] = useState("");
@@ -23,7 +26,7 @@ const Login = () => {
   const signupHandler = () => {
     navigate("/signup");
   };
-  const usesubmitHandler = (event) => {
+  const usesubmitHandler = async (event) => {
     event.preventDefault();
 
     const enteredEmail = emailInputRef.current.value;
@@ -38,7 +41,7 @@ const Login = () => {
       setvalidatePasswordText("비밀번호 6글자 이상 입력해주세요");
       return;
     }
-    axios(`${process.env.REACT_APP_URL}/api/members/login`, {
+    await axios(`${process.env.REACT_APP_URL}/api/members/login`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -55,6 +58,8 @@ const Login = () => {
           sessionStorage.setItem("AccessToken", res.headers.access_hh);
           sessionStorage.setItem("RefreshToken", res.headers.refresh_hh);
           sessionStorage.setItem("userName", res.data.displayName);
+          sessionStorage.setItem("memberId", res.data.memberId);
+
           window.location.reload();
         }
       })
@@ -66,60 +71,79 @@ const Login = () => {
       });
   };
   return (
-    <main>
-      <section>
-        <h1>로그인</h1>
-        <div>
-          <InputWrapper>
-            <form onSubmit={(e) => e.preventDefault()}>
-              <label htmlFor="email">Email</label>
-              <div className="container">
-                <input
-                  className="input-tag possible"
-                  type="email"
-                  id="email"
-                  required
-                  ref={emailInputRef}
-                />
-              </div>
-              <p className="validate">{validateEmailText}</p>
-
-              <label htmlFor="password">Password</label>
-              <div className="container">
-                <input
-                  className="input-tag"
-                  type="password"
-                  id="password"
-                  required
-                  ref={passwordInputRef}
-                  name="password"
-                  autoComplete="off"
-                />
-              </div>
-              <p className="validate">{validatePasswordText}</p>
-            </form>
-          </InputWrapper>
-
+    <Background>
+      <main>
+        <section>
+          <h1 align="center">로그인</h1>
           <div>
-            <Button onClick={usesubmitHandler}>Login</Button>
-            <Button type="button" onClick={signupHandler}>
-              Create new account
-            </Button>
+            <InputWrapper>
+              <form onSubmit={(e) => e.preventDefault()}>
+                <label htmlFor="email">Email</label>
+                <div className="container">
+                  <input
+                    className="input-tag possible"
+                    type="email"
+                    id="email"
+                    required
+                    ref={emailInputRef}
+                  />
+                </div>
+                <p className="validate">{validateEmailText}</p>
+
+                <label htmlFor="password">Password</label>
+                <div className="container">
+                  <input
+                    className="input-tag"
+                    type="password"
+                    id="password"
+                    required
+                    ref={passwordInputRef}
+                    name="password"
+                    autoComplete="off"
+                  />
+                </div>
+                <p className="validate">{validatePasswordText}</p>
+              </form>
+            </InputWrapper>
+
+            <div>
+              <div></div> <Button onClick={usesubmitHandler}>Login</Button>
+              <Button type="button" onClick={signupHandler}>
+                Create new account
+              </Button>
+            </div>
+            <div>
+              <img
+                className="Button"
+                src={kakaoLogo}
+                alt="./Kakao.png"
+                width="200"
+                height="45"
+              ></img>
+            </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+    </Background>
   );
 };
 export default Login;
 
 const InputWrapper = styled.div`
+  display: grid;
+  place-items: center;
+  h1 {
+    padding: 2rem;
+  }
+
   .validate {
     color: red;
     padding: 0.5rem;
   }
   .container {
+    display: grid;
     display: flex;
+    place-items: center;
     flex-direction: column-reverse;
   }
   .input-tag {

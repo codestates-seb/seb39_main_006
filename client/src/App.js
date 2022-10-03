@@ -10,7 +10,8 @@ import SignUp from "./pages/account/SignUp";
 import Matching from "./pages/mypage/Matching";
 import UserInfo from "../src/pages/mypage/UserInfo";
 import Background from "../src/components/ui/Background";
-
+import MyPage from "./pages/mypage/MyPage";
+import styled from "styled-components";
 function App() {
   return (
     <Background>
@@ -24,6 +25,7 @@ function App() {
           </>
         ) : (
           <>
+            <Route path="/mypage" element={<MyPage />}></Route>
             <Route path="/userinfo" element={<UserInfo />}></Route>
             <Route path="/main" element={<MainPage />}></Route>
             <Route path="/:id" element={<PostDetail />}></Route>

@@ -4,35 +4,107 @@ import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import axios from "axios";
 import styled from "styled-components";
-import isDuplicateDisplayName from "../account/CheckDisplayName";
+import CheckDisplayName from "../account/CheckDisplayName";
 
 const Userinfo = () => {
-  const [isDisabledInfo, setIsDisabledInfo] = useState(true);
-  const onClickDuplicateDisplayName = () => {
-    isDuplicateDisplayName(
-      setIsDisabledInfo(displaynameInputRef.current.value)
-    );
-
-    // const isDisabledValue = setIsDisabledInfo(
-    //   displaynameInputRef.current.value
-    // );
-    // isDuplicateDisplayName(isDisabledValue);
-  };
-
-  const [validateDisplayNameText, SetValidateDisplayNameText] = useState("");
-  const [validatePasswordText, SetvalidatePasswordText] = useState("");
-  const [validatePhoneNumberText, SetValidatePhoneNumberText] = useState("");
-  const [validateContentText, SetValidateContentText] = useState("");
-
-  // const [file, setFile] = useState("");
+  console.log("렌더링");
+  const [isDisabledInfo, setIsDisabledInfo] = useState(false);
   const [imageURL, setImageURL] = useState("");
+  const [userInfo, setUserInfo] = useState("");
 
   const displaynameInputRef = useRef();
   const passwordInputRef = useRef();
   const phoneInputRef = useRef();
   const contentInputRef = useRef();
-  //TODO data: formData 대신 넣을 값임.
   const profileuploadInputRef = useRef();
+
+  // displaynameInputRef.current.value = accountInfo.displayName;
+  //#region Show validate text
+  const [validateDisplayNameText, setValidateDisplayNameText] = useState("");
+  const [validatePasswordText, setValidatePasswordText] = useState("");
+  const [validatePhoneNumberText, setValidatePhoneNumberText] = useState("");
+  //#endregion
+
+  //#region Change validate className
+  const [
+    validateDisplayNameNoticeClassname,
+    setValidateDisplayNameNoticeClassname,
+  ] = useState("validate");
+  const [validatePasswordNoticeClassname, setValidatePasswordNoticeClassname] =
+    useState("validate");
+  const [
+    validatePhoneNumberNoticeClassname,
+    setValidatePhoneNumberNoticeClassname,
+  ] = useState("validate");
+  //#endregion
+
+  //#region Check validate&Duplicate functions
+  const validatePhoneNumber = (phoneNumber) => {
+    return String(phoneNumber).match(/^\d{3}-\d{3,4}-\d{4}$/);
+  };
+
+  const onClickDuplicateDisplayName = async () => {
+    const enteredDisplayName = displaynameInputRef.current.value;
+    if (enteredDisplayName.length > 1) {
+      const isDuplicateDisplayName = await CheckDisplayName(
+        displaynameInputRef.current.value
+      );
+
+      setIsDisabledInfo(isDuplicateDisplayName);
+
+      if (isDuplicateDisplayName) {
+      }
+    } else {
+      setValidateDisplayNameText("❌ 닉네임을 2글자 이상 입력해 주세요 ");
+      setValidateDisplayNameNoticeClassname("validate");
+    }
+  };
+  //#endregion
+
+  //#region OnChanged event for validate
+  const onChangedDisplayName = (e) => {
+    if (e.target.value.length < 2) {
+      setValidateDisplayNameText("❌ 닉네임을 2글자 이상 입력해 주세요 ");
+      setValidateDisplayNameNoticeClassname("validate");
+    } else {
+      setValidateDisplayNameText("✅ 올바른 닉네임 형식입니다.");
+      setValidateDisplayNameNoticeClassname("HTH-green");
+    }
+  };
+
+  const onChangedPassword = (e) => {
+    const enteredPassword = e.target.value;
+    if (enteredPassword.length < 6) {
+      setValidatePasswordText("❌ 비밀번호 6글자 이상 입력해주세요");
+      setValidatePasswordNoticeClassname("validate");
+    } else {
+      setValidatePasswordText("✅ 올바른 비밀번호 형식입니다.");
+      setValidatePasswordNoticeClassname("HTH-green");
+    }
+  };
+
+  const onChangedPhoneNumber = (e) => {
+    if (validatePhoneNumber(e.target.value) === null) {
+      setValidatePhoneNumberText("❌ 000-0000-0000 형식으로 입력해 주세요");
+      setValidatePhoneNumberNoticeClassname("validate");
+    } else {
+      setValidatePhoneNumberText("✅ 올바른 번호 형식입니다.");
+      setValidatePhoneNumberNoticeClassname("HTH-green");
+    }
+  };
+
+  const onChangedContent = (e) => {
+    // setContentText(e.target.value);
+  };
+  //#endregion
+
+  // if (accountInfo.phone !== null) {
+  //   // setPhoneNumberText(accountInfo.phone);
+  // }
+  // if (accountInfo.content !== null) {
+  //   // setContentText(accountInfo.content);
+  // }
+
   const postImg = (e) => {
     const formData = new FormData();
     formData.append("image", e.target.files[0]);
@@ -43,7 +115,6 @@ const Userinfo = () => {
         access_hh: sessionStorage.getItem("AccessToken"),
         refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
-      //TODO useRef로 들어간 profile 이미지가 들어가야함.
       data: formData,
     }).then((res) => {
       // 기홍님의 잔재.....
@@ -52,13 +123,6 @@ const Userinfo = () => {
       // mount.current = true;
       setImageURL(res.data.imageUrl);
     });
-  };
-  const validateEmail = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
   };
 
   const usesubmitHandler = (event) => {
@@ -69,21 +133,11 @@ const Userinfo = () => {
     const enteredPhone = phoneInputRef.current.value;
     const enteredContent = contentInputRef.current.value;
 
-    if (enteredDisplayName.length < 2) {
-      SetValidateDisplayNameText("닉네임을 2글자 이상 입력해 주세요 ");
-      return;
-    }
-    if (enteredPassword.length < 6) {
-      SetvalidatePasswordText("비밀번호 6글자 이상 입력해주세요 ");
-      return;
-    }
-
-    if (enteredPhone.length > 14) {
-      SetValidatePhoneNumberText("올바른 핸드폰 번호를 입력해 주세요");
-      return;
-    }
-    if (enteredContent === null) {
-      SetValidateContentText("소개란을 입력해 주세요");
+    if (
+      validatePasswordNoticeClassname === "validate" ||
+      validatePhoneNumberNoticeClassname === "validate"
+    ) {
+      alert("서식을 확인해 주세요");
       return;
     }
 
@@ -104,7 +158,7 @@ const Userinfo = () => {
     })
       .then((res) => {
         if (res.status) {
-          alert("정상적으로 회원가입되었습니다. 로그인하여 진행해주세요.");
+          alert("정상적으로 수정되었습니다. 로그인하여 진행해주세요.");
           navigate("/");
         }
       })
@@ -116,9 +170,19 @@ const Userinfo = () => {
       });
   };
   const navigate = useNavigate();
-  // const submitHandler = (event) => {
-  //   event.preventDefault();
-  // };
+
+  const memberId = sessionStorage.getItem("memberId");
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_URL}/api/members/${memberId}`)
+      .then((res) => {
+        setValidatePhoneNumberText("✅ 올바른 번호 형식입니다.");
+        setValidatePhoneNumberNoticeClassname("HTH-green");
+        setUserInfo(res.data);
+      });
+  }, []);
+
   return (
     <>
       <h1>userinfo Edit</h1>
@@ -135,12 +199,16 @@ const Userinfo = () => {
                     id="displayName"
                     required
                     ref={displaynameInputRef}
+                    onChange={onChangedDisplayName}
+                    defaultValue={userInfo !== null ? userInfo.displayName : ""}
                   />
                 </div>
                 <Button onClick={onClickDuplicateDisplayName}>중복확인</Button>
-                <label htmlFor="password">Password</label>
+                <p className={validateDisplayNameNoticeClassname}>
+                  {validateDisplayNameText}
+                </p>
 
-                <p className="validate">{validateDisplayNameText}</p>
+                <label htmlFor="password">Password</label>
                 <div className="container">
                   <input
                     disabled={isDisabledInfo}
@@ -151,9 +219,12 @@ const Userinfo = () => {
                     ref={passwordInputRef}
                     name="password"
                     autoComplete="off"
+                    onChange={onChangedPassword}
                   />
                 </div>
-                <p className="validate">{validatePasswordText}</p>
+                <p className={validatePasswordNoticeClassname}>
+                  {validatePasswordText}
+                </p>
 
                 <label htmlFor="phone">Phone Number</label>
                 <div className="container">
@@ -164,9 +235,14 @@ const Userinfo = () => {
                     id="phone"
                     required
                     ref={phoneInputRef}
+                    defaultValue={userInfo !== null ? userInfo.phone : ""}
+                    onChange={onChangedPhoneNumber}
+                    // value={phoneNumberText}
                   />
                 </div>
-                <p className="validate">{validatePhoneNumberText}</p>
+                <p className={validatePhoneNumberNoticeClassname}>
+                  {validatePhoneNumberText}
+                </p>
 
                 <label htmlFor="content">자기소개</label>
                 <div className="container">
@@ -177,9 +253,10 @@ const Userinfo = () => {
                     id="content"
                     required
                     ref={contentInputRef}
+                    defaultValue={userInfo !== null ? userInfo.content : ""}
+                    onChange={onChangedContent}
                   />
                 </div>
-                <p className="validate">{validateContentText}</p>
 
                 <label htmlFor="content">프로필 사진 업로드</label>
                 <div className="container">
@@ -193,11 +270,11 @@ const Userinfo = () => {
                     ref={profileuploadInputRef}
                   />
                 </div>
-                <p className="validate">{validateContentText}</p>
               </form>
             </InputWrapper>
             <div>
               <Button onClick={usesubmitHandler}>수정하기</Button>
+              <Button onClick={() => navigate("/main")}>취소</Button>
             </div>
           </div>
         </section>
