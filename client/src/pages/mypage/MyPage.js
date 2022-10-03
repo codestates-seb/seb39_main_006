@@ -1,6 +1,7 @@
 import SideBar from "../../components/SideBar";
 import styled from "styled-components";
-
+import Button from "../../components/ui/Button";
+import WrapperBox from "../../components/ui/WrapperBox";
 const MyPage = () => {
   return (
     <>
@@ -10,6 +11,13 @@ const MyPage = () => {
         <section>
           <h1>My Page</h1>
           <h2>여행동행자 모집합니다</h2>
+          <section>
+            <a href="/userinfo">
+              <Button>유저정보 수정하기</Button>
+            </a>
+          </section>
+
+          <WrapperBox></WrapperBox>
         </section>
       </Section>
     </>
@@ -23,6 +31,10 @@ const Section = styled.div`
     position: relative;
     left: 100px;
     list-style: none;
+    section {
+      display: inline-block;
+      margin: 3rem;
+    }
   }
 
   h1 {
