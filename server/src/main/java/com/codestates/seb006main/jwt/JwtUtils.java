@@ -3,17 +3,29 @@ package com.codestates.seb006main.jwt;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.codestates.seb006main.auth.PrincipalDetails;
+import com.codestates.seb006main.exception.BusinessLogicException;
+import com.codestates.seb006main.exception.ExceptionCode;
+import com.codestates.seb006main.members.entity.Member;
+import com.codestates.seb006main.members.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Date;
 import java.util.Map;
-
+@RequiredArgsConstructor
 public class JwtUtils {
 
     @Value("${jwt.access}")
     private String accessKey;
     @Value("${jwt.refresh}")
     private String refreshKey;
+
+    private MemberRepository memberRepository;
+
 
 
     public String createAccessToken(Long memberId, String email){
@@ -53,5 +65,29 @@ public class JwtUtils {
 
     public String getEmailFromToken(String token){
         return JWT.decode(token).getClaim("email").asString();
+    }
+
+    public void verifiedToken(String accessToken, String refreshToken){
+        if(accessToken == null || !accessToken.startsWith("Bearer")){
+            throw new BusinessLogicException(ExceptionCode.TOKEN_EXPIRED);
+        }else if (isTokenExpired(JWT.decode(accessToken.replace("Bearer ", "")))){
+            if(refreshToken == null || !refreshToken.startsWith("Bearer")){
+            }else{
+                refreshToken = refreshToken.replace("Bearer ", "");
+                DecodedJWT jwt = JWT.decode(refreshToken);
+                if(isTokenExpired(jwt)){
+                    throw new BusinessLogicException(ExceptionCode.TOKEN_EXPIRED);
+                }else{
+                    Map<String,Object> map = getClaimsFromToken(refreshToken,"refresh");
+                    String access = createAccessToken((Long)map.get("id") ,(String) map.get("email"));
+                    Member memberEntity = memberRepository.findByEmail((String) map.get("email")).orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+                    PrincipalDetails principalDetails = new PrincipalDetails(memberEntity);
+                    Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null,
+                            principalDetails.getAuthorities()
+                    );
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+            }
+        }
     }
 }
