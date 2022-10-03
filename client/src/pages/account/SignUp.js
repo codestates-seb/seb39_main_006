@@ -9,23 +9,37 @@ import CheckDisplayName from "./CheckDisplayName";
 // 사용부  함수이름(원하는값)
 
 const Signup = () => {
-  const [dpNameCheck, setDpNameCheck] = useState(false);
-  const [checkError, setCheckError] = useState("");
-  const [error, setError] = useState("");
-
   const [isDisabledInfo, setIsDisabledInfo] = useState(true);
-
-  const onClickDuplicateDisplayName = () => {
-    setIsDisabledInfo(CheckDisplayName(displaynameInputRef.current.value));
-    // const isDisabledValue = setIsDisabledInfo(
-    //   displaynameInputRef.current.value
-    // );
-    // setIsDisabledInfo(isDisabledValue);
-  };
-
   const [validateEmailText, setValidateEmailText] = useState("");
-  const [validatePasswordText, setvalidatePasswordText] = useState("");
-  const [validateDisplayNameText, SetValidateDisplayNameText] = useState("");
+  const [validatePasswordText, setValidatePasswordText] = useState("");
+  const [validateDisplayNameText, setValidateDisplayNameText] = useState("");
+  const [
+    validateDisplayNameNoticeClassname,
+    setValidateDisplayNameNoticeClassname,
+  ] = useState("validate");
+  const [validateEmailNoticeClassname, setValidateEmailNoticeClassname] =
+    useState("validate");
+  const [validatePasswordNoticeClassname, setValidatePasswordNoticeClassname] =
+    useState("validate");
+
+  const onClickDuplicateDisplayName = async () => {
+    const enteredDisplayName = displaynameInputRef.current.value;
+    if (enteredDisplayName.length > 1) {
+      const isDuplicateDisplayName = await CheckDisplayName(
+        displaynameInputRef.current.value
+      );
+
+      setIsDisabledInfo(isDuplicateDisplayName);
+
+      if (isDuplicateDisplayName) {
+        emailInputRef.current.value = "";
+        passwordInputRef.current.value = "";
+      }
+    } else {
+      setValidateDisplayNameText("❌ 닉네임을 2글자 이상 입력해 주세요 ");
+      setValidateDisplayNameNoticeClassname("validate");
+    }
+  };
 
   const displaynameInputRef = useRef();
   const emailInputRef = useRef();
@@ -52,21 +66,6 @@ const Signup = () => {
     const enteredPassword = passwordInputRef.current.value;
     const enteredDisplayName = displaynameInputRef.current.value;
 
-    if (enteredDisplayName.length < 2) {
-      SetValidateDisplayNameText("닉네임을 2글자 이상 입력해 주세요 ");
-      return;
-    }
-
-    if (validateEmail(enteredEmail) === null) {
-      setValidateEmailText("이메일 형식으로 입력해 주세요");
-      return;
-    }
-
-    if (enteredPassword.length < 6) {
-      setvalidatePasswordText("비밀번호 6글자 이상 입력해주세요 ");
-      return;
-    }
-
     axios(`${process.env.REACT_APP_URL}/api/members`, {
       method: "POST",
       data: {
@@ -84,9 +83,41 @@ const Signup = () => {
       .catch((err) => {
         if (err.response.status === 401) {
           alert("다시 확인하고 입력해주세요");
-          window.location.reload();
         }
       });
+  };
+
+  const onChangeInputDisplayName = (e) => {
+    const enteredDisplayName = e.target.value;
+    if (enteredDisplayName.length < 2) {
+      setValidateDisplayNameText("❌ 닉네임을 2글자 이상 입력해 주세요 ");
+      setValidateDisplayNameNoticeClassname("validate");
+    } else {
+      setValidateDisplayNameText("✅ 올바른 닉네임 형식입니다.");
+      setValidateDisplayNameNoticeClassname("HTH-green");
+    }
+  };
+
+  const onChangeInputEmail = (e) => {
+    const enteredEmail = e.target.value;
+    if (validateEmail(enteredEmail) === null) {
+      setValidateEmailText("❌ 이메일 형식으로 입력해 주세요");
+      setValidateEmailNoticeClassname("validate");
+    } else {
+      setValidateEmailText("✅ 올바른 이메일 형식입니다.");
+      setValidateEmailNoticeClassname("HTH-green");
+    }
+  };
+
+  const onChangeInputPassword = (e) => {
+    const enteredPassword = e.target.value;
+    if (enteredPassword.length < 6) {
+      setValidatePasswordText("❌ 비밀번호 6글자 이상 입력해주세요");
+      setValidatePasswordNoticeClassname("validate");
+    } else {
+      setValidatePasswordText("✅ 올바른 비밀번호 형식입니다.");
+      setValidatePasswordNoticeClassname("HTH-green");
+    }
   };
 
   return (
@@ -102,10 +133,13 @@ const Signup = () => {
                   id="displayName"
                   required
                   ref={displaynameInputRef}
+                  onChange={onChangeInputDisplayName}
                 />
               </div>
               <Button onClick={onClickDuplicateDisplayName}>중복확인</Button>
-              <p className="validate">{validateDisplayNameText}</p>
+              <p className={validateDisplayNameNoticeClassname}>
+                {validateDisplayNameText}
+              </p>
               <label htmlFor="email">Email</label>
               <div className="container">
                 <input
@@ -115,9 +149,12 @@ const Signup = () => {
                   id="email"
                   required
                   ref={emailInputRef}
+                  onChange={onChangeInputEmail}
                 />
               </div>
-              <p className="validate">{validateEmailText}</p>
+              <p className={validateEmailNoticeClassname}>
+                {validateEmailText}
+              </p>
               <label htmlFor="password">Password</label>
               <div className="container">
                 <input
@@ -129,9 +166,12 @@ const Signup = () => {
                   ref={passwordInputRef}
                   name="password"
                   autoComplete="off"
+                  onChange={onChangeInputPassword}
                 />
               </div>
-              <p className="validate">{validatePasswordText}</p>
+              <p className={validatePasswordNoticeClassname}>
+                {validatePasswordText}
+              </p>
             </form>
           </InputWrapper>
           <div>
@@ -150,6 +190,10 @@ export default Signup;
 const InputWrapper = styled.div`
   .validate {
     color: red;
+    padding: 0.5rem;
+  }
+  .HTH-green {
+    color: green;
     padding: 0.5rem;
   }
   .container {
