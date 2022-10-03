@@ -15,6 +15,7 @@ public enum ExceptionCode {
     ALREADY_USED_IMAGE(409, "Image already used.", "다른 곳에서 사용된 사진입니다. 새 사진을 업로드 해주세요."),
     ALREADY_REFUSED(409, "Already refused", "이미 거절된 요청입니다."),
     ALREADY_ACCEPTED(409, "Already accepted", "이미 수락된 요정입니다."),
+    LACK_OF_INFORMATION(409, "Lack of information", "메시지 정보가 부족합니다. 관리자에게 문의해주세요."),
     TOKEN_EXPIRED(401, "token is expired", "만료된 토큰입니다. 다시 로그인 해주세요."),
     IMAGE_NOT_FOUND(404, "Image not found", "이미지를 찾을 수 없습니다."),
     PASSWORD_NOT_MATCHED(401, "password not matched", "비밀번호가 맞지 않습니다."),
@@ -24,6 +25,7 @@ public enum ExceptionCode {
     FEED_NOT_FOUND(404, "Feed not found", "존재하지 않는 피드입니다."),
     COMMENT_NOT_FOUND(404, "Comment not found", "존재하지 않는 댓글입니다."),
     MATCHING_NOT_FOUND(404, "Matching not found", "매칭 정보를 찾을 수 없습니다."),
+    SESSION_NOT_FOUND(404, "Session not found", "세션 정보를 찾을 수 없습니다."),
     NOT_ALLOWED_FILENAME_EXTENSION(415, "Not Allowed Filename Extension", "허용되지 않은 파일 형식입니다. PNG, JPG, JPEG, GIF, BMP 확장자만 업로드할 수 있습니다.");
 
 

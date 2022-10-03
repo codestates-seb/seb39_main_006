@@ -29,7 +29,6 @@ public class MatchingService {
     private final MatchingRepository matchingRepository;
     private final PostsRepository postsRepository;
     private final MemberPostsRepository memberPostsRepository;
-    private final MessageRepository messageRepository;
     private final MatchingMapper matchingMapper;
     private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -79,6 +78,9 @@ public class MatchingService {
         MemberPosts memberPosts = MemberPosts.builder().member(matching.getMember()).build();
         memberPosts.setPosts(matching.getPosts());
         memberPosts.checkPostsStatus();
+
+        applicationEventPublisher.publishEvent(new DomainEvent(this, memberPosts));
+
         memberPostsRepository.save(memberPosts);
         return matchingMapper.matchingToResponseDto(matching);
     }
