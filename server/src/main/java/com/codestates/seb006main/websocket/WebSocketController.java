@@ -34,7 +34,7 @@ public class WebSocketController {
 
     public void sendMatchingMessage(Matching matching, MessageDto.Response message) throws IOException {
         MemberSession session = eventListener.sessionMap.get(matching.getPosts().getMember().getEmail());
-        if (session == null) {
+        if (session.sessionIds.isEmpty()) {
             messageService.failedToSend(message);
             return;
         }
@@ -44,7 +44,7 @@ public class WebSocketController {
 
     public void sendAcceptedMessage(MemberPosts memberPosts, MessageDto.Response message) throws IOException {
         MemberSession session = eventListener.sessionMap.get(memberPosts.getMember().getEmail());
-        if (session == null) {
+        if (session.sessionIds.isEmpty()) {
             messageService.failedToSend(message);
             return;
         }
