@@ -42,49 +42,66 @@ const Posts = () => {
       <div className="wrapper">
         <div className="btnflex">
           <button
-            className="filterbtn"
+            className={sort === "newest" ? "filterbtn focusbtn" : "filterbtn"}
             value="newest"
-            onClick={(e) => dispatch(filterActions.setFilter(e.target.value))}
+            onClick={(e) => {
+              dispatch(filterActions.setFilter(e.target.value));
+            }}
           >
             최신순(기본값)
           </button>
           <button
-            className="filterbtn"
+            className={
+              sort === "startDate" ? "filterbtn focusbtn" : "filterbtn"
+            }
             value="startDate"
-            onClick={(e) => dispatch(filterActions.setFilter(e.target.value))}
+            onClick={(e) => {
+              dispatch(filterActions.setFilter(e.target.value));
+            }}
           >
             여행 시작 날짜 순
           </button>
           <button
-            className="filterbtn"
+            className={sort === "endDate" ? "filterbtn focusbtn" : "filterbtn"}
             value="endDate"
-            onClick={(e) => dispatch(filterActions.setFilter(e.target.value))}
+            onClick={(e) => {
+              dispatch(filterActions.setFilter(e.target.value));
+            }}
           >
             여행 종료 날짜 순
           </button>
           <button
-            className="filterbtn"
+            className={
+              sort === "closeDate" ? "filterbtn focusbtn" : "filterbtn"
+            }
             value="closeDate"
-            onClick={(e) => dispatch(filterActions.setFilter(e.target.value))}
+            onClick={(e) => {
+              dispatch(filterActions.setFilter(e.target.value));
+            }}
           >
             모집 종료 날짜 순
           </button>
           <button
-            className="filterbtn"
+            className={
+              sort === "totalCount" ? "filterbtn focusbtn" : "filterbtn"
+            }
             value="totalCount"
-            onClick={(e) => dispatch(filterActions.setFilter(e.target.value))}
+            onClick={(e) => {
+              dispatch(filterActions.setFilter(e.target.value));
+            }}
           >
             모집 인원 순
           </button>
           <button
-            className="filterbtn"
+            className={sort === "limited" ? "filterbtn focusbtn" : "filterbtn"}
             value="limited"
-            onClick={(e) => dispatch(filterActions.setFilter(e.target.value))}
+            onClick={(e) => {
+              dispatch(filterActions.setFilter(e.target.value));
+            }}
           >
             남은 인원 순
           </button>
         </div>
-
         <div className="contents">
           {data.map((post) => (
             <div key={post.postId} className="post">
@@ -159,5 +176,8 @@ const StyledPost = styled.div`
     flex-grow: 1;
     border-radius: 15px;
     margin: 5px;
+  }
+  .focusbtn {
+    background-color: white;
   }
 `;

@@ -12,6 +12,8 @@ const PostDetail = () => {
   const [detail, setDetail] = useState([]);
   const [matchList, setMatchList] = useState([]);
   const [matchBody, setMatchBody] = useState("");
+  const [isbookmark, setIsBookmark] = useState(false);
+  const [mybookmark, setMyBookmark] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,6 +24,31 @@ const PostDetail = () => {
       setMatchList(res.data.data);
     });
   }, [id]);
+
+  useEffect(() => {
+    axios(`https://seb-006.shop/api/members/my-bookmark`, {
+      headers: {
+        access_hh: sessionStorage.getItem("AccessToken"),
+        refresh_hh: sessionStorage.getItem("RefreshToken"),
+      },
+    }).then((res) => {
+      setMyBookmark(res.data.postIds);
+    });
+  }, []);
+
+  useEffect(() => {
+    mybookmark.map((el) => (el === detail.postId ? setIsBookmark(true) : null));
+  }, [mybookmark, detail.postId]);
+
+  const bookmarkHandler = () => {
+    setIsBookmark(!isbookmark);
+    axios(`https://seb-006.shop/api/members/bookmark?postId=${detail.postId}`, {
+      headers: {
+        access_hh: sessionStorage.getItem("AccessToken"),
+        refresh_hh: sessionStorage.getItem("RefreshToken"),
+      },
+    });
+  };
 
   const deleteHandler = () => {
     axios(`https://seb-006.shop/api/posts/${id}`, {
@@ -96,6 +123,13 @@ const PostDetail = () => {
             </button>
           </>
         ) : null}
+        <button
+          onClick={() => {
+            bookmarkHandler();
+          }}
+        >
+          {isbookmark ? "❤️" : "🤍"}
+        </button>
       </h1>
       <div>작성자 : {detail.leaderName}</div>
       <Container>
@@ -247,7 +281,7 @@ const BodyContainer = styled.div`
   border: 1px solid black;
   background-color: #d5eaf1;
   border-radius: 15px;
-  width: 100%;
+  width: 70vw;
   .toastui-editor-contents {
     padding: 10px;
   }

@@ -61,7 +61,6 @@ const NewPost = () => {
         location: location,
         totalCount: totalCount,
         closeDate: closeDate,
-        // images: imageIds,
       },
     })
       .then((res) => {

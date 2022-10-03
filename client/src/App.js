@@ -11,7 +11,7 @@ import Matching from "./pages/mypage/Matching";
 import UserInfo from "../src/pages/mypage/UserInfo";
 import Background from "../src/components/ui/Background";
 import MyPage from "./pages/mypage/MyPage";
-
+import styled from "styled-components";
 function App() {
   return (
     <Background>

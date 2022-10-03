@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import styled from "styled-components";
+import Background from "../../components/ui/Background";
 // import AccountInfo from "./AccountInfo";
 
 const Login = () => {
@@ -69,60 +70,70 @@ const Login = () => {
       });
   };
   return (
-    <main>
-      <section>
-        <h1>로그인</h1>
-        <div>
-          <InputWrapper>
-            <form onSubmit={(e) => e.preventDefault()}>
-              <label htmlFor="email">Email</label>
-              <div className="container">
-                <input
-                  className="input-tag possible"
-                  type="email"
-                  id="email"
-                  required
-                  ref={emailInputRef}
-                />
-              </div>
-              <p className="validate">{validateEmailText}</p>
-
-              <label htmlFor="password">Password</label>
-              <div className="container">
-                <input
-                  className="input-tag"
-                  type="password"
-                  id="password"
-                  required
-                  ref={passwordInputRef}
-                  name="password"
-                  autoComplete="off"
-                />
-              </div>
-              <p className="validate">{validatePasswordText}</p>
-            </form>
-          </InputWrapper>
-
+    <Background>
+      <main>
+        <section>
+          <h1 align="center">로그인</h1>
           <div>
-            <Button onClick={usesubmitHandler}>Login</Button>
-            <Button type="button" onClick={signupHandler}>
-              Create new account
-            </Button>
+            <InputWrapper>
+              <form onSubmit={(e) => e.preventDefault()}>
+                <label htmlFor="email">Email</label>
+                <div className="container">
+                  <input
+                    className="input-tag possible"
+                    type="email"
+                    id="email"
+                    required
+                    ref={emailInputRef}
+                  />
+                </div>
+                <p className="validate">{validateEmailText}</p>
+
+                <label htmlFor="password">Password</label>
+                <div className="container">
+                  <input
+                    className="input-tag"
+                    type="password"
+                    id="password"
+                    required
+                    ref={passwordInputRef}
+                    name="password"
+                    autoComplete="off"
+                  />
+                </div>
+                <p className="validate">{validatePasswordText}</p>
+              </form>
+            </InputWrapper>
+
+            <div>
+              <div></div> <Button onClick={usesubmitHandler}>Login</Button>
+              <Button type="button" onClick={signupHandler}>
+                Create new account
+              </Button>
+            </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+    </Background>
   );
 };
 export default Login;
 
 const InputWrapper = styled.div`
+  display: grid;
+  place-items: center;
+  h1 {
+    padding: 2rem;
+  }
+
   .validate {
     color: red;
     padding: 0.5rem;
   }
   .container {
+    display: grid;
     display: flex;
+    place-items: center;
     flex-direction: column-reverse;
   }
   .input-tag {
