@@ -20,6 +20,7 @@
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.1",
     "react-svg-use": "^2.1.0",
+    "redux-persist": "^6.0.0",
     "styled-components": "^5.3.5",
     "styled-reset": "^4.4.2",
     "web-vitals": "^2.1.4"

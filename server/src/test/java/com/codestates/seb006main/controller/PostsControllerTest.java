@@ -73,7 +73,6 @@ public class PostsControllerTest {
                 .location("사이판")
                 .totalCount(3)
                 .closeDate("2022-10-12")
-                .images(new ArrayList<>())
                 .build();
         String content = gson.toJson(postDto);
 
@@ -170,7 +169,6 @@ public class PostsControllerTest {
                 .body("일정이 촉박해 빠르게 사이판으로 함께 갈 1명만 구해봅니다. 여자 혼자 가기 너무 심심하네요. 흑흑흑.")
                 .totalCount(2)
                 .closeDate("2022-10-12")
-                .images(new ArrayList<>())
                 .build();
         String content = gson.toJson(patchDto);
 
