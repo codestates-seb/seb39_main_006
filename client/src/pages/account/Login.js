@@ -5,6 +5,7 @@ import Button from "../../components/ui/Button";
 import styled from "styled-components";
 import Background from "../../components/ui/Background";
 // import AccountInfo from "./AccountInfo";
+import kakaoLogo from "../../img/kakao.png";
 
 const Login = () => {
   const [validateEmailText, setValidateEmailText] = useState("");
@@ -110,6 +111,15 @@ const Login = () => {
               <Button type="button" onClick={signupHandler}>
                 Create new account
               </Button>
+            </div>
+            <div>
+              <img
+                className="Button"
+                src={kakaoLogo}
+                alt="./Kakao.png"
+                width="200"
+                height="45"
+              ></img>
             </div>
           </div>
         </section>
