@@ -7,7 +7,6 @@ import styled from "styled-components";
 import CheckDisplayName from "../account/CheckDisplayName";
 
 const Userinfo = () => {
-  console.log("렌더링");
   const [isDisabledInfo, setIsDisabledInfo] = useState(false);
   const [imageURL, setImageURL] = useState("");
   const [userInfo, setUserInfo] = useState("");
@@ -274,7 +273,7 @@ const Userinfo = () => {
             </InputWrapper>
             <div>
               <Button onClick={usesubmitHandler}>수정하기</Button>
-              <Button onClick={() => navigate("/main")}>취소</Button>
+              <Button onClick={() => navigate("/mypage")}>취소</Button>
             </div>
           </div>
         </section>

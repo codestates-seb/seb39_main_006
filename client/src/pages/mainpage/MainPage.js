@@ -15,7 +15,6 @@ const MainPage = () => {
       </Section>
       <MainSubHeader />
       <Flex>
-        <SideBar />
         <Posts />
       </Flex>
     </>

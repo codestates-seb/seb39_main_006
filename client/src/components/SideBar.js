@@ -6,7 +6,7 @@ const SideBar = () => {
     <SideBars>
       <nav>
         <ul>
-          <a href="/userinfo">
+          <a href="/mypage">
             <li id="home">
               <div className="home-icon">
                 <div className="roof">
@@ -16,7 +16,7 @@ const SideBar = () => {
               </div>
             </li>
           </a>
-          <a href="#">
+          <a href="/mybookmark">
             <li id="about">
               <div className="about-icon">
                 <div className="head">
@@ -26,7 +26,7 @@ const SideBar = () => {
               </div>
             </li>
           </a>
-          <a href="/match/:matchid">
+          <a href="/mypost">
             <li id="work">
               <div className="work-icon">
                 <div className="paper"></div>
@@ -36,7 +36,7 @@ const SideBar = () => {
               </div>
             </li>
           </a>
-          <a href="/members:id">
+          <a href="/mymatchinfo">
             <li id="mail">
               <div className="mail-icon">
                 <div className="mail-base">
@@ -152,11 +152,11 @@ const SideBars = styled.div`
     line-height: 88px;
   }
   #work:after {
-    content: "매칭현황";
+    content: "내 게시글";
     line-height: 85px;
   }
   #mail:after {
-    content: "매칭신청";
+    content: "매칭현황";
     line-height: 70px;
   }
 

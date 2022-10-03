@@ -7,11 +7,13 @@ import NewPost from "./pages/postpage/NewPost";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/account/Login";
 import SignUp from "./pages/account/SignUp";
-import Matching from "./pages/mypage/Matching";
+import Matching from "./pages/postpage/Matching";
 import UserInfo from "../src/pages/mypage/UserInfo";
 import Background from "../src/components/ui/Background";
 import MyPage from "./pages/mypage/MyPage";
-import styled from "styled-components";
+import MyPost from "./pages/mypage/MyPost";
+import MyBookmark from "./pages/mypage/MyBookmark";
+import MyMatching from "./pages/mypage/MyMatching";
 function App() {
   return (
     <Background>
@@ -25,13 +27,16 @@ function App() {
           </>
         ) : (
           <>
-            <Route path="/mypage" element={<MyPage />}></Route>
-            <Route path="/userinfo" element={<UserInfo />}></Route>
-            <Route path="/main" element={<MainPage />}></Route>
-            <Route path="/:id" element={<PostDetail />}></Route>
-            <Route path="/edit/:id" element={<EditPost />}></Route>
-            <Route path="/new" element={<NewPost />}></Route>
-            <Route path="/match/:matchid" element={<Matching />}></Route>
+            <Route path="/main" element={<MainPage />} />
+            <Route path="/new" element={<NewPost />} />
+            <Route path="/:id" element={<PostDetail />} />
+            <Route path="/edit/:id" element={<EditPost />} />
+            <Route path="/match/:matchid" element={<Matching />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/userinfo" element={<UserInfo />} />
+            <Route path="/mybookmark" element={<MyBookmark />} />
+            <Route path="/mypost" element={<MyPost />} />
+            <Route path="/mymatchinfo" element={<MyMatching />} />
           </>
         )}
       </Routes>
