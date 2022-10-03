@@ -274,6 +274,7 @@ const Userinfo = () => {
             </InputWrapper>
             <div>
               <Button onClick={usesubmitHandler}>수정하기</Button>
+              <Button onClick={() => navigate("/main")}>취소</Button>
             </div>
           </div>
         </section>
