@@ -20,18 +20,20 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 @RequiredArgsConstructor
 @EnableWebSocket
 @EnableWebSocketMessageBroker
-public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebSocketConfigurer {
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer
+//        , WebSocketConfigurer
+{
     private final WebSocketHandlerImpl webSocketHandler;
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.enableSimpleBroker("/topic", "/queue");
     }
 
-    @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(webSocketHandler, "/websocket").setAllowedOrigins("http://localhost:3000").setAllowedOriginPatterns("*");
-        registry.addHandler(webSocketHandler, "/websocket").setAllowedOrigins("http://localhost:3000").setAllowedOriginPatterns("*").withSockJS();
-    }
+//    @Override
+//    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+//        registry.addHandler(webSocketHandler, "/websocket").setAllowedOrigins("http://localhost:3000").setAllowedOriginPatterns("*");
+//        registry.addHandler(webSocketHandler, "/websocket").setAllowedOrigins("http://localhost:3000").setAllowedOriginPatterns("*").withSockJS();
+//    }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
