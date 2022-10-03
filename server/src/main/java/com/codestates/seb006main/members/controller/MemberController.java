@@ -101,12 +101,19 @@ public class MemberController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
+    @GetMapping("/matching")
+    public ResponseEntity getMyMatching(@PageableDefault(page = 1, sort = "postId", direction = Sort.Direction.DESC) Pageable pageable,
+                                             Authentication authentication) {
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
+        MultiResponseDto responseDto = memberService.readMyMatching(authentication, pageRequest);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    // TODO: 내가 받은 매칭 신청 조회도 필요하지 않을까
+
     @GetMapping("/blocked")
     public ResponseEntity blockedMember(@RequestParam("blocked-member-id") Long blockedMemberId, Authentication authentication){
         memberService.changeBlocked(blockedMemberId,authentication);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
-
 }

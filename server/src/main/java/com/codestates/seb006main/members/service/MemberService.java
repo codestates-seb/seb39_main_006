@@ -9,6 +9,8 @@ import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
 import com.codestates.seb006main.jwt.JwtUtils;
 import com.codestates.seb006main.mail.service.EmailSender;
+import com.codestates.seb006main.matching.entity.Matching;
+import com.codestates.seb006main.matching.mapper.MatchingMapper;
 import com.codestates.seb006main.members.dto.MemberDto;
 import com.codestates.seb006main.members.entity.Block;
 import com.codestates.seb006main.members.entity.Bookmark;
@@ -44,6 +46,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;
     private final PostsMapper postsMapper;
+    private final MatchingMapper matchingMapper;
     private final PasswordEncoder passwordEncoder;
     private final EmailSender emailSender;
     private final ImageRepository imageRepository;
@@ -201,4 +204,14 @@ public class MemberService {
         Page<Posts> bookmarkedPage = new PageImpl<>(bookmarkedList, pageRequest, bookmarkedList.size());
         return new MultiResponseDto<>(postsMapper.postsListToResponseDtoList(bookmarkedList), bookmarkedPage);
     }
+
+    public MultiResponseDto readMyMatching(Authentication authentication, PageRequest pageRequest) {
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        Member member = memberRepository.findById(principalDetails.getMember().getMemberId()).orElseThrow();
+        List<Matching> myMatchingList = member.getMatching();
+        Page<Matching> myMatchingPage = new PageImpl<>(myMatchingList, pageRequest, myMatchingList.size());
+        return new MultiResponseDto<>(matchingMapper.matchingListToResponseDtoList(myMatchingList), myMatchingPage);
+    }
+
+    // TODO: 신청 받은 매칭에 대한 조회도 필요할까?
 }
