@@ -26,7 +26,7 @@ const SideBar = () => {
               </div>
             </li>
           </a>
-          <a href="#">
+          <a href="/match/:matchid">
             <li id="work">
               <div className="work-icon">
                 <div className="paper"></div>
@@ -36,7 +36,7 @@ const SideBar = () => {
               </div>
             </li>
           </a>
-          <a href="/match/:matchid">
+          <a href="/members:id">
             <li id="mail">
               <div className="mail-icon">
                 <div className="mail-base">
@@ -99,6 +99,8 @@ const SideBars = styled.div`
     text-decoration: none;
   }
   nav {
+    margin-left: 2.2rem;
+    margin-top: 2rem;
     float: left;
     position: relative;
     top: 0;
@@ -143,17 +145,18 @@ const SideBars = styled.div`
   #home:after {
     content: "UserInfo";
     line-height: 88px;
+    font-size: 12px;
   }
   #about:after {
     content: "북마크";
     line-height: 88px;
   }
   #work:after {
-    content: "유저신고";
+    content: "매칭현황";
     line-height: 85px;
   }
   #mail:after {
-    content: "매칭현황";
+    content: "매칭신청";
     line-height: 70px;
   }
 

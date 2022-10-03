@@ -3,7 +3,7 @@ import React from "react";
 import imgLogo from "../img/realWave.gif";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-//
+//dd
 
 const Header = () => {
   const navigate = useNavigate();
@@ -85,6 +85,9 @@ const Header = () => {
 export default Header;
 
 const HeaderSection = styled.div`
+  display: grid;
+  place-items: center;
+
   * {
     padding: 0;
     margin: 0;
@@ -94,6 +97,7 @@ const HeaderSection = styled.div`
     }
   }
   // Developed by http://grohit.com/
+
   .Button {
     /* margin-top: 1rem; */
     align-items: center;

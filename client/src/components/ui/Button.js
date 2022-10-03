@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 const StyledBtn = styled.button`
+  display: grid;
+  display: flex;
+  place-items: center;
   font-size: 1.25rem;
   background-color: #dabbc9;
   width: fit-content;
