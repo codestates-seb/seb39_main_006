@@ -1,9 +1,14 @@
 package com.codestates.seb006main.members.controller;
 
 import com.codestates.seb006main.Image.service.ImageService;
+import com.codestates.seb006main.dto.MultiResponseDto;
 import com.codestates.seb006main.jwt.JwtUtils;
 import com.codestates.seb006main.members.dto.MemberDto;
 import com.codestates.seb006main.members.service.MemberService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -78,6 +83,22 @@ public class MemberController {
     @GetMapping("/my-bookmark")
     public ResponseEntity myBookmark(Authentication authentication){
         return new ResponseEntity<>(memberService.findMyBookmark(authentication),HttpStatus.OK);
+    }
+
+    @GetMapping("/posts")
+    public ResponseEntity getMyPosts(@PageableDefault(page = 1, sort = "postId", direction = Sort.Direction.DESC) Pageable pageable,
+                                     Authentication authentication) {
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
+        MultiResponseDto responseDto = memberService.readMyPosts(authentication, pageRequest);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/bookmarked")
+    public ResponseEntity getBookmarkedPosts(@PageableDefault(page = 1, sort = "postId", direction = Sort.Direction.DESC) Pageable pageable,
+                                     Authentication authentication) {
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
+        MultiResponseDto responseDto = memberService.readBookmarkedPosts(authentication, pageRequest);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @GetMapping("/blocked")
