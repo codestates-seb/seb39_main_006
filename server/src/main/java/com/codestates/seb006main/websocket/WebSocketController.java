@@ -58,7 +58,7 @@ public class WebSocketController {
         template.convertAndSend("/topic/" + session.getMemberId(), content);
     }
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void handleMessagingListener(DomainEvent event) throws IOException {
         MessageDto.Response message = messageService.createMessage(event.getEntity());
         sendMessage(message);
