@@ -9,7 +9,7 @@ const Matching = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios(`https://seb-006.shop/api/matching/${matchid}`, {
+    axios(`${process.env.REACT_APP_URL}/api/matching/${matchid}`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
         refresh_hh: sessionStorage.getItem("RefreshToken"),
@@ -20,7 +20,7 @@ const Matching = () => {
   }, [matchid]);
 
   const acceptHandler = () => {
-    axios(`https://seb-006.shop/api/matching/${matchid}/accept`, {
+    axios(`${process.env.REACT_APP_URL}/api/matching/${matchid}/accept`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
         refresh_hh: sessionStorage.getItem("RefreshToken"),
@@ -31,7 +31,7 @@ const Matching = () => {
   };
 
   const refuseHandler = () => {
-    axios(`https://seb-006.shop/api/matching/${matchid}/refuse`, {
+    axios(`${process.env.REACT_APP_URL}/api/matching/${matchid}/refuse`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
         refresh_hh: sessionStorage.getItem("RefreshToken"),

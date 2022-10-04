@@ -8,7 +8,7 @@ const MyBookmark = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios(`https://seb-006.shop/api/members/bookmarked`, {
+    axios(`${process.env.REACT_APP_URL}/api/members/bookmarked`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
         refresh_hh: sessionStorage.getItem("RefreshToken"),

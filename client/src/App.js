@@ -15,6 +15,7 @@ import MyBookmark from "./pages/mypage/MyBookmark";
 import MyMatching from "./pages/mypage/MyMatching";
 import styled from "styled-components";
 import imgBgr from "../src/img/background.png";
+import Messages from "./pages/mypage/Messages";
 function App() {
   return (
     <Wrap>
@@ -45,6 +46,7 @@ function App() {
             <Route path="/mybookmark" element={<MyBookmark />} />
             <Route path="/mypost" element={<MyPost />} />
             <Route path="/mymatchinfo" element={<MyMatching />} />
+            <Route path="/messages" element={<Messages />} />
           </>
         )}
       </Routes>

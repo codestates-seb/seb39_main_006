@@ -19,7 +19,6 @@ const Header = () => {
   };
 
   useEffect(() => {
-    // console.log("초기값" + msg);
     const socket = new SockJs(`https://seb-006.shop/websocket`);
     const client = StompJs.over(socket);
     client.debug = null;
@@ -44,7 +43,7 @@ const Header = () => {
   }, []);
 
   const msgClickHandler = (msgId, postId) => {
-    axios(`https://seb-006.shop/api/messages/read?messageId=${msgId}`, {
+    axios(`${process.env.REACT_APP_URL}/api/messages/read?messageId=${msgId}`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
         refresh_hh: sessionStorage.getItem("RefreshToken"),

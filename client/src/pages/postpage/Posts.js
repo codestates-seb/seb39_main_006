@@ -26,7 +26,7 @@ const Posts = () => {
 
   useEffect(() => {
     axios(
-      `https://seb-006.shop/api/posts?page=${page}&size=${size}&title=${title}&body=${body}&location=${location}&startDate=${startDate}&endDate=${endDate}&sort=${sort}`
+      `${process.env.REACT_APP_URL}/api/posts?page=${page}&size=${size}&title=${title}&body=${body}&location=${location}&startDate=${startDate}&endDate=${endDate}&sort=${sort}`
     ).then((res) => {
       setData([...res.data.data]);
       setTotalElements(res.data.pageInfo.totalElements);

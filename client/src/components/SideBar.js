@@ -16,6 +16,9 @@ const SideBar = () => {
   const mymatchinfokHandler = () => {
     navigate("/mymatchinfo");
   };
+  const messagesHandler = () => {
+    navigate("/messages");
+  };
   return (
     <SideBars>
       <nav>
@@ -59,6 +62,7 @@ const SideBar = () => {
               </div>
             </li>
           </button>
+          <button onClick={messagesHandler}>알림들</button>
         </ul>
       </nav>
     </SideBars>

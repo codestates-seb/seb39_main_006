@@ -17,16 +17,18 @@ const PostDetail = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios(`https://seb-006.shop/api/posts/${id}`).then((res) => {
+    axios(`${process.env.REACT_APP_URL}/api/posts/${id}`).then((res) => {
       setDetail(res.data);
     });
-    axios(`https://seb-006.shop/api/posts/${id}/matching`).then((res) => {
-      setMatchList(res.data.data);
-    });
+    axios(`${process.env.REACT_APP_URL}/api/posts/${id}/matching`).then(
+      (res) => {
+        setMatchList(res.data.data);
+      }
+    );
   }, [id]);
 
   useEffect(() => {
-    axios(`https://seb-006.shop/api/members/my-bookmark`, {
+    axios(`${process.env.REACT_APP_URL}/api/members/my-bookmark`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
         refresh_hh: sessionStorage.getItem("RefreshToken"),
@@ -42,16 +44,19 @@ const PostDetail = () => {
 
   const bookmarkHandler = () => {
     setIsBookmark(!isbookmark);
-    axios(`https://seb-006.shop/api/members/bookmark?postId=${detail.postId}`, {
-      headers: {
-        access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
-      },
-    });
+    axios(
+      `${process.env.REACT_APP_URL}/api/members/bookmark?postId=${detail.postId}`,
+      {
+        headers: {
+          access_hh: sessionStorage.getItem("AccessToken"),
+          refresh_hh: sessionStorage.getItem("RefreshToken"),
+        },
+      }
+    );
   };
 
   const deleteHandler = () => {
-    axios(`https://seb-006.shop/api/posts/${id}`, {
+    axios(`${process.env.REACT_APP_URL}/api/posts/${id}`, {
       method: "DELETE",
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
@@ -77,7 +82,7 @@ const PostDetail = () => {
   };
 
   const matchSubmitHandler = () => {
-    axios(`https://seb-006.shop/api/matching/posts/${id}`, {
+    axios(`${process.env.REACT_APP_URL}/api/matching/posts/${id}`, {
       method: "POST",
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
@@ -90,7 +95,7 @@ const PostDetail = () => {
   };
 
   const goAway = (memberPostId) => {
-    axios(`https://seb-006.shop/api/participants/${memberPostId}`, {
+    axios(`${process.env.REACT_APP_URL}/api/participants/${memberPostId}`, {
       method: "DELETE",
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
