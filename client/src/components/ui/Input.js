@@ -46,7 +46,7 @@ const StyledInput = styled.div`
     padding: 20px 10px;
     border-radius: 5px;
     outline: none;
-    width: 30rem;
+    width: 25rem;
     display: inline-block;
     border: none;
     border-radius: 5px;

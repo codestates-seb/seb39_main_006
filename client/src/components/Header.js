@@ -110,7 +110,8 @@ const HeaderSection = styled.div`
 
   #logout-btn {
     li {
-      margin: 50px;
+      margin: 50%;
+      padding: 1rem;
 
       a {
         text-decoration: none;

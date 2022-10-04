@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../../components/ui/Button";
-import Input from "../../components/ui/Input";
 import axios from "axios";
 import styled from "styled-components";
 import CheckDisplayName from "../account/CheckDisplayName";
@@ -273,6 +271,7 @@ const Userinfo = () => {
                       id="profile-upload"
                       accept="image/*"
                       required
+                      multiple="multiple"
                       onChange={postImg}
                       ref={profileuploadInputRef}
                     />
