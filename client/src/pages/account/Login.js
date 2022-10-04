@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import styled from "styled-components";
-import imgBgr from "../../img/flower2.jpeg";
+import imgBgr from "../../img/flower4.jpeg";
 // import AccountInfo from "./AccountInfo";
 import kakaoLogo from "../../img/kakao.png";
 
@@ -141,7 +141,6 @@ const Wrap = styled.div`
   #bgr {
     position: absolute;
     top: -600px;
-
     z-index: -995;
     opacity: 50%;
   }
