@@ -13,12 +13,19 @@ const Header = () => {
   const navigate = useNavigate();
 
   const logoutHandler = () => {
+    axios(`${process.env.REACT_APP_URL}/api/members/logout`, {
+      headers: {
+        access_hh: sessionStorage.getItem("AccessToken"),
+        refresh_hh: sessionStorage.getItem("RefreshToken"),
+      },
+    })
     sessionStorage.clear();
     navigate(`/`);
     window.location.reload();
   };
-
+  
   useEffect(() => {
+    if(sessionStorage.getItem("isLogin")){
     const socket = new SockJs(`https://seb-006.shop/websocket`);
     const client = StompJs.over(socket);
     client.debug = null;
@@ -40,6 +47,7 @@ const Header = () => {
         );
       }
     );
+    }
   }, []);
 
   const msgClickHandler = (msgId, postId) => {
