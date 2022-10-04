@@ -48,26 +48,6 @@ public class WebSocketController {
         messageService.readAllMessages(messageId);
     }
 
-    public void sendMatchingMessage(Matching matching, MessageDto.Response message) throws IOException {
-        MemberSession session = eventListener.sessionMap.get(matching.getPosts().getMember().getEmail());
-        if (session.sessionIds.isEmpty()) {
-            messageService.failedToSend(message);
-            return;
-        }
-        String content = gson.toJson(message);
-        template.convertAndSend("/topic/" + session.getMemberId(), content);
-    }
-
-    public void sendAcceptedMessage(MemberPosts memberPosts, MessageDto.Response message) throws IOException {
-        MemberSession session = eventListener.sessionMap.get(memberPosts.getMember().getEmail());
-        if (session.sessionIds.isEmpty()) {
-            messageService.failedToSend(message);
-            return;
-        }
-        String content = gson.toJson(message);
-        template.convertAndSend("/topic/" + session.getMemberId(), content);
-    }
-
     public void sendMessage(MessageDto.Response message) throws IOException {
         MemberSession session = eventListener.sessionMap.get(message.getEmail());
         if (session.sessionIds.isEmpty()) {
@@ -77,7 +57,32 @@ public class WebSocketController {
         String content = gson.toJson(message);
         template.convertAndSend("/topic/" + session.getMemberId(), content);
     }
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void handleMessagingListener(DomainEvent event) throws IOException {
+        MessageDto.Response message = messageService.createMessage(event.getEntity());
+        sendMessage(message);
+    }
 
+//    public void sendMatchingMessage(Matching matching, MessageDto.Response message) throws IOException {
+//        MemberSession session = eventListener.sessionMap.get(matching.getPosts().getMember().getEmail());
+//        if (session.sessionIds.isEmpty()) {
+//            messageService.failedToSend(message);
+//            return;
+//        }
+//        String content = gson.toJson(message);
+//        template.convertAndSend("/topic/" + session.getMemberId(), content);
+//    }
+//
+//    public void sendAcceptedMessage(MemberPosts memberPosts, MessageDto.Response message) throws IOException {
+//        MemberSession session = eventListener.sessionMap.get(memberPosts.getMember().getEmail());
+//        if (session.sessionIds.isEmpty()) {
+//            messageService.failedToSend(message);
+//            return;
+//        }
+//        String content = gson.toJson(message);
+//        template.convertAndSend("/topic/" + session.getMemberId(), content);
+//    }
     // TODO: 핸들링을 하나로 만들고 인스턴스 체크를 메시지 서비스에서 한다.
 //    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
 //    @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -96,11 +101,4 @@ public class WebSocketController {
 //            sendAcceptedMessage((MemberPosts) event.getEntity(), message);
 //        }
 //    }
-
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void handleMessagingListener(DomainEvent event) throws IOException {
-        MessageDto.Response message = messageService.createMessage(event.getEntity());
-        sendMessage(message);
-    }
 }
