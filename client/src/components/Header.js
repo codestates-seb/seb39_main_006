@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 //react 에서 img import 하는법 https://velog.io/@ingdol2/React-image-%EA%B2%BD%EB%A1%9C-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0
 import imgLogo from "../img/realWave.gif";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-//dd
+import SockJs from "sockjs-client";
+import StompJs from "stompjs";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -13,6 +14,27 @@ const Header = () => {
     navigate(`/`);
     window.location.reload();
   };
+
+  useEffect(() => {
+    const socket = new SockJs(`https://seb-006.shop/websocket`);
+    const client = StompJs.over(socket);
+    client.connect(
+      {
+        access_hh: sessionStorage.getItem("AccessToken"),
+        refresh_hh: sessionStorage.getItem("RefreshToken"),
+      },
+      (frame) => {
+        console.log("테스트");
+        client.subscribe(
+          "/topic/" + sessionStorage.getItem("memberId"),
+          function (msg) {
+            console.log("구독 중" + msg && JSON.parse(msg.body));
+          }
+        );
+      }
+    );
+  }, []);
+
   return (
     <HeaderSection>
       <p
