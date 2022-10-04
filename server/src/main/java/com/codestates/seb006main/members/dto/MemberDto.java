@@ -6,6 +6,9 @@ import com.codestates.seb006main.posts.entity.MemberPosts;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,7 +17,10 @@ public class MemberDto {
     @Getter
     @NoArgsConstructor
     public static class Login{
+        @Email(message = "이메일 형식이 아닙니다.")
+        @NotBlank(message = "이메일을 입력해주세요.")
         private String email;
+        @NotBlank(message = "비밀번호를 입력해주세요.")
         private String password;
 
         @Builder
@@ -27,9 +33,13 @@ public class MemberDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Post {
+        @Email(message = "이메일 형식이 아닙니다.")
+        @NotBlank(message = "이메일을 입력해주세요.")
         private String email;
         @Setter
+        @NotBlank(message = "비밀번호를 입력해주세요.")
         private String password;
+        @NotBlank(message = "이름을 입력해주세요.")
         private String displayName;
 
         @Builder
@@ -74,7 +84,9 @@ public class MemberDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Patch{
+        @NotBlank(message = "이름을 입력해주세요.")
         private String displayName;
+        @NotBlank(message = "비밀번호를 입력해주세요.")
         private String password;
         private String phone;
         private String content;
