@@ -63,7 +63,7 @@ public class PostsController {
 
     @PatchMapping("/{post-id}")
     public ResponseEntity patchPosts(@PathVariable("post-id") @Positive(message = "올바른 번호를 입력해주세요.") Long postId,
-                                     @RequestBody PostsDto.Patch patchDto,
+                                     @RequestBody @Valid PostsDto.Patch patchDto,
                                      Authentication authentication) {
         PostsDto.Response responseDto = postsService.updatePosts(postId, patchDto, authentication);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);

@@ -171,9 +171,9 @@ public class PostsService {
     }
 
     public void verifyDate(LocalDate startDate, LocalDate endDate, LocalDate closeDate) {
-        if ((closeDate).isAfter(startDate) || (closeDate).isAfter(endDate)
-                || (closeDate).isEqual(startDate) || (closeDate).isBefore(endDate)
-                || endDate.isBefore((closeDate)) || startDate.isBefore((closeDate))) {
+        if (closeDate.isAfter(startDate) || closeDate.isAfter(endDate)
+                || closeDate.isEqual(startDate) || closeDate.isEqual(endDate)
+                || endDate.isBefore(closeDate) || startDate.isBefore(closeDate)) {
             throw new BusinessLogicException(ExceptionCode.CLOSE_DATE_VIOLATION);
         }
         if (endDate.isBefore(startDate) || startDate.isAfter(endDate)) {
