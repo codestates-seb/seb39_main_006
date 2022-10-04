@@ -26,6 +26,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,6 +49,8 @@ public class PostsService {
 
     public PostsDto.Response createPosts(PostsDto.Post postDto, Authentication authentication) {
         Posts posts = postsMapper.postDtoToPosts(postDto);
+        verifyDate(posts.getTravelPeriod().getStartDate(), posts.getTravelPeriod().getEndDate(), posts.getCloseDate());
+
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         posts.setMember(principalDetails.getMember());
         postsRepository.save(posts);
@@ -92,7 +95,7 @@ public class PostsService {
     public PostsDto.Response updatePosts(Long postId, PostsDto.Patch patchDto, Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Posts posts = postsRepository.findById(postId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
-
+        verifyDate(posts.getTravelPeriod().getStartDate(), posts.getTravelPeriod().getEndDate(), LocalDate.parse(patchDto.getCloseDate()));
         if (posts.getMember().getMemberId() != principalDetails.getMember().getMemberId()) {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
@@ -137,7 +140,7 @@ public class PostsService {
         Posts posts = postsRepository.findById(memberPosts.getPosts().getPostId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
         if (posts.getMember().getMemberId() != principalDetails.getMember().getMemberId() &&
-                        memberPosts.getMember().getMemberId() != principalDetails.getMember().getMemberId()) {
+                memberPosts.getMember().getMemberId() != principalDetails.getMember().getMemberId()) {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
         posts.deleteParticipant(memberPosts);
@@ -156,14 +159,26 @@ public class PostsService {
 
     public List<String> findImagePathInBody(String body) {
         List<String> imagePathList = new ArrayList<>();
-            while (body.contains(domain)) {
-                body = body.substring(body.indexOf(domain));
-                int startIdx = 0;
-                int endIdx = body.indexOf(')');
-                String imagePath = "https://" + body.substring(startIdx, endIdx);
-                imagePathList.add(imagePath);
-                body = body.substring(endIdx);
-            }
-            return imagePathList;
+        while (body.contains(domain)) {
+            body = body.substring(body.indexOf(domain));
+            int startIdx = 0;
+            int endIdx = body.indexOf(')');
+            String imagePath = "https://" + body.substring(startIdx, endIdx);
+            imagePathList.add(imagePath);
+            body = body.substring(endIdx);
+        }
+        return imagePathList;
+    }
+
+    public void verifyDate(LocalDate startDate, LocalDate endDate, LocalDate closeDate) {
+        if (closeDate.isAfter(startDate) || closeDate.isAfter(endDate)
+                || closeDate.isEqual(startDate) || closeDate.isEqual(endDate)
+                || endDate.isBefore(closeDate) || startDate.isBefore(closeDate)) {
+            throw new BusinessLogicException(ExceptionCode.CLOSE_DATE_VIOLATION);
+        }
+        if (endDate.isBefore(startDate) || startDate.isAfter(endDate)) {
+            throw new BusinessLogicException(ExceptionCode.TRAVEL_DATE_VIOLATION);
+        }
     }
 }
+

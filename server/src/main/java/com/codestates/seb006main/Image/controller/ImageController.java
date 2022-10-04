@@ -20,10 +20,4 @@ public class ImageController {
         Map<String, Object> response = imageService.uploadImage(multipartFile);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-    @DeleteMapping("/{image-id}")
-    public ResponseEntity deleteImage(@PathVariable("image-id") Long imageId) {
-        imageService.deleteImage(imageId);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 }
