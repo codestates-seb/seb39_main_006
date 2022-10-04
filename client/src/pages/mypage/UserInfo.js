@@ -301,7 +301,7 @@ const InputWrapper = styled.div`
     border: 1px solid #dabbc9;
     padding: 0.5rem 1rem;
     margin: 0.5rem;
-    margin-left: 70%;
+    margin-left: 60%;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
     color: #425049;
     &:hover {
@@ -310,7 +310,7 @@ const InputWrapper = styled.div`
     }
   }
   align-items: center;
-  margin-left: 20%;
+  margin-left: 18%;
   label {
     margin: 1rem;
     font-weight: 400;

@@ -24,6 +24,8 @@ const MainPage = () => {
 export default MainPage;
 
 const Flex = styled.div`
+  /* align-items: center; */
+  margin-left: 10%;
   display: flex;
   height: 100vh;
 `;
