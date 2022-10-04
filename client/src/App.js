@@ -21,9 +21,9 @@ function App() {
       <img
         id="bgr"
         src={imgBgr}
-        alt="./flower4.jpeg"
-        width="3000"
-        height="2500"
+        alt="./background.png"
+        width="2000"
+        height="2800"
       />
       <Header />
 
@@ -60,5 +60,11 @@ const Wrap = styled.div`
     background-repeat: repeat;
     z-index: -995;
     opacity: 50%;
+    min-width: 1000px;
+    max-height: fit-content;
+    /* @media screen and (max-width: 1500px) {
+      padding: 30px 25px 30px 25px;
+      height: 455px;
+    } */
   }
 `;
