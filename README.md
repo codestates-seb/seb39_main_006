@@ -1,5 +1,5 @@
 </p>
-<h1> 🙋🏻HITCH HICKER 🛤️ project 여행 매칭 서비스</h1>
+<h1> 🙋🏻HITCH HIKER 🛤️ project 여행 매칭 서비스</h1>
 
 
 <p align="center">
@@ -12,7 +12,7 @@
 </p>
 <p align="center">
   <br>
-  <img src="./newWave.gif">
+  <img src="./realWave.gif">
   <br>
  <br>
   <img src="./logo.png">
