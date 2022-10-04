@@ -133,27 +133,31 @@ const PostDetail = () => {
               {isbookmark ? "❤️" : "🤍"}
             </button>
           </h2>
-          <div>작성자 : {detail.leaderName}</div>
+          <p className="author">작성자 :</p>
+          <div id="author" className="author">
+            {" "}
+            {detail.leaderName}
+          </div>
           <Container>
             <div>
               <FlexContainer>
                 <span className="flexbody">
-                  <span>여행일정</span>
-                  <span>
+                  <span className="span-title">여행일정</span>
+                  <span className="span-content">
                     {detail.startDate} ~ {detail.endDate}
                   </span>
                 </span>
                 <span className="flexbody">
-                  <span>여행지역</span>
-                  <span>{detail.location}</span>
+                  <span className="span-title">여행지역</span>
+                  <span className="span-content">{detail.location}</span>
                 </span>
                 <span className="flexbody">
-                  <span>매칭기간</span>
-                  <span>{detail.closeDate} 까지</span>
+                  <span className="span-title">매칭기간</span>
+                  <span className="span-content">{detail.closeDate} 까지</span>
                 </span>
                 <span className="flexbody">
-                  <span>모집 인원</span>
-                  <span>
+                  <span className="span-title"> 모집 인원</span>
+                  <span className="span-content">
                     {detail.participantsCount} / {detail.totalCount}
                   </span>
                 </span>
@@ -270,6 +274,14 @@ const PageContainer = styled.div`
 `;
 
 const ContainerWrap = styled.div`
+  #author {
+    color: darkblue;
+    font-weight: 600;
+    font-size: 1.3rem;
+  }
+  .author {
+    font-size: 1.25rem;
+  }
   button {
     place-items: center;
     font-size: 1.25rem;
@@ -325,6 +337,15 @@ const Match = styled.div`
 `;
 
 const FlexContainer = styled.div`
+  .span-title {
+    font-weight: 700;
+    font-size: 20px;
+  }
+
+  .span-content {
+    color: darkblue;
+    font-weight: 600;
+  }
   width: 100%;
   display: flex;
   justify-content: space-around;
