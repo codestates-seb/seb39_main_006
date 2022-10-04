@@ -15,7 +15,7 @@
   <img src="./realWave.gif">
   <br>
  <br>
-  <img src="./logo.png">
+  <img src="./hitch.png">
   <br>
 </p>
 
