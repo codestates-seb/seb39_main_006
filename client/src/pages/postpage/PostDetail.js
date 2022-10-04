@@ -105,7 +105,7 @@ const PostDetail = () => {
     <PageContainer>
       <ContainerWrap>
         <div>
-          <h1>
+          <h2>
             {detail.title}
             {sessionStorage.getItem("userName") === detail.leaderName ? (
               <>
@@ -132,7 +132,7 @@ const PostDetail = () => {
             >
               {isbookmark ? "❤️" : "🤍"}
             </button>
-          </h1>
+          </h2>
           <div>작성자 : {detail.leaderName}</div>
           <Container>
             <div>
@@ -252,6 +252,11 @@ const PostDetail = () => {
 
 export default PostDetail;
 const PageContainer = styled.div`
+  h2 {
+    font-size: 2rem;
+    font-weight: 500;
+    color: #444;
+  }
   width: 100%;
   display: flex;
   justify-content: center;
@@ -265,6 +270,24 @@ const PageContainer = styled.div`
 `;
 
 const ContainerWrap = styled.div`
+  button {
+    place-items: center;
+    font-size: 1.25rem;
+    background-color: #dabbc9;
+    width: fit-content;
+    border: 1px solid #dabbc9;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+    color: #425049;
+    &:hover {
+      background-color: #efd5c8;
+      border-color: #efd5c8;
+    }
+  }
+  .contents {
+    padding-left: 1rem;
+  }
   margin: 150px 0 250px 0;
   padding: 40px 50px 40px 50px;
   display: flex;
