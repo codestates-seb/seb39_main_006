@@ -1,5 +1,6 @@
 package com.codestates.seb006main.config.security;
 
+import com.codestates.seb006main.config.redis.RedisUtils;
 import com.codestates.seb006main.jwt.JwtUtils;
 import com.codestates.seb006main.jwt.filter.JwtAuthenticationFilter;
 import com.codestates.seb006main.jwt.filter.JwtAuthorizationFilter;
@@ -31,6 +32,7 @@ public class SecurityConfig {
     private final MemberRepository memberRepository;
     private final JwtUtils jwtUtils;
     private final CustomOAuth2Service customOAuth2Service;
+    private final RedisUtils redisUtils;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -43,10 +45,12 @@ public class SecurityConfig {
                 .apply(new CustomDsl())
                 .and()
                 .authorizeRequests(authorize -> authorize
-//                        .antMatchers(HttpMethod.GET).access("hasRole('ROLE_MEMBER')")
-                        .antMatchers(HttpMethod.POST,"/api/posts/**").access("hasRole('ROLE_MEMBER')")
-                        .antMatchers(HttpMethod.PATCH,"/api/posts/**","/api/members/**").access("hasRole('ROLE_MEMBER')")
-                        .antMatchers(HttpMethod.DELETE,"/api/posts/**","/api/members/**").access("hasRole('ROLE_MEMBER')")
+                        .antMatchers(HttpMethod.POST,"/api/members/login").permitAll()
+                        .antMatchers(HttpMethod.GET,"/login/oauth2/code/kakao").permitAll()
+                        .antMatchers(HttpMethod.GET).access("hasRole('ROLE_MEMBER')")
+                        .antMatchers(HttpMethod.POST).access("hasRole('ROLE_MEMBER')")
+                        .antMatchers(HttpMethod.PATCH).access("hasRole('ROLE_MEMBER')")
+                        .antMatchers(HttpMethod.DELETE).access("hasRole('ROLE_MEMBER')")
                         .anyRequest().permitAll())
                 .oauth2Login()
                 .successHandler(oAuth2AuthenticationSuccessHandler())
@@ -63,8 +67,8 @@ public class SecurityConfig {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
             builder
                     .addFilter(corsFilter())
-                    .addFilter(new JwtAuthenticationFilter(authenticationManager, jwtUtils))
-                    .addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepository, jwtUtils));
+                    .addFilter(new JwtAuthenticationFilter(authenticationManager, jwtUtils, redisUtils))
+                    .addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepository, jwtUtils, redisUtils));
         }
 
 
@@ -79,7 +83,6 @@ public class SecurityConfig {
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.addExposedHeader("Access_HH");
-        config.addExposedHeader("Refresh_HH");
         source.registerCorsConfiguration("/api/**", config);
 
         return new CorsFilter(source);
@@ -93,6 +96,6 @@ public class SecurityConfig {
 
     @Bean
     public CustomOAuth2SuccessHandler oAuth2AuthenticationSuccessHandler(){
-        return new CustomOAuth2SuccessHandler(jwtUtils,memberRepository);
+        return new CustomOAuth2SuccessHandler(jwtUtils,memberRepository,redisUtils);
     }
 }

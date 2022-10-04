@@ -1,6 +1,8 @@
 package com.codestates.seb006main.members.controller;
 
 import com.codestates.seb006main.Image.service.ImageService;
+import com.codestates.seb006main.auth.PrincipalDetails;
+import com.codestates.seb006main.config.redis.RedisUtils;
 import com.codestates.seb006main.dto.MultiResponseDto;
 import com.codestates.seb006main.jwt.JwtUtils;
 import com.codestates.seb006main.members.dto.MemberDto;
@@ -25,9 +27,11 @@ import java.util.Map;
 public class MemberController {
 
     private MemberService memberService;
+    private RedisUtils redisUtils;
 
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, RedisUtils redisUtils) {
         this.memberService = memberService;
+        this.redisUtils = redisUtils;
     }
 
     @PostMapping("/login")
@@ -39,6 +43,13 @@ public class MemberController {
     public ResponseEntity oauthMember(@RequestParam Long memberId,
                                       @RequestParam String email){
         return new ResponseEntity<>(memberService.oauthLoginMember(memberId,email),HttpStatus.OK);
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity logoutMember(Authentication authentication){
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        redisUtils.deleteRefreshToken(principalDetails.getMember().getMemberId());
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping

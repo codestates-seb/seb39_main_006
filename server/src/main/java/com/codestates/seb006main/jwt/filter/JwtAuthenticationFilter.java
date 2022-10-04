@@ -3,6 +3,7 @@ package com.codestates.seb006main.jwt.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.codestates.seb006main.auth.PrincipalDetails;
+import com.codestates.seb006main.config.redis.RedisUtils;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
 import com.codestates.seb006main.jwt.JwtUtils;
@@ -25,10 +26,12 @@ import java.util.Date;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
+    private final RedisUtils redisUtils;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager,JwtUtils jwtUtils) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager,JwtUtils jwtUtils,RedisUtils redisUtils) {
         this.authenticationManager = authenticationManager;
         this.jwtUtils=jwtUtils;
+        this.redisUtils=redisUtils;
         this.setFilterProcessesUrl("/api/members/login");
     }
 
@@ -66,8 +69,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String email = principalDetails.getMember().getEmail();
         String accessToken = jwtUtils.createAccessToken(memberId,email);
         String refreshToken = jwtUtils.createRefreshToken(memberId,email);
+        redisUtils.setRefreshToken(memberId,refreshToken);
         response.addHeader("Access_HH", accessToken);
-        response.addHeader("Refresh_HH",refreshToken);
         chain.doFilter(request,response);
     }
 
