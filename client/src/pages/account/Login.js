@@ -144,10 +144,7 @@ const LoginPageContainer = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0 5px 0 5px;
-  input:-webkit-autofill,
-  input:-webkit-autofill:focus {
-    transition: background-color 600000s 0s, color 600000s 0s;
-  }
+
   @media screen and (max-width: 500px) {
     padding: 30px 25px 30px 25px;
     height: 455px;
