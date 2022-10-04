@@ -254,7 +254,7 @@ const SignUpContainer = styled.div`
   }
 `;
 const InputWrapper = styled.div`
-  align-items: center;
+  /* align-items: center; */
   .validate {
     color: red;
     padding: 0.5rem;

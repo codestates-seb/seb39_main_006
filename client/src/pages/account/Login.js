@@ -191,7 +191,7 @@ const LoginContainer = styled.div`
 `;
 const InputWrapper = styled.div`
   display: grid;
-  place-items: center;
+  /* place-items: center; */
   h1 {
     padding: 2rem;
   }
