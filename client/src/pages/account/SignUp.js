@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import styled from "styled-components";
-import imgBgr from "../../img/flower4.jpeg";
+
 import CheckDisplayName from "./CheckDisplayName";
 // usestate 사용법
 // 선언부  const [변수명, 함수이름] = useState(원하는 값 보통은 초기화)
@@ -127,13 +127,6 @@ const Signup = () => {
 
   return (
     <Wrap>
-      <img
-        id="bgr"
-        src={imgBgr}
-        alt="./flower4.jpeg"
-        width="2000"
-        height="2000"
-      />
       <section>
         <SignUpPageContainer>
           <SignUpContainer>

@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import styled from "styled-components";
-import imgBgr from "../../img/flower4.jpeg";
+
 // import AccountInfo from "./AccountInfo";
 import kakaoLogo from "../../img/kakao.png";
 
@@ -72,13 +72,6 @@ const Login = () => {
   };
   return (
     <Wrap>
-      <img
-        id="bgr"
-        src={imgBgr}
-        alt="./flower4.jpeg"
-        width="2000"
-        height="2000"
-      />
       <LoginPageContainer>
         <LoginContainer>
           <section align="center">
