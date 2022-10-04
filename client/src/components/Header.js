@@ -110,7 +110,7 @@ const HeaderSection = styled.div`
 
   #logout-btn {
     li {
-      /* margin: 50px; */
+      margin: 50px;
 
       a {
         text-decoration: none;
@@ -172,9 +172,8 @@ const HeaderSection = styled.div`
 
   p {
     line-height: 4rem;
-
-    /* margin-top: 3rem;
-    margin-left: 5rem; */
+    margin-top: 2rem;
+    margin-bottom: 2rem;
     font-size: 4rem;
     color: #dabbc9;
     text-transform: uppercase;

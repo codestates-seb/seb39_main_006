@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SideBar from "../../components/SideBar";
-
+import H1 from "../../components/ui/H1";
 const MyBookmark = () => {
   const [bookmarkData, setBookmarkData] = useState([]);
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ const MyBookmark = () => {
   return (
     <div>
       <SideBar />
-      <h1>북마크</h1>
+      <H1>북마크</H1>
       {bookmarkData.map((el, idx) => (
         <div key={idx}>
           <h2

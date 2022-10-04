@@ -2,13 +2,14 @@ import SideBar from "../../components/SideBar";
 import styled from "styled-components";
 import Button from "../../components/ui/Button";
 import WrapperBox from "../../components/ui/WrapperBox";
+import H1 from "../../components/ui/H1";
 const MyPage = () => {
   return (
     <>
       <SideBar />
       <Section>
         <section>
-          <h1>My Page</h1>
+          <H1>My Page</H1>
           <h2>여행동행자 모집합니다</h2>
           <section>
             <a href="/userinfo">
@@ -26,6 +27,7 @@ export default MyPage;
 
 const Section = styled.div`
   section {
+    margin-top: 2rem;
     display: flex;
     position: relative;
     left: 100px;

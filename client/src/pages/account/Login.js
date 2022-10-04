@@ -73,7 +73,7 @@ const Login = () => {
   return (
     <Background>
       <main>
-        <section>
+        <section align="center">
           <h1 align="center">로그인</h1>
           <div>
             <InputWrapper>
@@ -106,7 +106,7 @@ const Login = () => {
               </form>
             </InputWrapper>
 
-            <div>
+            <div align="center">
               <div></div> <Button onClick={usesubmitHandler}>Login</Button>
               <Button type="button" onClick={signupHandler}>
                 Create new account

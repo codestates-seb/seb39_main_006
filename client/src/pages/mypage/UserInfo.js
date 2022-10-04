@@ -5,6 +5,8 @@ import Input from "../../components/ui/Input";
 import axios from "axios";
 import styled from "styled-components";
 import CheckDisplayName from "../account/CheckDisplayName";
+import WrapperBox from "../../components/ui/WrapperBox";
+import H1 from "../../components/ui/H1";
 
 const Userinfo = () => {
   const [isDisabledInfo, setIsDisabledInfo] = useState(false);
@@ -184,97 +186,102 @@ const Userinfo = () => {
 
   return (
     <>
-      <h1>userinfo Edit</h1>
+      <H1>userinfo Edit</H1>
 
       <main>
         <section>
           <div>
             <InputWrapper>
+              <WrapperBox></WrapperBox>
               <form onSubmit={(e) => e.preventDefault()}>
-                <label htmlFor="displayName">User Name</label>
-                <div className="container">
-                  <input
-                    type="displayName"
-                    id="displayName"
-                    required
-                    ref={displaynameInputRef}
-                    onChange={onChangedDisplayName}
-                    defaultValue={userInfo !== null ? userInfo.displayName : ""}
-                  />
-                </div>
-                <Button onClick={onClickDuplicateDisplayName}>중복확인</Button>
-                <p className={validateDisplayNameNoticeClassname}>
-                  {validateDisplayNameText}
-                </p>
+                <div className="label-wrapper">
+                  <label htmlFor="displayName">User Name</label>
+                  <div className="container">
+                    <input
+                      type="displayName"
+                      id="displayName"
+                      required
+                      ref={displaynameInputRef}
+                      onChange={onChangedDisplayName}
+                      defaultValue={
+                        userInfo !== null ? userInfo.displayName : ""
+                      }
+                    />
+                  </div>
+                  <button onClick={onClickDuplicateDisplayName}>
+                    중복확인
+                  </button>
+                  <p className={validateDisplayNameNoticeClassname}>
+                    {validateDisplayNameText}
+                  </p>
 
-                <label htmlFor="password">Password</label>
-                <div className="container">
-                  <input
-                    disabled={isDisabledInfo}
-                    className="input-tag"
-                    type="password"
-                    id="password"
-                    required
-                    ref={passwordInputRef}
-                    name="password"
-                    autoComplete="off"
-                    onChange={onChangedPassword}
-                  />
-                </div>
-                <p className={validatePasswordNoticeClassname}>
-                  {validatePasswordText}
-                </p>
+                  <label htmlFor="password">Password</label>
+                  <div className="container">
+                    <input
+                      disabled={isDisabledInfo}
+                      className="input-tag"
+                      type="password"
+                      id="password"
+                      required
+                      ref={passwordInputRef}
+                      name="password"
+                      autoComplete="off"
+                      onChange={onChangedPassword}
+                    />
+                  </div>
+                  <p className={validatePasswordNoticeClassname}>
+                    {validatePasswordText}
+                  </p>
 
-                <label htmlFor="phone">Phone Number</label>
-                <div className="container">
-                  <input
-                    disabled={isDisabledInfo}
-                    className="input-tag"
-                    type="phone"
-                    id="phone"
-                    required
-                    ref={phoneInputRef}
-                    defaultValue={userInfo !== null ? userInfo.phone : ""}
-                    onChange={onChangedPhoneNumber}
-                    // value={phoneNumberText}
-                  />
-                </div>
-                <p className={validatePhoneNumberNoticeClassname}>
-                  {validatePhoneNumberText}
-                </p>
+                  <label htmlFor="phone">Phone Number</label>
+                  <div className="container">
+                    <input
+                      disabled={isDisabledInfo}
+                      className="input-tag"
+                      type="phone"
+                      id="phone"
+                      required
+                      ref={phoneInputRef}
+                      defaultValue={userInfo !== null ? userInfo.phone : ""}
+                      onChange={onChangedPhoneNumber}
+                      // value={phoneNumberText}
+                    />
+                  </div>
+                  <p className={validatePhoneNumberNoticeClassname}>
+                    {validatePhoneNumberText}
+                  </p>
 
-                <label htmlFor="content">자기소개</label>
-                <div className="container">
-                  <input
-                    disabled={isDisabledInfo}
-                    className="input-tag"
-                    type="textarea"
-                    id="content"
-                    required
-                    ref={contentInputRef}
-                    defaultValue={userInfo !== null ? userInfo.content : ""}
-                    onChange={onChangedContent}
-                  />
-                </div>
+                  <label htmlFor="content">자기소개</label>
+                  <div className="container">
+                    <input
+                      disabled={isDisabledInfo}
+                      className="input-tag"
+                      type="textarea"
+                      id="content"
+                      required
+                      ref={contentInputRef}
+                      defaultValue={userInfo !== null ? userInfo.content : ""}
+                      onChange={onChangedContent}
+                    />
+                  </div>
 
-                <label htmlFor="content">프로필 사진 업로드</label>
-                <div className="container">
-                  <input
-                    className="input-tag"
-                    type="file"
-                    id="profile-upload"
-                    accept="image/*"
-                    required
-                    onChange={postImg}
-                    ref={profileuploadInputRef}
-                  />
+                  <label htmlFor="content">프로필 사진 업로드</label>
+                  <div className="container">
+                    <input
+                      className="input-tag"
+                      type="file"
+                      id="profile-upload"
+                      accept="image/*"
+                      required
+                      onChange={postImg}
+                      ref={profileuploadInputRef}
+                    />
+                  </div>
+                  <button onClick={usesubmitHandler}>수정하기</button>
+                  <button onClick={() => navigate("/mypage")}>취소</button>
                 </div>
               </form>
             </InputWrapper>
-            <div>
-              <Button onClick={usesubmitHandler}>수정하기</Button>
-              <Button onClick={() => navigate("/mypage")}>취소</Button>
-            </div>
           </div>
         </section>
       </main>
@@ -285,6 +292,33 @@ const Userinfo = () => {
 export default Userinfo;
 
 const InputWrapper = styled.div`
+  button {
+    display: grid;
+    grid: auto / repeat(auto-fit, minmax(100px, auto));
+    place-items: center;
+    font-size: 1.25rem;
+    background-color: #dabbc9;
+    width: fit-content;
+    border: 1px solid #dabbc9;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    margin-left: 70%;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+    color: #425049;
+    &:hover {
+      background-color: #efd5c8;
+      border-color: #efd5c8;
+    }
+  }
+  align-items: center;
+  margin-left: 20%;
+  label {
+    margin: 1rem;
+    font-weight: 400;
+  }
+  input {
+    margin-left: 3rem;
+  }
   .validate {
     color: red;
     padding: 0.5rem;
