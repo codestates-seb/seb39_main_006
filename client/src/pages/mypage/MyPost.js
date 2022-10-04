@@ -8,7 +8,7 @@ const MyPost = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios(`https://seb-006.shop/api/members/posts`, {
+    axios(`${process.env.REACT_APP_URL}/api/members/posts`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
         refresh_hh: sessionStorage.getItem("RefreshToken"),

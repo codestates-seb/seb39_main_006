@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.codestates.seb006main.auth.PrincipalDetails;
+import com.codestates.seb006main.config.redis.RedisUtils;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
 import com.codestates.seb006main.jwt.JwtUtils;
@@ -26,22 +27,26 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     private MemberRepository memberRepository;
     private JwtUtils jwtUtils;
+    private RedisUtils redisUtils;
 
-    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, MemberRepository memberRepository, JwtUtils jwtUtils) {
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, MemberRepository memberRepository, JwtUtils jwtUtils, RedisUtils redisUtils) {
         super(authenticationManager);
         this.memberRepository = memberRepository;
         this.jwtUtils = jwtUtils;
+        this.redisUtils = redisUtils;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         System.out.println("인증이나 권한이 필요한 주소 요청 됨.");
         String accessToken = request.getHeader("Access_HH");
-        String refreshToken = request.getHeader("Refresh_HH");
 
         if(accessToken == null || !accessToken.startsWith("Bearer")){
             chain.doFilter(request,response);
         }else if (jwtUtils.isTokenExpired(JWT.decode(accessToken.replace("Bearer ", "")))){
+            Map<String,Object> memberInfoMap = jwtUtils.getClaimsFromToken(accessToken,"accessKey");
+            Long memberId=(Long)memberInfoMap.get("id");
+            String refreshToken = redisUtils.getRefreshToken(memberId);
             if(refreshToken == null || !refreshToken.startsWith("Bearer")){
             }else{
                 refreshToken = refreshToken.replace("Bearer ", "");
@@ -52,7 +57,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                     Map<String,Object> map = jwtUtils.getClaimsFromToken(refreshToken,"refresh");
                     String access = jwtUtils.createAccessToken((Long)map.get("id") ,(String) map.get("email"));
                     response.setHeader("Access_HH",access);
-
                     Member memberEntity = memberRepository.findByEmail((String) map.get("email")).orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
                     PrincipalDetails principalDetails = new PrincipalDetails(memberEntity);
                     Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null,

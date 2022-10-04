@@ -26,9 +26,9 @@ public class MessageService {
     private final MessageMapper messageMapper;
 
     public MessageDto.Response createMessage(Object entity) {
-        String body = null;
-        Long postId = null;
-        Member member = null;
+        String body;
+        Long postId;
+        Member member;
 
         if (entity instanceof Matching) {
             Matching matching = (Matching) entity;
@@ -51,7 +51,6 @@ public class MessageService {
                 .build();
         messageRepository.save(message);
 
-        // TODO: 리팩토링 이쁘게.
         return messageMapper.messageToResponseDto(message);
     }
 

@@ -46,7 +46,7 @@ const NewPost = () => {
   const submitHandler = () => {
     const enteredBody = bodyRef.current?.getInstance().getMarkdown();
 
-    axios(`https://seb-006.shop/api/posts`, {
+    axios(`${process.env.REACT_APP_URL}/api/posts`, {
       method: "POST",
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
@@ -178,7 +178,7 @@ const NewPost = () => {
                   addImageBlobHook: (blob, callback) => {
                     const formData = new FormData();
                     formData.append("image", blob);
-                    axios(`https://seb-006.shop/api/images/upload`, {
+                    axios(`${process.env.REACT_APP_URL}/api/images/upload`, {
                       method: "POST",
                       headers: {
                         "Content-Type": "multipart/form-data",

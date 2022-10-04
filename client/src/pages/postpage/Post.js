@@ -8,7 +8,7 @@ const Post = ({ post }) => {
   const [mybookmark, setMyBookmark] = useState([]);
 
   useEffect(() => {
-    axios(`https://seb-006.shop/api/members/my-bookmark`, {
+    axios(`${process.env.REACT_APP_URL}/api/members/my-bookmark`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
         refresh_hh: sessionStorage.getItem("RefreshToken"),
@@ -24,12 +24,15 @@ const Post = ({ post }) => {
 
   const bookmarkHandler = () => {
     setIsBookmark(!isbookmark);
-    axios(`https://seb-006.shop/api/members/bookmark?postId=${post.postId}`, {
-      headers: {
-        access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
-      },
-    });
+    axios(
+      `${process.env.REACT_APP_URL}/api/members/bookmark?postId=${post.postId}`,
+      {
+        headers: {
+          access_hh: sessionStorage.getItem("AccessToken"),
+          refresh_hh: sessionStorage.getItem("RefreshToken"),
+        },
+      }
+    );
   };
 
   return (

@@ -21,10 +21,14 @@ public class Member extends Auditable {
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
+    @Column(nullable = false, updatable = false, unique = true)
     private String email;
+    @Column(length = 100, nullable = false)
     private String password;
+    @Column(length = 100, nullable = false, unique = true)
     private String displayName;
     private String phone;
+    @Column(length = 500)
     private String content;
     private String profileImage;
     @Setter

@@ -9,7 +9,7 @@ const MyMatching = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios(`https://seb-006.shop/api/members/matching`, {
+    axios(`${process.env.REACT_APP_URL}/api/members/matching`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
         refresh_hh: sessionStorage.getItem("RefreshToken"),
