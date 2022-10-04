@@ -52,9 +52,7 @@ public class MessageService {
         messageRepository.save(message);
 
         // TODO: 리팩토링 이쁘게.
-        return MessageDto.Response.builder()
-                .message(message)
-                .build();
+        return messageMapper.messageToResponseDto(message);
     }
 
     public void failedToSend(MessageDto.Response messageDto) {
