@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests(authorize -> authorize
                         .antMatchers(HttpMethod.POST,"/api/members/login").permitAll()
-                        .antMatchers(HttpMethod.GET,"/login/oauth2/code/kakao").permitAll()
+                        .antMatchers(HttpMethod.GET,"/login/oauth2/code/kakao","/api/members/email","/api/members/display-name").permitAll()
                         .antMatchers(HttpMethod.GET).access("hasRole('ROLE_MEMBER')")
                         .antMatchers(HttpMethod.POST).access("hasRole('ROLE_MEMBER')")
                         .antMatchers(HttpMethod.PATCH).access("hasRole('ROLE_MEMBER')")
