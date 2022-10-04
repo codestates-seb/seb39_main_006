@@ -51,7 +51,6 @@ public class MessageService {
                 .build();
         messageRepository.save(message);
 
-        // TODO: 리팩토링 이쁘게.
         return messageMapper.messageToResponseDto(message);
     }
 

@@ -8,12 +8,17 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public class MatchingDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Post {
+        @NotBlank(message = "내용을 입력해주세요.")
+        @Size(min = 10, message = "내용은 10자 이상이어야 합니다.")
+        @Size(max = 500, message = "내용은 500자를 넘길 수 없습니다.")
         private String body;
 
         @Builder

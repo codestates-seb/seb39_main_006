@@ -43,7 +43,9 @@ public class WebSocketEventListener {
         Map<String, Object> map = jwtUtils.getClaimsFromToken(accessToken, "access");
         MemberSession session = new MemberSession((Long) map.get("id"), accessor.getSessionId());
         sessionMap.put((String) map.get("email"), session);
-        System.out.println("Received a new web socket connection. Session ID : " + accessor.getSessionId());
+        System.out.println("*******************************************************************************");
+        System.out.println(map.get("email") + ": Received a new web socket connection. Session ID : " + accessor.getSessionId());
+        System.out.println("*******************************************************************************");
     }
 
     @EventListener
@@ -62,6 +64,9 @@ public class WebSocketEventListener {
                 throw new BusinessLogicException(ExceptionCode.SESSION_NOT_FOUND);
             }
 //            template.convertAndSend("/topic/" + memberId, "현재 세션 ID " + accessor.getSessionId() + "에서 구독 완료하였습니다.");
+            System.out.println("*******************************************************************************");
+            System.out.println(email + ": Now Subscribed /topic/" + memberId + ". Session ID : " + accessor.getSessionId());
+            System.out.println("*******************************************************************************");
             sendNotSentMessage(memberId, email);
         }
     }
@@ -80,9 +85,20 @@ public class WebSocketEventListener {
     @EventListener
     public void handleWebSocketDisConnectListener(SessionDisconnectEvent event) {
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(event.getMessage());
+        String email = null;
         for(Map.Entry<String, MemberSession> entry : sessionMap.entrySet()) {
-            entry.getValue().getSessionIds().remove(accessor.getSessionId());
+            if (entry.getValue().getSessionIds().contains(accessor.getSessionId())) {
+                entry.getValue().getSessionIds().remove(accessor.getSessionId());
+                email = entry.getKey();
+                // TODO: 모든 세션 아이디가 비어져있을 때 키값을 지우는게 좋을까? -> 오랫동안 접속하지 않을 경우 서버 세션에 남는 것 방지.
+//                if (entry.getValue().sessionIds.isEmpty()) {
+//                    sessionMap.remove(email);
+//                }
+            }
         }
-        System.out.println("Web socket session closed. Message : " + event.getMessage());
+        System.out.println("*******************************************************************************");
+        System.out.println(email + ": Web socket session closed. Message : " + event.getMessage());
+        System.out.println("*******************************************************************************");
+
     }
 }

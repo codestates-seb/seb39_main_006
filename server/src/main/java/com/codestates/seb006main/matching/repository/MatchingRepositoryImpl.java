@@ -23,12 +23,12 @@ public class MatchingRepositoryImpl implements MatchingRepositoryCustom{
     public MatchingRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
-
+    // TODO: OR이냐 AND냐 아님 BooleanExpression 써야 하냐
     @Override
     public List<Matching> findClosedMatching() {
         return queryFactory
                 .selectFrom(matching)
-                .where(matching.matchingStatus.eq(Matching.MatchingStatus.REFUSED).and(matching.matchingStatus.eq(Matching.MatchingStatus.ACCEPTED)))
+                .where(matching.matchingStatus.eq(Matching.MatchingStatus.REFUSED).or(matching.matchingStatus.eq(Matching.MatchingStatus.ACCEPTED)))
                 .fetch();
     }
 
@@ -43,13 +43,13 @@ public class MatchingRepositoryImpl implements MatchingRepositoryCustom{
         return queryFactory
                 .select(matching.count())
                 .from(matching)
-                .where(matching.matchingStatus.eq(Matching.MatchingStatus.READ).and(matching.matchingStatus.eq(Matching.MatchingStatus.NOT_READ)));
+                .where(matching.matchingStatus.eq(Matching.MatchingStatus.READ).or(matching.matchingStatus.eq(Matching.MatchingStatus.NOT_READ)));
     }
 
     private List<Matching> searchMatching(PageRequest pageRequest) {
         return queryFactory
                 .selectFrom(matching)
-                .where(matching.matchingStatus.eq(Matching.MatchingStatus.READ).and(matching.matchingStatus.eq(Matching.MatchingStatus.NOT_READ)))
+                .where(matching.matchingStatus.eq(Matching.MatchingStatus.READ).or(matching.matchingStatus.eq(Matching.MatchingStatus.NOT_READ)))
                 .offset(pageRequest.getOffset())
                 .limit(pageRequest.getPageSize())
                 .orderBy(new OrderSpecifier<>(Order.DESC, matching.matchingId))

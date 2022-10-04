@@ -20,6 +20,7 @@ public class Matching extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long matchingId;
+    @Column(length = 500)
     private String body;
     @ManyToOne
     @JoinColumn(name = "member_id")
