@@ -1,12 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 //react 에서 img import 하는법 https://velog.io/@ingdol2/React-image-%EA%B2%BD%EB%A1%9C-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0
 import imgLogo from "../img/realWave.gif";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import SockJs from "sockjs-client";
 import StompJs from "stompjs";
+import axios from "axios";
 
 const Header = () => {
+  const [msgs, setMsgs] = useState([]);
+  const [msg, setMsg] = useState({});
   const navigate = useNavigate();
 
   const logoutHandler = () => {
@@ -16,24 +19,41 @@ const Header = () => {
   };
 
   useEffect(() => {
+    // console.log("초기값" + msg);
     const socket = new SockJs(`https://seb-006.shop/websocket`);
     const client = StompJs.over(socket);
+    client.debug = null;
     client.connect(
       {
         access_hh: sessionStorage.getItem("AccessToken"),
         refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
       (frame) => {
-        console.log("테스트");
         client.subscribe(
           "/topic/" + sessionStorage.getItem("memberId"),
           function (msg) {
-            console.log("구독 중" + msg && JSON.parse(msg.body));
+            // console.log(JSON.parse(msg.body));
+            // console.log(JSON.parse(msg.body).body);
+            // console.log(msg.body);
+            setMsg(JSON.parse(msg.body));
+            setMsgs((msgs) => [...msgs, JSON.parse(msg.body)]);
           }
         );
       }
     );
   }, []);
+
+  const msgClickHandler = (msgId, postId) => {
+    axios(`https://seb-006.shop/api/messages/read?messageId=${msgId}`, {
+      headers: {
+        access_hh: sessionStorage.getItem("AccessToken"),
+        refresh_hh: sessionStorage.getItem("RefreshToken"),
+      },
+    }).then(() => {
+      navigate(`/${postId}`);
+      window.location.reload();
+    });
+  };
 
   return (
     <HeaderSection>
@@ -47,34 +67,36 @@ const Header = () => {
       </p>
 
       {sessionStorage.getItem("isLogin") && (
-        <nav>
-          <ul className="menuItems">
-            <li>
-              <a href="/main" data-item="mainpage">
-                mainpage
-              </a>
-            </li>
-            <li>
-              <a href="/mypage" data-item="mypage">
-                mypage
-              </a>
-            </li>
+        <Test>
+          <nav>
+            <ul className="menuItems">
+              <li>
+                <a href="/main" data-item="mainpage">
+                  mainpage
+                </a>
+              </li>
+              <li>
+                <a href="/mypage" data-item="mypage">
+                  mypage
+                </a>
+              </li>
 
-            <li>
-              <button onClick={logoutHandler}>Logout</button>
-            </li>
-          </ul>
-          {/* <details className="dropdown">
+              <li>
+                <button onClick={logoutHandler}>Logout</button>
+              </li>
+            </ul>
+
+            {/* <details className="dropdown">
             <summary role="Button"> */}
-          <img
-            className="Button"
-            src={imgLogo}
-            alt="./newWave.gif"
-            width="400"
-            height="140"
-          />
-          <a className="banner"></a>
-          {/* </summary>
+            <img
+              className="Button"
+              src={imgLogo}
+              alt="./newWave.gif"
+              width="400"
+              height="140"
+            />
+            <a className="banner"></a>
+            {/* </summary>
             <ul>
               <li>
                 <a href="#">I'm a dropdown.</a>
@@ -93,13 +115,32 @@ const Header = () => {
               </li>
             </ul>
           </details> */}
-        </nav>
+          </nav>
+          <div>
+            {msgs &&
+              msgs.map((el, idx) => (
+                <div key={idx}>
+                  <div
+                    onClick={() => {
+                      msgClickHandler(el.messageId, el.postId);
+                    }}
+                  >
+                    {el.body}
+                  </div>
+                </div>
+              ))}
+          </div>
+        </Test>
       )}
     </HeaderSection>
   );
 };
 
 export default Header;
+
+const Test = styled.div`
+  display: flex;
+`;
 
 const HeaderSection = styled.div`
   img {
