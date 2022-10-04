@@ -30,7 +30,7 @@ const EditPost = () => {
   const date = today.getDate();
 
   useEffect(() => {
-    axios(`https://seb-006.shop/api/posts/${id}`).then((res) => {
+    axios(`${process.env.REACT_APP_URL}/api/posts/${id}`).then((res) => {
       setEditData(res.data);
       setTitle(res.data.title);
       setMate(res.data.totalCount);
@@ -41,7 +41,7 @@ const EditPost = () => {
 
   const submitEditDataHandler = () => {
     const enteredBody = editBody.current?.getInstance().getMarkdown();
-    axios(`https://seb-006.shop/api/posts/${id}`, {
+    axios(`${process.env.REACT_APP_URL}/api/posts/${id}`, {
       method: "PATCH",
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),

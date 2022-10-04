@@ -6,6 +6,7 @@ import pageReducer from "./page-slice";
 // 새로고침 유지
 import storage from "redux-persist/lib/storage";
 import { combineReducers } from "@reduxjs/toolkit";
+// 쿼리파라미터 알아보자
 import { persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
 
