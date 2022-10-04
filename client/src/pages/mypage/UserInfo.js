@@ -176,7 +176,6 @@ const Userinfo = () => {
     axios
       .get(`${process.env.REACT_APP_URL}/api/members/${memberId}`)
       .then((res) => {
-        setValidatePhoneNumberText("✅ 올바른 번호 형식입니다.");
         setValidatePhoneNumberNoticeClassname("HTH-green");
         setUserInfo(res.data);
       });
