@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import styled from "styled-components";
+import imgBgr from "../../img/flower4.jpeg";
 import CheckDisplayName from "./CheckDisplayName";
 // usestate 사용법
 // 선언부  const [변수명, 함수이름] = useState(원하는 값 보통은 초기화)
@@ -125,73 +126,135 @@ const Signup = () => {
   };
 
   return (
-    <main>
+    <Wrap>
+      <img
+        id="bgr"
+        src={imgBgr}
+        alt="./flower4.jpeg"
+        width="2000"
+        height="2000"
+      />
       <section>
-        <div>
-          <InputWrapper>
-            <form onSubmit={(e) => e.preventDefault()}>
-              <label htmlFor="displayName">User Name</label>
-              <div className="container">
-                <input
-                  type="displayName"
-                  id="displayName"
-                  required
-                  ref={displaynameInputRef}
-                  onChange={onChangeInputDisplayName}
-                />
-              </div>
-              <Button onClick={onClickDuplicateDisplayName}>중복확인</Button>
-              <p className={validateDisplayNameNoticeClassname}>
-                {validateDisplayNameText}
-              </p>
-              <label htmlFor="email">Email</label>
-              <div className="container">
-                <input
-                  disabled={isDisabledInfo}
-                  className="input-tag"
-                  type="email"
-                  id="email"
-                  required
-                  ref={emailInputRef}
-                  onChange={onChangeInputEmail}
-                />
-              </div>
-              <p className={validateEmailNoticeClassname}>
-                {validateEmailText}
-              </p>
-              <label htmlFor="password">Password</label>
-              <div className="container">
-                <input
-                  disabled={isDisabledInfo}
-                  className="input-tag"
-                  type="password"
-                  id="password"
-                  required
-                  ref={passwordInputRef}
-                  name="password"
-                  autoComplete="off"
-                  onChange={onChangeInputPassword}
-                />
-              </div>
-              <p className={validatePasswordNoticeClassname}>
-                {validatePasswordText}
-              </p>
-            </form>
-          </InputWrapper>
-          <div>
-            <Button onClick={usesubmitHandler}>Create Account</Button>
-            <Button type="button" onClick={loginHandler}>
-              Return to Login Page
-            </Button>
-          </div>
-        </div>
+        <SignUpPageContainer>
+          <SignUpContainer>
+            <InputWrapper>
+              <SignUpText>회원가입</SignUpText>
+              <form onSubmit={(e) => e.preventDefault()}>
+                <label htmlFor="displayName">User Name</label>
+                <div className="container">
+                  <input
+                    type="displayName"
+                    id="displayName"
+                    required
+                    ref={displaynameInputRef}
+                    onChange={onChangeInputDisplayName}
+                  />
+                </div>
+                <Button onClick={onClickDuplicateDisplayName}>중복확인</Button>
+                <p className={validateDisplayNameNoticeClassname}>
+                  {validateDisplayNameText}
+                </p>
+                <label htmlFor="email">Email</label>
+                <div className="container">
+                  <input
+                    disabled={isDisabledInfo}
+                    className="input-tag"
+                    type="email"
+                    id="email"
+                    required
+                    ref={emailInputRef}
+                    onChange={onChangeInputEmail}
+                  />
+                </div>
+                <p className={validateEmailNoticeClassname}>
+                  {validateEmailText}
+                </p>
+                <label htmlFor="password">Password</label>
+                <div className="container">
+                  <input
+                    disabled={isDisabledInfo}
+                    className="input-tag"
+                    type="password"
+                    id="password"
+                    required
+                    ref={passwordInputRef}
+                    name="password"
+                    autoComplete="off"
+                    onChange={onChangeInputPassword}
+                  />
+                </div>
+                <p className={validatePasswordNoticeClassname}>
+                  {validatePasswordText}
+                </p>
+              </form>
+            </InputWrapper>
+            <div>
+              <Button onClick={usesubmitHandler}>Create Account</Button>
+              <Button type="button" onClick={loginHandler}>
+                Return to Login Page
+              </Button>
+            </div>
+          </SignUpContainer>
+        </SignUpPageContainer>
       </section>
-    </main>
+    </Wrap>
   );
 };
 export default Signup;
-
+const Wrap = styled.div`
+  #bgr {
+    position: absolute;
+    top: -600px;
+    z-index: -995;
+    opacity: 50%;
+  }
+`;
+const SignUpPageContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 5px 0 5px;
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+  }
+  @media screen and (max-width: 500px) {
+    padding: 30px 25px 30px 25px;
+    height: 600px;
+  }
+`;
+const SignUpText = styled.div`
+  font-size: 32px;
+  line-height: 37px;
+  color: #444444;
+  font-weight: 700;
+  margin-bottom: 33px;
+  @media screen and (max-width: 600px) {
+    font-size: 26px;
+    margin-bottom: 25px;
+  }
+`;
+const SignUpContainer = styled.div`
+  margin: 150px 0 250px 0;
+  padding: 40px 50px 40px 50px;
+  display: flex;
+  flex-direction: column;
+  max-width: 468px;
+  width: 100%;
+  height: 650px;
+  background: #fbfbfb;
+  box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-family: Roboto;
+  box-sizing: border-box;
+  @media screen and (max-width: 500px) {
+    padding: 30px 25px 30px 25px;
+    height: 700px;
+  }
+`;
 const InputWrapper = styled.div`
+  align-items: center;
   .validate {
     color: red;
     padding: 0.5rem;
@@ -213,7 +276,7 @@ const InputWrapper = styled.div`
     padding: 20px 10px;
     border-radius: 5px;
     outline: none;
-    width: 30rem;
+    width: 20rem;
     display: inline-block;
     border: none;
     border-radius: 5px;

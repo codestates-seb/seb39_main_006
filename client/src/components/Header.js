@@ -42,17 +42,17 @@ const Header = () => {
               <button onClick={logoutHandler}>Logout</button>
             </li>
           </ul>
-          <details className="dropdown">
-            <summary role="Button">
-              <img
-                className="Button"
-                src={imgLogo}
-                alt="./newWave.gif"
-                width="400"
-                height="140"
-              />
-              <a className="banner"></a>
-            </summary>
+          {/* <details className="dropdown">
+            <summary role="Button"> */}
+          <img
+            className="Button"
+            src={imgLogo}
+            alt="./newWave.gif"
+            width="400"
+            height="140"
+          />
+          <a className="banner"></a>
+          {/* </summary>
             <ul>
               <li>
                 <a href="#">I'm a dropdown.</a>
@@ -70,7 +70,7 @@ const Header = () => {
                 <a href="#">At All.</a>
               </li>
             </ul>
-          </details>
+          </details> */}
         </nav>
       )}
     </HeaderSection>
@@ -80,6 +80,9 @@ const Header = () => {
 export default Header;
 
 const HeaderSection = styled.div`
+  img {
+    margin-left: 2%;
+  }
   display: grid;
   place-items: center;
 
@@ -208,16 +211,20 @@ const HeaderSection = styled.div`
     /* margin: 70px; */
     background: #d0e8f0;
     opacity: 90%;
-    width: fit-content;
+    width: 33rem;
     padding: 0.5rem;
+
     .menuItems {
       list-style: none;
       display: flex;
       /* margin-left: 2rem; */
-
+      ul {
+        text-align: center;
+      }
       li {
         margin: 0.5rem;
 
+        display: inline-block;
         a {
           text-decoration: none;
           color: #8f8f8f;
