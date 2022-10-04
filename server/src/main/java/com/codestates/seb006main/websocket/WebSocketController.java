@@ -57,8 +57,8 @@ public class WebSocketController {
         String content = gson.toJson(message);
         template.convertAndSend("/topic/" + session.getMemberId(), content);
     }
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    @Transactional(propagation = Propagation.REQUIRED)
     public void handleMessagingListener(DomainEvent event) throws IOException {
         MessageDto.Response message = messageService.createMessage(event.getEntity());
         sendMessage(message);
