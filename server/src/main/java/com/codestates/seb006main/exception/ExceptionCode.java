@@ -26,6 +26,7 @@ public enum ExceptionCode {
     COMMENT_NOT_FOUND(404, "Comment not found", "존재하지 않는 댓글입니다."),
     MATCHING_NOT_FOUND(404, "Matching not found", "매칭 정보를 찾을 수 없습니다."),
     SESSION_NOT_FOUND(404, "Session not found", "세션 정보를 찾을 수 없습니다."),
+    MESSAGE_NOT_FOUND(404, "Session not found", "메시지를 찾을 수 없습니다."),
     NOT_ALLOWED_FILENAME_EXTENSION(415, "Not Allowed Filename Extension", "허용되지 않은 파일 형식입니다. PNG, JPG, JPEG, GIF, BMP 확장자만 업로드할 수 있습니다.");
 
 

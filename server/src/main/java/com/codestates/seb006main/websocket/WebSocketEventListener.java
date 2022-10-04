@@ -61,7 +61,7 @@ public class WebSocketEventListener {
             if (memberId == null || email == null) {
                 throw new BusinessLogicException(ExceptionCode.SESSION_NOT_FOUND);
             }
-            template.convertAndSend("/topic/" + memberId, "현재 세션 ID " + accessor.getSessionId() + "에서 구독 완료하였습니다.");
+//            template.convertAndSend("/topic/" + memberId, "현재 세션 ID " + accessor.getSessionId() + "에서 구독 완료하였습니다.");
             sendNotSentMessage(memberId, email);
         }
     }

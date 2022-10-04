@@ -1,14 +1,20 @@
 package com.codestates.seb006main.message.service;
 
+import com.codestates.seb006main.auth.PrincipalDetails;
+import com.codestates.seb006main.dto.MultiResponseDto;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
 import com.codestates.seb006main.matching.entity.Matching;
 import com.codestates.seb006main.members.entity.Member;
 import com.codestates.seb006main.message.dto.MessageDto;
 import com.codestates.seb006main.message.entity.Message;
+import com.codestates.seb006main.message.mapper.MessageMapper;
 import com.codestates.seb006main.message.repository.MessageRepository;
 import com.codestates.seb006main.posts.entity.MemberPosts;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +23,7 @@ import java.util.List;
 @Service
 public class MessageService {
     private final MessageRepository messageRepository;
+    private final MessageMapper messageMapper;
 
     public MessageDto.Response createMessage(Object entity) {
         String body = null;
@@ -51,16 +58,31 @@ public class MessageService {
     }
 
     public void failedToSend(MessageDto.Response messageDto) {
-        Message message = messageRepository.findById(messageDto.getMessageId()).orElseThrow();
+        Message message = messageRepository.findById(messageDto.getMessageId()).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MESSAGE_NOT_FOUND));
         message.failedToSend();
         messageRepository.save(message);
     }
 
+    public MultiResponseDto getAllMessages(Authentication authentication, PageRequest pageRequest) {
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        Page<Message> messagePage = messageRepository.findByMember(principalDetails.getMember(), pageRequest);
+        List<Message> messageList = messagePage.getContent();
+        return new MultiResponseDto<>(messageMapper.messageListToResponseDtoList(messageList), messagePage);
+    }
+
+    public void readMessage(Long messageId) {
+        Message message = messageRepository.findById(messageId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MESSAGE_NOT_FOUND));
+        message.read();
+        messageRepository.save(message);
+    }
+
     public void readAllMessages(List<Long> messageIdList) {
-        for (Long messageId : messageIdList) {
-            Message message = messageRepository.findById(messageId).orElseThrow();
-            message.read();
-            messageRepository.save(message);
+        if (!messageIdList.isEmpty()) {
+            for (Long messageId : messageIdList) {
+                readMessage(messageId);
+            }
+        } else {
+            throw new BusinessLogicException(ExceptionCode.MESSAGE_NOT_FOUND);
         }
     }
 }
