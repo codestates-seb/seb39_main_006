@@ -10,7 +10,7 @@ import org.springframework.web.socket.WebSocketMessage;
 public class MessageDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class Response implements WebSocketMessage {
+    public static class Response { // implements WebSocketMessage
         private Long messageId;
         private String body;
         private String email;
@@ -24,21 +24,6 @@ public class MessageDto {
             this.email = message.getMember().getEmail();
             this.postId = message.getPostId();
             this.messageStatus = message.getMessageStatus();
-        }
-
-        @Override
-        public Object getPayload() {
-            return this;
-        }
-
-        @Override
-        public int getPayloadLength() {
-            return this.body.length();
-        }
-
-        @Override
-        public boolean isLast() {
-            return false;
         }
     }
 }

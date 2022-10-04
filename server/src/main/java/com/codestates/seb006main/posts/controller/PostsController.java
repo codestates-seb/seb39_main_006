@@ -32,7 +32,7 @@ public class PostsController {
     }
 
     @GetMapping("/{post-id}")
-    public ResponseEntity getPosts(@PathVariable("post-id") @Positive(message = "올바른 번호를 입력해주세요.") Long postId) {
+    public ResponseEntity getPosts(@Positive(message = "올바른 번호를 입력해주세요.") @PathVariable("post-id") Long postId) {
         PostsDto.Response responseDto = postsService.readPosts(postId);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
