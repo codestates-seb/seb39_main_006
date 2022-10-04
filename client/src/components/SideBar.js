@@ -1,12 +1,26 @@
 import React from "react";
 import styled from "styled-components";
-
+import { useNavigate } from "react-router-dom";
 const SideBar = () => {
+  const navigate = useNavigate();
+
+  const mypageHandler = () => {
+    navigate("/mypage");
+  };
+  const mybookmarkHandler = () => {
+    navigate("/mybookmark");
+  };
+  const mypostkHandler = () => {
+    navigate("/mypost");
+  };
+  const mymatchinfokHandler = () => {
+    navigate("/mymatchinfo");
+  };
   return (
     <SideBars>
       <nav>
         <ul>
-          <a href="/mypage">
+          <button onClick={mypageHandler}>
             <li id="home">
               <div className="home-icon">
                 <div className="roof">
@@ -15,8 +29,8 @@ const SideBar = () => {
                 <div className="front"></div>
               </div>
             </li>
-          </a>
-          <a href="/mybookmark">
+          </button>
+          <button onClick={mybookmarkHandler}>
             <li id="about">
               <div className="about-icon">
                 <div className="head">
@@ -25,8 +39,8 @@ const SideBar = () => {
                 </div>
               </div>
             </li>
-          </a>
-          <a href="/mypost">
+          </button>
+          <button onClick={mypostkHandler}>
             <li id="work">
               <div className="work-icon">
                 <div className="paper"></div>
@@ -35,8 +49,8 @@ const SideBar = () => {
                 <div className="lines"></div>
               </div>
             </li>
-          </a>
-          <a href="/mymatchinfo">
+          </button>
+          <button onClick={mymatchinfokHandler}>
             <li id="mail">
               <div className="mail-icon">
                 <div className="mail-base">
@@ -44,7 +58,7 @@ const SideBar = () => {
                 </div>
               </div>
             </li>
-          </a>
+          </button>
         </ul>
       </nav>
     </SideBars>
@@ -59,7 +73,12 @@ const SideBars = styled.div`
   *:after {
     box-sizing: border-box;
   }
-
+  button {
+    display: block;
+    background-color: none;
+    color: none;
+    border: none;
+  }
   :after {
     content: "";
     list-style: none;

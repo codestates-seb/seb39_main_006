@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import styled from "styled-components";
 import H1 from "../../components/ui/H1";
-import WrapperBox from "../../components/ui/WrapperBox";
 // toast
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";

@@ -102,146 +102,187 @@ const PostDetail = () => {
   };
 
   return (
-    <div>
-      <h1>
-        {detail.title}
-        {sessionStorage.getItem("userName") === detail.leaderName ? (
-          <>
-            <button
-              onClick={() => {
-                navigate(`/edit/${id}`);
-              }}
-            >
-              게시글 수정
-            </button>
-            <button
-              onClick={() => {
-                deleteHandler();
-              }}
-            >
-              게시글을 삭제
-            </button>
-          </>
-        ) : null}
-        <button
-          onClick={() => {
-            bookmarkHandler();
-          }}
-        >
-          {isbookmark ? "❤️" : "🤍"}
-        </button>
-      </h1>
-      <div>작성자 : {detail.leaderName}</div>
-      <Container>
+    <PageContainer>
+      <ContainerWrap>
         <div>
-          <FlexContainer>
-            <span className="flexbody">
-              <span>여행일정</span>
-              <span>
-                {detail.startDate} ~ {detail.endDate}
-              </span>
-            </span>
-            <span className="flexbody">
-              <span>여행지역</span>
-              <span>{detail.location}</span>
-            </span>
-            <span className="flexbody">
-              <span>매칭기간</span>
-              <span>{detail.closeDate} 까지</span>
-            </span>
-            <span className="flexbody">
-              <span>모집 인원</span>
-              <span>
-                {detail.participantsCount} / {detail.totalCount}
-              </span>
-            </span>
-          </FlexContainer>
-          {detail.body && (
+          <h1>
+            {detail.title}
+            {sessionStorage.getItem("userName") === detail.leaderName ? (
+              <>
+                <button
+                  onClick={() => {
+                    navigate(`/edit/${id}`);
+                  }}
+                >
+                  게시글 수정
+                </button>
+                <button
+                  onClick={() => {
+                    deleteHandler();
+                  }}
+                >
+                  게시글을 삭제
+                </button>
+              </>
+            ) : null}
+            <button
+              onClick={() => {
+                bookmarkHandler();
+              }}
+            >
+              {isbookmark ? "❤️" : "🤍"}
+            </button>
+          </h1>
+          <div>작성자 : {detail.leaderName}</div>
+          <Container>
             <div>
-              <h2>본문</h2>
-              <BodyContainer>
-                <Viewer initialValue={detail.body} />
-              </BodyContainer>
-            </div>
-          )}
-          {sessionStorage.getItem("userName") === detail.leaderName ? null : (
-            <Matchtext>
-              <textarea
-                onChange={(e) => {
-                  setMatchBody(e.target.value);
-                }}
-              ></textarea>
-              <button
-                onClick={() => {
-                  matchSubmitHandler();
-                }}
-              >
-                매칭 신청
-              </button>
-            </Matchtext>
-          )}
-        </div>
-
-        <div>
-          <h2>매칭 신청</h2>
-          {matchList.map((el, idx) => (
-            <Match key={idx}>
-              <span>신청자 : {el.memberName} </span>
-              <span className="isread">
-                {sessionStorage.getItem("userName") === detail.leaderName ? (
+              <FlexContainer>
+                <span className="flexbody">
+                  <span>여행일정</span>
+                  <span>
+                    {detail.startDate} ~ {detail.endDate}
+                  </span>
+                </span>
+                <span className="flexbody">
+                  <span>여행지역</span>
+                  <span>{detail.location}</span>
+                </span>
+                <span className="flexbody">
+                  <span>매칭기간</span>
+                  <span>{detail.closeDate} 까지</span>
+                </span>
+                <span className="flexbody">
+                  <span>모집 인원</span>
+                  <span>
+                    {detail.participantsCount} / {detail.totalCount}
+                  </span>
+                </span>
+              </FlexContainer>
+              {detail.body && (
+                <div>
+                  <h2>본문</h2>
+                  <BodyContainer>
+                    <Viewer initialValue={detail.body} />
+                  </BodyContainer>
+                </div>
+              )}
+              {sessionStorage.getItem("userName") ===
+              detail.leaderName ? null : (
+                <Matchtext>
+                  <textarea
+                    onChange={(e) => {
+                      setMatchBody(e.target.value);
+                    }}
+                  ></textarea>
                   <button
                     onClick={() => {
-                      navigate(`/match/${el.matchingId}`);
+                      matchSubmitHandler();
                     }}
                   >
-                    매칭관리
+                    매칭 신청
                   </button>
-                ) : null}
-                {el.matchingStatus === "READ" ? <span>✅</span> : null}
-                {el.matchingStatus === "NOT_READ" ? <span>❌</span> : null}
-              </span>
-            </Match>
-          ))}
-          <h2>참여자 명단</h2>
-          {detail.participants &&
-            detail.participants.map((el, idx) => (
-              <Match key={idx}>
-                <span>
-                  <div>
-                    닉네임 : {el.displayName}
-                    {sessionStorage.getItem("userName") === detail.leaderName &&
-                    sessionStorage.getItem("userName") !== el.displayName ? (
+                </Matchtext>
+              )}
+            </div>
+
+            <div>
+              <h2>매칭 신청</h2>
+              {matchList.map((el, idx) => (
+                <Match key={idx}>
+                  <span>신청자 : {el.memberName} </span>
+                  <span className="isread">
+                    {sessionStorage.getItem("userName") ===
+                    detail.leaderName ? (
                       <button
                         onClick={() => {
-                          goAway(el.memberPostId);
+                          navigate(`/match/${el.matchingId}`);
                         }}
                       >
-                        여행 추방
+                        매칭관리
                       </button>
                     ) : null}
-                    {sessionStorage.getItem("userName") !== detail.leaderName &&
-                    sessionStorage.getItem("userName") === el.displayName ? (
-                      <button
-                        onClick={() => {
-                          goAway(el.memberPostId);
-                        }}
-                      >
-                        참여 취소
-                      </button>
-                    ) : null}
-                  </div>
-                  <div>자기소개 : {el.content}</div>
-                </span>
-              </Match>
-            ))}
+                    {el.matchingStatus === "READ" ? <span>✅</span> : null}
+                    {el.matchingStatus === "NOT_READ" ? <span>❌</span> : null}
+                  </span>
+                </Match>
+              ))}
+              <h2>참여자 명단</h2>
+              {detail.participants &&
+                detail.participants.map((el, idx) => (
+                  <Match key={idx}>
+                    <span>
+                      <div>
+                        닉네임 : {el.displayName}
+                        {sessionStorage.getItem("userName") ===
+                          detail.leaderName &&
+                        sessionStorage.getItem("userName") !==
+                          el.displayName ? (
+                          <button
+                            onClick={() => {
+                              goAway(el.memberPostId);
+                            }}
+                          >
+                            여행 추방
+                          </button>
+                        ) : null}
+                        {sessionStorage.getItem("userName") !==
+                          detail.leaderName &&
+                        sessionStorage.getItem("userName") ===
+                          el.displayName ? (
+                          <button
+                            onClick={() => {
+                              goAway(el.memberPostId);
+                            }}
+                          >
+                            참여 취소
+                          </button>
+                        ) : null}
+                      </div>
+                      <div>자기소개 : {el.content}</div>
+                    </span>
+                  </Match>
+                ))}
+            </div>
+          </Container>
         </div>
-      </Container>
-    </div>
+      </ContainerWrap>
+    </PageContainer>
   );
 };
 
 export default PostDetail;
+const PageContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 5px 0 5px;
 
+  @media screen and (max-width: 500px) {
+    padding: 30px 25px 30px 25px;
+    height: 700px;
+  }
+`;
+
+const ContainerWrap = styled.div`
+  margin: 150px 0 250px 0;
+  padding: 40px 50px 40px 50px;
+  display: flex;
+  flex-direction: column;
+  max-width: 1650px;
+  width: 170%;
+  height: 900px;
+  background-color: beige;
+
+  box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-family: Roboto;
+  box-sizing: border-box;
+  @media screen and (max-width: 500px) {
+    padding: 30px 25px 30px 25px;
+    height: 455px;
+  }
+`;
 const Match = styled.div`
   display: flex;
   justify-content: space-between;
