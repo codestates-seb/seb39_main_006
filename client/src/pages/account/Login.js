@@ -71,10 +71,10 @@ const Login = () => {
       });
   };
   return (
-    <Background>
-      <main>
-        <section>
-          <h1 align="center">로그인</h1>
+    <LoginPageContainer>
+      <LoginContainer>
+        <section align="center">
+          <LoginText>로그인</LoginText>
           <div>
             <InputWrapper>
               <form onSubmit={(e) => e.preventDefault()}>
@@ -106,7 +106,7 @@ const Login = () => {
               </form>
             </InputWrapper>
 
-            <div>
+            <div align="center">
               <div></div> <Button onClick={usesubmitHandler}>Login</Button>
               <Button type="button" onClick={signupHandler}>
                 Create new account
@@ -123,12 +123,55 @@ const Login = () => {
             </div>
           </div>
         </section>
-      </main>
-    </Background>
+      </LoginContainer>
+    </LoginPageContainer>
   );
 };
 export default Login;
-
+const LoginPageContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 5px 0 5px;
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+  }
+  @media screen and (max-width: 500px) {
+    padding: 30px 25px 30px 25px;
+    height: 455px;
+  }
+`;
+const LoginText = styled.div`
+  font-size: 32px;
+  line-height: 37px;
+  color: #444444;
+  font-weight: 700;
+  margin-bottom: 33px;
+  @media screen and (max-width: 500px) {
+    font-size: 26px;
+    margin-bottom: 25px;
+  }
+`;
+const LoginContainer = styled.div`
+  margin: 150px 0 250px 0;
+  padding: 40px 50px 40px 50px;
+  display: flex;
+  flex-direction: column;
+  max-width: 468px;
+  width: 100%;
+  height: 555px;
+  background: #fbfbfb;
+  box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-family: Roboto;
+  box-sizing: border-box;
+  @media screen and (max-width: 500px) {
+    padding: 30px 25px 30px 25px;
+    height: 455px;
+  }
+`;
 const InputWrapper = styled.div`
   display: grid;
   place-items: center;
@@ -155,7 +198,7 @@ const InputWrapper = styled.div`
     padding: 20px 10px;
     border-radius: 5px;
     outline: none;
-    width: 30rem;
+    width: 20rem;
     display: inline-block;
     border: none;
     border-radius: 5px;
