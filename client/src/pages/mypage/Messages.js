@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import SideBar from "../../components/SideBar";
-
+import H1 from "../../components/ui/H1";
 const Messages = () => {
   const [messages, setMessages] = useState([]);
 
@@ -16,7 +16,7 @@ const Messages = () => {
   return (
     <div>
       <SideBar />
-      <h2>알림들</h2>
+      <H1>알림들</H1>
     </div>
   );
 };

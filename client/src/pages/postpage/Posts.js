@@ -26,7 +26,13 @@ const Posts = () => {
 
   useEffect(() => {
     axios(
-      `${process.env.REACT_APP_URL}/api/posts?page=${page}&size=${size}&title=${title}&body=${body}&location=${location}&startDate=${startDate}&endDate=${endDate}&sort=${sort}`
+      `${process.env.REACT_APP_URL}/api/posts?page=${page}&size=${size}&title=${title}&body=${body}&location=${location}&startDate=${startDate}&endDate=${endDate}&sort=${sort}`,
+      {
+        headers: {
+          access_hh: sessionStorage.getItem("AccessToken"),
+          refresh_hh: sessionStorage.getItem("RefreshToken"),
+        },
+      }
     ).then((res) => {
       setData([...res.data.data]);
       setTotalElements(res.data.pageInfo.totalElements);

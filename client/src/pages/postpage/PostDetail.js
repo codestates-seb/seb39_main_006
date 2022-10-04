@@ -17,14 +17,22 @@ const PostDetail = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios(`${process.env.REACT_APP_URL}/api/posts/${id}`).then((res) => {
+    axios(`${process.env.REACT_APP_URL}/api/posts/${id}`, {
+      headers: {
+        access_hh: sessionStorage.getItem("AccessToken"),
+        refresh_hh: sessionStorage.getItem("RefreshToken"),
+      },
+    }).then((res) => {
       setDetail(res.data);
     });
-    axios(`${process.env.REACT_APP_URL}/api/posts/${id}/matching`).then(
-      (res) => {
-        setMatchList(res.data.data);
-      }
-    );
+    axios(`${process.env.REACT_APP_URL}/api/posts/${id}/matching`, {
+      headers: {
+        access_hh: sessionStorage.getItem("AccessToken"),
+        refresh_hh: sessionStorage.getItem("RefreshToken"),
+      },
+    }).then((res) => {
+      setMatchList(res.data.data);
+    });
   }, [id]);
 
   useEffect(() => {
