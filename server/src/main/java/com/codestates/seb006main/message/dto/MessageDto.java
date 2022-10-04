@@ -13,6 +13,7 @@ public class MessageDto {
     public static class Response implements WebSocketMessage {
         private Long messageId;
         private String body;
+        private String email;
         private Long postId;
         private Message.MessageStatus messageStatus;
 
@@ -20,6 +21,7 @@ public class MessageDto {
         public Response(Message message) {
             this.messageId = message.getMessageId();
             this.body = message.getBody();
+            this.email = message.getMember().getEmail();
             this.postId = message.getPostId();
             this.messageStatus = message.getMessageStatus();
         }
