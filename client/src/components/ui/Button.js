@@ -16,6 +16,12 @@ const StyledBtn = styled.button`
     background-color: #efd5c8;
     border-color: #efd5c8;
   }
+  &:disabled {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+    pointer-events: none;
+  }
 `;
 
 export default StyledBtn;

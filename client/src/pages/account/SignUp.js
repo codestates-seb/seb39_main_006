@@ -10,6 +10,7 @@ import CheckDisplayName from "./CheckDisplayName";
 // 사용부  함수이름(원하는값)
 
 const Signup = () => {
+  console.log("렌더링");
   const [isDisabledInfo, setIsDisabledInfo] = useState(true);
   const [validateEmailText, setValidateEmailText] = useState("");
   const [validatePasswordText, setValidatePasswordText] = useState("");
@@ -22,6 +23,9 @@ const Signup = () => {
     useState("validate");
   const [validatePasswordNoticeClassname, setValidatePasswordNoticeClassname] =
     useState("validate");
+  const [isEmailAuthorizing, setIsEmailAuthorizing] = useState(false);
+  const [emailAuthCode, setEamilAuthCode] = useState("");
+  const [validateAuthEmail, setValidateAuthEmail] = useState("validate");
 
   const onClickDuplicateDisplayName = async () => {
     const enteredDisplayName = displaynameInputRef.current.value;
@@ -35,6 +39,8 @@ const Signup = () => {
       if (isDuplicateDisplayName) {
         emailInputRef.current.value = "";
         passwordInputRef.current.value = "";
+        setValidateDisplayNameNoticeClassname("validate");
+        setValidateDisplayNameText("아이디가 중복 됐습니다.");
       }
     } else {
       setValidateDisplayNameText("❌ 닉네임을 2글자 이상 입력해 주세요 ");
@@ -42,9 +48,37 @@ const Signup = () => {
     }
   };
 
+  const onClickSendAuthCodeEmail = async () => {
+    setIsEmailAuthorizing(true);
+    await axios(
+      `${process.env.REACT_APP_URL}/api/members/email?email=${emailInputRef.current.value}`
+    )
+      .then((res) => {
+        if (res.status === 200) {
+          setEamilAuthCode(res.data);
+        }
+      })
+      .catch((err) => {
+        setIsEmailAuthorizing(false);
+        alert("통신이 되지 않습니다. 다시 시도해 주세요.");
+      });
+  };
+
+  const onClickAuthCodeEmail = () => {
+    const realCode = emailAuthCode.code;
+    const sdf = typeof onInputEmailCode.current.value;
+    const asdf = typeof realCode;
+    if (onInputEmailCode.current.value === realCode) {
+      setValidateAuthEmail("success");
+    } else {
+      alert("인증 코드가 잘못 되었습니다.");
+    }
+  };
+
   const displaynameInputRef = useRef();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
+  const onInputEmailCode = useRef();
 
   const navigate = useNavigate();
 
@@ -105,6 +139,7 @@ const Signup = () => {
 
   const onChangeInputEmail = (e) => {
     const enteredEmail = e.target.value;
+
     if (validateEmail(enteredEmail) === null) {
       setValidateEmailText("❌ 이메일 형식으로 입력해 주세요");
       setValidateEmailNoticeClassname("validate");
@@ -162,6 +197,33 @@ const Signup = () => {
                 <p className={validateEmailNoticeClassname}>
                   {validateEmailText}
                 </p>
+                {validateEmailNoticeClassname === "validate" ? (
+                  ""
+                ) : (
+                  <div>
+                    <Button onClick={onClickSendAuthCodeEmail}>
+                      이메일 인증번호 받기
+                    </Button>
+                  </div>
+                )}
+                {isEmailAuthorizing ? (
+                  <div>
+                    <input
+                      className="input-tag"
+                      type="text"
+                      id="emailAuth"
+                      ref={onInputEmailCode}
+                    />
+                    <Button onClick={onClickAuthCodeEmail}>OK</Button>
+                    {validateAuthEmail === "validate" ? (
+                      ""
+                    ) : (
+                      <p className="HTH-green">인증 되었습니다.</p>
+                    )}
+                  </div>
+                ) : (
+                  ""
+                )}
                 <label htmlFor="password">Password</label>
                 <div className="container">
                   <input
@@ -182,7 +244,12 @@ const Signup = () => {
               </form>
             </InputWrapper>
             <div>
-              <Button onClick={usesubmitHandler}>Create Account</Button>
+              <Button
+                onClick={usesubmitHandler}
+                disabled={validateAuthEmail === "validate" ? true : false}
+              >
+                Create Account
+              </Button>
               <Button type="button" onClick={loginHandler}>
                 Return to Login Page
               </Button>
