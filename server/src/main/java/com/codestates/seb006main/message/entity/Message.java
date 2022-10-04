@@ -35,7 +35,6 @@ public class Message {
 
     public enum MessageStatus {
         NOT_SENT(0, "미발송"),
-        // TODO : 흐음.
         NOT_READ(1, "읽지 않음"),
         READ(2, "읽음");
 
