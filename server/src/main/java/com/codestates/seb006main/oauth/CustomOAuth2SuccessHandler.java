@@ -1,9 +1,11 @@
 package com.codestates.seb006main.oauth;
 
 import com.codestates.seb006main.auth.PrincipalDetails;
+import com.codestates.seb006main.config.redis.RedisUtils;
 import com.codestates.seb006main.jwt.JwtUtils;
 import com.codestates.seb006main.members.entity.Member;
 import com.codestates.seb006main.members.repository.MemberRepository;
+import com.google.gson.Gson;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
@@ -17,16 +19,26 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
     private JwtUtils jwtUtils;
     private MemberRepository memberRepository;
+    private RedisUtils redisUtils;
+    private Gson gson;
 
 
-    public CustomOAuth2SuccessHandler(JwtUtils jwtUtils, MemberRepository memberRepository) {
+    public CustomOAuth2SuccessHandler(JwtUtils jwtUtils, MemberRepository memberRepository, RedisUtils redisUtils) {
         this.jwtUtils = jwtUtils;
         this.memberRepository = memberRepository;
+        this.redisUtils = redisUtils;
+        this.gson= new Gson();
     }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Member member = principalDetails.getMember();
-        getRedirectStrategy().sendRedirect(request,response,"/api/members/oauth/login"+"?memberId="+member.getMemberId()+"&email="+member.getEmail());   }
+        String accessToken = jwtUtils.createAccessToken(member.getMemberId(), member.getEmail());
+        String refreshToken = jwtUtils.createRefreshToken(member.getMemberId(), member.getEmail());
+        response.setHeader("Access_HH",accessToken);
+        redisUtils.setRefreshToken(member.getMemberId(),refreshToken);
+//        response.getWriter().write(gson.toJson(member));
+        getRedirectStrategy().sendRedirect(request,response,"http://localhost:3000/main");
+    }
 }

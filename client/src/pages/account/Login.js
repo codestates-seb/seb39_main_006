@@ -15,7 +15,15 @@ const Login = () => {
   const passwordInputRef = useRef();
 
   const navigate = useNavigate();
-
+  const gokakao = () => {
+    axios(`${process.env.REACT_APP_URL}/oauth2/authorization/kakao`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+    .then()
+  }
   const validateEmail = (email) => {
     return String(email)
       .toLowerCase()
@@ -113,14 +121,16 @@ const Login = () => {
                   Create new account
                 </Button>
               </div>
-              <div>
-                <img
+              <div align="center">
+                <a href="http://localhost:8080/oauth2/authorization/kakao">
+                <img 
                   className="Button"
                   src={kakaoLogo}
                   alt="./Kakao.png"
                   width="200"
                   height="45"
                 ></img>
+                </a>
               </div>
             </div>
           </section>
