@@ -23,7 +23,7 @@ function App() {
         src={imgBgr}
         alt="./flower4.jpeg"
         width="3000"
-        height="2000"
+        height="2500"
       />
       <Header />
 
