@@ -9,14 +9,22 @@ import Login from "./pages/account/Login";
 import SignUp from "./pages/account/SignUp";
 import Matching from "./pages/postpage/Matching";
 import UserInfo from "../src/pages/mypage/UserInfo";
-import Background from "../src/components/ui/Background";
 import MyPage from "./pages/mypage/MyPage";
 import MyPost from "./pages/mypage/MyPost";
 import MyBookmark from "./pages/mypage/MyBookmark";
 import MyMatching from "./pages/mypage/MyMatching";
+import styled from "styled-components";
+import imgBgr from "../src/img/background.png";
 function App() {
   return (
-    <Background>
+    <Wrap>
+      <img
+        id="bgr"
+        src={imgBgr}
+        alt="./flower4.jpeg"
+        width="3000"
+        height="2000"
+      />
       <Header />
 
       <Routes>
@@ -40,8 +48,17 @@ function App() {
           </>
         )}
       </Routes>
-    </Background>
+    </Wrap>
   );
 }
 
 export default App;
+const Wrap = styled.div`
+  #bgr {
+    position: absolute;
+    top: -600px;
+    background-repeat: repeat;
+    z-index: -995;
+    opacity: 50%;
+  }
+`;

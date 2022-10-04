@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import styled from "styled-components";
-import Background from "../../components/ui/Background";
+import imgBgr from "../../img/flower2.jpeg";
 // import AccountInfo from "./AccountInfo";
 import kakaoLogo from "../../img/kakao.png";
 
@@ -71,63 +71,81 @@ const Login = () => {
       });
   };
   return (
-    <LoginPageContainer>
-      <LoginContainer>
-        <section align="center">
-          <LoginText>로그인</LoginText>
-          <div>
-            <InputWrapper>
-              <form onSubmit={(e) => e.preventDefault()}>
-                <label htmlFor="email">Email</label>
-                <div className="container">
-                  <input
-                    className="input-tag possible"
-                    type="email"
-                    id="email"
-                    required
-                    ref={emailInputRef}
-                  />
-                </div>
-                <p className="validate">{validateEmailText}</p>
-
-                <label htmlFor="password">Password</label>
-                <div className="container">
-                  <input
-                    className="input-tag"
-                    type="password"
-                    id="password"
-                    required
-                    ref={passwordInputRef}
-                    name="password"
-                    autoComplete="off"
-                  />
-                </div>
-                <p className="validate">{validatePasswordText}</p>
-              </form>
-            </InputWrapper>
-
-            <div align="center">
-              <div></div> <Button onClick={usesubmitHandler}>Login</Button>
-              <Button type="button" onClick={signupHandler}>
-                Create new account
-              </Button>
-            </div>
+    <Wrap>
+      <img
+        id="bgr"
+        src={imgBgr}
+        alt="./flower4.jpeg"
+        width="2000"
+        height="2000"
+      />
+      <LoginPageContainer>
+        <LoginContainer>
+          <section align="center">
+            <LoginText>로그인</LoginText>
             <div>
-              <img
-                className="Button"
-                src={kakaoLogo}
-                alt="./Kakao.png"
-                width="200"
-                height="45"
-              ></img>
+              <InputWrapper>
+                <form onSubmit={(e) => e.preventDefault()}>
+                  <label htmlFor="email">Email</label>
+                  <div className="container">
+                    <input
+                      className="input-tag possible"
+                      type="email"
+                      id="email"
+                      required
+                      ref={emailInputRef}
+                    />
+                  </div>
+                  <p className="validate">{validateEmailText}</p>
+
+                  <label htmlFor="password">Password</label>
+                  <div className="container">
+                    <input
+                      className="input-tag"
+                      type="password"
+                      id="password"
+                      required
+                      ref={passwordInputRef}
+                      name="password"
+                      autoComplete="off"
+                    />
+                  </div>
+                  <p className="validate">{validatePasswordText}</p>
+                </form>
+              </InputWrapper>
+
+              <div align="center">
+                <div></div> <Button onClick={usesubmitHandler}>Login</Button>
+                <Button type="button" onClick={signupHandler}>
+                  Create new account
+                </Button>
+              </div>
+              <div>
+                <img
+                  className="Button"
+                  src={kakaoLogo}
+                  alt="./Kakao.png"
+                  width="200"
+                  height="45"
+                ></img>
+              </div>
             </div>
-          </div>
-        </section>
-      </LoginContainer>
-    </LoginPageContainer>
+          </section>
+        </LoginContainer>
+      </LoginPageContainer>
+    </Wrap>
   );
 };
 export default Login;
+const Wrap = styled.div`
+  #bgr {
+    position: absolute;
+    top: -600px;
+
+    z-index: -995;
+    opacity: 50%;
+  }
+`;
 const LoginPageContainer = styled.div`
   width: 100%;
   display: flex;
