@@ -179,6 +179,9 @@ public class PostsService {
         if (endDate.isBefore(startDate) || startDate.isAfter(endDate)) {
             throw new BusinessLogicException(ExceptionCode.TRAVEL_DATE_VIOLATION);
         }
+        if (endDate.isBefore(LocalDate.now()) || startDate.isBefore(LocalDate.now()) || closeDate.isBefore(LocalDate.now())) {
+            throw new BusinessLogicException(ExceptionCode.DATE_VIOLATION);
+        }
     }
 }
 
