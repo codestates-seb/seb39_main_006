@@ -66,13 +66,6 @@ public class MemberService {
         return memberMapper.memberToMemberResponse(loginMember);
     }
 
-    public MemberDto.OAuthResponse oauthLoginMember(Long memberId, String email) {
-        Member loginMember = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-        MemberDto.OAuthResponse oAuthResponse = memberMapper.memberToMemberOAuthResponse(loginMember);
-        oAuthResponse.addToken(jwtUtils.createAccessToken(memberId, email), jwtUtils.createRefreshToken(memberId, email));
-        return oAuthResponse;
-    }
 
     public MemberDto.Response joinMember(MemberDto.Post post) {
         verifyExistMemberWithEmail(post.getEmail());

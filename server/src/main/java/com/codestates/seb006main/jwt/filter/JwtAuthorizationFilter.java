@@ -55,9 +55,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                     throw new BusinessLogicException(ExceptionCode.TOKEN_EXPIRED);
                 }else{
                     Map<String,Object> map = jwtUtils.getClaimsFromToken(refreshToken,"refresh");
-                    String access = jwtUtils.createAccessToken((Long)map.get("id") ,(String) map.get("email"));
-                    response.setHeader("Access_HH",access);
                     Member memberEntity = memberRepository.findByEmail((String) map.get("email")).orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+                    String access = jwtUtils.createAccessToken((Long)map.get("id") ,(String) map.get("email"),memberEntity.getDisplayName());
+                    response.setHeader("Access_HH",access);
                     PrincipalDetails principalDetails = new PrincipalDetails(memberEntity);
                     Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null,
                             principalDetails.getAuthorities()

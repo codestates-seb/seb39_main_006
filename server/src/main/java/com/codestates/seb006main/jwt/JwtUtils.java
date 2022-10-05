@@ -30,13 +30,14 @@ public class JwtUtils {
 
 
 
-    public String createAccessToken(Long memberId, String email){
+    public String createAccessToken(Long memberId, String email, String displayName){
 
         String accessToken = JWT.create()
                 .withSubject("hitch hiker access token")
                 .withExpiresAt(new Date(System.currentTimeMillis() + (1000 * 60 * 60)))
                 .withClaim("id", memberId)
                 .withClaim("email", email)
+                .withClaim("displayName",displayName)
                 .sign(Algorithm.HMAC512(accessKey));
         accessToken = "Bearer " + accessToken;
         return accessToken;
@@ -81,7 +82,6 @@ public class JwtUtils {
                     throw new BusinessLogicException(ExceptionCode.TOKEN_EXPIRED);
                 }else{
                     Map<String,Object> map = getClaimsFromToken(refreshToken,"refresh");
-                    String access = createAccessToken((Long)map.get("id") ,(String) map.get("email"));
                     Member memberEntity = memberRepository.findByEmail((String) map.get("email")).orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
                     PrincipalDetails principalDetails = new PrincipalDetails(memberEntity);
                     Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null,
