@@ -211,7 +211,8 @@ const PostDetail = () => {
               <h2>매칭 신청</h2>
               {matchList.map((el, idx) => (
                 <Match key={idx}>
-                  <span>신청자 : {el.memberName} </span>
+                  <span>신청자 :</span>
+                  <span className="hostname"> {el.memberName} </span>
                   <span className="isread">
                     {sessionStorage.getItem("userName") ===
                     detail.leaderName ? (
@@ -347,9 +348,15 @@ const ContainerWrap = styled.div`
   }
 `;
 const Match = styled.div`
+  .hostname {
+    font-size: 1.2rem;
+  }
+  margin: 1rem;
   .matching {
+    padding: 1rem;
     width: fit-content;
   }
+  min-width: 23rem;
   display: flex;
   justify-content: space-between;
   border: 1px solid black;
