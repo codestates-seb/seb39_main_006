@@ -11,6 +11,7 @@ const Header = () => {
   const [msgs, setMsgs] = useState([]);
   const [msg, setMsg] = useState({});
   const [msgIds, setMsgIds] = useState([]);
+  const [showMsg, setShowMsg] = useState(false);
   const navigate = useNavigate();
 
   const logoutHandler = () => {
@@ -78,9 +79,12 @@ const Header = () => {
         },
       }
     ).then(() => {
-      // setMsgIds([]);
       window.location.reload();
     });
+  };
+
+  const toggleMsg = () => {
+    setShowMsg(!showMsg);
   };
 
   return (
@@ -121,6 +125,15 @@ const Header = () => {
                   전체 읽음
                 </button>
               </li>
+              <li>
+                <button
+                  onClick={() => {
+                    toggleMsg();
+                  }}
+                >
+                  새알람 확인 {msgIds.length}
+                </button>
+              </li>
             </ul>
 
             {/* <details className="dropdown">
@@ -154,7 +167,7 @@ const Header = () => {
           </details> */}
           </nav>
           <div>
-            {msgs &&
+            {showMsg &&
               msgs.map((el, idx) => (
                 <div key={idx}>
                   <div
