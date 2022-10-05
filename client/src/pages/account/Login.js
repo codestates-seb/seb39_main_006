@@ -113,7 +113,7 @@ const Login = () => {
                 </Button>
               </div>
               <div align="center">
-                <a href="http://server.seb-006.shop/oauth2/authorization/kakao">
+                <a href="https://server.seb-006.shop/oauth2/authorization/kakao">
                 <img 
                   className="Button"
                   src={kakaoLogo}
