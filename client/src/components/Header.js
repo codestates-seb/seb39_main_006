@@ -134,11 +134,19 @@ const Header = () => {
 
               <details className="dropdown">
                 <summary role="Button">
-                  <img src={profileImg} width="40" height="40" />
+                  <div>{msgIds.length}</div>
+                  <img
+                    src={profileImg}
+                    width="40"
+                    height="40"
+                    onClick={() => {
+                      toggleMsg();
+                    }}
+                  />
                 </summary>
                 <ul>
-                  <li id="alarm">
-                    <button
+                  {/* <li id="alarm">
+                  <button
                       className="alarm"
                       onClick={() => {
                         readAllMessage();
@@ -146,8 +154,8 @@ const Header = () => {
                     >
                       전체 읽음
                     </button>
-                  </li>
-                  <li id="alarm">
+                  </li> */}
+                  {/* <li id="alarm">
                     <button
                       className="alarm"
                       onClick={() => {
@@ -156,7 +164,7 @@ const Header = () => {
                     >
                       새알람 확인 {msgIds.length}
                     </button>
-                  </li>
+                  </li> */}
                 </ul>
               </details>
               <li>
@@ -176,18 +184,27 @@ const Header = () => {
             <a className="banner"></a>
           </nav>
           <div>
-            {showMsg &&
-              msgs.map((el, idx) => (
-                <div key={idx}>
-                  <div
-                    onClick={() => {
-                      msgClickHandler(el.messageId, el.postId);
-                    }}
-                  >
-                    {el.body}
-                  </div>
+            {showMsg && (
+              <button
+                className="alarm"
+                onClick={() => {
+                  readAllMessage();
+                }}
+              >
+                전체 읽음
+              </button>
+            )}
+            {msgs.map((el, idx) => (
+              <div key={idx}>
+                <div
+                  onClick={() => {
+                    msgClickHandler(el.messageId, el.postId);
+                  }}
+                >
+                  {el.body}
                 </div>
-              ))}
+              </div>
+            ))}
           </div>
         </Test>
       )}
