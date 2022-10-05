@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import H1 from "../../components/ui/H1";
+import styled from "styled-components";
+
 const Messages = () => {
   const [messages, setMessages] = useState([]);
   const [msgIds, setMsgIds] = useState([]);
@@ -68,14 +70,17 @@ const Messages = () => {
     <div>
       <SideBar />
       <H1>
-        알림들{" "}
-        <button
-          onClick={() => {
-            readMsgAllDelete();
-          }}
-        >
-          읽은 메세지 삭제
-        </button>
+        <StyledBTN>
+          알림들{" "}
+          <button
+            id="delete"
+            onClick={() => {
+              readMsgAllDelete();
+            }}
+          >
+            읽은 메세지 삭제
+          </button>
+        </StyledBTN>
       </H1>
       {messages.map((el, idx) => (
         <div key={idx}>
@@ -88,15 +93,18 @@ const Messages = () => {
           </span>
           <span> {el.messageStatus === "READ" ? "읽음" : "안읽음"}</span>
           <span>
-            {el.messageStatus === "READ" ? (
-              <button
-                onClick={() => {
-                  msgDelete(el.messageId);
-                }}
-              >
-                알림 삭제
-              </button>
-            ) : null}
+            <StyledBTN>
+              {el.messageStatus === "READ" ? (
+                <button
+                  id="delete"
+                  onClick={() => {
+                    msgDelete(el.messageId);
+                  }}
+                >
+                  알림 삭제
+                </button>
+              ) : null}
+            </StyledBTN>
           </span>
         </div>
       ))}
@@ -105,3 +113,17 @@ const Messages = () => {
 };
 
 export default Messages;
+const StyledBTN = styled.div`
+  #delete {
+    margin-left: 1rem;
+    padding: 10px;
+    border-color: #16213b;
+    background: #16213b;
+    color: wheat;
+    border-radius: 13px;
+    &:hover {
+      background-color: #304b61;
+      border-color: #c2e3de;
+    }
+  }
+`;
