@@ -216,6 +216,7 @@ const PostDetail = () => {
                     {sessionStorage.getItem("userName") ===
                     detail.leaderName ? (
                       <button
+                        className="matching"
                         onClick={() => {
                           navigate(`/match/${el.matchingId}`);
                         }}
@@ -346,6 +347,9 @@ const ContainerWrap = styled.div`
   }
 `;
 const Match = styled.div`
+  .matching {
+    width: fit-content;
+  }
   display: flex;
   justify-content: space-between;
   border: 1px solid black;

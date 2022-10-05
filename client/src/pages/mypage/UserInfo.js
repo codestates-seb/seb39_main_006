@@ -42,6 +42,10 @@ const Userinfo = () => {
     return String(phoneNumber).match(/^\d{3}-\d{3,4}-\d{4}$/);
   };
 
+  const validatePassword = (password) => {
+    return String(password).match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/);
+  };
+
   const onClickDuplicateDisplayName = async () => {
     const enteredDisplayName = displaynameInputRef.current.value;
     if (enteredDisplayName.length > 1) {
@@ -73,8 +77,10 @@ const Userinfo = () => {
 
   const onChangedPassword = (e) => {
     const enteredPassword = e.target.value;
-    if (enteredPassword.length < 6) {
-      setValidatePasswordText("❌ 비밀번호 6글자 이상 입력해주세요");
+    if (validatePassword(enteredPassword) === null) {
+      setValidatePasswordText(
+        "❌ 숫자,문자로 구성된 비밀번호 6글자 이상 입력해주세요"
+      );
       setValidatePasswordNoticeClassname("validate");
     } else {
       setValidatePasswordText("✅ 올바른 비밀번호 형식입니다.");
@@ -84,7 +90,7 @@ const Userinfo = () => {
 
   const onChangedPhoneNumber = (e) => {
     if (validatePhoneNumber(e.target.value) === null) {
-      setValidatePhoneNumberText("❌ 000-0000-0000 형식으로 입력해 주세요");
+      setValidatePhoneNumberText("❌ 010-0000-0000 형식으로 입력해 주세요");
       setValidatePhoneNumberNoticeClassname("validate");
     } else {
       setValidatePhoneNumberText("✅ 올바른 번호 형식입니다.");

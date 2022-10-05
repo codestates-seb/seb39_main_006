@@ -34,40 +34,42 @@ const MyPage = () => {
             </a>
           </section>
           <UserDiv>
-            <div className="label-wrapper">
-              <label htmlFor="displayName">User Name</label>
-              <div className="container">
-                <input
-                  readOnly
-                  className="input-tag"
-                  defaultValue={userInfo !== null ? userInfo.displayName : ""}
-                ></input>
-              </div>
+            <Container>
+              <div className="label-wrapper">
+                <label htmlFor="displayName">User Name</label>
+                <div className="container">
+                  <input
+                    readOnly
+                    className="input-tag"
+                    defaultValue={userInfo !== null ? userInfo.displayName : ""}
+                  ></input>
+                </div>
 
-              <label htmlFor="phone">Phone Number</label>
-              <div className="container">
-                <input
-                  readOnly
-                  className="input-tag"
-                  defaultValue={userInfo !== null ? userInfo.phone : ""}
-                ></input>
-              </div>
+                <label htmlFor="phone">Phone Number</label>
+                <div className="container">
+                  <input
+                    readOnly
+                    className="input-tag"
+                    defaultValue={userInfo !== null ? userInfo.phone : ""}
+                  ></input>
+                </div>
 
-              <label htmlFor="content">자기소개</label>
-              <div className="container">
-                <input
-                  readOnly
-                  className="input-tag"
-                  type="textarea"
-                  defaultValue={userInfo !== null ? userInfo.content : ""}
-                ></input>
-              </div>
+                <label htmlFor="content">자기소개</label>
+                <div className="container">
+                  <input
+                    readOnly
+                    className="input-tag"
+                    type="textarea"
+                    defaultValue={userInfo !== null ? userInfo.content : ""}
+                  ></input>
+                </div>
 
-              <label htmlFor="profile-img">프로필 사진</label>
-              <div className="container">
-                <img src={userInfo !== null ? userInfo.profile : ""}></img>
+                <label htmlFor="profile-img">프로필 사진</label>
+                <div className="container">
+                  <img src={userInfo !== null ? userInfo.profile : ""}></img>
+                </div>
               </div>
-            </div>
+            </Container>
           </UserDiv>
           <WrapperBox></WrapperBox>
         </section>
@@ -76,35 +78,34 @@ const MyPage = () => {
   );
 };
 export default MyPage;
+const Container = styled.div`
+  margin: 150px 0 250px 0;
+  padding: 40px 50px 40px 50px;
+  display: flex;
+  flex-direction: column;
+  max-width: 468px;
+  width: 100%;
+  height: fit-content;
+  background: #fbfbfb;
+  box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-family: Roboto;
+  box-sizing: border-box;
+  @media screen and (max-width: 500px) {
+    padding: 30px 25px 30px 25px;
+    height: 455px;
+  }
+`;
 const UserDiv = styled.div`
-  .container {
-    padding: 1rem;
-  }
-  label {
-    padding: 1rem;
-    font-size: 2rem;
-    color: #555;
-    padding-top: 0px;
-  }
-  .label-wrapper {
-    display: flex, inline-flex;
-    justify-content: center;
-    margin: 1rem;
-    margin-left: -40vw;
-    margin-top: 10vh;
-    padding: 3rem;
-    border-radius: 2px;
-    outline: none;
-    width: 35vw;
-    height: 50vh;
-    border-radius: 5px;
-    border: 1.5px solid #a19f9f;
-    background-color: white;
-    font-size: large;
-  }
-  .input-tag {
-    font-size: 1.3rem;
-    color: #547882;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 5px 0 5px;
+  margin-left: -70vw;
+  @media screen and (max-width: 500px) {
+    padding: 30px 25px 30px 25px;
+    height: 700px;
   }
 `;
 const Section = styled.div`

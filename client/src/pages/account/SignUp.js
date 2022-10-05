@@ -152,7 +152,9 @@ const Signup = () => {
   const onChangeInputPassword = (e) => {
     const enteredPassword = e.target.value;
     if (enteredPassword.length < 6) {
-      setValidatePasswordText("❌ 비밀번호 6글자 이상 입력해주세요");
+      setValidatePasswordText(
+        "❌숫자,문자로 구성된 비밀번호 6글자 이상 입력해주세요"
+      );
       setValidatePasswordNoticeClassname("validate");
     } else {
       setValidatePasswordText("✅ 올바른 비밀번호 형식입니다.");
