@@ -107,6 +107,17 @@ const PostDetail = () => {
     });
   };
 
+  const goAwayMySelf = (matchingId) => {
+    axios(`${process.env.REACT_APP_URL}/api/matching/${matchingId}`, {
+      method: "DELETE",
+      headers: {
+        access_hh: sessionStorage.getItem("AccessToken"),
+      },
+    }).then(() => {
+      window.location.reload();
+    });
+  };
+
   return (
     <PageContainer>
       <ContainerWrap>
@@ -210,6 +221,15 @@ const PostDetail = () => {
                         }}
                       >
                         매칭관리
+                      </button>
+                    ) : null}
+                    {sessionStorage.getItem("userName") === el.memberName ? (
+                      <button
+                        onClick={() => {
+                          goAwayMySelf(el.matchingId);
+                        }}
+                      >
+                        신청 취소
                       </button>
                     ) : null}
                     {el.matchingStatus === "READ" ? <span>✅</span> : null}
