@@ -248,6 +248,7 @@ const PostDetail = () => {
           }
           alert(err.response.data.korMessage);
         }
+        window.location.reload();
       });
   };
 
