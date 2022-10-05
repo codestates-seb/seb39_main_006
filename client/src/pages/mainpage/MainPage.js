@@ -27,7 +27,7 @@ const Flex = styled.div`
   /* align-items: center; */
   margin-left: 10%;
   display: flex;
-  height: 100vh;
+  height: 2000px;
 `;
 const Section = styled.div`
   section {
