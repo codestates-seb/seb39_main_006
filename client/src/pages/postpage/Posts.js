@@ -135,7 +135,8 @@ const StyledPost = styled.div`
     flex-grow: 1;
     /* width: 750px; */
     width: 78%;
-    height: 90vh;
+    min-height: 1000px;
+    height: fit-content;
     margin-right: 20px;
     background-color: #d5eaf1;
     border-radius: 10px;

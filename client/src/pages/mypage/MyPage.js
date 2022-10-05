@@ -79,10 +79,18 @@ const MyPage = () => {
 };
 export default MyPage;
 const Container = styled.div`
+
+  label {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #547882;
+  }
+
   margin: 150px 0 250px 0;
   padding: 40px 50px 40px 50px;
   display: flex;
   flex-direction: column;
+  min-height: 30rem;
   max-width: 468px;
   width: 100%;
   height: fit-content;
@@ -113,7 +121,7 @@ const Section = styled.div`
     margin-top: 2rem;
     display: flex;
     position: relative;
-    left: 100px;
+    left: 110px;
     list-style: none;
     section {
       display: inline-block;
