@@ -50,7 +50,6 @@ const NewPost = () => {
       method: "POST",
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
       data: {
         title: title,
@@ -183,7 +182,6 @@ const NewPost = () => {
                       headers: {
                         "Content-Type": "multipart/form-data",
                         access_hh: sessionStorage.getItem("AccessToken"),
-                        refresh_hh: sessionStorage.getItem("RefreshToken"),
                       },
                       data: formData,
                     }).then((res) => {

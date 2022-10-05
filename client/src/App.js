@@ -16,7 +16,7 @@ import MyMatching from "./pages/mypage/MyMatching";
 import styled from "styled-components";
 import imgBgr from "../src/img/background.png";
 import Messages from "./pages/mypage/Messages";
-import OAuth2RedirectHandler from "./components/OAuth2RedirectHandler";
+import OAuth2RedirectHandler from "./pages/account/OAuth2RedirectHandler";
 function App() {
   return (
     <Wrap>
@@ -30,13 +30,14 @@ function App() {
       <Header />
 
       <Routes>
-     
         {sessionStorage.getItem("isLogin") === null ? (
           <>
-            <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />}/>
+            <Route
+              path="/oauth2/redirect"
+              element={<OAuth2RedirectHandler />}
+            />
             <Route path="/signup" element={<SignUp />}></Route>
             <Route path="/" element={<Login />}></Route>
-            
           </>
         ) : (
           <>
@@ -51,7 +52,6 @@ function App() {
             <Route path="/mypost" element={<MyPost />} />
             <Route path="/mymatchinfo" element={<MyMatching />} />
             <Route path="/messages" element={<Messages />} />
-      
           </>
         )}
       </Routes>

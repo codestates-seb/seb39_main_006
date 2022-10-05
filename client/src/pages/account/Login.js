@@ -55,7 +55,6 @@ const Login = () => {
           navigate("/main");
           sessionStorage.setItem("isLogin", true);
           sessionStorage.setItem("AccessToken", res.headers.access_hh);
-          sessionStorage.setItem("RefreshToken", res.headers.refresh_hh);
           sessionStorage.setItem("userName", res.data.displayName);
           sessionStorage.setItem("memberId", res.data.memberId);
 
@@ -114,13 +113,13 @@ const Login = () => {
               </div>
               <div align="center">
                 <a href="https://server.seb-006.shop/oauth2/authorization/kakao">
-                <img 
-                  className="Button"
-                  src={kakaoLogo}
-                  alt="./Kakao.png"
-                  width="200"
-                  height="45"
-                ></img>
+                  <img
+                    className="Button"
+                    src={kakaoLogo}
+                    alt="./Kakao.png"
+                    width="200"
+                    height="45"
+                  ></img>
                 </a>
               </div>
             </div>

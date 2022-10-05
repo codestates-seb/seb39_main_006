@@ -33,7 +33,6 @@ const EditPost = () => {
     axios(`${process.env.REACT_APP_URL}/api/posts/${id}`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
     }).then((res) => {
       setEditData(res.data);
@@ -50,7 +49,6 @@ const EditPost = () => {
       method: "PATCH",
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
       data: {
         title: title,

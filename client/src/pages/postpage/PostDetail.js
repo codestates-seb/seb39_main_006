@@ -20,7 +20,6 @@ const PostDetail = () => {
     axios(`${process.env.REACT_APP_URL}/api/posts/${id}`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
     }).then((res) => {
       setDetail(res.data);
@@ -28,7 +27,6 @@ const PostDetail = () => {
     axios(`${process.env.REACT_APP_URL}/api/posts/${id}/matching`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
     }).then((res) => {
       setMatchList(res.data.data);
@@ -39,7 +37,6 @@ const PostDetail = () => {
     axios(`${process.env.REACT_APP_URL}/api/members/my-bookmark`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
     }).then((res) => {
       setMyBookmark(res.data.postIds);
@@ -57,7 +54,6 @@ const PostDetail = () => {
       {
         headers: {
           access_hh: sessionStorage.getItem("AccessToken"),
-          refresh_hh: sessionStorage.getItem("RefreshToken"),
         },
       }
     );
@@ -68,7 +64,6 @@ const PostDetail = () => {
       method: "DELETE",
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
     })
       .then((res) => {
@@ -94,7 +89,6 @@ const PostDetail = () => {
       method: "POST",
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
       data: { body: matchBody },
     }).then(() => {
@@ -107,7 +101,6 @@ const PostDetail = () => {
       method: "DELETE",
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
     }).then(() => {
       window.location.reload();

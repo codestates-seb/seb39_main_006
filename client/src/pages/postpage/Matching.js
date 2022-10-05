@@ -12,7 +12,6 @@ const Matching = () => {
     axios(`${process.env.REACT_APP_URL}/api/matching/${matchid}`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
     }).then((res) => {
       setMatchData(res.data);
@@ -23,7 +22,6 @@ const Matching = () => {
     axios(`${process.env.REACT_APP_URL}/api/matching/${matchid}/accept`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
     }).then(() => {
       navigate(`/${matchData.postId}`);
@@ -34,7 +32,6 @@ const Matching = () => {
     axios(`${process.env.REACT_APP_URL}/api/matching/${matchid}/refuse`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
     }).then(() => {
       navigate(`/${matchData.postId}`);
