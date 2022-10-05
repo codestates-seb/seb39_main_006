@@ -152,13 +152,15 @@ const NewPost = () => {
                   type="number"
                   required
                   min="2"
+                  max="20"
                   onChange={(e) => {
                     setTotalCount(e.target.value);
+                    if (e.target.value > 20) e.target.value = 20;
                   }}
                 />
               </InputWrapper>
               <Editor
-                placeholder="내용을 입력해주세요."
+                placeholder="10글자 이상 작성해주세요."
                 required
                 ref={bodyRef}
                 previewStyle="vertical" // 미리보기 스타일 지정
