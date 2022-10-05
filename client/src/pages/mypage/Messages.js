@@ -13,16 +13,44 @@ const Messages = () => {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
       },
-    }).then((res) => {
-      setMessages(res.data.data);
-      res.data.data
-        .filter((el) => {
-          return el.messageStatus === "READ";
-        })
-        .map((el) => {
-          return setMsgIds((msgIds) => [...msgIds, el.messageId]);
-        });
-    });
+    })
+      .then((res) => {
+        setMessages(res.data.data);
+        res.data.data
+          .filter((el) => {
+            return el.messageStatus === "READ";
+          })
+          .map((el) => {
+            return setMsgIds((msgIds) => [...msgIds, el.messageId]);
+          });
+      })
+      .catch((err) => {
+        if (err.response.status === 400) {
+          if (err.response.data.fieldErrors) {
+            alert(err.response.data.fieldErrors[0].reason);
+          } else if (
+            err.response.data.fieldErrors === null &&
+            err.response.data.violationErrors
+          ) {
+            alert(err.response.data.violationErrors[0].reason);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+            );
+          }
+        } else {
+          if (
+            err.response.data.korMessage ===
+            "만료된 토큰입니다. 다시 로그인 해주세요."
+          ) {
+            sessionStorage.clear();
+            navigate(`/`);
+            window.location.reload();
+          }
+          alert(err.response.data.korMessage);
+        }
+        window.location.reload();
+      });
   }, []);
 
   const msgClickHandler = (postId, msgId) => {
@@ -30,10 +58,38 @@ const Messages = () => {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
       },
-    }).then(() => {
-      navigate(`/${postId}`);
-      window.location.reload();
-    });
+    })
+      .then(() => {
+        navigate(`/${postId}`);
+        window.location.reload();
+      })
+      .catch((err) => {
+        if (err.response.status === 400) {
+          if (err.response.data.fieldErrors) {
+            alert(err.response.data.fieldErrors[0].reason);
+          } else if (
+            err.response.data.fieldErrors === null &&
+            err.response.data.violationErrors
+          ) {
+            alert(err.response.data.violationErrors[0].reason);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+            );
+          }
+        } else {
+          if (
+            err.response.data.korMessage ===
+            "만료된 토큰입니다. 다시 로그인 해주세요."
+          ) {
+            sessionStorage.clear();
+            navigate(`/`);
+            window.location.reload();
+          }
+          alert(err.response.data.korMessage);
+        }
+        window.location.reload();
+      });
   };
 
   const readMsgAllDelete = () => {
@@ -45,9 +101,37 @@ const Messages = () => {
           access_hh: sessionStorage.getItem("AccessToken"),
         },
       }
-    ).then(() => {
-      window.location.reload();
-    });
+    )
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        if (err.response.status === 400) {
+          if (err.response.data.fieldErrors) {
+            alert(err.response.data.fieldErrors[0].reason);
+          } else if (
+            err.response.data.fieldErrors === null &&
+            err.response.data.violationErrors
+          ) {
+            alert(err.response.data.violationErrors[0].reason);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+            );
+          }
+        } else {
+          if (
+            err.response.data.korMessage ===
+            "만료된 토큰입니다. 다시 로그인 해주세요."
+          ) {
+            sessionStorage.clear();
+            navigate(`/`);
+            window.location.reload();
+          }
+          alert(err.response.data.korMessage);
+        }
+        window.location.reload();
+      });
   };
 
   const msgDelete = (msgId) => {
@@ -59,9 +143,37 @@ const Messages = () => {
           access_hh: sessionStorage.getItem("AccessToken"),
         },
       }
-    ).then(() => {
-      window.location.reload();
-    });
+    )
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        if (err.response.status === 400) {
+          if (err.response.data.fieldErrors) {
+            alert(err.response.data.fieldErrors[0].reason);
+          } else if (
+            err.response.data.fieldErrors === null &&
+            err.response.data.violationErrors
+          ) {
+            alert(err.response.data.violationErrors[0].reason);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+            );
+          }
+        } else {
+          if (
+            err.response.data.korMessage ===
+            "만료된 토큰입니다. 다시 로그인 해주세요."
+          ) {
+            sessionStorage.clear();
+            navigate(`/`);
+            window.location.reload();
+          }
+          alert(err.response.data.korMessage);
+        }
+        window.location.reload();
+      });
   };
 
   return (
