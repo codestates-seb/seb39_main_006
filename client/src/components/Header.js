@@ -10,6 +10,8 @@ import axios from "axios";
 const Header = () => {
   const [msgs, setMsgs] = useState([]);
   const [msg, setMsg] = useState({});
+  const [msgIds, setMsgIds] = useState([]);
+  const [showMsg, setShowMsg] = useState(false);
   const navigate = useNavigate();
 
   const logoutHandler = () => {
@@ -23,6 +25,24 @@ const Header = () => {
     navigate(`/`);
     window.location.reload();
   };
+
+  useEffect(() => {
+    if (sessionStorage.getItem("isLogin")) {
+      axios(`${process.env.REACT_APP_URL}/api/messages/not-read`, {
+        headers: {
+          access_hh: sessionStorage.getItem("AccessToken"),
+          refresh_hh: sessionStorage.getItem("RefreshToken"),
+        },
+      })
+        .then((res) => {
+          setMsgs((msgs) => [...msgs, ...res.data.data]);
+          for (let msg of res.data.data) {
+            setMsgIds((msgIds) => [...msgIds, msg.messageId]);
+          }
+        })
+        .then(() => {});
+    }
+  }, []);
 
   useEffect(() => {
     if (sessionStorage.getItem("isLogin")) {
@@ -41,8 +61,13 @@ const Header = () => {
               // console.log(JSON.parse(msg.body));
               // console.log(JSON.parse(msg.body).body);
               // console.log(msg.body);
+              // console.log(JSON.parse(msg.body).messageId);
               setMsg(JSON.parse(msg.body));
               setMsgs((msgs) => [...msgs, JSON.parse(msg.body)]);
+              setMsgIds((msgIds) => [
+                ...msgIds,
+                JSON.parse(msg.body).messageId,
+              ]);
             }
           );
         }
@@ -60,6 +85,25 @@ const Header = () => {
       navigate(`/${postId}`);
       window.location.reload();
     });
+  };
+
+  const readAllMessage = () => {
+    console.log(msgIds);
+    axios(
+      `${process.env.REACT_APP_URL}/api/messages/read?messageId=${msgIds}`,
+      {
+        headers: {
+          access_hh: sessionStorage.getItem("AccessToken"),
+          refresh_hh: sessionStorage.getItem("RefreshToken"),
+        },
+      }
+    ).then(() => {
+      window.location.reload();
+    });
+  };
+
+  const toggleMsg = () => {
+    setShowMsg(!showMsg);
   };
 
   return (
@@ -115,6 +159,24 @@ const Header = () => {
                   Logout
                 </button>
               </li>
+              <li>
+                <button
+                  onClick={() => {
+                    readAllMessage();
+                  }}
+                >
+                  전체 읽음
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => {
+                    toggleMsg();
+                  }}
+                >
+                  새알람 확인 {msgIds.length}
+                </button>
+              </li>
             </ul>
 
             <img
@@ -127,7 +189,7 @@ const Header = () => {
             <a className="banner"></a>
           </nav>
           <div>
-            {msgs &&
+            {showMsg &&
               msgs.map((el, idx) => (
                 <div key={idx}>
                   <div

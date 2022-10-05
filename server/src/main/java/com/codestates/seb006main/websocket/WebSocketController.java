@@ -48,6 +48,14 @@ public class WebSocketController {
         messageService.readAllMessages(messageId);
     }
 
+    @GetMapping("/api/messages/not-read")
+    public ResponseEntity getNotReadMessages(@PageableDefault(page = 1, sort = "messageId", direction = Sort.Direction.DESC) Pageable pageable,
+                                             Authentication authentication) {
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
+        MultiResponseDto responseDto = messageService.sendNotSentMessage(authentication, pageRequest);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
     public void sendMessage(MessageDto.Response message) throws IOException {
         MemberSession session = eventListener.sessionMap.get(message.getEmail());
         if (session.sessionIds.isEmpty()) {

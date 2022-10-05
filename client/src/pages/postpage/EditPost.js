@@ -30,7 +30,12 @@ const EditPost = () => {
   const date = today.getDate();
 
   useEffect(() => {
-    axios(`${process.env.REACT_APP_URL}/api/posts/${id}`).then((res) => {
+    axios(`${process.env.REACT_APP_URL}/api/posts/${id}`, {
+      headers: {
+        access_hh: sessionStorage.getItem("AccessToken"),
+        refresh_hh: sessionStorage.getItem("RefreshToken"),
+      },
+    }).then((res) => {
       setEditData(res.data);
       setTitle(res.data.title);
       setMate(res.data.totalCount);

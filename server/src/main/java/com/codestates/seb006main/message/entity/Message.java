@@ -51,6 +51,10 @@ public class Message {
         this.messageStatus = MessageStatus.NOT_SENT;
     }
 
+    public void send() {
+        this.messageStatus = MessageStatus.NOT_READ;
+    }
+
     public void read() {
         this.messageStatus = MessageStatus.READ;
     }

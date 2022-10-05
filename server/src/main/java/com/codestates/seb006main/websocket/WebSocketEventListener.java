@@ -67,7 +67,7 @@ public class WebSocketEventListener {
             System.out.println("*******************************************************************************");
             System.out.println(email + ": Now Subscribed /topic/" + memberId + ". Session ID : " + accessor.getSessionId());
             System.out.println("*******************************************************************************");
-            sendNotSentMessage(memberId, email);
+//            sendNotSentMessage(memberId, email);
         }
     }
 
@@ -77,6 +77,8 @@ public class WebSocketEventListener {
             for (Message notSentMessage : notSentMessages) {
                 MessageDto.Response message = MessageDto.Response.builder().message(notSentMessage).build();
                 String content = gson.toJson(message);
+                notSentMessage.send();
+                messageRepository.save(notSentMessage);
                 template.convertAndSend("/topic/" + memberId, content);
             }
         }
