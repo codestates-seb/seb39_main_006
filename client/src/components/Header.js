@@ -194,17 +194,18 @@ const Header = () => {
                 전체 읽음
               </button>
             )}
-            {msgs.map((el, idx) => (
-              <div key={idx}>
-                <div
-                  onClick={() => {
-                    msgClickHandler(el.messageId, el.postId);
-                  }}
-                >
-                  {el.body}
+            {showMsg &&
+              msgs.map((el, idx) => (
+                <div key={idx}>
+                  <div
+                    onClick={() => {
+                      msgClickHandler(el.messageId, el.postId);
+                    }}
+                  >
+                    {el.body}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </Test>
       )}

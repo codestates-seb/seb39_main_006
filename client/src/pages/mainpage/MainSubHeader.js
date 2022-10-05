@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { searchActions } from "../../store/search-slice";
 
@@ -65,7 +65,6 @@ const MainSubHeader = () => {
           }}
         ></input>
       </span>
-      <button>검색</button>
       <button
         onClick={() => {
           navigate(`/new`);
@@ -92,17 +91,21 @@ export default MainSubHeader;
 
 const SubHeader = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   margin-bottom: 30px;
   height: 60px;
   background-color: #d5eaf1;
   border-radius: 10px;
+  input {
+    margin: 0.5rem;
+  }
   button {
     font-size: 1rem;
     background-color: #dabbc9;
     width: fit-content;
     border: 1px solid #dabbc9;
+    margin: 0.5rem;
     padding: 0.5rem 1rem;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
     color: #425049;
