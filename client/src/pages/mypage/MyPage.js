@@ -67,7 +67,11 @@ const MyPage = () => {
 
                 <label htmlFor="profile-img">프로필 사진</label>
                 <div className="container">
-                  <img src={userInfo !== null ? userInfo.profile : ""}></img>
+                  <img
+                    src={userInfo !== null ? userInfo.profileImage : ""}
+                    width="100"
+                    height="100"
+                  ></img>
                 </div>
               </div>
             </ContainerWrap>
@@ -78,9 +82,9 @@ const MyPage = () => {
   );
 };
 export default MyPage;
-const PageContainer = styled.div`
-  h2 {
-    font-size: 2rem;
+const Container = styled.div`
+  label {
+    font-size: 1.5rem;
     font-weight: 500;
     color: #444;
   }
@@ -145,6 +149,7 @@ const ContainerWrap = styled.div`
   .contents {
     padding-left: 1rem;
   }
+
   margin: 150px 0 250px 0;
   padding: 40px 50px 40px 50px;
   display: flex;
