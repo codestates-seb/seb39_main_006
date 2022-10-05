@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,10 +36,14 @@ public class CustomOAuth2Service extends DefaultOAuth2UserService {
     }
 
     private Member saveOrUpdate(OAuthAttributes attributes){
-        Member member = memberRepository.findByEmail(attributes.getEmail())
-                .map(entity -> entity.updateOAuth(attributes.getName(), attributes.getPicture()))
-                        .orElse(attributes.toEntity());
-        return memberRepository.save(member);
+        Optional<Member> member = memberRepository.findByEmail(attributes.getEmail());
+        if(member.isPresent()){
+            Member updateMember =member.map(entity -> entity.updateOAuth(attributes.getName(), attributes.getPicture())).orElseThrow();
+            return memberRepository.save(updateMember);
+        }else{
+            Member saveMember = Member.builder().displayName(attributes.getName()).email(attributes.getEmail()).profileImage(attributes.getPicture()).build();
+            return memberRepository.save(saveMember);
+        }
     }
 
 }
