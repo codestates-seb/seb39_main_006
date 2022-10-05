@@ -281,7 +281,7 @@ const SignUpPageContainer = styled.div`
   }
   @media screen and (max-width: 500px) {
     padding: 30px 25px 30px 25px;
-    height: 600px;
+    height: 800px;
   }
 `;
 const SignUpText = styled.div`
@@ -302,7 +302,7 @@ const SignUpContainer = styled.div`
   flex-direction: column;
   max-width: 468px;
   width: 100%;
-  height: 650px;
+  height: 760px;
   background: #fbfbfb;
   box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);
   border-radius: 8px;

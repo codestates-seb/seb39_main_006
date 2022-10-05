@@ -62,7 +62,15 @@ const SideBar = () => {
               </div>
             </li>
           </button>
-          <button onClick={messagesHandler}>알림들</button>
+          <button onClick={messagesHandler}>
+            <li id="newmail">
+              <div className="newmail-icon">
+                <div className="newmail-base">
+                  <div className="newmail-top"></div>
+                </div>
+              </div>
+            </li>
+          </button>
         </ul>
       </nav>
     </SideBars>
@@ -182,7 +190,10 @@ const SideBars = styled.div`
     content: "매칭현황";
     line-height: 70px;
   }
-
+  #newmail:after {
+    content: "알림들";
+    line-height: 70px;
+  }
   nav ul li:hover {
     transform: translateX(-70px);
   }
@@ -399,6 +410,33 @@ const SideBars = styled.div`
   }
 
   .mail-top:after {
+    position: absolute;
+    z-index: 20;
+    left: -16px;
+    top: 3px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 16px 9px 16px;
+    border-color: transparent transparent white transparent;
+  }
+  .newmail-top {
+    width: 8px;
+    height: 5px;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    left: 5px;
+    background: #425049;
+  }
+  .newmail-base {
+    position: relative;
+    width: 32px;
+    height: 18px;
+    background: white;
+  }
+
+  .newmail-top:after {
     position: absolute;
     z-index: 20;
     left: -16px;

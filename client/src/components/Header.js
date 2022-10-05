@@ -18,35 +18,35 @@ const Header = () => {
         access_hh: sessionStorage.getItem("AccessToken"),
         refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
-    })
+    });
     sessionStorage.clear();
     navigate(`/`);
     window.location.reload();
   };
-  
+
   useEffect(() => {
-    if(sessionStorage.getItem("isLogin")){
-    const socket = new SockJs(`https://seb-006.shop/websocket`);
-    const client = StompJs.over(socket);
-    client.debug = null;
-    client.connect(
-      {
-        access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
-      },
-      (frame) => {
-        client.subscribe(
-          "/topic/" + sessionStorage.getItem("memberId"),
-          function (msg) {
-            // console.log(JSON.parse(msg.body));
-            // console.log(JSON.parse(msg.body).body);
-            // console.log(msg.body);
-            setMsg(JSON.parse(msg.body));
-            setMsgs((msgs) => [...msgs, JSON.parse(msg.body)]);
-          }
-        );
-      }
-    );
+    if (sessionStorage.getItem("isLogin")) {
+      const socket = new SockJs(`${process.env.REACT_APP_URL}/websocket`);
+      const client = StompJs.over(socket);
+      client.debug = null;
+      client.connect(
+        {
+          access_hh: sessionStorage.getItem("AccessToken"),
+          refresh_hh: sessionStorage.getItem("RefreshToken"),
+        },
+        (frame) => {
+          client.subscribe(
+            "/topic/" + sessionStorage.getItem("memberId"),
+            function (msg) {
+              // console.log(JSON.parse(msg.body));
+              // console.log(JSON.parse(msg.body).body);
+              // console.log(msg.body);
+              setMsg(JSON.parse(msg.body));
+              setMsgs((msgs) => [...msgs, JSON.parse(msg.body)]);
+            }
+          );
+        }
+      );
     }
   }, []);
 
