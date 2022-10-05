@@ -40,6 +40,6 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
         redisUtils.setRefreshToken(member.getMemberId(),refreshToken);
 //        response.getWriter().write(gson.toJson(member));
         System.out.println("이제 저기로 가질거에요");
-        getRedirectStrategy().sendRedirect(request,response,"http://localhost:3000/oauth2/redirect?token="+accessToken);
+        getRedirectStrategy().sendRedirect(request,response,"https://hitch-hiker.kr/oauth2/redirect?token="+accessToken);
     }
 }
