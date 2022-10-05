@@ -49,7 +49,7 @@ public class MatchingService {
                 .member(principalDetails.getMember()).build();
         matching.setPosts(posts);
 
-        applicationEventPublisher.publishEvent(new DomainEvent(this, matching));
+        applicationEventPublisher.publishEvent(new DomainEvent(this, matching, DomainEvent.EventType.CREATE_MATCHING));
 
         matching.checkPostsStatus();
         matchingRepository.save(matching);
@@ -79,7 +79,7 @@ public class MatchingService {
         memberPosts.setPosts(matching.getPosts());
         memberPosts.checkPostsStatus();
 
-        applicationEventPublisher.publishEvent(new DomainEvent(this, memberPosts));
+        applicationEventPublisher.publishEvent(new DomainEvent(this, memberPosts, DomainEvent.EventType.APPLY_MATCHING));
 
         memberPostsRepository.save(memberPosts);
         return matchingMapper.matchingToResponseDto(matching);
