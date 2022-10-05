@@ -187,6 +187,7 @@ const PostDetail = () => {
               detail.leaderName ? null : (
                 <Matchtext>
                   <textarea
+                    placeholder="10글자 이상 작성해주세요."
                     onChange={(e) => {
                       setMatchBody(e.target.value);
                     }}
