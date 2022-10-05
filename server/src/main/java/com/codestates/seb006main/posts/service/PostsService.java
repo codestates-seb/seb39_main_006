@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.codestates.seb006main.Image.entity.Image;
 import com.codestates.seb006main.Image.repository.ImageRepository;
 import com.codestates.seb006main.auth.PrincipalDetails;
+import com.codestates.seb006main.config.DomainEvent;
 import com.codestates.seb006main.dto.MultiResponseDto;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
@@ -19,6 +20,7 @@ import com.codestates.seb006main.posts.repository.MemberPostsRepository;
 import com.codestates.seb006main.posts.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -46,6 +48,7 @@ public class PostsService {
     private final MemberPostsRepository memberPostsRepository;
     private final MemberPostsMapper memberPostsMapper;
     private final MatchingMapper matchingMapper;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     public PostsDto.Response createPosts(PostsDto.Post postDto, Authentication authentication) {
         Posts posts = postsMapper.postDtoToPosts(postDto);
@@ -143,6 +146,9 @@ public class PostsService {
                 memberPosts.getMember().getMemberId() != principalDetails.getMember().getMemberId()) {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
+
+        applicationEventPublisher.publishEvent(new DomainEvent(this, memberPosts, DomainEvent.EventType.CANCEL_PARTICIPATION));
+
         posts.deleteParticipant(memberPosts);
         memberPostsRepository.deleteById(participantId);
         posts.checkStatus();
@@ -178,6 +184,9 @@ public class PostsService {
         }
         if (endDate.isBefore(startDate) || startDate.isAfter(endDate)) {
             throw new BusinessLogicException(ExceptionCode.TRAVEL_DATE_VIOLATION);
+        }
+        if (endDate.isBefore(LocalDate.now()) || startDate.isBefore(LocalDate.now()) || closeDate.isBefore(LocalDate.now())) {
+            throw new BusinessLogicException(ExceptionCode.DATE_VIOLATION);
         }
     }
 }
