@@ -13,6 +13,7 @@ import com.codestates.seb006main.message.repository.MessageRepository;
 import com.codestates.seb006main.posts.entity.MemberPosts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -65,6 +66,19 @@ public class MessageService {
         Page<Message> messagePage = messageRepository.findByMember(principalDetails.getMember(), pageRequest);
         List<Message> messageList = messagePage.getContent();
         return new MultiResponseDto<>(messageMapper.messageListToResponseDtoList(messageList), messagePage);
+    }
+
+    public MultiResponseDto sendNotSentMessage(Authentication authentication, PageRequest pageRequest) {
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        List<Message> notSentMessagesList = messageRepository.findNotSentMessages(principalDetails.getUsername());
+        if (!notSentMessagesList.isEmpty()) {
+            for (Message notSentMessage : notSentMessagesList) {
+                notSentMessage.send();
+                messageRepository.save(notSentMessage);
+            }
+        }
+        Page<Message> notSentMessagesPage = new PageImpl<>(notSentMessagesList, pageRequest, notSentMessagesList.size());
+        return new MultiResponseDto<>(messageMapper.messageListToResponseDtoList(notSentMessagesList), notSentMessagesPage);
     }
 
     public void readMessage(Long messageId) {
