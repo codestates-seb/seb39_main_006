@@ -31,14 +31,12 @@ const Header = () => {
         headers: {
           access_hh: sessionStorage.getItem("AccessToken"),
         },
-      })
-        .then((res) => {
-          setMsgs((msgs) => [...msgs, ...res.data.data]);
-          for (let msg of res.data.data) {
-            setMsgIds((msgIds) => [...msgIds, msg.messageId]);
-          }
-        })
-        .then(() => {});
+      }).then((res) => {
+        setMsgs((msgs) => [...msgs, ...res.data.data]);
+        res.data.data.map((el) => {
+          return setMsgIds((msgIds) => [...msgIds, el.messageId]);
+        });
+      });
     }
   }, []);
 
@@ -84,7 +82,6 @@ const Header = () => {
   };
 
   const readAllMessage = () => {
-    console.log(msgIds);
     axios(
       `${process.env.REACT_APP_URL}/api/messages/read?messageId=${msgIds}`,
       {
