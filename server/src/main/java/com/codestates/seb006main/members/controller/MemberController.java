@@ -39,11 +39,6 @@ public class MemberController {
         return new ResponseEntity<>(memberService.loginMember(authentication),HttpStatus.OK);
     }
 
-    @GetMapping("/oauth/login")
-    public ResponseEntity oauthMember(@RequestParam Long memberId,
-                                      @RequestParam String email){
-        return new ResponseEntity<>(memberService.oauthLoginMember(memberId,email),HttpStatus.OK);
-    }
 
     @GetMapping("/logout")
     public ResponseEntity logoutMember(Authentication authentication){

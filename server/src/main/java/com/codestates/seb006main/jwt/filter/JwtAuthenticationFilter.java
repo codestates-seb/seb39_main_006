@@ -65,9 +65,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         if(!principalDetails.getMember().getMemberStatus().name().equals("ACTIVE")){
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_ACTIVE);
         }
-        Long memberId = principalDetails.getMember().getMemberId();
-        String email = principalDetails.getMember().getEmail();
-        String accessToken = jwtUtils.createAccessToken(memberId,email);
+        Member member = principalDetails.getMember();
+        Long memberId = member.getMemberId();
+        String email = member.getEmail();
+        String accessToken = jwtUtils.createAccessToken(memberId,email,member.getDisplayName());
         String refreshToken = jwtUtils.createRefreshToken(memberId,email);
         redisUtils.setRefreshToken(memberId,refreshToken);
         response.addHeader("Access_HH", accessToken);
