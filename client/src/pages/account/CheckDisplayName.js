@@ -13,16 +13,28 @@ const isDuplicateDisplayName = async (enteredDisplayName) => {
       }
     })
     .catch((err) => {
-      // console.log("err");
-      // console.log(err.response);
-
       if (err.response === undefined) {
       } else {
-        // console.log(err.response.data);
-        // console.log(err.response.status);
-        // console.log(err.response.headers);
         result = true;
       }
+
+      if (err.response.status === 400) {
+        if (err.response.data.fieldErrors) {
+          alert(err.response.data.fieldErrors[0].reason);
+        } else if (
+          err.response.data.fieldErrors === null &&
+          err.response.data.violationErrors
+        ) {
+          alert(err.response.data.violationErrors[0].reason);
+        } else {
+          alert(
+            "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+          );
+        }
+      } else {
+        alert(err.response.data.korMessage);
+      }
+      window.location.reload();
     });
 
   return result;

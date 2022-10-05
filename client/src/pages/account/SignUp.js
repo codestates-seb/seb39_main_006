@@ -60,7 +60,24 @@ const Signup = () => {
       })
       .catch((err) => {
         setIsEmailAuthorizing(false);
-        alert("통신이 되지 않습니다. 다시 시도해 주세요.");
+
+        if (err.response.status === 400) {
+          if (err.response.data.fieldErrors) {
+            alert(err.response.data.fieldErrors[0].reason);
+          } else if (
+            err.response.data.fieldErrors === null &&
+            err.response.data.violationErrors
+          ) {
+            alert(err.response.data.violationErrors[0].reason);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+            );
+          }
+        } else {
+          alert(err.response.data.korMessage);
+        }
+        window.location.reload();
       });
   };
 
@@ -120,9 +137,23 @@ const Signup = () => {
         }
       })
       .catch((err) => {
-        if (err.response.status === 401) {
-          alert("다시 확인하고 입력해주세요");
+        if (err.response.status === 400) {
+          if (err.response.data.fieldErrors) {
+            alert(err.response.data.fieldErrors[0].reason);
+          } else if (
+            err.response.data.fieldErrors === null &&
+            err.response.data.violationErrors
+          ) {
+            alert(err.response.data.violationErrors[0].reason);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+            );
+          }
+        } else {
+          alert(err.response.data.korMessage);
         }
+        window.location.reload();
       });
   };
 

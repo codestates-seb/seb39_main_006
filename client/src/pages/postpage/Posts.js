@@ -5,12 +5,14 @@ import Post from "./Post";
 import { useDispatch, useSelector } from "react-redux";
 import { filterActions } from "../../store/filter-slice";
 import { pageActions } from "../../store/page-slice";
+import { useNavigate } from "react-router-dom";
 
 // 페이지네이션
 import Pagination from "react-js-pagination";
 import "./Paging.css";
 
 const Posts = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const title = useSelector((state) => state.search.title);
   const body = useSelector((state) => state.search.body);
@@ -32,10 +34,38 @@ const Posts = () => {
           access_hh: sessionStorage.getItem("AccessToken"),
         },
       }
-    ).then((res) => {
-      setData([...res.data.data]);
-      setTotalElements(res.data.pageInfo.totalElements);
-    });
+    )
+      .then((res) => {
+        setData([...res.data.data]);
+        setTotalElements(res.data.pageInfo.totalElements);
+      })
+      .catch((err) => {
+        if (err.response.status === 400) {
+          if (err.response.data.fieldErrors) {
+            alert(err.response.data.fieldErrors[0].reason);
+          } else if (
+            err.response.data.fieldErrors === null &&
+            err.response.data.violationErrors
+          ) {
+            alert(err.response.data.violationErrors[0].reason);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+            );
+          }
+        } else {
+          if (
+            err.response.data.korMessage ===
+            "만료된 토큰입니다. 다시 로그인 해주세요."
+          ) {
+            sessionStorage.clear();
+            navigate(`/`);
+            window.location.reload();
+          }
+          alert(err.response.data.korMessage);
+        }
+        window.location.reload();
+      });
   }, [page, size, title, body, location, startDate, endDate, sort]);
 
   const handlePageChange = (page) => {

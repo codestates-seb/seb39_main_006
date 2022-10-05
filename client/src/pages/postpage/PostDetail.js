@@ -21,16 +21,72 @@ const PostDetail = () => {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
       },
-    }).then((res) => {
-      setDetail(res.data);
-    });
+    })
+      .then((res) => {
+        setDetail(res.data);
+      })
+      .catch((err) => {
+        if (err.response.status === 400) {
+          if (err.response.data.fieldErrors) {
+            alert(err.response.data.fieldErrors[0].reason);
+          } else if (
+            err.response.data.fieldErrors === null &&
+            err.response.data.violationErrors
+          ) {
+            alert(err.response.data.violationErrors[0].reason);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+            );
+          }
+        } else {
+          if (
+            err.response.data.korMessage ===
+            "만료된 토큰입니다. 다시 로그인 해주세요."
+          ) {
+            sessionStorage.clear();
+            navigate(`/`);
+            window.location.reload();
+          }
+          alert(err.response.data.korMessage);
+        }
+        window.location.reload();
+      });
     axios(`${process.env.REACT_APP_URL}/api/posts/${id}/matching`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
       },
-    }).then((res) => {
-      setMatchList(res.data.data);
-    });
+    })
+      .then((res) => {
+        setMatchList(res.data.data);
+      })
+      .catch((err) => {
+        if (err.response.status === 400) {
+          if (err.response.data.fieldErrors) {
+            alert(err.response.data.fieldErrors[0].reason);
+          } else if (
+            err.response.data.fieldErrors === null &&
+            err.response.data.violationErrors
+          ) {
+            alert(err.response.data.violationErrors[0].reason);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+            );
+          }
+        } else {
+          if (
+            err.response.data.korMessage ===
+            "만료된 토큰입니다. 다시 로그인 해주세요."
+          ) {
+            sessionStorage.clear();
+            navigate(`/`);
+            window.location.reload();
+          }
+          alert(err.response.data.korMessage);
+        }
+        window.location.reload();
+      });
   }, [id]);
 
   useEffect(() => {
@@ -38,9 +94,37 @@ const PostDetail = () => {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
       },
-    }).then((res) => {
-      setMyBookmark(res.data.postIds);
-    });
+    })
+      .then((res) => {
+        setMyBookmark(res.data.postIds);
+      })
+      .catch((err) => {
+        if (err.response.status === 400) {
+          if (err.response.data.fieldErrors) {
+            alert(err.response.data.fieldErrors[0].reason);
+          } else if (
+            err.response.data.fieldErrors === null &&
+            err.response.data.violationErrors
+          ) {
+            alert(err.response.data.violationErrors[0].reason);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+            );
+          }
+        } else {
+          if (
+            err.response.data.korMessage ===
+            "만료된 토큰입니다. 다시 로그인 해주세요."
+          ) {
+            sessionStorage.clear();
+            navigate(`/`);
+            window.location.reload();
+          }
+          alert(err.response.data.korMessage);
+        }
+        window.location.reload();
+      });
   }, []);
 
   useEffect(() => {
@@ -56,7 +140,33 @@ const PostDetail = () => {
           access_hh: sessionStorage.getItem("AccessToken"),
         },
       }
-    );
+    ).catch((err) => {
+      if (err.response.status === 400) {
+        if (err.response.data.fieldErrors) {
+          alert(err.response.data.fieldErrors[0].reason);
+        } else if (
+          err.response.data.fieldErrors === null &&
+          err.response.data.violationErrors
+        ) {
+          alert(err.response.data.violationErrors[0].reason);
+        } else {
+          alert(
+            "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+          );
+        }
+      } else {
+        if (
+          err.response.data.korMessage ===
+          "만료된 토큰입니다. 다시 로그인 해주세요."
+        ) {
+          sessionStorage.clear();
+          navigate(`/`);
+          window.location.reload();
+        }
+        alert(err.response.data.korMessage);
+      }
+      window.location.reload();
+    });
   };
 
   const deleteHandler = () => {
@@ -74,13 +184,31 @@ const PostDetail = () => {
         window.location.reload();
       })
       .catch((err) => {
-        if (err.response.status === 500) {
-          alert("세션이 만료되어 로그아웃합니다.");
-          sessionStorage.clear();
-          navigate(`/`);
-          window.location.reload();
+        if (err.response.status === 400) {
+          if (err.response.data.fieldErrors) {
+            alert(err.response.data.fieldErrors[0].reason);
+          } else if (
+            err.response.data.fieldErrors === null &&
+            err.response.data.violationErrors
+          ) {
+            alert(err.response.data.violationErrors[0].reason);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+            );
+          }
+        } else {
+          if (
+            err.response.data.korMessage ===
+            "만료된 토큰입니다. 다시 로그인 해주세요."
+          ) {
+            sessionStorage.clear();
+            navigate(`/`);
+            window.location.reload();
+          }
+          alert(err.response.data.korMessage);
         }
-        console.log(err);
+        window.location.reload();
       });
   };
 
@@ -91,9 +219,36 @@ const PostDetail = () => {
         access_hh: sessionStorage.getItem("AccessToken"),
       },
       data: { body: matchBody },
-    }).then(() => {
-      window.location.reload();
-    });
+    })
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        if (err.response.status === 400) {
+          if (err.response.data.fieldErrors) {
+            alert(err.response.data.fieldErrors[0].reason);
+          } else if (
+            err.response.data.fieldErrors === null &&
+            err.response.data.violationErrors
+          ) {
+            alert(err.response.data.violationErrors[0].reason);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+            );
+          }
+        } else {
+          if (
+            err.response.data.korMessage ===
+            "만료된 토큰입니다. 다시 로그인 해주세요."
+          ) {
+            sessionStorage.clear();
+            navigate(`/`);
+            window.location.reload();
+          }
+          alert(err.response.data.korMessage);
+        }
+      });
   };
 
   const goAway = (memberPostId) => {
@@ -102,9 +257,37 @@ const PostDetail = () => {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
       },
-    }).then(() => {
-      window.location.reload();
-    });
+    })
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        if (err.response.status === 400) {
+          if (err.response.data.fieldErrors) {
+            alert(err.response.data.fieldErrors[0].reason);
+          } else if (
+            err.response.data.fieldErrors === null &&
+            err.response.data.violationErrors
+          ) {
+            alert(err.response.data.violationErrors[0].reason);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+            );
+          }
+        } else {
+          if (
+            err.response.data.korMessage ===
+            "만료된 토큰입니다. 다시 로그인 해주세요."
+          ) {
+            sessionStorage.clear();
+            navigate(`/`);
+            window.location.reload();
+          }
+          alert(err.response.data.korMessage);
+        }
+        window.location.reload();
+      });
   };
 
   const goAwayMySelf = (matchingId) => {
@@ -113,9 +296,37 @@ const PostDetail = () => {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
       },
-    }).then(() => {
-      window.location.reload();
-    });
+    })
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        if (err.response.status === 400) {
+          if (err.response.data.fieldErrors) {
+            alert(err.response.data.fieldErrors[0].reason);
+          } else if (
+            err.response.data.fieldErrors === null &&
+            err.response.data.violationErrors
+          ) {
+            alert(err.response.data.violationErrors[0].reason);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+            );
+          }
+        } else {
+          if (
+            err.response.data.korMessage ===
+            "만료된 토큰입니다. 다시 로그인 해주세요."
+          ) {
+            sessionStorage.clear();
+            navigate(`/`);
+            window.location.reload();
+          }
+          alert(err.response.data.korMessage);
+        }
+        window.location.reload();
+      });
   };
 
   return (
