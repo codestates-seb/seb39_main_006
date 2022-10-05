@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-//react 에서 img import 하는법 https://velog.io/@ingdol2/React-image-%EA%B2%BD%EB%A1%9C-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0
 import imgLogo from "../img/realWave.gif";
+import profileImg from "../img/bell.png";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import SockJs from "sockjs-client";
@@ -132,31 +132,40 @@ const Header = () => {
                 </a>
               </li>
 
+              <details className="dropdown">
+                <summary role="Button">
+                  <img src={profileImg} width="40" height="40" />
+                </summary>
+                <ul>
+                  <li id="alarm">
+                    <button
+                      className="alarm"
+                      onClick={() => {
+                        readAllMessage();
+                      }}
+                    >
+                      전체 읽음
+                    </button>
+                  </li>
+                  <li id="alarm">
+                    <button
+                      className="alarm"
+                      onClick={() => {
+                        toggleMsg();
+                      }}
+                    >
+                      새알람 확인 {msgIds.length}
+                    </button>
+                  </li>
+                </ul>
+              </details>
               <li>
-                <button onClick={logoutHandler}>Logout</button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    readAllMessage();
-                  }}
-                >
-                  전체 읽음
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    toggleMsg();
-                  }}
-                >
-                  새알람 확인 {msgIds.length}
+                <button className="logoutBtn" onClick={logoutHandler}>
+                  Logout
                 </button>
               </li>
             </ul>
 
-            {/* <details className="dropdown">
-            <summary role="Button"> */}
             <img
               className="Button"
               src={imgLogo}
@@ -165,25 +174,6 @@ const Header = () => {
               height="140"
             />
             <a className="banner"></a>
-            {/* </summary>
-            <ul>
-              <li>
-                <a href="#">I'm a dropdown.</a>
-              </li>
-              <li>
-                <a href="#">In Pure CSS</a>
-              </li>
-              <li>
-                <a href="#">As in...</a>
-              </li>
-              <li>
-                <a href="#">No JavaScript.</a>
-              </li>
-              <li>
-                <a href="#">At All.</a>
-              </li>
-            </ul>
-          </details> */}
           </nav>
           <div>
             {showMsg &&
@@ -208,12 +198,32 @@ const Header = () => {
 export default Header;
 
 const Test = styled.div`
+  #alarm {
+    margin: -1rem;
+  }
+  .alarm {
+    display: inline-block;
+    width: 8rem;
+    padding: 0.1rem;
+  }
   display: flex;
+  .logoutBtn {
+    margin-left: 1rem;
+    padding: 10px;
+    border-color: #16213b;
+    background: #16213b;
+    color: wheat;
+    border-radius: 13px;
+    &:hover {
+      background-color: #304b61;
+      border-color: #c2e3de;
+    }
+  }
 `;
 
 const HeaderSection = styled.div`
   img {
-    margin-left: 2%;
+    margin-left: 4%;
   }
   display: grid;
   place-items: center;
@@ -239,6 +249,7 @@ const HeaderSection = styled.div`
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
     position: relative;
     height: 10rem;
+
     width: 31rem;
     opacity: 100%;
   }
@@ -343,19 +354,20 @@ const HeaderSection = styled.div`
     /* margin: 70px; */
     background: #d0e8f0;
     opacity: 90%;
-    width: 33rem;
+    width: 35rem;
     padding: 0.5rem;
 
     .menuItems {
       list-style: none;
       display: flex;
+
       /* margin-left: 2rem; */
       ul {
         text-align: center;
       }
       li {
         margin: 0.5rem;
-
+        margin-right: 3rem;
         display: inline-block;
         a {
           text-decoration: none;
