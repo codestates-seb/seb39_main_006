@@ -83,7 +83,6 @@ const MyPage = () => {
 };
 export default MyPage;
 const Container = styled.div`
-
   label {
     font-size: 1.5rem;
     font-weight: 500;
