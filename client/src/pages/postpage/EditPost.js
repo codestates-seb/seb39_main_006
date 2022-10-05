@@ -129,6 +129,26 @@ const EditPost = () => {
             ["table", "image", "link"],
             ["code", "codeblock"],
           ]}
+          hooks={{
+            addImageBlobHook: (blob, callback) => {
+              const formData = new FormData();
+              formData.append("image", blob);
+              axios(`${process.env.REACT_APP_URL}/api/images/upload`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                  access_hh: sessionStorage.getItem("AccessToken"),
+                },
+                data: formData,
+              }).then((res) => {
+                // 기홍님의 잔재.....
+                // let testid = res.data.imageId;
+                // setImageId(testid);
+                // mount.current = true;
+                callback(res.data.imageUrl);
+              });
+            },
+          }}
           plugins={[colorSyntax]} // colorSyntax 플러그인 적용
         ></Editor>
       )}
