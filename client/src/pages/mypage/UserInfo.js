@@ -157,8 +157,8 @@ const Userinfo = () => {
     })
       .then((res) => {
         if (res.status) {
-          alert("정상적으로 수정되었습니다. 로그인하여 진행해주세요.");
-          navigate("/");
+          alert("정상적으로 수정되었습니다");
+          navigate("/mypage");
         }
       })
       .catch((err) => {
@@ -174,7 +174,12 @@ const Userinfo = () => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_URL}/api/members/${memberId}`)
+      .get(`${process.env.REACT_APP_URL}/api/members/${memberId}`, {
+        headers: {
+          access_hh: sessionStorage.getItem("AccessToken"),
+          refresh_hh: sessionStorage.getItem("RefreshToken"),
+        },
+      })
       .then((res) => {
         setValidatePhoneNumberNoticeClassname("HTH-green");
         setUserInfo(res.data);
