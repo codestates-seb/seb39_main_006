@@ -28,13 +28,13 @@ const MyPage = () => {
         <section>
           <H1>My Page</H1>
           <h2>여행동행자 모집합니다</h2>
-          <section>
-            <a href="/userinfo">
-              <Button>유저정보 수정하기</Button>
-            </a>
-          </section>
-          <UserDiv>
-            <Container>
+          <PageContainer>
+            <ContainerWrap>
+              <section className="userinfo">
+                <a href="/userinfo">
+                  <Button>유저정보 수정하기</Button>
+                </a>
+              </section>
               <div className="label-wrapper">
                 <label htmlFor="displayName">User Name</label>
                 <div className="container">
@@ -57,6 +57,7 @@ const MyPage = () => {
                 <label htmlFor="content">자기소개</label>
                 <div className="container">
                   <input
+                    id="iamground"
                     readOnly
                     className="input-tag"
                     type="textarea"
@@ -73,31 +74,92 @@ const MyPage = () => {
                   ></img>
                 </div>
               </div>
-            </Container>
-          </UserDiv>
-          <WrapperBox></WrapperBox>
+            </ContainerWrap>
+          </PageContainer>
         </section>
       </Section>
     </>
   );
 };
 export default MyPage;
-const Container = styled.div`
+
+const PageContainer = styled.div`
   label {
     font-size: 1.5rem;
     font-weight: 500;
+    color: #444;
+  }
+  position: absolute;
+
+  width: 1000px;
+  /*  */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 5px 0 5px;
+
+  @media screen and (max-width: 500px) {
+    padding: 30px 25px 30px 25px;
+    height: 700px;
+  }
+`;
+const ContainerWrap = styled.div`
+  .label-wrapper {
+    font-size: 2rem;
     color: #547882;
+    font-weight: 500;
+  }
+  .input-tag {
+    font-size: 1.4rem;
+    padding: 1rem;
+    width: 20rem;
+  }
+  #iamground {
+    font-size: 1.4rem;
+    padding: 1rem;
+    width: 50rem;
+    height: 10rem;
+  }
+  .userinfo {
+    margin-left: 15rem;
+  }
+  #author {
+    color: darkblue;
+    font-weight: 600;
+    font-size: 1.3rem;
+  }
+  .author {
+    font-size: 1.25rem;
+  }
+  button {
+    place-items: center;
+    font-size: 1.25rem;
+    background-color: #dabbc9;
+    max-width: 1000px;
+    width: fit-content;
+    border: 1px solid #dabbc9;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+    color: #425049;
+    &:hover {
+      background-color: #efd5c8;
+      border-color: #efd5c8;
+    }
+  }
+  .contents {
+    padding-left: 1rem;
   }
 
   margin: 150px 0 250px 0;
   padding: 40px 50px 40px 50px;
   display: flex;
   flex-direction: column;
-  min-height: 30rem;
-  max-width: 468px;
-  width: 100%;
-  height: fit-content;
-  background: #fbfbfb;
+  max-width: 1650px;
+  width: 170%;
+  height: 900px;
+  background-color: beige;
+
   box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   font-family: Roboto;
@@ -107,18 +169,7 @@ const Container = styled.div`
     height: 455px;
   }
 `;
-const UserDiv = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 5px 0 5px;
-  margin-left: -70vw;
-  @media screen and (max-width: 500px) {
-    padding: 30px 25px 30px 25px;
-    height: 700px;
-  }
-`;
+
 const Section = styled.div`
   section {
     margin-top: 2rem;
