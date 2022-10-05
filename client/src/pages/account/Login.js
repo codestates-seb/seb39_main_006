@@ -57,7 +57,6 @@ const Login = () => {
           sessionStorage.setItem("AccessToken", res.headers.access_hh);
           sessionStorage.setItem("userName", res.data.displayName);
           sessionStorage.setItem("memberId", res.data.memberId);
-
           window.location.reload();
         }
       })
