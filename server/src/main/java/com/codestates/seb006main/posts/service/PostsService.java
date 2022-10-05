@@ -146,8 +146,8 @@ public class PostsService {
                 memberPosts.getMember().getMemberId() != principalDetails.getMember().getMemberId()) {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
-
-        applicationEventPublisher.publishEvent(new DomainEvent(this, memberPosts, DomainEvent.EventType.CANCEL_PARTICIPATION));
+        DomainEvent.Domain domain = new DomainEvent.Domain(posts.getPostId(), posts.getTitle(), memberPosts.getMember());
+        applicationEventPublisher.publishEvent(new DomainEvent(this, domain, DomainEvent.EventType.CANCEL_PARTICIPATION));
 
         posts.deleteParticipant(memberPosts);
         memberPostsRepository.deleteById(participantId);
