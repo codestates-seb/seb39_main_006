@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-//react 에서 img import 하는법 https://velog.io/@ingdol2/React-image-%EA%B2%BD%EB%A1%9C-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0
 import imgLogo from "../img/realWave.gif";
+import profileImg from "../img/bell.png";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import SockJs from "sockjs-client";
@@ -88,13 +88,35 @@ const Header = () => {
                 </a>
               </li>
 
+              <details className="dropdown">
+                <summary role="Button">
+                  <img src={profileImg} width="40" height="40" />
+                </summary>
+                <ul>
+                  <li>
+                    <a href="#">1</a>
+                  </li>
+                  <li>
+                    <a href="#">2</a>
+                  </li>
+                  <li>
+                    <a href="#">3</a>
+                  </li>
+                  <li>
+                    <a href="#">4</a>
+                  </li>
+                  <li>
+                    <a href="#">5</a>
+                  </li>
+                </ul>
+              </details>
               <li>
-                <button onClick={logoutHandler}>Logout</button>
+                <button className="logoutBtn" onClick={logoutHandler}>
+                  Logout
+                </button>
               </li>
             </ul>
 
-            {/* <details className="dropdown">
-            <summary role="Button"> */}
             <img
               className="Button"
               src={imgLogo}
@@ -103,25 +125,6 @@ const Header = () => {
               height="140"
             />
             <a className="banner"></a>
-            {/* </summary>
-            <ul>
-              <li>
-                <a href="#">I'm a dropdown.</a>
-              </li>
-              <li>
-                <a href="#">In Pure CSS</a>
-              </li>
-              <li>
-                <a href="#">As in...</a>
-              </li>
-              <li>
-                <a href="#">No JavaScript.</a>
-              </li>
-              <li>
-                <a href="#">At All.</a>
-              </li>
-            </ul>
-          </details> */}
           </nav>
           <div>
             {msgs &&
@@ -147,6 +150,18 @@ export default Header;
 
 const Test = styled.div`
   display: flex;
+  .logoutBtn {
+    margin-left: 1rem;
+    padding: 10px;
+    border-color: #16213b;
+    background: #16213b;
+    color: wheat;
+    border-radius: 13px;
+    &:hover {
+      background-color: #304b61;
+      border-color: #c2e3de;
+    }
+  }
 `;
 
 const HeaderSection = styled.div`
@@ -177,6 +192,7 @@ const HeaderSection = styled.div`
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
     position: relative;
     height: 10rem;
+
     width: 31rem;
     opacity: 100%;
   }
@@ -287,13 +303,14 @@ const HeaderSection = styled.div`
     .menuItems {
       list-style: none;
       display: flex;
+
       /* margin-left: 2rem; */
       ul {
         text-align: center;
       }
       li {
         margin: 0.5rem;
-
+        margin-right: 3rem;
         display: inline-block;
         a {
           text-decoration: none;
