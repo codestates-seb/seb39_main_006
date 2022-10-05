@@ -66,7 +66,11 @@ const MyPage = () => {
 
                 <label htmlFor="profile-img">프로필 사진</label>
                 <div className="container">
-                  <img src={userInfo !== null ? userInfo.profile : ""}></img>
+                  <img
+                    src={userInfo !== null ? userInfo.profileImage : ""}
+                    width="100"
+                    height="100"
+                  ></img>
                 </div>
               </div>
             </Container>
