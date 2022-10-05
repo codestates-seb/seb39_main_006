@@ -137,44 +137,31 @@ const Header = () => {
                   <img src={profileImg} width="40" height="40" />
                 </summary>
                 <ul>
-                  <li>
-                    <a href="#">1</a>
+                  <li id="alarm">
+                    <button
+                      className="alarm"
+                      onClick={() => {
+                        readAllMessage();
+                      }}
+                    >
+                      전체 읽음
+                    </button>
                   </li>
-                  <li>
-                    <a href="#">2</a>
-                  </li>
-                  <li>
-                    <a href="#">3</a>
-                  </li>
-                  <li>
-                    <a href="#">4</a>
-                  </li>
-                  <li>
-                    <a href="#">5</a>
+                  <li id="alarm">
+                    <button
+                      className="alarm"
+                      onClick={() => {
+                        toggleMsg();
+                      }}
+                    >
+                      새알람 확인 {msgIds.length}
+                    </button>
                   </li>
                 </ul>
               </details>
               <li>
                 <button className="logoutBtn" onClick={logoutHandler}>
                   Logout
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    readAllMessage();
-                  }}
-                >
-                  전체 읽음
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    toggleMsg();
-                  }}
-                >
-                  새알람 확인 {msgIds.length}
                 </button>
               </li>
             </ul>
@@ -211,6 +198,14 @@ const Header = () => {
 export default Header;
 
 const Test = styled.div`
+  #alarm {
+    margin: -1rem;
+  }
+  .alarm {
+    display: inline-block;
+    width: 8rem;
+    padding: 0.1rem;
+  }
   display: flex;
   .logoutBtn {
     margin-left: 1rem;
@@ -228,7 +223,7 @@ const Test = styled.div`
 
 const HeaderSection = styled.div`
   img {
-    margin-left: 2%;
+    margin-left: 4%;
   }
   display: grid;
   place-items: center;
@@ -359,7 +354,7 @@ const HeaderSection = styled.div`
     /* margin: 70px; */
     background: #d0e8f0;
     opacity: 90%;
-    width: 33rem;
+    width: 35rem;
     padding: 0.5rem;
 
     .menuItems {
