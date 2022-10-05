@@ -11,7 +11,6 @@ const Post = ({ post }) => {
     axios(`${process.env.REACT_APP_URL}/api/members/my-bookmark`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
     }).then((res) => {
       setMyBookmark(res.data.postIds);
@@ -29,7 +28,6 @@ const Post = ({ post }) => {
       {
         headers: {
           access_hh: sessionStorage.getItem("AccessToken"),
-          refresh_hh: sessionStorage.getItem("RefreshToken"),
         },
       }
     );

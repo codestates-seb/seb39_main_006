@@ -11,7 +11,6 @@ const Messages = () => {
     axios(`${process.env.REACT_APP_URL}/api/messages`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
     }).then((res) => {
       setMessages(res.data.data);

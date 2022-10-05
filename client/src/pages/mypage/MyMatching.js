@@ -12,7 +12,6 @@ const MyMatching = () => {
     axios(`${process.env.REACT_APP_URL}/api/members/matching`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
     }).then((res) => {
       setMyMatchingInfo(res.data.data);

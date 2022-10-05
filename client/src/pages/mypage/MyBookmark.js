@@ -11,7 +11,6 @@ const MyBookmark = () => {
     axios(`${process.env.REACT_APP_URL}/api/members/bookmarked`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
     }).then((res) => {
       setBookmarkData([...res.data.data]);

@@ -30,7 +30,6 @@ const Posts = () => {
       {
         headers: {
           access_hh: sessionStorage.getItem("AccessToken"),
-          refresh_hh: sessionStorage.getItem("RefreshToken"),
         },
       }
     ).then((res) => {

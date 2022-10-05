@@ -18,7 +18,6 @@ const Header = () => {
     axios(`${process.env.REACT_APP_URL}/api/members/logout`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
     });
     sessionStorage.clear();
@@ -31,7 +30,6 @@ const Header = () => {
       axios(`${process.env.REACT_APP_URL}/api/messages/not-read`, {
         headers: {
           access_hh: sessionStorage.getItem("AccessToken"),
-          refresh_hh: sessionStorage.getItem("RefreshToken"),
         },
       })
         .then((res) => {
@@ -52,7 +50,6 @@ const Header = () => {
       client.connect(
         {
           access_hh: sessionStorage.getItem("AccessToken"),
-          refresh_hh: sessionStorage.getItem("RefreshToken"),
         },
         (frame) => {
           client.subscribe(
@@ -79,7 +76,6 @@ const Header = () => {
     axios(`${process.env.REACT_APP_URL}/api/messages/read?messageId=${msgId}`, {
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
     }).then(() => {
       navigate(`/${postId}`);
@@ -94,7 +90,6 @@ const Header = () => {
       {
         headers: {
           access_hh: sessionStorage.getItem("AccessToken"),
-          refresh_hh: sessionStorage.getItem("RefreshToken"),
         },
       }
     ).then(() => {
