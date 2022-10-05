@@ -45,8 +45,8 @@ public class SecurityConfig {
                 .apply(new CustomDsl())
                 .and()
                 .authorizeRequests(authorize -> authorize
-                        .antMatchers(HttpMethod.POST,"/api/members/login","/api/members","/websocket").permitAll()
-                        .antMatchers(HttpMethod.GET,"/login/oauth2/code/kakao","/api/members/email","/api/members/display-name").permitAll()
+                        .antMatchers(HttpMethod.POST,"/api/members/login","/api/members").permitAll()
+                        .antMatchers(HttpMethod.GET,"/login/oauth2/code/kakao","/api/members/email","/api/members/display-name","/websocket").permitAll()
                         .antMatchers(HttpMethod.GET).access("hasRole('ROLE_MEMBER')")
                         .antMatchers(HttpMethod.POST).access("hasRole('ROLE_MEMBER')")
                         .antMatchers(HttpMethod.PATCH).access("hasRole('ROLE_MEMBER')")
