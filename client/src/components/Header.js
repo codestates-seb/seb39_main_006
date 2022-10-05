@@ -28,6 +28,24 @@ const Header = () => {
 
   useEffect(() => {
     if (sessionStorage.getItem("isLogin")) {
+      axios(`${process.env.REACT_APP_URL}/api/messages/not-read`, {
+        headers: {
+          access_hh: sessionStorage.getItem("AccessToken"),
+          refresh_hh: sessionStorage.getItem("RefreshToken"),
+        },
+      })
+        .then((res) => {
+          setMsgs((msgs) => [...msgs, ...res.data.data]);
+          for (let msg of res.data.data) {
+            setMsgIds((msgIds) => [...msgIds, msg.messageId]);
+          }
+        })
+        .then(() => {});
+    }
+  }, []);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("isLogin")) {
       const socket = new SockJs(`${process.env.REACT_APP_URL}/websocket`);
       const client = StompJs.over(socket);
       client.debug = null;
@@ -70,6 +88,7 @@ const Header = () => {
   };
 
   const readAllMessage = () => {
+    console.log(msgIds);
     axios(
       `${process.env.REACT_APP_URL}/api/messages/read?messageId=${msgIds}`,
       {
