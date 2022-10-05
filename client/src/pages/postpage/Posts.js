@@ -21,7 +21,7 @@ const Posts = () => {
   const page = useSelector((state) => state.page.page);
 
   const [data, setData] = useState([]);
-  const [size, setSize] = useState(2);
+  const [size, setSize] = useState(10);
   const [totalElements, setTotalElements] = useState(0);
 
   useEffect(() => {
