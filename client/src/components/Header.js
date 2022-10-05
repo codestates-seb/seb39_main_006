@@ -10,6 +10,8 @@ import axios from "axios";
 const Header = () => {
   const [msgs, setMsgs] = useState([]);
   const [msg, setMsg] = useState({});
+  // 메시지 중복확인
+  const [isAlready, setIsAlready] = useState(false);
   const navigate = useNavigate();
 
   const logoutHandler = () => {
@@ -38,11 +40,19 @@ const Header = () => {
           client.subscribe(
             "/topic/" + sessionStorage.getItem("memberId"),
             function (msg) {
-              // console.log(JSON.parse(msg.body));
-              // console.log(JSON.parse(msg.body).body);
-              // console.log(msg.body);
+              console.log(JSON.parse(msg.body));
+              console.log(JSON.parse(msg.body).body);
+              console.log(msg.body);
+              console.log(JSON.parse(msg.body).messageId);
               setMsg(JSON.parse(msg.body));
-              setMsgs((msgs) => [...msgs, JSON.parse(msg.body)]);
+              for (let message of msgs) {
+                if (message.messageId === JSON.parse(msg.body).messageId) {
+                  setIsAlready(true);
+                  break;
+                }
+              }
+              if (!isAlready)
+                setMsgs((msgs) => [...msgs, JSON.parse(msg.body)]);
             }
           );
         }
