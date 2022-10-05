@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,6 +57,11 @@ public class WebSocketController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
+    @DeleteMapping("/api/messages/delete")
+    public void deleteMessage(@RequestParam List<Long> messageId) {
+        messageService.deleteAllMessages(messageId);
+    }
+
     public void sendMessage(MessageDto.Response message) throws IOException {
         MemberSession session = eventListener.sessionMap.get(message.getEmail());
         if (session.sessionIds.isEmpty()) {
@@ -68,7 +74,7 @@ public class WebSocketController {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void handleMessagingListener(DomainEvent event) throws IOException {
-        MessageDto.Response message = messageService.createMessage(event.getEntity());
+        MessageDto.Response message = messageService.createMessage(event.getEntity(), event.getEventType());
         sendMessage(message);
     }
 

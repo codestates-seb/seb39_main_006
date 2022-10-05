@@ -1,6 +1,7 @@
 package com.codestates.seb006main.message.service;
 
 import com.codestates.seb006main.auth.PrincipalDetails;
+import com.codestates.seb006main.config.DomainEvent;
 import com.codestates.seb006main.dto.MultiResponseDto;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
@@ -26,19 +27,24 @@ public class MessageService {
     private final MessageRepository messageRepository;
     private final MessageMapper messageMapper;
 
-    public MessageDto.Response createMessage(Object entity) {
+    public MessageDto.Response createMessage(Object entity, DomainEvent.EventType eventType) {
         String body;
         Long postId;
         Member member;
 
-        if (entity instanceof Matching) {
+        if (eventType == DomainEvent.EventType.CREATE_MATCHING) {
             Matching matching = (Matching) entity;
-            body = "[" + matching.getMember().getDisplayName() + "] 님이 [" + matching.getPosts().getTitle() + "] 글에 매칭 요청을 보내셨습니다.";
+            body = "[" + matching.getMember().getDisplayName() + "] 님이 [" + matching.getPosts().getTitle() + "] 여행에 매칭 요청을 보내셨습니다.";
             postId = matching.getPosts().getPostId();
             member = matching.getPosts().getMember();
-        } else if (entity instanceof MemberPosts) {
+        } else if (eventType == DomainEvent.EventType.APPLY_MATCHING) {
             MemberPosts memberPosts = (MemberPosts) entity;
-            body = "[" + memberPosts.getPosts().getTitle() + "] 게시글에 대한 매칭 요청이 수락되었습니다.";
+            body = "[" + memberPosts.getPosts().getTitle() + "] 여행에 대한 매칭 요청이 수락되었습니다.";
+            postId = memberPosts.getPosts().getPostId();
+            member = memberPosts.getMember();
+        } else if (eventType == DomainEvent.EventType.CANCEL_PARTICIPATION) {
+            MemberPosts memberPosts = (MemberPosts) entity;
+            body = "[" + memberPosts.getPosts().getTitle() + "] 여행 참여가 취소되었습니다.";
             postId = memberPosts.getPosts().getPostId();
             member = memberPosts.getMember();
         } else {
@@ -92,8 +98,21 @@ public class MessageService {
             for (Long messageId : messageIdList) {
                 readMessage(messageId);
             }
-        } else {
-            throw new BusinessLogicException(ExceptionCode.MESSAGE_NOT_FOUND);
+        }
+    }
+
+    public void deleteMessage(Long messageId) {
+        Message message = messageRepository.findById(messageId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MESSAGE_NOT_FOUND));
+        if (message.getMessageStatus() == Message.MessageStatus.READ) {
+            messageRepository.deleteById(messageId);
+        }
+    }
+
+    public void deleteAllMessages(List<Long> messageIdList) {
+        if (!messageIdList.isEmpty()) {
+            for (Long messageId : messageIdList) {
+                deleteMessage(messageId);
+            }
         }
     }
 }
