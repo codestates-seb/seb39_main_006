@@ -118,7 +118,6 @@ const Userinfo = () => {
       headers: {
         "Content-Type": "multipart/form-data",
         access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
       data: formData,
     }).then((res) => {
@@ -150,7 +149,6 @@ const Userinfo = () => {
       method: "PATCH",
       headers: {
         access_hh: sessionStorage.getItem("AccessToken"),
-        refresh_hh: sessionStorage.getItem("RefreshToken"),
       },
       data: {
         displayName: enteredDisplayName,
@@ -183,7 +181,6 @@ const Userinfo = () => {
       .get(`${process.env.REACT_APP_URL}/api/members/${memberId}`, {
         headers: {
           access_hh: sessionStorage.getItem("AccessToken"),
-          refresh_hh: sessionStorage.getItem("RefreshToken"),
         },
       })
       .then((res) => {

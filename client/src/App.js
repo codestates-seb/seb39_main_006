@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import Header from "./components/Header";
 import MainPage from "./pages/mainpage/MainPage";
 import PostDetail from "./pages/postpage/PostDetail";
@@ -16,6 +16,7 @@ import MyMatching from "./pages/mypage/MyMatching";
 import styled from "styled-components";
 import imgBgr from "../src/img/background.png";
 import Messages from "./pages/mypage/Messages";
+import OAuth2RedirectHandler from "./pages/account/OAuth2RedirectHandler";
 function App() {
   return (
     <Wrap>
@@ -31,6 +32,10 @@ function App() {
       <Routes>
         {sessionStorage.getItem("isLogin") === null ? (
           <>
+            <Route
+              path="/oauth2/redirect"
+              element={<OAuth2RedirectHandler />}
+            />
             <Route path="/signup" element={<SignUp />}></Route>
             <Route path="/" element={<Login />}></Route>
           </>

@@ -34,11 +34,12 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Member member = principalDetails.getMember();
-        String accessToken = jwtUtils.createAccessToken(member.getMemberId(), member.getEmail());
+        String accessToken = jwtUtils.createAccessToken(member.getMemberId(), member.getEmail(),member.getDisplayName());
         String refreshToken = jwtUtils.createRefreshToken(member.getMemberId(), member.getEmail());
         response.setHeader("Access_HH",accessToken);
         redisUtils.setRefreshToken(member.getMemberId(),refreshToken);
 //        response.getWriter().write(gson.toJson(member));
-        getRedirectStrategy().sendRedirect(request,response,"http://localhost:3000/main");
+        System.out.println("이제 저기로 가질거에요");
+        getRedirectStrategy().sendRedirect(request,response,"https://hitch-hiker.kr/oauth2/redirect?token="+accessToken);
     }
 }

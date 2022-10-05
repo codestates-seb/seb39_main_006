@@ -14,7 +14,6 @@ const MyPage = () => {
       .get(`${process.env.REACT_APP_URL}/api/members/${memberId}`, {
         headers: {
           access_hh: sessionStorage.getItem("AccessToken"),
-          refresh_hh: sessionStorage.getItem("RefreshToken"),
         },
       })
       .then((res) => {
