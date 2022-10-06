@@ -26,7 +26,6 @@ const PostDetail = () => {
         setDetail(res.data);
       })
       .catch((err) => {
-        console.log(err);
         if (err.response.status === 400) {
           if (err.response.data.fieldErrors) {
             alert(err.response.data.fieldErrors[0].reason);
