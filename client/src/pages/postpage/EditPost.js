@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import Button from "../../components/ui/Button";
-import Input from "../../components/ui/Input";
+import styled from "styled-components";
 
 // toast color syntax
 import "tui-color-picker/dist/tui-color-picker.css";
@@ -75,81 +75,165 @@ const EditPost = () => {
       });
   };
   return (
-    <div>
-      <div>
-        <span>제목</span>
-        <input
-          type="text"
-          required
-          defaultValue={title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
-        />
-      </div>
-      <div>
-        <span>본인을 포함한 총 모집 인원 수 </span>
-        <input
-          type="number"
-          required
-          defaultValue={mate}
-          onChange={(e) => {
-            setMate(e.target.value);
-          }}
-        />
-      </div>
-      <div>
-        <span>모집 마감 </span>
-        <input
-          type="date"
-          required
-          defaultValue={closeDate}
-          onChange={(e) => {
-            setCloseDate(e.target.value);
-          }}
-          min={`${year}-${("0" + month).slice(-2)}-${date}`}
-        />
-        <span> 까지</span>
-      </div>
-      {editData.body && (
-        <Editor
-          placeholder="내용을 입력해주세요."
-          required
-          ref={editBody}
-          previewStyle="vertical" // 미리보기 스타일 지정
-          height="300px" // 에디터 창 높이
-          initialValue={body}
-          initialEditType="markdown" // 초기 입력모드 설정(디폴트 markdown)
-          hideModeSwitch={true}
-          toolbarItems={[
-            // 툴바 옵션 설정
-            ["heading", "bold", "italic", "strike"],
-            ["hr", "quote"],
-            ["ul", "ol", "task", "indent", "outdent"],
-            ["table", "image", "link"],
-            ["code", "codeblock"],
-          ]}
-          plugins={[colorSyntax]} // colorSyntax 플러그인 적용
-        ></Editor>
-      )}
-      {sessionStorage.getItem("userName") === editData.leaderName ? (
+    <PageContainer>
+      <ContainerWrap>
+        <div>
+          <span className="title">제목 :</span>
+          <input
+            id="title"
+            type="text"
+            required
+            defaultValue={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+          />
+        </div>
+        <div>
+          <span className="title">본인을 포함한 총 모집 인원 수 :</span>
+          <input
+            id="number"
+            type="number"
+            required
+            defaultValue={mate}
+            onChange={(e) => {
+              setMate(e.target.value);
+            }}
+          />
+        </div>
+        <div>
+          <span className="title">모집 마감 :</span>
+          <input
+            id="end"
+            type="date"
+            required
+            defaultValue={closeDate}
+            onChange={(e) => {
+              setCloseDate(e.target.value);
+            }}
+            min={`${year}-${("0" + month).slice(-2)}-${date}`}
+          />
+          <span className="title"> 까지</span>
+        </div>
+        {editData.body && (
+          <Editor
+            placeholder="내용을 입력해주세요."
+            required
+            ref={editBody}
+            previewStyle="vertical" // 미리보기 스타일 지정
+            height="300px" // 에디터 창 높이
+            initialValue={body}
+            initialEditType="markdown" // 초기 입력모드 설정(디폴트 markdown)
+            hideModeSwitch={true}
+            toolbarItems={[
+              // 툴바 옵션 설정
+              ["heading", "bold", "italic", "strike"],
+              ["hr", "quote"],
+              ["ul", "ol", "task", "indent", "outdent"],
+              ["table", "image", "link"],
+              ["code", "codeblock"],
+            ]}
+            plugins={[colorSyntax]} // colorSyntax 플러그인 적용
+          ></Editor>
+        )}
+        {sessionStorage.getItem("userName") === editData.leaderName ? (
+          <Button
+            onClick={() => {
+              submitEditDataHandler();
+            }}
+          >
+            수정 완료
+          </Button>
+        ) : null}
         <Button
           onClick={() => {
-            submitEditDataHandler();
+            navigate(`/${id}`);
           }}
         >
-          수정 완료
+          취소
         </Button>
-      ) : null}
-      <Button
-        onClick={() => {
-          navigate(`/${id}`);
-        }}
-      >
-        취소
-      </Button>
-    </div>
+      </ContainerWrap>
+    </PageContainer>
   );
 };
 
 export default EditPost;
+const PageContainer = styled.div`
+  label {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #444;
+  }
+  position: absolute;
+
+  width: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 5px 0 5px;
+
+  @media screen and (max-width: 500px) {
+    padding: 30px 25px 30px 25px;
+    height: 700px;
+  }
+`;
+const ContainerWrap = styled.div`
+  #title {
+    font-size: 1.4rem;
+    padding: 1rem;
+    width: 50rem;
+    border-radius: 5px;
+  }
+  #number {
+    font-size: 1rem;
+    width: 5rem;
+    border-radius: 5px;
+  }
+  #end {
+    font-size: 1rem;
+    width: 10rem;
+    border-radius: 5px;
+  }
+  .title {
+    font-size: 20px;
+    padding: 20px;
+  }
+  button {
+    place-items: center;
+    font-size: 1.25rem;
+    background-color: #dabbc9;
+    max-width: 1000px;
+    width: fit-content;
+    border: 1px solid #dabbc9;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+    color: #425049;
+    &:hover {
+      background-color: #efd5c8;
+      border-color: #efd5c8;
+    }
+  }
+  .contents {
+    padding-left: 1rem;
+  }
+
+  margin-left: 500px;
+  margin-top: 10px;
+  padding: 40px 50px 40px 50px;
+  display: flex;
+  flex-direction: column;
+  max-width: 1650px;
+  width: 170%;
+  height: 900px;
+  background-color: beige;
+
+  box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-family: Roboto;
+  box-sizing: border-box;
+  @media screen and (max-width: 500px) {
+    padding: 30px 25px 30px 25px;
+    height: 455px;
+  }
+`;

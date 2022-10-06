@@ -5,6 +5,7 @@ import WrapperBox from "../../components/ui/WrapperBox";
 import H1 from "../../components/ui/H1";
 import axios from "axios";
 import { useEffect, useState } from "react";
+
 const MyPage = () => {
   const [userInfo, setUserInfo] = useState("");
   const memberId = sessionStorage.getItem("memberId");
@@ -82,7 +83,6 @@ const MyPage = () => {
   );
 };
 export default MyPage;
-
 const PageContainer = styled.div`
   label {
     font-size: 1.5rem;
