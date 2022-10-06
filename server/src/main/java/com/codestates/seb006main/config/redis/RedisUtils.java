@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -29,8 +30,9 @@ public class RedisUtils {
 
     public void setBlacklist(String accessToken, Long exp){
         ValueOperations<String,Object> operations = redisTemplate.opsForValue();
-        Duration duration = Duration.ofMillis(exp);
-        operations.set("blk_"+accessToken,"logout",duration);
+        if(exp>0){
+            operations.set("blk_"+accessToken,"logout",exp, TimeUnit.MILLISECONDS);
+        }
     }
 
     public boolean chkBlacklist(String accessToken){

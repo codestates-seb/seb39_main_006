@@ -47,6 +47,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         }else if(redisUtils.chkBlacklist(accessToken)){
             throw new AuthenticationException("강탈당한 토큰");
         }else if (jwtUtils.isTokenExpired(JWT.decode(accessToken.replace("Bearer ", "")))){
+            accessToken=accessToken.replace("Bearer ", "");
             Map<String,Object> memberInfoMap = jwtUtils.getClaimsFromToken(accessToken,"accessKey");
             Long memberId=(Long)memberInfoMap.get("id");
             String refreshToken = redisUtils.getRefreshToken(memberId);

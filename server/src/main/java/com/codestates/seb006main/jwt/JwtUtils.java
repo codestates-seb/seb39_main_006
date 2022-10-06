@@ -46,7 +46,7 @@ public class JwtUtils {
     public String createRefreshToken(Long memberId, String email){
         String refreshToken = JWT.create()
                 .withSubject("hitch hiker refresh token")
-                .withExpiresAt(new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24)))
+                .withExpiresAt(new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 14)))
                 .withClaim("id", memberId)
                 .withClaim("email", email)
                 .sign(Algorithm.HMAC512(refreshKey));
@@ -60,9 +60,10 @@ public class JwtUtils {
     }
 
     public Map<String,Object> getClaimsFromToken(String token, String keys){
+        DecodedJWT decode =JWT.decode(token);
         String key = keys.equals("refresh")?refreshKey:accessKey;
-        String email = JWT.require(Algorithm.HMAC512(key)).build().verify(token).getClaim("email").asString();
-        Long id = JWT.require(Algorithm.HMAC512(key)).build().verify(token).getClaim("id").asLong();
+        String email = decode.getClaim("email").asString();
+        Long id = decode.getClaim("id").asLong();
         return Map.of("email",email,"id",id);
     }
 
