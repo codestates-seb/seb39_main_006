@@ -93,7 +93,7 @@ const NewPost = () => {
           }
           alert(err.response.data.korMessage);
         }
-        window.location.reload();
+        // window.location.reload();
       });
   };
 
@@ -173,7 +173,12 @@ const NewPost = () => {
                   max="20"
                   onChange={(e) => {
                     setTotalCount(e.target.value);
-                    if (e.target.value > 20) e.target.value = 20;
+
+                    if (e.target.value > 20) {
+                      e.target.value = 20;
+                      setTotalCount(20);
+                    }
+                    console.log(totalCount);
                   }}
                 />
               </InputWrapper>
@@ -237,7 +242,7 @@ const NewPost = () => {
                           }
                           alert(err.response.data.korMessage);
                         }
-                        window.location.reload();
+                        // window.location.reload();
                       });
                   },
                 }}
