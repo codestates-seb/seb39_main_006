@@ -207,6 +207,7 @@ const Header = () => {
                   mypage
                 </a>
               </li>
+
               <details className="dropdown">
                 <summary role="Button">
                   <div>{msgIds.length}</div>
@@ -219,8 +220,17 @@ const Header = () => {
                     }}
                   />
                 </summary>
-
                 <ul>
+                  {/* <li id="alarm">
+                  <button
+                      className="alarm"
+                      onClick={() => {
+                        readAllMessage();
+                      }}
+                    >
+                      전체 읽음
+                    </button>
+                  </li> */}
                   {/* <li id="alarm">
                     <button
                       className="alarm"
@@ -249,12 +259,21 @@ const Header = () => {
             />
             <a className="banner"></a>
           </nav>
-          <li>
+          <div>
+            {showMsg && (
+              <button
+                className="alarm"
+                onClick={() => {
+                  readAllMessage();
+                }}
+              >
+                전체 읽음
+              </button>
+            )}
             {showMsg &&
               msgs.map((el, idx) => (
                 <div key={idx}>
                   <div
-                    className="mgs"
                     onClick={() => {
                       msgClickHandler(el.messageId, el.postId);
                     }}
@@ -263,17 +282,7 @@ const Header = () => {
                   </div>
                 </div>
               ))}
-          </li>
-          <li id="alarm">
-            <button
-              className="alarm"
-              onClick={() => {
-                readAllMessage();
-              }}
-            >
-              전체 읽음
-            </button>
-          </li>
+          </div>
         </Test>
       )}
     </HeaderSection>
@@ -283,20 +292,8 @@ const Header = () => {
 export default Header;
 
 const Test = styled.div`
-  .msg {
-    margin-left: 2rem;
-    padding: 10px;
-    border-color: #16213b;
-    background: #16213b;
-    color: wheat;
-    border-radius: 13px;
-    &:hover {
-      background-color: #304b61;
-      border-color: #c2e3de;
-    }
-  }
   #alarm {
-    margin: 0.4rem;
+    margin: -1rem;
   }
   .alarm {
     display: inline-block;
