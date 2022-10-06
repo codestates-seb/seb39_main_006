@@ -41,6 +41,7 @@ function App() {
           </>
         ) : (
           <>
+            <Route path="/" element={<Login />}></Route>
             <Route path="/main" element={<MainPage />} />
             <Route path="/new" element={<NewPost />} />
             <Route path="/:id" element={<PostDetail />} />

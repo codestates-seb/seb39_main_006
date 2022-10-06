@@ -17,7 +17,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (sessionStorage.getItem("")) {
+    if (sessionStorage.getItem("isLogin")) {
       navigate(`/main`);
     }
   }, []);
