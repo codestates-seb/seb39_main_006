@@ -102,12 +102,6 @@ const PostDetail = () => {
             navigate(`/`);
             window.location.reload();
           } else if (err.response.data.korMessage) {
-            if (
-              err.response.data.korMessage === "존재하지 않는 게시글입니다."
-            ) {
-              alert(err.response.data.korMessage);
-              navigate(`/main`);
-            }
             alert(err.response.data.korMessage);
           } else {
             alert(
@@ -155,12 +149,6 @@ const PostDetail = () => {
             navigate(`/`);
             window.location.reload();
           } else if (err.response.data.korMessage) {
-            if (
-              err.response.data.korMessage === "존재하지 않는 게시글입니다."
-            ) {
-              alert(err.response.data.korMessage);
-              navigate(`/main`);
-            }
             alert(err.response.data.korMessage);
           } else {
             alert(
@@ -212,10 +200,6 @@ const PostDetail = () => {
           navigate(`/`);
           window.location.reload();
         } else if (err.response.data.korMessage) {
-          if (err.response.data.korMessage === "존재하지 않는 게시글입니다.") {
-            alert(err.response.data.korMessage);
-            navigate(`/main`);
-          }
           alert(err.response.data.korMessage);
         } else {
           alert(
