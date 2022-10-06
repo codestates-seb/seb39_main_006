@@ -43,10 +43,10 @@ public class MessageService {
             postId = memberPosts.getPosts().getPostId();
             member = memberPosts.getMember();
         } else if (eventType == DomainEvent.EventType.CANCEL_PARTICIPATION) {
-            MemberPosts memberPosts = (MemberPosts) entity;
-            body = "[" + memberPosts.getPosts().getTitle() + "] 여행 참여가 취소되었습니다.";
-            postId = memberPosts.getPosts().getPostId();
-            member = memberPosts.getMember();
+            DomainEvent.Domain domain = (DomainEvent.Domain) entity;
+            body = "[" + domain.getTitle() + "] 여행 참여가 취소되었습니다.";
+            postId = domain.getPostId();
+            member = domain.getMember();
         } else {
             throw new BusinessLogicException(ExceptionCode.LACK_OF_INFORMATION);
         }
