@@ -94,6 +94,11 @@ const MainSubHeader = () => {
 export default MainSubHeader;
 
 const SubHeader = styled.div`
+  ul {
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+  }
   span {
     padding: 2px;
     color: #777;
@@ -105,7 +110,7 @@ const SubHeader = styled.div`
   }
   line-height: 70px;
   width: fit-content;
-  display: inline-block;
+  display: block;
   justify-content: center;
   align-items: center;
   margin-left: 2%;
