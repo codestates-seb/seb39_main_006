@@ -17,7 +17,7 @@ const Header = () => {
   const logoutHandler = () => {
     axios(`${process.env.REACT_APP_URL}/api/members/logout`, {
       headers: {
-        method : "Post",
+        method: "Post",
         access_hh: sessionStorage.getItem("AccessToken"),
       },
     });
@@ -50,7 +50,7 @@ const Header = () => {
               alert(err.response.data.violationErrors[0].reason);
             } else {
               alert(
-                "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+                "우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
               );
             }
           } else {
@@ -61,8 +61,13 @@ const Header = () => {
               sessionStorage.clear();
               navigate(`/`);
               window.location.reload();
+            } else if (err.response.data.korMessage) {
+              alert(err.response.data.korMessage);
+            } else {
+              alert(
+                "우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
+              );
             }
-            alert(err.response.data.korMessage);
           }
           window.location.reload();
         });
@@ -120,7 +125,7 @@ const Header = () => {
             alert(err.response.data.violationErrors[0].reason);
           } else {
             alert(
-              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+              "우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
             );
           }
         } else {
@@ -131,8 +136,13 @@ const Header = () => {
             sessionStorage.clear();
             navigate(`/`);
             window.location.reload();
+          } else if (err.response.data.korMessage) {
+            alert(err.response.data.korMessage);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
+            );
           }
-          alert(err.response.data.korMessage);
         }
         window.location.reload();
       });
@@ -161,7 +171,7 @@ const Header = () => {
             alert(err.response.data.violationErrors[0].reason);
           } else {
             alert(
-              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+              "우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
             );
           }
         } else {
@@ -172,8 +182,13 @@ const Header = () => {
             sessionStorage.clear();
             navigate(`/`);
             window.location.reload();
+          } else if (err.response.data.korMessage) {
+            alert(err.response.data.korMessage);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
+            );
           }
-          alert(err.response.data.korMessage);
         }
         window.location.reload();
       });
