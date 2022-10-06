@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
@@ -15,6 +15,12 @@ const Login = () => {
   const passwordInputRef = useRef();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (sessionStorage.getItem("")) {
+      navigate(`/main`);
+    }
+  }, []);
   const validateEmail = (email) => {
     return String(email)
       .toLowerCase()
