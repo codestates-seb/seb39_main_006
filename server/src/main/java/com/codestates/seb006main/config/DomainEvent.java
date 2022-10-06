@@ -1,11 +1,13 @@
 package com.codestates.seb006main.config;
 
+import com.codestates.seb006main.members.entity.Member;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.context.ApplicationEvent;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-
 @Getter
 public class DomainEvent extends ApplicationEvent {
     private Object entity;
@@ -20,5 +22,19 @@ public class DomainEvent extends ApplicationEvent {
         CREATE_MATCHING,
         APPLY_MATCHING,
         CANCEL_PARTICIPATION;
+    }
+
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class Domain{
+        Long postId;
+        String title;
+        Member member;
+
+        public Domain(Long postId, String title, Member member) {
+            this.postId = postId;
+            this.title = title;
+            this.member = member;
+        }
     }
 }
