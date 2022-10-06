@@ -69,13 +69,31 @@ const NewPost = () => {
         window.location.reload();
       })
       .catch((err) => {
-        if (err.response.status === 500) {
-          alert("세션이 만료되어 로그아웃합니다.");
-          sessionStorage.clear();
-          navigate(`/`);
-          window.location.reload();
+        if (err.response.status === 400) {
+          if (err.response.data.fieldErrors) {
+            alert(err.response.data.fieldErrors[0].reason);
+          } else if (
+            err.response.data.fieldErrors === null &&
+            err.response.data.violationErrors
+          ) {
+            alert(err.response.data.violationErrors[0].reason);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+            );
+          }
+        } else {
+          if (
+            err.response.data.korMessage ===
+            "만료된 토큰입니다. 다시 로그인 해주세요."
+          ) {
+            sessionStorage.clear();
+            navigate(`/`);
+            window.location.reload();
+          }
+          alert(err.response.data.korMessage);
         }
-        console.log(err);
+        window.location.reload();
       });
   };
 
@@ -186,13 +204,41 @@ const NewPost = () => {
                         access_hh: sessionStorage.getItem("AccessToken"),
                       },
                       data: formData,
-                    }).then((res) => {
-                      // 기홍님의 잔재.....
-                      // let testid = res.data.imageId;
-                      // setImageId(testid);
-                      // mount.current = true;
-                      callback(res.data.imageUrl);
-                    });
+                    })
+                      .then((res) => {
+                        // 기홍님의 잔재.....
+                        // let testid = res.data.imageId;
+                        // setImageId(testid);
+                        // mount.current = true;
+                        callback(res.data.imageUrl);
+                      })
+                      .catch((err) => {
+                        if (err.response.status === 400) {
+                          if (err.response.data.fieldErrors) {
+                            alert(err.response.data.fieldErrors[0].reason);
+                          } else if (
+                            err.response.data.fieldErrors === null &&
+                            err.response.data.violationErrors
+                          ) {
+                            alert(err.response.data.violationErrors[0].reason);
+                          } else {
+                            alert(
+                              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+                            );
+                          }
+                        } else {
+                          if (
+                            err.response.data.korMessage ===
+                            "만료된 토큰입니다. 다시 로그인 해주세요."
+                          ) {
+                            sessionStorage.clear();
+                            navigate(`/`);
+                            window.location.reload();
+                          }
+                          alert(err.response.data.korMessage);
+                        }
+                        window.location.reload();
+                      });
                   },
                 }}
                 plugins={[colorSyntax]} // colorSyntax 플러그인 적용
