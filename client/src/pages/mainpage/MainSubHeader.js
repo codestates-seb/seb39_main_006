@@ -15,74 +15,78 @@ const MainSubHeader = () => {
 
   return (
     <SubHeader>
-      <input
-        className="inputtext"
-        type="text"
-        placeholder="제목을 검색하세요"
-        value={title}
-        onChange={(e) => {
-          dispatch(searchActions.setTitle(e.target.value));
-        }}
-      ></input>
-      <input
-        className="inputtext"
-        type="text"
-        placeholder="본문을 검색하세요"
-        value={body}
-        onChange={(e) => {
-          dispatch(searchActions.setBody(e.target.value));
-        }}
-      ></input>
-      <input
-        className="inputtext"
-        type="text"
-        placeholder="여행지를 검색하세요"
-        value={location}
-        onChange={(e) => {
-          dispatch(searchActions.setLocation(e.target.value));
-        }}
-      ></input>
-      <span>
-        <span className="test2">여행 시작 날짜</span>
-        <span>
-          <input
-            type="date"
-            value={startDate}
-            onChange={(e) => {
-              dispatch(searchActions.setStartDate(e.target.value));
-            }}
-          ></input>
-          {/* <div className="test">{startDate}</div> */}
-        </span>
-      </span>
-      <span>
-        <span className="test2">여행 종료 날짜</span>
+      <ul>
         <input
-          type="date"
-          value={endDate}
+          className="inputtext"
+          type="text"
+          placeholder="제목을 검색하세요"
+          value={title}
           onChange={(e) => {
-            dispatch(searchActions.setEndDate(e.target.value));
+            dispatch(searchActions.setTitle(e.target.value));
           }}
         ></input>
-      </span>
-      <button
-        onClick={() => {
-          navigate(`/new`);
-        }}
-      >
-        게시글 작성
-      </button>
-      <button
-        onClick={() => {
-          dispatch(searchActions.setTitle(""));
-          dispatch(searchActions.setBody(""));
-          dispatch(searchActions.setLocation(""));
-          dispatch(searchActions.setStartDate(""));
-          dispatch(searchActions.setEndDate(""));
-        }}
-      >
-        초기화
-      </button>
+        <input
+          className="inputtext"
+          type="text"
+          placeholder="본문을 검색하세요"
+          value={body}
+          onChange={(e) => {
+            dispatch(searchActions.setBody(e.target.value));
+          }}
+        ></input>
+        <input
+          className="inputtext"
+          type="text"
+          placeholder="여행지를 검색하세요"
+          value={location}
+          onChange={(e) => {
+            dispatch(searchActions.setLocation(e.target.value));
+          }}
+        ></input>
+        <span>
+          <span className="test2">여행 시작 날짜</span>
+          <span>
+            <input
+              id="test2"
+              type="date"
+              value={startDate}
+              onChange={(e) => {
+                dispatch(searchActions.setStartDate(e.target.value));
+              }}
+            ></input>
+            {/* <div className="test">{startDate}</div> */}
+          </span>
+        </span>
+        <span>
+          <span className="test2">여행 종료 날짜</span>
+          <input
+            id="test2"
+            type="date"
+            value={endDate}
+            onChange={(e) => {
+              dispatch(searchActions.setEndDate(e.target.value));
+            }}
+          ></input>
+        </span>
+        <button
+          onClick={() => {
+            navigate(`/new`);
+          }}
+        >
+          게시글 작성
+        </button>
+        <button
+          onClick={() => {
+            dispatch(searchActions.setTitle(""));
+            dispatch(searchActions.setBody(""));
+            dispatch(searchActions.setLocation(""));
+            dispatch(searchActions.setStartDate(""));
+            dispatch(searchActions.setEndDate(""));
+          }}
+        >
+          초기화
+        </button>
+      </ul>
     </SubHeader>
   );
 };
@@ -90,13 +94,23 @@ const MainSubHeader = () => {
 export default MainSubHeader;
 
 const SubHeader = styled.div`
+  span {
+    padding: 2px;
+    color: #777;
+    font-weight: 700;
+  }
+  #test2 {
+    border-radius: 8px;
+    padding: 0.5rem;
+  }
+  line-height: 70px;
   width: fit-content;
-  display: flex;
+  display: inline-block;
   justify-content: center;
   align-items: center;
   margin-left: 2%;
   margin-bottom: 30px;
-  height: 60px;
+  height: 70px;
   background-color: #d5eaf1;
   border-radius: 10px;
   input {
