@@ -106,9 +106,9 @@ const Login = () => {
 
               <div align="center">
                 <div></div> <Button onClick={usesubmitHandler}>Login</Button>
-                <Button type="button" onClick={signupHandler}>
+                <NewBTN type="button" onClick={signupHandler}>
                   Create new account
-                </Button>
+                </NewBTN>
               </div>
               <div align="center">
                 <a href="https://server.seb-006.shop/oauth2/authorization/kakao">
@@ -129,6 +129,14 @@ const Login = () => {
   );
 };
 export default Login;
+const NewBTN = styled.div`
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ff6680;
+  &:hover {
+    color: #6d639e;
+  }
+`;
 const Wrap = styled.div`
   #bgr {
     position: absolute;

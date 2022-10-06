@@ -197,6 +197,7 @@ const ContainerWrap = styled.div`
   .title {
     font-size: 20px;
     padding: 20px;
+    margin-bottom: 20px;
   }
 
   .contents {
