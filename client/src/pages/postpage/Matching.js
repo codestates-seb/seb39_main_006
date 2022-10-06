@@ -32,10 +32,6 @@ const Matching = () => {
           if (err.response.data.fieldErrors) {
             alert(err.response.data.fieldErrors[0].reason);
           } else if (
-            err.response.data.korMessage === "매칭 정보를 찾을 수 없습니다."
-          ) {
-            navigate(`/${matchData.postId}`);
-          } else if (
             err.response.data.fieldErrors === null &&
             err.response.data.violationErrors
           ) {
@@ -57,6 +53,10 @@ const Matching = () => {
             sessionStorage.clear();
             navigate(`/`);
             window.location.reload();
+          } else if (
+            err.response.data.korMessage === "매칭 정보를 찾을 수 없습니다."
+          ) {
+            navigate(`/${matchData.postId}`);
           } else if (err.response.data.korMessage) {
             alert(err.response.data.korMessage);
           } else {
@@ -83,10 +83,6 @@ const Matching = () => {
           if (err.response.data.fieldErrors) {
             alert(err.response.data.fieldErrors[0].reason);
           } else if (
-            err.response.data.korMessage === "매칭 정보를 찾을 수 없습니다."
-          ) {
-            navigate(`/${matchData.postId}`);
-          } else if (
             err.response.data.fieldErrors === null &&
             err.response.data.violationErrors
           ) {
@@ -108,6 +104,10 @@ const Matching = () => {
             sessionStorage.clear();
             navigate(`/`);
             window.location.reload();
+          } else if (
+            err.response.data.korMessage === "매칭 정보를 찾을 수 없습니다."
+          ) {
+            navigate(`/${matchData.postId}`);
           } else if (err.response.data.korMessage) {
             alert(err.response.data.korMessage);
           } else {
