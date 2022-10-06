@@ -32,7 +32,7 @@ public class PostsRepositoryImpl implements PostsRepositoryCustom {
     public Optional<Posts> findActiveById(Long postId) {
         return Optional.ofNullable(queryFactory
                 .selectFrom(posts)
-                .where(posts.postsStatus.ne(Posts.PostsStatus.INACTIVE))
+                .where(posts.postId.eq(postId).and(posts.postsStatus.ne(Posts.PostsStatus.INACTIVE)))
                 .fetchOne());
     }
 
