@@ -46,7 +46,12 @@ public class MessageService {
             DomainEvent.Domain domain = (DomainEvent.Domain) entity;
             body = "[" + domain.getTitle() + "] 여행 참여가 취소되었습니다.";
             postId = domain.getPostId();
-            member = domain.getMember();
+            member = domain.getReceiver();
+        } else if (eventType == DomainEvent.EventType.CANCEL_MATCHING) {
+            DomainEvent.Domain domain = (DomainEvent.Domain) entity;
+            body = "[" + domain.getTitle() + "] 여행에 대한 [" + domain.getSender().getDisplayName() + "]의 매칭 요청이 취소되었습니다.";
+            postId = domain.getPostId();
+            member = domain.getReceiver();
         } else {
             throw new BusinessLogicException(ExceptionCode.LACK_OF_INFORMATION);
         }

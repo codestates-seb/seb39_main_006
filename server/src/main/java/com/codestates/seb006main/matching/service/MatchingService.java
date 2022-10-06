@@ -100,6 +100,10 @@ public class MatchingService {
         if (!checkPermission(matching, authentication)) {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
+
+        DomainEvent.Domain domain = new DomainEvent.Domain(matching.getPosts().getPostId(), matching.getPosts().getTitle(), matching.getMember(), matching.getPosts().getMember());
+        applicationEventPublisher.publishEvent(new DomainEvent(this, domain, DomainEvent.EventType.CANCEL_MATCHING));
+
         matchingRepository.deleteById(matchingId);
     }
 

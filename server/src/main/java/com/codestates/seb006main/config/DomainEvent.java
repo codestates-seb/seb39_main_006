@@ -21,7 +21,8 @@ public class DomainEvent extends ApplicationEvent {
     public enum EventType {
         CREATE_MATCHING,
         APPLY_MATCHING,
-        CANCEL_PARTICIPATION;
+        CANCEL_PARTICIPATION,
+        CANCEL_MATCHING;
     }
 
     @Getter
@@ -29,12 +30,14 @@ public class DomainEvent extends ApplicationEvent {
     public static class Domain{
         Long postId;
         String title;
-        Member member;
+        Member sender;
+        Member receiver;
 
-        public Domain(Long postId, String title, Member member) {
+        public Domain(Long postId, String title, Member sender, Member receiver) {
             this.postId = postId;
             this.title = title;
-            this.member = member;
+            this.sender = sender;
+            this.receiver = receiver;
         }
     }
 }
