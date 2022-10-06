@@ -6,9 +6,12 @@ import H1 from "../../components/ui/H1";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 const MyPage = () => {
   const [userInfo, setUserInfo] = useState("");
   const memberId = sessionStorage.getItem("memberId");
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -19,6 +22,33 @@ const MyPage = () => {
       })
       .then((res) => {
         setUserInfo(res.data);
+      })
+      .catch((err) => {
+        if (err.response.status === 400) {
+          if (err.response.data.fieldErrors) {
+            alert(err.response.data.fieldErrors[0].reason);
+          } else if (
+            err.response.data.fieldErrors === null &&
+            err.response.data.violationErrors
+          ) {
+            alert(err.response.data.violationErrors[0].reason);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+            );
+          }
+        } else {
+          if (
+            err.response.data.korMessage ===
+            "만료된 토큰입니다. 다시 로그인 해주세요."
+          ) {
+            sessionStorage.clear();
+            navigate(`/`);
+            window.location.reload();
+          }
+          alert(err.response.data.korMessage);
+        }
+        window.location.reload();
       });
   }, []);
 
