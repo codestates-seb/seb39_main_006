@@ -207,7 +207,6 @@ const Header = () => {
                   mypage
                 </a>
               </li>
-
               <details className="dropdown">
                 <summary role="Button">
                   <div>{msgIds.length}</div>
@@ -220,32 +219,8 @@ const Header = () => {
                     }}
                   />
                 </summary>
+
                 <ul>
-                  <li>
-                    {showMsg &&
-                      msgs.map((el, idx) => (
-                        <div key={idx}>
-                          <div
-                            className="mgs"
-                            onClick={() => {
-                              msgClickHandler(el.messageId, el.postId);
-                            }}
-                          >
-                            {el.body}
-                          </div>
-                        </div>
-                      ))}
-                  </li>
-                  <li id="alarm">
-                    <button
-                      className="alarm"
-                      onClick={() => {
-                        readAllMessage();
-                      }}
-                    >
-                      전체 읽음
-                    </button>
-                  </li>
                   {/* <li id="alarm">
                     <button
                       className="alarm"
@@ -274,6 +249,31 @@ const Header = () => {
             />
             <a className="banner"></a>
           </nav>
+          <li>
+            {showMsg &&
+              msgs.map((el, idx) => (
+                <div key={idx}>
+                  <div
+                    className="mgs"
+                    onClick={() => {
+                      msgClickHandler(el.messageId, el.postId);
+                    }}
+                  >
+                    {el.body}
+                  </div>
+                </div>
+              ))}
+          </li>
+          <li id="alarm">
+            <button
+              className="alarm"
+              onClick={() => {
+                readAllMessage();
+              }}
+            >
+              전체 읽음
+            </button>
+          </li>
         </Test>
       )}
     </HeaderSection>
@@ -284,7 +284,7 @@ export default Header;
 
 const Test = styled.div`
   .msg {
-    margin-left: 1rem;
+    margin-left: 2rem;
     padding: 10px;
     border-color: #16213b;
     background: #16213b;
@@ -296,7 +296,7 @@ const Test = styled.div`
     }
   }
   #alarm {
-    margin: -1.4rem;
+    margin: 0.4rem;
   }
   .alarm {
     display: inline-block;

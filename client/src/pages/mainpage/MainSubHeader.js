@@ -94,7 +94,7 @@ const SubHeader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 5%;
+  margin-left: 2%;
   margin-bottom: 30px;
   height: 60px;
   background-color: #d5eaf1;
