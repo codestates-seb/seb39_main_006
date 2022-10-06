@@ -9,7 +9,6 @@ import axios from "axios";
 
 const Header = () => {
   const [msgs, setMsgs] = useState([]);
-  const [msg, setMsg] = useState({});
   const [msgIds, setMsgIds] = useState([]);
   const [showMsg, setShowMsg] = useState(false);
   const navigate = useNavigate();
@@ -87,15 +86,10 @@ const Header = () => {
         {
           access_hh: sessionStorage.getItem("AccessToken"),
         },
-        (frame) => {
+        () => {
           client.subscribe(
             "/topic/" + sessionStorage.getItem("memberId"),
-            function (msg) {
-              // console.log(JSON.parse(msg.body));
-              // console.log(JSON.parse(msg.body).body);
-              // console.log(msg.body);
-              // console.log(JSON.parse(msg.body).messageId);
-              setMsg(JSON.parse(msg.body));
+            (msg) => {
               setMsgs((msgs) => [...msgs, JSON.parse(msg.body)]);
               setMsgIds((msgIds) => [
                 ...msgIds,
