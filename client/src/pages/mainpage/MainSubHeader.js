@@ -90,9 +90,11 @@ const MainSubHeader = () => {
 export default MainSubHeader;
 
 const SubHeader = styled.div`
+  width: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-left: 5%;
   margin-bottom: 30px;
   height: 60px;
   background-color: #d5eaf1;
