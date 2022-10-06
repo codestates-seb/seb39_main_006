@@ -186,7 +186,6 @@ const NewPost = () => {
                       e.target.value = 20;
                       setTotalCount(20);
                     }
-                    console.log(totalCount);
                   }}
                 />
               </InputWrapper>

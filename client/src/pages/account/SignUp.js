@@ -10,7 +10,6 @@ import CheckDisplayName from "./CheckDisplayName";
 // 사용부  함수이름(원하는값)
 
 const Signup = () => {
-  console.log("렌더링");
   const [isDisabledInfo, setIsDisabledInfo] = useState(true);
   const [validateEmailText, setValidateEmailText] = useState("");
   const [validatePasswordText, setValidatePasswordText] = useState("");
