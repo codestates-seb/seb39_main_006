@@ -8,13 +8,14 @@ import com.codestates.seb006main.members.repository.MemberRepository;
 import com.google.gson.Gson;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
+@Service
 public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private JwtUtils jwtUtils;
@@ -36,10 +37,7 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
         Member member = principalDetails.getMember();
         String accessToken = jwtUtils.createAccessToken(member.getMemberId(), member.getEmail(),member.getDisplayName());
         String refreshToken = jwtUtils.createRefreshToken(member.getMemberId(), member.getEmail());
-        response.setHeader("Access_HH",accessToken);
         redisUtils.setRefreshToken(member.getMemberId(),refreshToken);
-//        response.getWriter().write(gson.toJson(member));
-        System.out.println("이제 저기로 가질거에요");
         getRedirectStrategy().sendRedirect(request,response,"https://hitch-hiker.kr/oauth2/redirect?token="+accessToken);
     }
 }

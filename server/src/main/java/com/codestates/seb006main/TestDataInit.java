@@ -8,6 +8,7 @@ import com.codestates.seb006main.posts.repository.MemberPostsRepository;
 import com.codestates.seb006main.posts.repository.PostsRepository;
 import com.codestates.seb006main.util.Period;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,6 +22,8 @@ public class TestDataInit {
     private final PostsRepository postsRepository;
     private final MemberPostsRepository memberPostsRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Value("${cloud.aws.s3.default-image}")
+    String defaultImage;
 
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
@@ -33,7 +36,7 @@ public class TestDataInit {
                 .displayName("개발천재김기홍")
                 .phone("010-1111-1111")
                 .content("여행을 좋아하는 개발천재김기홍입니다.")
-                .profileImage("")
+                .profileImage(defaultImage)
                 .build());
         Member 수상한의도정윤조 = memberRepository.save(Member.builder()
                 .email("jyjgom@gmail.com")
@@ -41,7 +44,7 @@ public class TestDataInit {
                 .displayName("수상한의도정윤조")
                 .phone("010-2222-2222")
                 .content("여행을 좋아하는 수상한의도정윤조입니다.")
-                .profileImage("")
+                .profileImage(defaultImage)
                 .build());
         Member 여행을좋아하는배자현 = memberRepository.save(Member.builder()
                 .email("bizbaeja@gmail.com")
@@ -49,7 +52,7 @@ public class TestDataInit {
                 .displayName("여행을좋아하는배자현")
                 .phone("010-3333-3333")
                 .content("여행을 좋아하는 배자현입니다.")
-                .profileImage("")
+                .profileImage(defaultImage)
                 .build());
         Member 즐거운시간이동기 = memberRepository.save(Member.builder()
                 .email("Lmoti@gmail.com")
@@ -57,7 +60,7 @@ public class TestDataInit {
                 .displayName("즐거운시간이동기")
                 .phone("010-5555-5555")
                 .content("여행을 좋아하는 즐거운시간이동기입니다.")
-                .profileImage("")
+                .profileImage(defaultImage)
                 .build());
 
         Posts 첫번째 = postsRepository.save(Posts.builder()

@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import javax.security.sasl.AuthenticationException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -41,8 +42,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         System.out.println("인증이나 권한이 필요한 주소 요청 됨.");
         String accessToken = request.getHeader("Access_HH");
 
-        if(accessToken == null || !accessToken.startsWith("Bearer")){
+        if(accessToken == null || !accessToken.startsWith("Bearer") ){
             chain.doFilter(request,response);
+        }else if(redisUtils.chkBlacklist(accessToken)){
+            throw new AuthenticationException("강탈당한 토큰");
         }else if (jwtUtils.isTokenExpired(JWT.decode(accessToken.replace("Bearer ", "")))){
             Map<String,Object> memberInfoMap = jwtUtils.getClaimsFromToken(accessToken,"accessKey");
             Long memberId=(Long)memberInfoMap.get("id");

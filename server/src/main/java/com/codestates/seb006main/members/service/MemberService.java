@@ -7,7 +7,6 @@ import com.codestates.seb006main.auth.PrincipalDetails;
 import com.codestates.seb006main.dto.MultiResponseDto;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
-import com.codestates.seb006main.jwt.JwtUtils;
 import com.codestates.seb006main.mail.service.EmailSender;
 import com.codestates.seb006main.matching.entity.Matching;
 import com.codestates.seb006main.matching.mapper.MatchingMapper;
@@ -54,9 +53,10 @@ public class MemberService {
     final AmazonS3Client amazonS3Client;
     @Value("${cloud.aws.s3.bucket}")
     private String S3Bucket;
+    @Value("${cloud.aws.s3.default-image}")
+    private String defaultImage;
     private final BookmarkRepository bookmarkRepository;
     private final PostsRepository postsRepository;
-    private final JwtUtils jwtUtils;
     private final BlockRepository blockRepository;
 
     public MemberDto.Response loginMember(Authentication authentication) {
@@ -71,6 +71,7 @@ public class MemberService {
         verifyExistMemberWithEmail(post.getEmail());
         post.setPassword(passwordEncoder.encode(post.getPassword()));
         Member createdMember = memberRepository.save(memberMapper.memberPostToMember(post));
+        createdMember.setDefaultImage(defaultImage);
         return memberMapper.memberToMemberResponse(createdMember);
     }
 
@@ -85,9 +86,11 @@ public class MemberService {
             imageRepository.save(image);
             if (!findMember.getProfileImage().isBlank()) {
                 String beforePath = findMember.getProfileImage();
-                amazonS3Client.deleteObject(S3Bucket, beforePath.substring(beforePath.lastIndexOf("/") + 1));
-                Image beforeImage = imageRepository.findByStoredPath(beforePath).orElseThrow(() -> new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
-                imageRepository.delete(beforeImage);
+                if (!beforePath.equals(defaultImage)) {
+                    amazonS3Client.deleteObject(S3Bucket, beforePath.substring(beforePath.lastIndexOf("/") + 1));
+                    Image beforeImage = imageRepository.findByStoredPath(beforePath).orElseThrow(() -> new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
+                    imageRepository.delete(beforeImage);
+                }
             }
         }
         findMember.updateMember(patch.getDisplayName(), passwordEncoder.encode(patch.getPassword()), patch.getPhone(), patch.getContent(), path, LocalDateTime.now());

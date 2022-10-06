@@ -33,6 +33,8 @@ public class SecurityConfig {
     private final JwtUtils jwtUtils;
     private final CustomOAuth2Service customOAuth2Service;
     private final RedisUtils redisUtils;
+    private final CustomLogoutHandler customLogoutHandler;
+    private final CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -51,11 +53,18 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.POST).access("hasRole('ROLE_MEMBER')")
                         .antMatchers(HttpMethod.PATCH).access("hasRole('ROLE_MEMBER')")
                         .antMatchers(HttpMethod.DELETE).access("hasRole('ROLE_MEMBER')")
-                        .anyRequest().permitAll())
+                        .anyRequest().permitAll());
+        http
                 .oauth2Login()
-                .successHandler(oAuth2AuthenticationSuccessHandler())
+                .successHandler(customOAuth2SuccessHandler)
                 .userInfoEndpoint()
                 .userService(customOAuth2Service);
+
+
+        http
+                .logout()
+                .logoutUrl("/api/members/logout")
+                .addLogoutHandler(customLogoutHandler);
 
         return http.build();
     }
@@ -94,8 +103,5 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public CustomOAuth2SuccessHandler oAuth2AuthenticationSuccessHandler(){
-        return new CustomOAuth2SuccessHandler(jwtUtils,memberRepository,redisUtils);
-    }
+
 }

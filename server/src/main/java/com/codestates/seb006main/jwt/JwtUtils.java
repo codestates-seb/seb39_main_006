@@ -70,6 +70,16 @@ public class JwtUtils {
         return JWT.decode(token).getClaim("email").asString();
     }
 
+    public Long getExpire(String token){
+
+        DecodedJWT decode=JWT.decode(token.replace("Bearer ",""));
+
+        Date exp = decode.getExpiresAt();
+        System.out.println(exp.getTime());
+        System.out.println();
+        return exp.getTime()-System.currentTimeMillis();
+    }
+
     public void verifiedToken(String accessToken, String refreshToken){
         if(accessToken == null || !accessToken.startsWith("Bearer")){
             throw new BusinessLogicException(ExceptionCode.TOKEN_EXPIRED);

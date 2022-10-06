@@ -17,6 +17,7 @@ const Header = () => {
   const logoutHandler = () => {
     axios(`${process.env.REACT_APP_URL}/api/members/logout`, {
       headers: {
+        method : "Post",
         access_hh: sessionStorage.getItem("AccessToken"),
       },
     });
