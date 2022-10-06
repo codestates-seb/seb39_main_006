@@ -34,7 +34,7 @@ public class MatchingService {
 
     public MatchingDto.Response createMatching(Long postId, MatchingDto.Post postDto, Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        Posts posts = postsRepository.findById(postId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
+        Posts posts = postsRepository.findActiveById(postId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
         if (posts.isFull()) {
             throw new BusinessLogicException(ExceptionCode.GROUP_IS_FULL);
         }

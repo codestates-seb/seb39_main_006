@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static com.codestates.seb006main.posts.entity.QPosts.posts;
 
@@ -25,6 +26,14 @@ public class PostsRepositoryImpl implements PostsRepositoryCustom {
     private final JPAQueryFactory queryFactory;
     public PostsRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
+    }
+
+    @Override
+    public Optional<Posts> findActiveById(Long postId) {
+        return Optional.ofNullable(queryFactory
+                .selectFrom(posts)
+                .where(posts.postsStatus.ne(Posts.PostsStatus.INACTIVE))
+                .fetchOne());
     }
 
     @Override
