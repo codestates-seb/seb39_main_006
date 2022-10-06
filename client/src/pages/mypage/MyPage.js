@@ -1,7 +1,5 @@
 import SideBar from "../../components/SideBar";
 import styled from "styled-components";
-import Button from "../../components/ui/Button";
-import WrapperBox from "../../components/ui/WrapperBox";
 import H1 from "../../components/ui/H1";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -63,7 +61,7 @@ const MyPage = () => {
             <ContainerWrap>
               <section className="userinfo">
                 <a href="/userinfo">
-                  <Button>유저정보 수정하기</Button>
+                  <button>유저정보 수정하기</button>
                 </a>
               </section>
               <div className="label-wrapper">
@@ -134,6 +132,14 @@ const PageContainer = styled.div`
   }
 `;
 const ContainerWrap = styled.div`
+  button {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ff6680;
+    &:hover {
+      color: #6d639e;
+    }
+  }
   .label-wrapper {
     font-size: 2rem;
     color: #547882;
@@ -181,8 +187,8 @@ const ContainerWrap = styled.div`
     padding-left: 1rem;
   }
 
-  margin: 150px 0 250px 0;
-  padding: 40px 50px 40px 50px;
+  margin: 100px 0 200px 0;
+  padding: 30px 30px 20px 40px;
   display: flex;
   flex-direction: column;
   max-width: 1650px;

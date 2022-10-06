@@ -221,8 +221,23 @@ const Header = () => {
                   />
                 </summary>
                 <ul>
-                  {/* <li id="alarm">
-                  <button
+                  <li>
+                    {showMsg &&
+                      msgs.map((el, idx) => (
+                        <div key={idx}>
+                          <div
+                            className="mgs"
+                            onClick={() => {
+                              msgClickHandler(el.messageId, el.postId);
+                            }}
+                          >
+                            {el.body}
+                          </div>
+                        </div>
+                      ))}
+                  </li>
+                  <li id="alarm">
+                    <button
                       className="alarm"
                       onClick={() => {
                         readAllMessage();
@@ -230,7 +245,7 @@ const Header = () => {
                     >
                       전체 읽음
                     </button>
-                  </li> */}
+                  </li>
                   {/* <li id="alarm">
                     <button
                       className="alarm"
@@ -259,30 +274,6 @@ const Header = () => {
             />
             <a className="banner"></a>
           </nav>
-          <div>
-            {showMsg && (
-              <button
-                className="alarm"
-                onClick={() => {
-                  readAllMessage();
-                }}
-              >
-                전체 읽음
-              </button>
-            )}
-            {showMsg &&
-              msgs.map((el, idx) => (
-                <div key={idx}>
-                  <div
-                    onClick={() => {
-                      msgClickHandler(el.messageId, el.postId);
-                    }}
-                  >
-                    {el.body}
-                  </div>
-                </div>
-              ))}
-          </div>
         </Test>
       )}
     </HeaderSection>
@@ -292,8 +283,20 @@ const Header = () => {
 export default Header;
 
 const Test = styled.div`
+  .msg {
+    margin-left: 1rem;
+    padding: 10px;
+    border-color: #16213b;
+    background: #16213b;
+    color: wheat;
+    border-radius: 13px;
+    &:hover {
+      background-color: #304b61;
+      border-color: #c2e3de;
+    }
+  }
   #alarm {
-    margin: -1rem;
+    margin: -1.4rem;
   }
   .alarm {
     display: inline-block;
