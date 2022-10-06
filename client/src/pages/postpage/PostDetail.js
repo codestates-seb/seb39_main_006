@@ -51,6 +51,10 @@ const PostDetail = () => {
             sessionStorage.clear();
             navigate(`/`);
             window.location.reload();
+          } else if (
+            err.response.data.korMessage === "존재하지 않는 게시글입니다."
+          ) {
+            navigate(`/main`);
           } else if (err.response.data.korMessage) {
             alert(err.response.data.korMessage);
           } else {
@@ -73,6 +77,10 @@ const PostDetail = () => {
         if (err.response.status === 400) {
           if (err.response.data.fieldErrors) {
             alert(err.response.data.fieldErrors[0].reason);
+          } else if (
+            err.response.data.korMessage === "존재하지 않는 게시글입니다."
+          ) {
+            navigate(`/main`);
           } else if (
             err.response.data.fieldErrors === null &&
             err.response.data.violationErrors
@@ -120,6 +128,10 @@ const PostDetail = () => {
         if (err.response.status === 400) {
           if (err.response.data.fieldErrors) {
             alert(err.response.data.fieldErrors[0].reason);
+          } else if (
+            err.response.data.korMessage === "존재하지 않는 게시글입니다."
+          ) {
+            navigate(`/main`);
           } else if (
             err.response.data.fieldErrors === null &&
             err.response.data.violationErrors
@@ -171,6 +183,10 @@ const PostDetail = () => {
       if (err.response.status === 400) {
         if (err.response.data.fieldErrors) {
           alert(err.response.data.fieldErrors[0].reason);
+        } else if (
+          err.response.data.korMessage === "존재하지 않는 게시글입니다."
+        ) {
+          navigate(`/main`);
         } else if (
           err.response.data.fieldErrors === null &&
           err.response.data.violationErrors
@@ -224,6 +240,10 @@ const PostDetail = () => {
           if (err.response.data.fieldErrors) {
             alert(err.response.data.fieldErrors[0].reason);
           } else if (
+            err.response.data.korMessage === "존재하지 않는 게시글입니다."
+          ) {
+            navigate(`/main`);
+          } else if (
             err.response.data.fieldErrors === null &&
             err.response.data.violationErrors
           ) {
@@ -273,6 +293,10 @@ const PostDetail = () => {
           if (err.response.data.fieldErrors) {
             alert(err.response.data.fieldErrors[0].reason);
           } else if (
+            err.response.data.korMessage === "존재하지 않는 게시글입니다."
+          ) {
+            navigate(`/main`);
+          } else if (
             err.response.data.fieldErrors === null &&
             err.response.data.violationErrors
           ) {
@@ -319,6 +343,10 @@ const PostDetail = () => {
         if (err.response.status === 400) {
           if (err.response.data.fieldErrors) {
             alert(err.response.data.fieldErrors[0].reason);
+          } else if (
+            err.response.data.korMessage === "존재하지 않는 게시글입니다."
+          ) {
+            navigate(`/main`);
           } else if (
             err.response.data.fieldErrors === null &&
             err.response.data.violationErrors
@@ -367,6 +395,10 @@ const PostDetail = () => {
         if (err.response.status === 400) {
           if (err.response.data.fieldErrors) {
             alert(err.response.data.fieldErrors[0].reason);
+          } else if (
+            err.response.data.korMessage === "존재하지 않는 게시글입니다."
+          ) {
+            navigate(`/main`);
           } else if (
             err.response.data.fieldErrors === null &&
             err.response.data.violationErrors
