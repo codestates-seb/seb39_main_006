@@ -112,4 +112,8 @@ public class Member extends Auditable {
             this.description = description;
         }
     }
+
+    public void setDefaultImage(String defaultImage) {
+        this.profileImage = defaultImage;
+    }
 }
