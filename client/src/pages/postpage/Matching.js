@@ -34,7 +34,7 @@ const Matching = () => {
           } else if (
             err.response.data.korMessage === "매칭 정보를 찾을 수 없습니다."
           ) {
-            navigate(`/main`);
+            navigate(`/${matchData.postId}`);
           } else if (
             err.response.data.fieldErrors === null &&
             err.response.data.violationErrors
@@ -85,7 +85,7 @@ const Matching = () => {
           } else if (
             err.response.data.korMessage === "매칭 정보를 찾을 수 없습니다."
           ) {
-            navigate(`/main`);
+            navigate(`/${matchData.postId}`);
           } else if (
             err.response.data.fieldErrors === null &&
             err.response.data.violationErrors
