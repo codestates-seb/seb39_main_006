@@ -103,13 +103,14 @@ public class PostsService {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
 
+        if (!posts.getImages().isEmpty()) {
+            for (int i = 0; i < posts.getImages().size(); i++) {
+                posts.deleteImage(posts.getImages().get(i));
+            }
+        }
+
         List<String> imagePathList = findImagePathInBody(patchDto.getBody());
         if (!imagePathList.isEmpty()) {
-            if (!posts.getImages().isEmpty()) {
-                for (int i = 0; i < posts.getImages().size(); i++) {
-                    posts.deleteImage(posts.getImages().get(i));
-                }
-            }
             saveImages(imagePathList, posts);
         }
 
