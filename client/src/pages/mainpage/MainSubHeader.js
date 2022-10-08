@@ -106,6 +106,7 @@ const SubHeader = styled.div`
     border-radius: 8px;
     padding: 0.5rem;
   }
+  margin-left: 10%;
   line-height: 70px;
   width: fit-content;
   display: block;
