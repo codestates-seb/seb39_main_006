@@ -23,6 +23,7 @@ export default MainPage;
 const Flex = styled.div`
   display: flex;
   height: 2000px;
+  padding-left: 10%;
 `;
 const Section = styled.div`
   section {
@@ -34,6 +35,7 @@ const Section = styled.div`
   }
 
   h1 {
+    padding-left: 10%;
     font-size: 52px;
     display: block;
     align-items: center;
