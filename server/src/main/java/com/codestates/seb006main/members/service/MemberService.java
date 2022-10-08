@@ -125,7 +125,7 @@ public class MemberService {
     public void changeBookmark(Long postId, Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Member member = principalDetails.getMember();
-        Posts post = postsRepository.findById(postId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
+        Posts post = postsRepository.findActiveById(postId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
         Optional<Bookmark> bookmark = bookmarkRepository.findByMemberAndPost(member, post);
         if (bookmark.isPresent()) {
             bookmarkRepository.delete(bookmark.orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOOKMARK_NOT_FOUND)));

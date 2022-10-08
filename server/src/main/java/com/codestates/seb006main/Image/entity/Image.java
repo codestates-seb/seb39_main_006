@@ -50,21 +50,21 @@ public class Image {
     public void setPosts(Posts posts) {
         if (posts == null) {
             this.posts = null;
-        }
-        if (this.posts != posts && (this.posts != null || this.member != null || this.feed != null)) {
+        } else if (this.posts != posts && (this.posts != null || this.member != null || this.feed != null)) {
             throw new BusinessLogicException(ExceptionCode.ALREADY_USED_IMAGE);
+        } else {
+            this.posts = posts;
         }
-        this.posts = posts;
     }
 
     public void setMember(Member member) {
         if (member == null) {
             this.member = null;
-        }
-        if (this.member != member && (this.posts != null || this.member != null || this.feed != null)) {
+        } else if (this.member != member && (this.posts != null || this.member != null || this.feed != null)) {
             throw new BusinessLogicException(ExceptionCode.ALREADY_USED_IMAGE);
+        } else {
+            this.member = member;
         }
-        this.member = member;
     }
 
     public void setFeed(Feed feed) {

@@ -9,7 +9,6 @@ import axios from "axios";
 
 const Header = () => {
   const [msgs, setMsgs] = useState([]);
-  const [msg, setMsg] = useState({});
   const [msgIds, setMsgIds] = useState([]);
   const [showMsg, setShowMsg] = useState(false);
   const navigate = useNavigate();
@@ -17,7 +16,7 @@ const Header = () => {
   const logoutHandler = () => {
     axios(`${process.env.REACT_APP_URL}/api/members/logout`, {
       headers: {
-        method : "Post",
+        method: "Post",
         access_hh: sessionStorage.getItem("AccessToken"),
       },
     });
@@ -50,10 +49,14 @@ const Header = () => {
               alert(err.response.data.violationErrors[0].reason);
             } else {
               alert(
-                "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+                "우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
               );
             }
-          } else {
+          } else if (err.response.status === 0)
+            alert(
+              "서버 오류로 인해 불러올 수 없습니다. 조금 뒤에 다시 시도해주세요"
+            );
+          else {
             if (
               err.response.data.korMessage ===
               "만료된 토큰입니다. 다시 로그인 해주세요."
@@ -61,8 +64,13 @@ const Header = () => {
               sessionStorage.clear();
               navigate(`/`);
               window.location.reload();
+            } else if (err.response.data.korMessage) {
+              alert(err.response.data.korMessage);
+            } else {
+              alert(
+                "우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
+              );
             }
-            alert(err.response.data.korMessage);
           }
           window.location.reload();
         });
@@ -78,15 +86,10 @@ const Header = () => {
         {
           access_hh: sessionStorage.getItem("AccessToken"),
         },
-        (frame) => {
+        () => {
           client.subscribe(
             "/topic/" + sessionStorage.getItem("memberId"),
-            function (msg) {
-              // console.log(JSON.parse(msg.body));
-              // console.log(JSON.parse(msg.body).body);
-              // console.log(msg.body);
-              // console.log(JSON.parse(msg.body).messageId);
-              setMsg(JSON.parse(msg.body));
+            (msg) => {
               setMsgs((msgs) => [...msgs, JSON.parse(msg.body)]);
               setMsgIds((msgIds) => [
                 ...msgIds,
@@ -120,10 +123,14 @@ const Header = () => {
             alert(err.response.data.violationErrors[0].reason);
           } else {
             alert(
-              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+              "우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
             );
           }
-        } else {
+        } else if (err.response.status === 0)
+          alert(
+            "서버 오류로 인해 불러올 수 없습니다. 조금 뒤에 다시 시도해주세요"
+          );
+        else {
           if (
             err.response.data.korMessage ===
             "만료된 토큰입니다. 다시 로그인 해주세요."
@@ -131,8 +138,13 @@ const Header = () => {
             sessionStorage.clear();
             navigate(`/`);
             window.location.reload();
+          } else if (err.response.data.korMessage) {
+            alert(err.response.data.korMessage);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
+            );
           }
-          alert(err.response.data.korMessage);
         }
         window.location.reload();
       });
@@ -161,10 +173,14 @@ const Header = () => {
             alert(err.response.data.violationErrors[0].reason);
           } else {
             alert(
-              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+              "우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
             );
           }
-        } else {
+        } else if (err.response.status === 0)
+          alert(
+            "서버 오류로 인해 불러올 수 없습니다. 조금 뒤에 다시 시도해주세요"
+          );
+        else {
           if (
             err.response.data.korMessage ===
             "만료된 토큰입니다. 다시 로그인 해주세요."
@@ -172,8 +188,13 @@ const Header = () => {
             sessionStorage.clear();
             navigate(`/`);
             window.location.reload();
+          } else if (err.response.data.korMessage) {
+            alert(err.response.data.korMessage);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
+            );
           }
-          alert(err.response.data.korMessage);
         }
         window.location.reload();
       });

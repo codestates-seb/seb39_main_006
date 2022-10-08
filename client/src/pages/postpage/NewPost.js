@@ -79,10 +79,14 @@ const NewPost = () => {
             alert(err.response.data.violationErrors[0].reason);
           } else {
             alert(
-              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+              "우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
             );
           }
-        } else {
+        } else if (err.response.status === 0)
+          alert(
+            "서버 오류로 인해 불러올 수 없습니다. 조금 뒤에 다시 시도해주세요"
+          );
+        else {
           if (
             err.response.data.korMessage ===
             "만료된 토큰입니다. 다시 로그인 해주세요."
@@ -90,10 +94,14 @@ const NewPost = () => {
             sessionStorage.clear();
             navigate(`/`);
             window.location.reload();
+          } else if (err.response.data.korMessage) {
+            alert(err.response.data.korMessage);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
+            );
           }
-          alert(err.response.data.korMessage);
         }
-        // window.location.reload();
       });
   };
 
@@ -178,7 +186,6 @@ const NewPost = () => {
                       e.target.value = 20;
                       setTotalCount(20);
                     }
-                    console.log(totalCount);
                   }}
                 />
               </InputWrapper>
@@ -228,10 +235,14 @@ const NewPost = () => {
                             alert(err.response.data.violationErrors[0].reason);
                           } else {
                             alert(
-                              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+                              "우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
                             );
                           }
-                        } else {
+                        } else if (err.response.status === 0)
+                          alert(
+                            "서버 오류로 인해 불러올 수 없습니다. 조금 뒤에 다시 시도해주세요"
+                          );
+                        else {
                           if (
                             err.response.data.korMessage ===
                             "만료된 토큰입니다. 다시 로그인 해주세요."
@@ -239,10 +250,14 @@ const NewPost = () => {
                             sessionStorage.clear();
                             navigate(`/`);
                             window.location.reload();
+                          } else if (err.response.data.korMessage) {
+                            alert(err.response.data.korMessage);
+                          } else {
+                            alert(
+                              "우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
+                            );
                           }
-                          alert(err.response.data.korMessage);
                         }
-                        // window.location.reload();
                       });
                   },
                 }}

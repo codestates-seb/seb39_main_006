@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Header from "./components/Header";
 import Main from "./pages/mainpage/Main";
 import PostDetail from "./pages/postpage/PostDetail";
@@ -42,6 +42,7 @@ function App() {
         ) : (
           <>
             <Route path="/main" element={<Main />} />
+            <Route path="/" element={<Login />}></Route>
             <Route path="/new" element={<NewPost />} />
             <Route path="/:id" element={<PostDetail />} />
             <Route path="/edit/:id" element={<EditPost />} />

@@ -10,7 +10,6 @@ import CheckDisplayName from "./CheckDisplayName";
 // 사용부  함수이름(원하는값)
 
 const Signup = () => {
-  console.log("렌더링");
   const [isDisabledInfo, setIsDisabledInfo] = useState(true);
   const [validateEmailText, setValidateEmailText] = useState("");
   const [validatePasswordText, setValidatePasswordText] = useState("");
@@ -60,7 +59,6 @@ const Signup = () => {
       })
       .catch((err) => {
         setIsEmailAuthorizing(false);
-
         if (err.response.status === 400) {
           if (err.response.data.fieldErrors) {
             alert(err.response.data.fieldErrors[0].reason);
@@ -71,13 +69,22 @@ const Signup = () => {
             alert(err.response.data.violationErrors[0].reason);
           } else {
             alert(
-              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+              "우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
             );
           }
-        } else {
-          alert(err.response.data.korMessage);
+        } else if (err.response.status === 0)
+          alert(
+            "서버 오류로 인해 불러올 수 없습니다. 조금 뒤에 다시 시도해주세요"
+          );
+        else {
+          if (err.response.data.korMessage) {
+            alert(err.response.data.korMessage);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
+            );
+          }
         }
-        window.location.reload();
       });
   };
 
@@ -147,13 +154,22 @@ const Signup = () => {
             alert(err.response.data.violationErrors[0].reason);
           } else {
             alert(
-              "우리도 무슨 오류인지 모르겠어요. 새로고침하고 다시 시도하세요...."
+              "우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
             );
           }
-        } else {
-          alert(err.response.data.korMessage);
+        } else if (err.response.status === 0)
+          alert(
+            "서버 오류로 인해 불러올 수 없습니다. 조금 뒤에 다시 시도해주세요"
+          );
+        else {
+          if (err.response.data.korMessage) {
+            alert(err.response.data.korMessage);
+          } else {
+            alert(
+              "우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
+            );
+          }
         }
-        window.location.reload();
       });
   };
 
