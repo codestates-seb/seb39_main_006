@@ -95,9 +95,7 @@ export default MainSubHeader;
 
 const SubHeader = styled.div`
   ul {
-    overflow-x: hidden;
-    overflow-y: auto;
-    display: flex;
+    width: max-content;
   }
   span {
     padding: 2px;
@@ -113,8 +111,6 @@ const SubHeader = styled.div`
   display: block;
   justify-content: center;
   align-items: center;
-  margin-left: 2%;
-  margin-bottom: 30px;
   height: 70px;
   background-color: #d5eaf1;
   border-radius: 10px;
@@ -135,6 +131,7 @@ const SubHeader = styled.div`
       border-color: #efd5c8;
     }
   }
+
   .inputtext {
     width: 200px;
     height: 40px;
