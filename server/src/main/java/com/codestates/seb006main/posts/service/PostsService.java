@@ -71,7 +71,7 @@ public class PostsService {
     }
 
     public PostsDto.Response readPosts(Long postId) {
-        Posts posts = postsRepository.findById(postId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
+        Posts posts = postsRepository.findActiveById(postId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
         return postsMapper.postsToResponseDto(posts);
     }
 
@@ -82,14 +82,14 @@ public class PostsService {
     }
 
     public MultiResponseDto readAllMatching(Long postId, PageRequest pageRequest) {
-        Posts posts = postsRepository.findById(postId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
+        Posts posts = postsRepository.findActiveById(postId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
         List<Matching> matchingList = posts.getMatching().stream().filter(matching -> matching.getMatchingStatus() == Matching.MatchingStatus.READ || matching.getMatchingStatus() == Matching.MatchingStatus.NOT_READ).collect(Collectors.toList());
         Page<Matching> matchingPage = new PageImpl<>(matchingList, pageRequest, matchingList.size());
         return new MultiResponseDto<>(matchingMapper.matchingListToResponseDtoList(matchingList), matchingPage);
     }
 
     public MultiResponseDto readAllParticipants(Long postId, PageRequest pageRequest) {
-        Posts posts = postsRepository.findById(postId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
+        Posts posts = postsRepository.findActiveById(postId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
         List<MemberPosts> participantsList = posts.getParticipants();
         Page<MemberPosts> participantsPage = new PageImpl<>(participantsList, pageRequest, participantsList.size());
         return new MultiResponseDto<>(memberPostsMapper.memberPostsListToMemberParticipantsList(participantsList), participantsPage);
@@ -97,19 +97,20 @@ public class PostsService {
 
     public PostsDto.Response updatePosts(Long postId, PostsDto.Patch patchDto, Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        Posts posts = postsRepository.findById(postId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
+        Posts posts = postsRepository.findActiveById(postId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
         verifyDate(posts.getTravelPeriod().getStartDate(), posts.getTravelPeriod().getEndDate(), LocalDate.parse(patchDto.getCloseDate()));
         if (posts.getMember().getMemberId() != principalDetails.getMember().getMemberId()) {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
 
+        if (!posts.getImages().isEmpty()) {
+            for (int i = 0; i < posts.getImages().size(); i++) {
+                posts.deleteImage(posts.getImages().get(i));
+            }
+        }
+
         List<String> imagePathList = findImagePathInBody(patchDto.getBody());
         if (!imagePathList.isEmpty()) {
-            if (!posts.getImages().isEmpty()) {
-                for (int i = 0; i < posts.getImages().size(); i++) {
-                    posts.deleteImage(posts.getImages().get(i));
-                }
-            }
             saveImages(imagePathList, posts);
         }
 
@@ -120,7 +121,7 @@ public class PostsService {
 
     public void deletePosts(Long postId, Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        Posts posts = postsRepository.findById(postId)
+        Posts posts = postsRepository.findActiveById(postId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
         if (posts.getMember().getMemberId() != principalDetails.getMember().getMemberId()) {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
@@ -140,13 +141,13 @@ public class PostsService {
     public void deleteParticipant(Long participantId, Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         MemberPosts memberPosts = memberPostsRepository.findById(participantId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.PARTICIPANT_NOT_FOUND));
-        Posts posts = postsRepository.findById(memberPosts.getPosts().getPostId())
+        Posts posts = postsRepository.findActiveById(memberPosts.getPosts().getPostId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
         if (posts.getMember().getMemberId() != principalDetails.getMember().getMemberId() &&
                 memberPosts.getMember().getMemberId() != principalDetails.getMember().getMemberId()) {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
-        DomainEvent.Domain domain = new DomainEvent.Domain(posts.getPostId(), posts.getTitle(), memberPosts.getMember());
+        DomainEvent.Domain domain = new DomainEvent.Domain(posts.getPostId(), posts.getTitle(), posts.getMember(), memberPosts.getMember());
         applicationEventPublisher.publishEvent(new DomainEvent(this, domain, DomainEvent.EventType.CANCEL_PARTICIPATION));
 
         posts.deleteParticipant(memberPosts);

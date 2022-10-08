@@ -1,6 +1,5 @@
 package com.codestates.seb006main.message.repository;
 
-import com.codestates.seb006main.members.entity.Member;
 import com.codestates.seb006main.message.entity.Message;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
