@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import CheckDisplayName from "../account/CheckDisplayName";
-import WrapperBox from "../../components/ui/WrapperBox";
 import H1 from "../../components/ui/H1";
 
 const Userinfo = () => {
@@ -380,7 +379,7 @@ const PageContainer = styled.div`
     color: #444;
   }
   width: 70%;
-  margin-left: 10%;
+  margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;

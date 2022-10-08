@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Header from "./components/Header";
-import MainPage from "./pages/mainpage/MainPage";
+import Main from "./pages/mainpage/Main";
 import PostDetail from "./pages/postpage/PostDetail";
 import EditPost from "./pages/postpage/EditPost";
 import NewPost from "./pages/postpage/NewPost";
@@ -41,7 +41,7 @@ function App() {
           </>
         ) : (
           <>
-            <Route path="/main" element={<MainPage />} />
+            <Route path="/main" element={<Main />} />
             <Route path="/new" element={<NewPost />} />
             <Route path="/:id" element={<PostDetail />} />
             <Route path="/edit/:id" element={<EditPost />} />

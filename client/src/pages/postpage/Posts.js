@@ -164,7 +164,8 @@ const StyledPost = styled.div`
   .wrapper {
     flex-grow: 1;
     /* width: 750px; */
-    width: 78%;
+
+    width: max-content;
     min-height: 1000px;
     height: fit-content;
     margin-right: 20px;
@@ -174,6 +175,7 @@ const StyledPost = styled.div`
     box-shadow: 0px 3px 10px 1px rgba(0, 0, 0, 0.3);
   }
   .contents {
+    width: 1422px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -185,7 +187,7 @@ const StyledPost = styled.div`
     padding: 10px;
     border-radius: 2px;
     outline: none;
-    width: 75vw;
+
     border-radius: 5px;
     border: 1.5px solid #a19f9f;
     background-color: white;

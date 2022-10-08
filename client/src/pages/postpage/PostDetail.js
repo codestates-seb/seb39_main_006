@@ -507,7 +507,7 @@ const PageContainer = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0 5px 0 5px;
-
+  min-width: 2000px;
   @media screen and (max-width: 500px) {
     padding: 30px 25px 30px 25px;
     height: 700px;
@@ -531,6 +531,7 @@ const ContainerWrap = styled.div`
     border: 1px solid #dabbc9;
     padding: 0.5rem 1rem;
     margin: 0.5rem;
+    min-width: fit-content;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
     color: #425049;
     &:hover {
@@ -545,7 +546,7 @@ const ContainerWrap = styled.div`
   padding: 40px 50px 40px 50px;
   display: flex;
   flex-direction: column;
-  max-width: 1650px;
+  min-width: fit-content;
   width: 170%;
   height: 900px;
   background-color: beige;

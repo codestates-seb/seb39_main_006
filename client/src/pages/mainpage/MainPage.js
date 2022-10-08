@@ -1,7 +1,5 @@
 import React from "react";
 import Posts from "../postpage/Posts";
-import SideBar from "../../components/SideBar";
-import MainSubHeader from "./MainSubHeader";
 import styled from "styled-components";
 
 const MainPage = () => {
@@ -13,7 +11,6 @@ const MainPage = () => {
           <h2>여행동행자 모집합니다</h2>
         </section>
       </Section>
-      <MainSubHeader />
       <Flex>
         <Posts />
       </Flex>
@@ -24,13 +21,12 @@ const MainPage = () => {
 export default MainPage;
 
 const Flex = styled.div`
-  /* align-items: center; */
-  margin-left: 10%;
   display: flex;
   height: 2000px;
 `;
 const Section = styled.div`
   section {
+    /* margin: 0 auto; */
     display: flex;
     position: relative;
     left: 100px;
