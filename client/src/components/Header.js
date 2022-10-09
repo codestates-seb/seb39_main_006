@@ -465,8 +465,9 @@ const HeaderSection = styled.div`
   }
 
   nav {
+    margin-bottom: 1rem;
     border-radius: 10px;
-    box-shadow: 0 1px 4px rgba(1, 0, 0, 0.6);
+    box-shadow: 0 1px 4px rgba(1, 1, 0, 0.4);
     /* margin: 70px; */
     background: #d0e8f0;
     opacity: 90%;
