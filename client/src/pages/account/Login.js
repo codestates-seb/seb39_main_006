@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Button from "../../components/ui/Button";
+import { SubmitBtn } from "../../components/ui/Button";
 import styled from "styled-components";
 
 // import AccountInfo from "./AccountInfo";
@@ -100,7 +100,7 @@ const Login = () => {
       <LoginPageContainer>
         <LoginContainer>
           <section align="center">
-            <LoginText>로그인</LoginText>
+            <LoginText>LOGIN</LoginText>
             <div>
               <InputWrapper>
                 <form onSubmit={(e) => e.preventDefault()}>
@@ -133,7 +133,7 @@ const Login = () => {
               </InputWrapper>
 
               <div align="center">
-                <div></div> <Button onClick={usesubmitHandler}>Login</Button>
+                <SubmitBtn onClick={usesubmitHandler}>Login</SubmitBtn>
                 <NewBTN type="button" onClick={signupHandler}>
                   Create new account
                 </NewBTN>
@@ -159,8 +159,9 @@ const Login = () => {
 export default Login;
 const NewBTN = styled.div`
   font-size: 1.4rem;
+  margin: 15px 15px;
   font-weight: 700;
-  color: #ff6680;
+  color: #f2a25f;
   &:hover {
     color: #6d639e;
   }
@@ -188,8 +189,10 @@ const LoginPageContainer = styled.div`
 const LoginText = styled.div`
   font-size: 32px;
   line-height: 37px;
+  letter-spacing: 8px;
+  margin-left: 8px;
   color: #444444;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 33px;
   @media screen and (max-width: 500px) {
     font-size: 26px;
@@ -204,9 +207,9 @@ const LoginContainer = styled.div`
   max-width: 468px;
   width: 100%;
   height: 555px;
-  background: #fbfbfb;
-  box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
   font-family: Roboto;
   box-sizing: border-box;
   @media screen and (max-width: 500px) {
@@ -236,16 +239,26 @@ const InputWrapper = styled.div`
     text-align: left;
     font-size: 1em;
   }
+  label {
+    font-weight: 600;
+  }
   input {
-    padding: 20px 10px;
+    padding: 15px 10px;
     border-radius: 5px;
     outline: none;
     width: 20rem;
     display: inline-block;
-    border: none;
+    /* border: none; */
     border-radius: 5px;
-    margin-right: 10%;
-    border: 1.5px solid #a19f9f;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.7);
+    /* margin-right: 10%; */
+    margin: 5px auto;
+    border: 2px solid #8fc9e04b;
+    &:focus {
+      background-color: white;
+      border: 2px solid #5e98ae4b;
+    }
   }
   label {
     font-size: large;

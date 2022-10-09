@@ -462,6 +462,42 @@ const ContainerWrap = styled.div`
   }
 `;
 const InputWrapper = styled.div`
+  .in-line {
+    width: 350px;
+    height: 40px;
+  }
+  input {
+    margin: 0;
+  }
+  input[type="text"] {
+    width: 70%;
+    height: 100%;
+    border: none;
+    font-size: 1em;
+    padding-left: 5px;
+    font-style: oblique;
+    display: inline;
+    outline: none;
+    box-sizing: border-box;
+    color: black;
+  }
+  input[type="button"] {
+    width: 30%;
+    height: 100%;
+    background-color: lightgray;
+    border: none;
+    background-color: white;
+    font-size: 1em;
+    color: #042aac;
+    outline: none;
+    display: inline;
+    margin-left: -10px;
+    box-sizing: border-box;
+  }
+  input[type="button"]:hover {
+    background-color: lightgray;
+  }
+
   button {
     display: grid;
     grid: auto / repeat(auto-fit, minmax(100px, auto));

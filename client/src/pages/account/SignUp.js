@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Button from "../../components/ui/Button";
+import Button, { ValidateBtn, SignupBtn } from "../../components/ui/Button";
 import styled from "styled-components";
 
 import CheckDisplayName from "./CheckDisplayName";
@@ -215,10 +215,10 @@ const Signup = () => {
         <SignUpPageContainer>
           <SignUpContainer>
             <InputWrapper>
-              <SignUpText>회원가입</SignUpText>
+              <SignUpText>SIGNUP</SignUpText>
               <form onSubmit={(e) => e.preventDefault()}>
                 <label htmlFor="displayName">User Name</label>
-                <div className="container">
+                <div className="containerValidation">
                   <input
                     type="displayName"
                     id="displayName"
@@ -226,8 +226,11 @@ const Signup = () => {
                     ref={displaynameInputRef}
                     onChange={onChangeInputDisplayName}
                   />
+
+                  <ValidateBtn onClick={onClickDuplicateDisplayName}>
+                    중복확인
+                  </ValidateBtn>
                 </div>
-                <Button onClick={onClickDuplicateDisplayName}>중복확인</Button>
                 <p className={validateDisplayNameNoticeClassname}>
                   {validateDisplayNameText}
                 </p>
@@ -242,19 +245,19 @@ const Signup = () => {
                     ref={emailInputRef}
                     onChange={onChangeInputEmail}
                   />
-                </div>
+                  {validateEmailNoticeClassname === "validate" ? (
+                    ""
+                  ) : (
+                    <div>
+                      <Button onClick={onClickSendAuthCodeEmail}>
+                        이메일 인증번호 받기
+                      </Button>
+                    </div>
+                  )}{" "}
+                </div>{" "}
                 <p className={validateEmailNoticeClassname}>
                   {validateEmailText}
                 </p>
-                {validateEmailNoticeClassname === "validate" ? (
-                  ""
-                ) : (
-                  <div>
-                    <Button onClick={onClickSendAuthCodeEmail}>
-                      이메일 인증번호 받기
-                    </Button>
-                  </div>
-                )}
                 {isEmailAuthorizing ? (
                   <div>
                     <input
@@ -337,8 +340,11 @@ const SignUpText = styled.div`
   font-size: 32px;
   line-height: 37px;
   color: #444444;
-  font-weight: 700;
-  margin-bottom: 33px;
+  letter-spacing: 8px;
+  margin-left: 8px;
+  font-weight: 600;
+  margin-bottom: 40px;
+  text-align: center;
   @media screen and (max-width: 600px) {
     font-size: 26px;
     margin-bottom: 25px;
@@ -349,10 +355,13 @@ const SignUpContainer = styled.div`
   padding: 40px 50px 40px 50px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+
   max-width: 468px;
   width: 100%;
   height: 760px;
-  background: #fbfbfb;
+  color: fbfbfb;
+  background: rgba(255, 255, 255, 0.5);
   box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   font-family: Roboto;
@@ -360,10 +369,11 @@ const SignUpContainer = styled.div`
   @media screen and (max-width: 500px) {
     padding: 30px 25px 30px 25px;
     height: 700px;
+    min-height: fit-content;
   }
 `;
 const InputWrapper = styled.div`
-  /* align-items: center; */
+  width: 100%;
   .validate {
     color: red;
     padding: 0.5rem;
@@ -371,6 +381,17 @@ const InputWrapper = styled.div`
   .HTH-green {
     color: green;
     padding: 0.5rem;
+  }
+  .containerValidation {
+    display: flex;
+    width: 100%;
+    #displayName {
+      flex-basis: 80%;
+      margin-right: 10px;
+    }
+    button {
+      flex-basis: 20%;
+    }
   }
   .container {
     display: flex;
@@ -382,20 +403,27 @@ const InputWrapper = styled.div`
     font-size: 1em;
   }
   input {
-    padding: 20px 10px;
+    padding: 15px 10px;
     border-radius: 5px;
     outline: none;
-    width: 20rem;
+    width: 100%;
     display: inline-block;
-    border: none;
+    box-sizing: border-box;
     border-radius: 5px;
-    margin-right: 10%;
-    border: 1.5px solid #a19f9f;
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 2px solid #8fc9e04b;
+    margin: 5px auto;
+    &:focus {
+      background-color: white;
+      border: 2px solid #5e98ae4b;
+    }
   }
   label {
-    font-size: large;
+    /* font-size: large;
     line-height: normal;
-    padding: 0.5rem;
+    padding: 0.5rem; */
+    font-weight: 600;
+    text-align: center;
   }
   #none + label {
     color: #a19f9f;

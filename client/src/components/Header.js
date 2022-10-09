@@ -435,10 +435,10 @@ const HeaderSection = styled.div`
 
   p {
     line-height: 4rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    font-size: 4rem;
-    color: #dabbc9;
+    margin-top: 5rem;
+    padding-bottom: 20px;
+    font-size: 5rem;
+    color: #003046;
     text-transform: uppercase;
     font-weight: 600;
     transition: all 1s ease-in-out;
@@ -447,7 +447,7 @@ const HeaderSection = styled.div`
     &::before {
       content: attr(data-item);
       transition: all 1s ease-in-out;
-      color: #efd5c8;
+      color: #e5e5e5;
       position: absolute;
       top: 0;
       bottom: 0;
@@ -465,8 +465,9 @@ const HeaderSection = styled.div`
   }
 
   nav {
+    margin-bottom: 1rem;
     border-radius: 10px;
-    box-shadow: 0 1px 4px rgba(1, 0, 0, 0.6);
+    box-shadow: 0 1px 4px rgba(1, 1, 0, 0.4);
     /* margin: 70px; */
     background: #d0e8f0;
     opacity: 90%;

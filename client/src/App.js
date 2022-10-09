@@ -8,7 +8,7 @@ import { Routes, Route } from "react-router-dom";
 import Login from "./pages/account/Login";
 import SignUp from "./pages/account/SignUp";
 import Matching from "./pages/postpage/Matching";
-import UserInfo from "../src/pages/mypage/UserInfo";
+import UserInfo from "./pages/mypage/UserInfo";
 import MyPage from "./pages/mypage/MyPage";
 import MyPost from "./pages/mypage/MyPost";
 import MyBookmark from "./pages/mypage/MyBookmark";
@@ -65,9 +65,13 @@ const Wrap = styled.div`
   #bgr {
     position: absolute;
     top: -600px;
-    background-repeat: repeat;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url(${imgBgr});
     z-index: -995;
     opacity: 50%;
+
+    overflow: scroll;
     min-width: 1000px;
     max-height: fit-content;
     /* @media screen and (max-width: 1500px) {
