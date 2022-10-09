@@ -120,9 +120,9 @@ const SubHeader = styled.div`
   }
   button {
     font-size: 1rem;
-    background-color: #dabbc9;
+    background-color: #cfbcb7;
     width: fit-content;
-    border: 1px solid #dabbc9;
+    border: 1px solid #cfbcb7;
     margin: 0.5rem;
     padding: 0.5rem 1rem;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);

@@ -257,7 +257,7 @@ const InputWrapper = styled.div`
     border: 2px solid #8fc9e04b;
     &:focus {
       background-color: white;
-      border: 2px solid #5e98ae;
+      border: 2px solid #5e98ae4b;
     }
   }
   label {
