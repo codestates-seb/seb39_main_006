@@ -41,8 +41,8 @@ const Section = styled.div`
     align-items: center;
     font-family: "Montserrat", sans-serif;
     text-transform: uppercase;
-    text-shadow: 1px 1px 0px #dabbc9, 2px 2px 0px #dabbc9, 3px 3px 0px #dabbc9,
-      4px 4px 0px #dabbc9;
+    text-shadow: 1px 1px 0px #CFBCB7, 2px 2px 0px #CFBCB7, 3px 3px 0px #CFBCB7,
+      4px 4px 0px #CFBCB7;
   }
   h2 {
     padding: 1rem;

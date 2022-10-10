@@ -597,19 +597,20 @@ const PageContainer = styled.div`
     font-weight: 500;
     color: #444;
   }
-  width: 100%;
+  box-sizing: border-box;
+  position: relative;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 5px 0 5px;
-  min-width: 2000px;
-  @media screen and (max-width: 500px) {
+  width: 100%;
+
+  /* @media screen and (max-widt: fit-content) {//여기오타나셨대여 에에에 오타낫대여 오타낫대여 우애애앵!!!!!!!
     padding: 30px 25px 30px 25px;
     height: 700px;
-  }
+  } */
 `;
 
 const ContainerWrap = styled.div`
+  overflow: scroll;
+
   #author {
     color: darkblue;
     font-weight: 600;
@@ -637,13 +638,16 @@ const ContainerWrap = styled.div`
   .contents {
     padding-left: 1rem;
   }
-  margin: 150px 0 250px 0;
+  box-sizing: border-box;
+  position: relative;
+
+  margin: 50px 20px 250px 20px;
   padding: 40px 50px 40px 50px;
-  display: flex;
-  flex-direction: column;
+  display: inline-block;
+  /* flex-direction: column; */
   min-width: fit-content;
-  width: 170%;
-  height: 900px;
+  width: 50%;
+  height: fit-content;
   background-color: beige;
 
   box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);
@@ -671,6 +675,7 @@ const Match = styled.div`
   background-color: #d5eaf1;
   margin-top: 10px;
   margin-bottom: 10px;
+
   padding: 5px;
   border-radius: 5px;
   .isread {
@@ -712,7 +717,8 @@ const BodyContainer = styled.div`
   border: 1px solid black;
   background-color: #d5eaf1;
   border-radius: 15px;
-  width: 70vw;
+  width: 50vw;
+
   .toastui-editor-contents {
     padding: 10px;
   }
