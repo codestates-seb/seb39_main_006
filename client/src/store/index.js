@@ -2,7 +2,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import searchReducer from "./search-slice";
 import filterReducer from "./filter-slice";
 import pageReducer from "./page-slice";
-
 // 새로고침 유지
 import storage from "redux-persist/lib/storage";
 import { combineReducers } from "@reduxjs/toolkit";

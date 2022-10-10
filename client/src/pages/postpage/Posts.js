@@ -178,6 +178,7 @@ const StyledPost = styled.div`
     min-height: 1000px;
     height: fit-content;
     margin-right: 20px;
+    font-family: "Segoe UI", Roboto;
     background-color: #d5eaf1;
     border-radius: 10px;
     position: absolute;

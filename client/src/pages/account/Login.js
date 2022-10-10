@@ -167,6 +167,14 @@ const NewBTN = styled.div`
   }
 `;
 const Wrap = styled.div`
+  /* overflow: hidden;
+  /* width: 100vw;
+  height: 100vh; */
+  position: absolute;
+  top: 170px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  box-sizing: border-box;
   #bgr {
     position: absolute;
     top: -600px;
@@ -200,7 +208,7 @@ const LoginText = styled.div`
   }
 `;
 const LoginContainer = styled.div`
-  margin: 150px 0 250px 0;
+  /* margin: 150px 0 250px 0; */
   padding: 40px 50px 40px 50px;
   display: flex;
   flex-direction: column;
@@ -212,10 +220,10 @@ const LoginContainer = styled.div`
   border-radius: 15px;
   font-family: Roboto;
   box-sizing: border-box;
-  @media screen and (max-width: 500px) {
+  /* @media screen and (max-width: 500px) {
     padding: 30px 25px 30px 25px;
     height: 455px;
-  }
+  } */
 `;
 const InputWrapper = styled.div`
   display: grid;

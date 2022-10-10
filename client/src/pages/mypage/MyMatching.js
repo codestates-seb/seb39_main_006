@@ -65,25 +65,38 @@ const MyMatching = () => {
   return (
     <StyledDiv>
       <SideBar />
-
       <H1>매칭 신청한 게시글</H1>
-      {myMatchingInfo.map((el, idx) => (
-        <div key={idx}>
-          <h2
-            onClick={() => {
-              navigate(`/${el.postId}`);
-            }}
-          >
-            {el.postTitle} {matchStatus(el.matchingStatus)}
-          </h2>
-        </div>
-      ))}
+      <div className="wrapper">
+        {myMatchingInfo.map((el, idx) => (
+          <div key={idx}>
+            <h2
+              onClick={() => {
+                navigate(`/${el.postId}`);
+              }}
+            >
+              {el.postTitle} {matchStatus(el.matchingStatus)}
+            </h2>
+          </div>
+        ))}
+      </div>
     </StyledDiv>
   );
 };
 
 export default MyMatching;
 const StyledDiv = styled.div`
-  .h1-wrap {
+  .wrapper {
+    box-sizing: border-box;
+    position: relative;
+    display: inline-block;
+    margin: 40px;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.6);
+    font-family: Roboto;
+    width: fit-content;
+    height: fit-content;
   }
 `;

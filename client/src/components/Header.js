@@ -281,30 +281,34 @@ const Header = () => {
             />
             <a className="banner"></a>
           </nav>
-          <div>
-            {showMsg && (
-              <button
-                className="alarm"
-                onClick={() => {
-                  readAllMessage();
-                }}
-              >
-                전체 읽음
-              </button>
-            )}
-            {showMsg &&
-              msgs.map((el, idx) => (
-                <div key={idx}>
-                  <div
-                    onClick={() => {
-                      msgClickHandler(el.messageId, el.postId);
-                    }}
-                  >
-                    {el.body}
+          {showMsg ? (
+            <div className="mgs">
+              {showMsg && (
+                <button
+                  className="alarm"
+                  onClick={() => {
+                    readAllMessage();
+                  }}
+                >
+                  전체 읽음
+                </button>
+              )}
+              {showMsg &&
+                msgs.map((el, idx) => (
+                  <div key={idx}>
+                    <div
+                      onClick={() => {
+                        msgClickHandler(el.messageId, el.postId);
+                      }}
+                    >
+                      {el.body}
+                    </div>
                   </div>
-                </div>
-              ))}
-          </div>
+                ))}
+            </div>
+          ) : (
+            ""
+          )}
         </Test>
       )}
     </HeaderSection>
@@ -314,6 +318,20 @@ const Header = () => {
 export default Header;
 
 const Test = styled.div`
+  .mgs {
+    box-sizing: border-box;
+    position: relative;
+    display: inline-block;
+    margin: 40px;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.6);
+    font-family: Roboto;
+    width: fit-content;
+    height: fit-content;
+  }
   #alarm {
     margin: -1rem;
   }
