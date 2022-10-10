@@ -429,8 +429,8 @@ const PostDetail = () => {
     <PageContainer>
       <ContainerWrap>
         <div>
-          <h2>
-            {detail.title}
+          <div className="titleWrapper">
+            <h2>{detail.title}</h2>
             {sessionStorage.getItem("userName") === detail.leaderName ? (
               <>
                 <button
@@ -438,25 +438,26 @@ const PostDetail = () => {
                     navigate(`/edit/${id}`);
                   }}
                 >
-                  게시글 수정
+                  수정
                 </button>
                 <button
                   onClick={() => {
                     deleteHandler();
                   }}
                 >
-                  게시글을 삭제
+                  삭제
                 </button>
               </>
             ) : null}
             <button
+              className="heart"
               onClick={() => {
                 bookmarkHandler();
               }}
             >
               {isbookmark ? "❤️" : "🤍"}
             </button>
-          </h2>
+          </div>
           <p className="author">작성자 :</p>
           <div id="author" className="author">
             {" "}
@@ -609,8 +610,20 @@ const PageContainer = styled.div`
 `;
 
 const ContainerWrap = styled.div`
-  overflow: scroll;
-
+  /* overflow: scroll; */
+  .titleWrapper {
+    display: flex;
+    align-items: center;
+    .heart {
+      border-radius: 50%;
+      padding: 5px;
+      background-color: white;
+      width: 36px;
+      height: 36px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+  }
   #author {
     color: darkblue;
     font-weight: 600;
@@ -620,39 +633,42 @@ const ContainerWrap = styled.div`
     font-size: 1.25rem;
   }
   button {
-    place-items: center;
+    /* place-items: center; */
     font-size: 1.25rem;
     background-color: #dabbc9;
     width: fit-content;
     border: 1px solid #dabbc9;
-    padding: 0.5rem 1rem;
+    padding: 5px 10px;
     margin: 0.5rem;
     min-width: fit-content;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
     color: #425049;
+    cursor: pointer;
     &:hover {
       background-color: #efd5c8;
       border-color: #efd5c8;
     }
   }
+
   .contents {
     padding-left: 1rem;
   }
   box-sizing: border-box;
   position: relative;
 
-  margin: 50px 20px 250px 20px;
-  padding: 40px 50px 40px 50px;
-  display: inline-block;
-  /* flex-direction: column; */
-  min-width: fit-content;
-  width: 50%;
-  height: fit-content;
-  background-color: beige;
+  margin: 20px auto 250px;
+  //margin: 위 좌우 아래 인가그럼 기억아낮
 
+  padding: 40px 50px 40px 50px;
+  /* display: inline-block; */
+  /* flex-direction: column; */
+  /* min-width: fit-content;
+  width: 50%;
+  height: fit-content; */
+  background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  font-family: Roboto;
+  font-family: "Roboto";
   box-sizing: border-box;
   @media screen and (max-width: 500px) {
     padding: 30px 25px 30px 25px;
@@ -689,21 +705,25 @@ const Match = styled.div`
 
 const FlexContainer = styled.div`
   .span-title {
-    font-weight: 700;
-    font-size: 20px;
+    font-weight: 600;
+    font-size: 18px;
   }
 
   .span-content {
     color: darkblue;
     font-weight: 600;
+    font-size: 14px;
   }
   width: 100%;
   display: flex;
   justify-content: space-around;
+
   .flexbody {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     border-radius: 15px;
     background-color: #d5eaf1;
+    padding: 5px;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -732,7 +752,7 @@ const Container = styled.div`
   display: flex;
   justify-content: space-around;
   /* background-color: yellow; */
-  height: 80vh;
+  /* height: 80vh; */
 `;
 
 const Matchtext = styled.div`

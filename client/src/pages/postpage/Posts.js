@@ -189,6 +189,18 @@ const StyledPost = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    span {
+      box-sizing: border-box;
+      font-size: 1rem;
+
+      line-height: 1.3rem;
+      text-align: center;
+      font-weight: 600;
+      color: #666;
+      margin-left: 30px;
+      text-shadow: #666;
+      letter-spacing: 1px;
+    }
   }
   .post {
     display: flex, inline-flex;
@@ -221,8 +233,8 @@ const StyledPost = styled.div`
     justify-content: space-between;
   }
   .filterbtn {
-    flex-grow: 1;
-    border-radius: 15px;
+    flex-grow: 1/0;
+    border-radius: 8px;
     margin: 5px;
   }
   .focusbtn {
