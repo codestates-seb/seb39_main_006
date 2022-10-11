@@ -14,10 +14,12 @@
 </p>
 
 ## Link 
-- <h2>Hitch Hiker 배포 링크 : https://www.hitch-hiker.kr</h2>
+- <h3 markdown="1">**Hitch Hiker 배포 링크 : https://www.hitch-hiker.kr**</h3>
+
+<br>
 
 ## Wiki
-- <h2 markdown="1">[Hitch Hiker Dev Wiki](https://github.com/codestates-seb/seb39_main_006/wiki)</h2>
+- <h3 markdown="1">**[Hitch Hiker Dev Wiki](https://github.com/codestates-seb/seb39_main_006/wiki)**</h3>
 
 <br>
 
