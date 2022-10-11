@@ -1,0 +1,140 @@
+= SEB_Main_006 - HitchHiker API
+:sectnums:
+:toc: left
+:toclevels: 4
+:toc-title: Table of Contents
+:source-highlighter: prettify
+
+김기홍 <rlghd153@gmail.com>
+
+만든 날짜 : 2022.09.17
+마지막으로 수정한 날짜 : 2022.09.23
+
+== MemberController
+=== 회원 가입
+.curl-request
+include::{snippets}/post-member/curl-request.adoc[]
+
+.http-request
+include::{snippets}/post-member/http-request.adoc[]
+
+.request-fields
+include::{snippets}/post-member/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-member/http-response.adoc[]
+
+.response-fields
+include::{snippets}/post-member/response-fields.adoc[]
+
+=== 이메일 인증
+.curl-request
+include::{snippets}/get-member-email/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-member-email/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/get-member-email/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-member-email/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-member-email/response-fields.adoc[]
+
+=== 닉네임 중복 확인
+.curl-request
+include::{snippets}/get-member-display-name/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-member-display-name/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/get-member-display-name/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-member-display-name/http-response.adoc[]
+
+=== 로그인
+.curl-request
+include::{snippets}/post-login/curl-request.adoc[]
+
+.http-request
+include::{snippets}/post-login/http-request.adoc[]
+
+.request-fields
+include::{snippets}/post-login/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-login/http-response.adoc[]
+
+.response-fields
+include::{snippets}/post-login/response-fields.adoc[]
+
+=== 회원 정보 수정
+.curl-request
+include::{snippets}/patch-member/curl-request.adoc[]
+
+.http-request
+include::{snippets}/patch-member/http-request.adoc[]
+
+.request-fields
+include::{snippets}/patch-member/request-fields.adoc[]
+
+.http-response
+include::{snippets}/patch-member/http-response.adoc[]
+
+.response-fields
+include::{snippets}/patch-member/response-fields.adoc[]
+
+
+=== 회원 정보 조회
+.curl-request
+include::{snippets}/get-member/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-member/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/get-member/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-member/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-member/response-fields.adoc[]
+
+
+=== 회원 삭제
+.curl-request
+include::{snippets}/delete-member/curl-request.adoc[]
+
+.http-request
+include::{snippets}/delete-member/http-request.adoc[]
+
+.http-response
+include::{snippets}/delete-member/http-response.adoc[]
+
+=== 북마크 등록/삭제
+.curl-request
+include::{snippets}/get-bookmark/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-bookmark/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-bookmark/http-response.adoc[]
+
+=== 내 북마크
+.curl-request
+include::{snippets}/get-my-bookmarks/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-my-bookmarks/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-my-bookmarks/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-my-bookmarks/response-fields.adoc[]

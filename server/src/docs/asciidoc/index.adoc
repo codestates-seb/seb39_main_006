@@ -1,0 +1,310 @@
+= SEB_Main_006 - HitchHiker API
+:sectnums:
+:toc: left
+:toclevels: 4
+:toc-title: Table of Contents
+:source-highlighter: prettify
+
+김기홍 <rlghd153@gmail.com>
+정윤조 <jyjgom@gmail.com>
+
+만든 날짜 : 2022.09.17
+마지막으로 수정한 날짜 : 2022.09.23
+
+== MemberController
+=== 회원 가입
+.http-request
+include::{snippets}/post-member/http-request.adoc[]
+
+.request-fields
+include::{snippets}/post-member/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-member/http-response.adoc[]
+
+.response-fields
+include::{snippets}/post-member/response-fields.adoc[]
+
+=== 이메일 인증
+.http-request
+include::{snippets}/get-member-email/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/get-member-email/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-member-email/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-member-email/response-fields.adoc[]
+
+=== 닉네임 중복 확인
+.http-request
+include::{snippets}/get-member-display-name/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/get-member-display-name/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-member-display-name/http-response.adoc[]
+
+=== 로그인
+.http-request
+include::{snippets}/post-login/http-request.adoc[]
+
+.request-fields
+include::{snippets}/post-login/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-login/http-response.adoc[]
+
+.response-fields
+include::{snippets}/post-login/response-fields.adoc[]
+
+=== 회원 정보 수정
+.http-request
+include::{snippets}/patch-member/http-request.adoc[]
+
+.request-fields
+include::{snippets}/patch-member/request-fields.adoc[]
+
+.http-response
+include::{snippets}/patch-member/http-response.adoc[]
+
+.response-fields
+include::{snippets}/patch-member/response-fields.adoc[]
+
+=== 회원 정보 조회
+.http-request
+include::{snippets}/get-member/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/get-member/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-member/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-member/response-fields.adoc[]
+
+=== 회원 삭제
+.http-request
+include::{snippets}/delete-member/http-request.adoc[]
+
+.http-response
+include::{snippets}/delete-member/http-response.adoc[]
+
+=== 북마크 등록/취소 (토글)
+.http-request
+include::{snippets}/get-bookmark/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-bookmark/http-response.adoc[]
+
+=== 내 북마크
+.curl-request
+include::{snippets}/get-my-bookmarks/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-my-bookmarks/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-my-bookmarks/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-my-bookmarks/response-fields.adoc[]
+
+== PostsController
+=== 게시글 등록
+.http-request
+include::{snippets}/post-posts/http-request.adoc[]
+
+.request-fields
+include::{snippets}/post-posts/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-posts/http-response.adoc[]
+
+.response-fields
+include::{snippets}/post-posts/response-fields.adoc[]
+
+=== 게시글 수정
+.http-request
+include::{snippets}/patch-posts/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/patch-posts/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/patch-posts/request-fields.adoc[]
+
+.http-response
+include::{snippets}/patch-posts/http-response.adoc[]
+
+.response-fields
+include::{snippets}/patch-posts/response-fields.adoc[]
+
+=== 게시글 조회
+.http-request
+include::{snippets}/get-posts/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/get-posts/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-posts/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-posts/response-fields.adoc[]
+
+=== 전체 게시글 조회 (with Pagination)
+.http-request
+include::{snippets}/get-all-posts/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/get-all-posts/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-all-posts/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-all-posts/response-fields.adoc[]
+
+=== 게시글 현재 매칭 조회
+.http-request
+include::{snippets}/get-all-matching/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/get-all-matching/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-all-matching/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-all-matching/response-fields.adoc[]
+
+=== 게시글 현재 참여자 조회
+.http-request
+include::{snippets}/get-all-participants/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/get-all-participants/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-all-participants/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-all-participants/response-fields.adoc[]
+
+=== 게시글 삭제
+.http-request
+include::{snippets}/delete-posts/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/delete-posts/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/delete-posts/http-response.adoc[]
+
+
+== ImageController
+=== 이미지 등록
+.http-request
+include::{snippets}/upload-image/http-request.adoc[]
+
+.request-parts
+include::{snippets}/upload-image/request-parts.adoc[]
+
+.http-response
+include::{snippets}/upload-image/http-response.adoc[]
+
+.response-fields
+include::{snippets}/upload-image/response-fields.adoc[]
+
+=== 이미지 삭제
+.http-request
+include::{snippets}/delete-image/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/delete-image/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/delete-image/http-response.adoc[]
+
+
+== MatchingController
+=== 매칭 신청 (모든 이용자가 가능)
+.http-request
+include::{snippets}/post-matching/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/post-matching/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/post-matching/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-matching/http-response.adoc[]
+
+.response-fields
+include::{snippets}/post-matching/response-fields.adoc[]
+
+=== 매칭 조회 (게시글 주인과 신청자만 가능)
+.http-request
+include::{snippets}/get-matching/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/get-matching/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-matching/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-matching/response-fields.adoc[]
+
+=== 매칭 수락 (게시글 주인만 가능)
+.http-request
+include::{snippets}/accept-matching/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/accept-matching/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/accept-matching/http-response.adoc[]
+
+.response-fields
+include::{snippets}/accept-matching/response-fields.adoc[]
+
+=== 매칭 거절 (게시글 주인만 가능)
+.http-request
+include::{snippets}/refuse-matching/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/refuse-matching/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/refuse-matching/http-response.adoc[]
+
+.response-fields
+include::{snippets}/refuse-matching/response-fields.adoc[]
+
+=== 매칭 취소 (신청자만 가능)
+.http-request
+include::{snippets}/delete-matching/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/delete-matching/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/delete-matching/http-response.adoc[]
+
+== MemberPostsController
+=== 참여자 삭제 (게시글 주인과 참여자만 가능)
+.http-request
+include::{snippets}/delete-participants/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/delete-participants/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/delete-participants/http-response.adoc[]
