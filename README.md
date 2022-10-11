@@ -15,7 +15,7 @@
 
 ## Link 
 - <h3>Hitch Hiker 배포 링크 : https://www.hitch-hiker.kr</h3>
-- <h3>Hitch Hiker Wiki</h3> : [Hitch Hiker Dev Wiki](https://github.com/codestates-seb/seb39_main_006/wiki)
+- <h3>Hitch Hiker Wiki  : https://github.com/codestates-seb/seb39_main_006/wiki</h3>
 
 <br>
 
