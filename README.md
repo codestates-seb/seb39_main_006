@@ -14,10 +14,10 @@
 </p>
 
 ## Link 
-### - https://www.hitch-hiker.kr
+- **https://www.hitch-hiker.kr**
 
 ## Wiki
-### - [Hitch Hiker Dev Wiki](https://github.com/codestates-seb/seb39_main_006/wiki)
+- **[Hitch Hiker Dev Wiki](https://github.com/codestates-seb/seb39_main_006/wiki)**
 
 ## 팀원 소개
 
