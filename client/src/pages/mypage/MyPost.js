@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import H1 from "../../components/ui/H1";
+import styled from "styled-components";
 const MyPost = () => {
   const [myPost, setMypost] = useState([]);
   const navigate = useNavigate();
@@ -58,18 +59,35 @@ const MyPost = () => {
       <SideBar />
       <H1>내가 쓴 게시글</H1>
       {myPost.map((el, idx) => (
-        <div key={idx}>
+        <StyledDiv key={idx}>
           <h2
+            className="wrapper"
             onClick={() => {
               navigate(`/${el.postId}`);
             }}
           >
             {el.title} 모집인원 {el.participantsCount} / {el.totalCount}
           </h2>
-        </div>
+        </StyledDiv>
       ))}
     </div>
   );
 };
 
 export default MyPost;
+const StyledDiv = styled.div`
+  .wrapper {
+    box-sizing: border-box;
+    position: relative;
+    display: inline-block;
+    margin: 40px;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.6);
+    font-family: Roboto;
+    width: fit-content;
+    height: fit-content;
+  }
+`;
