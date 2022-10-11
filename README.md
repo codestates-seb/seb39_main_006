@@ -19,7 +19,7 @@
 <br>
 
 ## Wiki
-- <h3 markdown="1"> [Hitch Hiker Dev Wiki](https://github.com/codestates-seb/seb39_main_006/wiki) </h3>
+- <h3> <div markdown="1"> [Hitch Hiker Dev Wiki](https://github.com/codestates-seb/seb39_main_006/wiki) </div> </h3>
 
 <br>
 
