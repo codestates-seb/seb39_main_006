@@ -4,12 +4,6 @@
 
 <p align="center">
 
-<p>
-<p>
-# Comming Soon
-</p>
-
-</p>
 <p align="center">
   <br>
   <img src="./realWave.gif">
