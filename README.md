@@ -21,6 +21,12 @@
 
 <br>
 
+## 기술 스택
+
+![슬라이드5](https://user-images.githubusercontent.com/43122133/195166291-21f61e6d-168e-4553-99f4-931543772a42.PNG)
+
+<br>
+
 ## 팀원 소개
 
 | 김기홍 | 배자현 |  정윤조   |  이동기   |
@@ -30,23 +36,6 @@
 |   ![김기홍]    |    ![배자현]    | ![정윤조] | ![이동기] |
 
 <br>
-
-<br>
-
-<p align="justify">
-
-<p align = "center">
-  
-| JavaScript | Spring Boot |  React   |  Node   |
-| :--------: | :---------: | :------: | :-----: |
-|   ![js]   |    ![sb]    | ![react] | ![node] |
-
-</p>
-
-</p>
-
-## 라이센스 
-
 
 ## 서비스 시연 장면
 
