@@ -70,9 +70,9 @@ public class FeedService {
         feedRepository.deleteById(feedId);
     }
 
-    public void saveImages(List<Long> images, Feed feed) {
-        for (Long imageId : images) {
-            Image image = imageRepository.findById(imageId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
+    public void saveImages(List<String> images, Feed feed) {
+        for (String imagePath : images) {
+            Image image = imageRepository.findByStoredPath(imagePath).orElseThrow(() -> new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
             image.setFeed(feed);
             imageRepository.save(image);
         }

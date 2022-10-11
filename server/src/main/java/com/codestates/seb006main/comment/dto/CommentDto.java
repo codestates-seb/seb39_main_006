@@ -1,5 +1,7 @@
 package com.codestates.seb006main.comment.dto;
 
+import com.codestates.seb006main.feed.entity.Feed;
+import com.codestates.seb006main.members.entity.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,12 +28,10 @@ public class CommentDto {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Patch{
         private String body;
-        private Long feedId;
 
         @Builder
         public Patch(String body, Long feedId) {
             this.body = body;
-            this.feedId = feedId;
         }
     }
 
@@ -42,15 +42,17 @@ public class CommentDto {
         private String body;
         private Long memberId;
         private String memberName;
+        private Long feedId;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
 
         @Builder
-        public Response(Long commentId, String body, Long memberId, String memberName, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+        public Response(Long commentId, String body, Member member, Feed feed, LocalDateTime createdAt, LocalDateTime modifiedAt) {
             this.commentId = commentId;
             this.body = body;
-            this.memberId = memberId;
-            this.memberName = memberName;
+            this.memberId = member.getMemberId();
+            this.memberName = member.getDisplayName();
+            this.feedId = feed.getFeedId();
             this.createdAt = createdAt;
             this.modifiedAt = modifiedAt;
         }

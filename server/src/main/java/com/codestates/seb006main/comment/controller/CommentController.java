@@ -22,10 +22,11 @@ public class CommentController {
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
-//    @GetMapping("/{comment-id}")
-//    public ResponseEntity getComment() {
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
+    @GetMapping("/{comment-id}")
+    public ResponseEntity getComment(@PathVariable("comment-id") Long commentId) {
+        CommentDto.Response responseDto = commentService.readComment(commentId);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
 //
 //    @GetMapping
 //    public ResponseEntity getAllComments() {
