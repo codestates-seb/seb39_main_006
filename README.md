@@ -14,10 +14,14 @@
 </p>
 
 ## Link 
-- **https://www.hitch-hiker.kr**
+- <h3>https://www.hitch-hiker.kr</h3>
 
 ## Wiki
 - **[Hitch Hiker Dev Wiki](https://github.com/codestates-seb/seb39_main_006/wiki)**
+
+<br>
+
+<br>
 
 ## 팀원 소개
 
@@ -30,15 +34,6 @@
 <br>
 
 <br>
-<p align="center">
-  <br>
-   <img src="./darkLogo.png">
- 
-  <br>
-  <img src="./logo_dark.png">
- <br>
-
-</p>
 
 <p align="justify">
 
