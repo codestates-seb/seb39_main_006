@@ -89,31 +89,4 @@ public class ImageControllerTest {
                         )
                 ));
     }
-
-    @Test
-    public void deleteImageTest() throws Exception {
-        //given
-        long imageId = 1L;
-
-        doNothing().when(imageService).deleteImage(Mockito.anyLong());
-
-        //when
-        ResultActions actions = mockMvc.perform(
-                delete("/api/images/{image-id}", imageId)
-                        .with(csrf())
-                        .with(user(principalDetails))
-        );
-
-        //then
-        actions
-                .andExpect(status().isOk())
-                .andDo(document("delete-image",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        pathParameters(
-                                parameterWithName("image-id").description("이미지 식별자")
-                        )
-                ));
-    }
-
 }

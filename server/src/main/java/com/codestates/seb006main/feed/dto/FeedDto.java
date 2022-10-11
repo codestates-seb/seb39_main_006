@@ -16,10 +16,10 @@ public class FeedDto {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Post{
         private String body;
-        private List<Long> images;
+        private List<String> images;
 
         @Builder
-        public Post(String body, List<Long> images) {
+        public Post(String body, List<String> images) {
             this.body = body;
             this.images = images;
         }
@@ -29,10 +29,10 @@ public class FeedDto {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Patch {
         private String body;
-        private List<Long> images;
+        private List<String> images;
 
         @Builder
-        public Patch(String body, List<Long> images) {
+        public Patch(String body, List<String> images) {
             this.body = body;
             this.images = images;
 

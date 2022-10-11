@@ -34,9 +34,14 @@ public class CommentService {
         return commentMapper.commentToResponseDto(comment);
     }
 
-    public CommentDto.Response updateComment(Long commentId, CommentDto.Patch patchDto, Authentication authentication) {
-        feedRepository.findById(patchDto.getFeedId()).orElseThrow(() -> new BusinessLogicException(ExceptionCode.FEED_NOT_FOUND));
+    public CommentDto.Response readComment(Long commentId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
+        return commentMapper.commentToResponseDto(comment);
+    }
+
+    public CommentDto.Response updateComment(Long commentId, CommentDto.Patch patchDto, Authentication authentication) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
+        feedRepository.findById(comment.getFeed().getFeedId()).orElseThrow(() -> new BusinessLogicException(ExceptionCode.FEED_NOT_FOUND));
         checkPermission(comment, authentication);
 
         comment.updateComment(patchDto.getBody());

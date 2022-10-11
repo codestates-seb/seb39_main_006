@@ -62,13 +62,13 @@ public class MatchingControllerTest {
         long postId = 1L;
 
         MatchingDto.Post postDto = MatchingDto.Post.builder()
-                .body("테스트")
+                .body("테스트테스트테스트테스트")
                 .build();
         String content = gson.toJson(postDto);
 
         MatchingDto.Response responseDto = MatchingDto.Response.builder()
                 .matchingId(1L)
-                .body("테스트")
+                .body("테스트테스트테스트테스트")
                 .member(Member.builder().memberId(1L).displayName("회원 이름").build())
                 .posts(Posts.builder().postId(1L).title("게시글 제목").build())
                 .matchingStatus(Matching.MatchingStatus.NOT_READ)

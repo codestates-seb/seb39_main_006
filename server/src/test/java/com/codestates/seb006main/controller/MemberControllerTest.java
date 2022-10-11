@@ -1,6 +1,7 @@
 package com.codestates.seb006main.controller;
 
 import com.codestates.seb006main.auth.PrincipalDetails;
+import com.codestates.seb006main.config.redis.RedisUtils;
 import com.codestates.seb006main.members.controller.MemberController;
 import com.codestates.seb006main.members.dto.BookmarkDto;
 import com.codestates.seb006main.members.dto.MemberDto;
@@ -48,6 +49,8 @@ public class MemberControllerTest {
     private MemberMapper memberMapper;
     @MockBean
     private MemberService memberService;
+    @MockBean
+    private RedisUtils redisUtils;
     @Autowired
     private Gson gson;
     @MockBean
