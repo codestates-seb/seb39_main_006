@@ -225,6 +225,11 @@ const Header = () => {
                 </a>
               </li>
               <li>
+                <a href="/feeds" data-item="feeds">
+                  FEEDS
+                </a>
+              </li>
+              <li>
                 <a href="/mypage" data-item="mypage">
                   mypage
                 </a>

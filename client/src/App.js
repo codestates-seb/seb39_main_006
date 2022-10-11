@@ -18,6 +18,9 @@ import imgBgr from "../src/img/background.png";
 import Messages from "./pages/mypage/Messages";
 import GlobalStyle from "./GlobalStyle";
 import OAuth2RedirectHandler from "./pages/account/OAuth2RedirectHandler";
+import Feeds from "./pages/feeds/Feeds";
+import Feed from "./pages/feeds/Feed";
+import NewFeed from "./pages/feeds/NewFeed";
 function App() {
   return (
     <>
@@ -57,6 +60,9 @@ function App() {
               <Route path="/mypost" element={<MyPost />} />
               <Route path="/mymatchinfo" element={<MyMatching />} />
               <Route path="/messages" element={<Messages />} />
+              <Route path="/feeds" element={<Feeds />} />
+              <Route path="/feed/:id" element={<Feed />} />
+              <Route path="/newfeed" element={<NewFeed />} />
             </>
           )}
         </Routes>
