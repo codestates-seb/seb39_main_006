@@ -128,8 +128,7 @@ public class PostsControllerTest {
                                         fieldWithPath("endDate").type(JsonFieldType.STRING).description("여행 종료 날짜(\"YYYY-MM-DD\")"),
                                         fieldWithPath("location").type(JsonFieldType.STRING).description("여행 지역"),
                                         fieldWithPath("totalCount").type(JsonFieldType.NUMBER).description("모집 인원"),
-                                        fieldWithPath("closeDate").type(JsonFieldType.STRING).description("모집 종료 날짜(\"YYYY-MM-DD\")"),
-                                        fieldWithPath("images").type(JsonFieldType.ARRAY).description("이미지 ID 리스트")
+                                        fieldWithPath("closeDate").type(JsonFieldType.STRING).description("모집 종료 날짜(\"YYYY-MM-DD\")")
                                 )
                         ),
                         responseFields(
@@ -224,8 +223,7 @@ public class PostsControllerTest {
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("게시글 제목"),
                                         fieldWithPath("body").type(JsonFieldType.STRING).description("게시글 내용"),
                                         fieldWithPath("totalCount").type(JsonFieldType.NUMBER).description("모집 인원"),
-                                        fieldWithPath("closeDate").type(JsonFieldType.STRING).description("모집 종료 날짜(\"YYYY-MM-DD\")"),
-                                        fieldWithPath("images").type(JsonFieldType.ARRAY).description("이미지 ID 목록")
+                                        fieldWithPath("closeDate").type(JsonFieldType.STRING).description("모집 종료 날짜(\"YYYY-MM-DD\")")
                                 )
                         ),
                         responseFields(
