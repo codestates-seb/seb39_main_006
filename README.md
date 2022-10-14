@@ -5,8 +5,8 @@
 <p align="center">
 <div align="center">
  
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=codestates-seb&show_icons=true&theme=radical)](https://github.com/codestates-seb/github-readme-stats&show_icons=true&theme=radical)
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=codestates-seb&layout=compact&theme=dracula)](https://github.com/codestates-seb/github-readme-stats&theme=dracula)
+[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=seb39_main_006&show_icons=true&theme=radical)](https://github.com/seb39_main_006/github-readme-stats&show_icons=true&theme=radical)
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=seb39_main_006&layout=compact&theme=dracula)](https://github.com/seb39_main_006/github-readme-stats&theme=dracula)
 
 </div>
 <p align="center">
