@@ -1,0 +1,62 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@babel/core": "^7.19.1",
+    "@babel/preset-react": "^7.18.6",
+    "@reduxjs/toolkit": "^1.8.5",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@toast-ui/editor-plugin-color-syntax": "^3.1.0",
+    "@toast-ui/react-editor": "^3.2.0",
+    "axios": "^0.27.2",
+    "babel-loader": "^8.2.5",
+    "jwt-decode": "^3.1.2",
+    "net": "^1.0.2",
+    "query-string": "^7.1.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-js-pagination": "^3.0.3",
+    "react-redux": "^8.0.2",
+    "react-router-dom": "^6.4.1",
+    "react-scripts": "5.0.1",
+    "react-svg-use": "^2.1.0",
+    "redux-persist": "^6.0.0",
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3",
+    "styled-components": "^5.3.6",
+    "styled-reset": "^4.4.2",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "GENERATE_SOURCEMAP=false react-scripts start",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "css-loader": "^6.7.1",
+    "react-hot-loader": "^4.5.3",
+    "style-loader": "^3.3.1"
+  }
+}
