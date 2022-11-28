@@ -594,7 +594,7 @@ const PageContainer = styled.div`
 	display: flex;
 	width: 100%;
 
-	/* @media screen and (max-widt: fit-content) {//여기오타나셨대여 에에에 오타낫대여 오타낫대여 우애애앵!!!!!!!
+	/* @media screen and (max-width: fit-content) {
     padding: 30px 25px 30px 25px;
     height: 700px;
   } */

@@ -165,8 +165,7 @@ export default Posts;
 const StyledPost = styled.div`
 	margin: auto;
 	.wrapper {
-		font-family: "Segoe UI", Roboto;
-		background-color: #d5eaf1;
+		background-color: white;
 		border-radius: 10px;
 		box-shadow: 0px 3px 10px 1px rgba(0, 0, 0, 0.3);
 		z-index: -1;
@@ -192,7 +191,7 @@ const StyledPost = styled.div`
 		width: 100% !important;
 		max-width: 1080px;
 		margin: 0 auto;
-		margin-bottom: 50px;
+		margin-bottom: 3rem;
 		list-style-type: none;
 
 		@media (min-width: 1200px) {

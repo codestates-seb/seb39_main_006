@@ -231,14 +231,17 @@ const Header = () => {
 							</p>
 						</li>
 						<li>
-							<a href="/main" data-item="mainpage">
+							<p onClick={() => navigate(`/main`)} data-item="mainpage">
 								mainpage
-							</a>
+							</p>
 						</li>
 						<li>
-							<a href="/mypage" data-item="mypage">
+							<p onClick={() => navigate(`/mypage`)} data-item="mypage">
 								mypage
-							</a>
+							</p>
+						</li>
+						<li>
+							<p data-item="준비중">준비중</p>
 						</li>
 						<li>
 							<img
@@ -507,36 +510,6 @@ const HeaderSection = styled.div`
 					&:hover {
 						&::before {
 							width: 100%;
-						}
-					}
-				}
-
-				a {
-					text-decoration: none;
-					color: #8f8f8f;
-					font-size: 24px;
-					font-weight: 400;
-					transition: all 0.5s ease-in-out;
-					position: relative;
-					text-transform: uppercase;
-
-					&::before {
-						content: attr(data-item);
-						transition: 0.5s;
-						color: #425049;
-						position: absolute;
-						top: 0;
-						bottom: 0;
-						left: 0;
-						right: 0;
-						width: 0;
-						overflow: hidden;
-					}
-
-					&:hover {
-						&::before {
-							width: 100%;
-							transition: all 0.5s ease-in-out;
 						}
 					}
 				}

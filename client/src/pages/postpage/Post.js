@@ -120,12 +120,10 @@ const Post = ({ post }) => {
 				<div className="postContent">
 					<p className="postTitle">{post.title}</p>
 					<p className="postBody">{post.body}</p>
-				</div>
-				<div className="participants">
-					<span>
-						모집 인원 {post.participantsCount} / {post.totalCount}
-					</span>
-					<span>{post.postsStatus}</span>
+					<p className="participants">
+						모집 인원 {post.participantsCount} / {post.totalCount} |
+						<span className="status"> {post.postsStatus} </span>
+					</p>
 				</div>
 			</div>
 
@@ -154,8 +152,6 @@ const PostStyle = styled.div`
 	outline: none;
 
 	border-radius: 5px;
-	border: 1.5px solid #a19f9f;
-	background-color: white;
 
 	.postBox {
 		cursor: pointer;
@@ -195,6 +191,7 @@ const PostStyle = styled.div`
 
 		.postTitle {
 			font-size: 1.125rem;
+			min-height: 2rem;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			font-style: normal;
@@ -208,6 +205,8 @@ const PostStyle = styled.div`
 
 		.postBody {
 			font-size: 0.9rem;
+			min-height: 2rem;
+			color: #939393;
 			line-height: 138.5%;
 			margin: 0;
 			font-weight: 400;
@@ -229,33 +228,41 @@ const PostStyle = styled.div`
 	}
 
 	.participants {
-
+		display: flex;
+		align-items: center;
+		font-size: 0.9rem;
+		font-weight: 600;
+		color: #444444;
     }
+
+	.status {
+		padding: 0.2rem 0.5rem;
+		border: 0.5px solid black;
+		border-radius: 8px;
+		margin-left: 0.375rem;
+	}
+
+	.bookmark {
+		margin-left: auto;
+	}
 
 	.postInfo {
 		display: flex;
-		align-items: center;
+		align-items: flex-end;
 		grid-gap: 6px;
 		gap: 6px;
 		padding: 1px 0;
 
 		span {
-		font-size: 0.8rem;
-		line-height: 133.3%;
-		font-weight: 400;
-		font-style: normal;
-		letter-spacing: .032em;
+			color: #888888;
+			font-size: 0.9rem;
+			line-height: 133.3%;
+			font-weight: 600;
+			letter-spacing: .032em;
 
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;  
-		}
-		.leader {
-
-		}
-
-		.bookmark {
-		margin-left: auto;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;  
 		}
 	}
 `;
