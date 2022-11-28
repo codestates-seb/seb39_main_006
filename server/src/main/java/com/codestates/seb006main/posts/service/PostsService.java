@@ -65,7 +65,9 @@ public class PostsService {
         memberPostsRepository.save(memberPosts);
 
         List<String> imagePathList = findImagePathInBody(postDto.getBody());
-        saveImages(imagePathList, posts);
+        if (!imagePathList.isEmpty()) {
+            saveImages(imagePathList, posts);
+        }
 
         return postsMapper.postsToResponseDto(posts);
     }
@@ -110,7 +112,9 @@ public class PostsService {
         }
 
         List<String> imagePathList = findImagePathInBody(patchDto.getBody());
-        saveImages(imagePathList, posts);
+        if (!imagePathList.isEmpty()) {
+            saveImages(imagePathList, posts);
+        }
 
         posts.updatePosts(patchDto.getTitle(), patchDto.getBody(), patchDto.getTotalCount(), patchDto.getCloseDate());
         postsRepository.save(posts);
@@ -171,9 +175,6 @@ public class PostsService {
             String imagePath = "https://" + body.substring(startIdx, endIdx);
             imagePathList.add(imagePath);
             body = body.substring(endIdx);
-        }
-        if (imagePathList.isEmpty()) {
-            return List.of(defaultImage);
         }
 
         return imagePathList;

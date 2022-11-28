@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.Valid;
@@ -19,6 +20,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class PostsDto {
+    @Value("${cloud.aws.s3.default-image}")
+    private static String defaultImage;
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Post {
@@ -119,7 +122,7 @@ public class PostsDto {
             this.startDate = travelPeriod.getStartDate();
             this.endDate = travelPeriod.getEndDate();
             this.location = location;
-            this.thumbnail = images.get(0).getStoredPath();
+            this.thumbnail = images.isEmpty() ? defaultImage : images.get(0).getStoredPath();
             this.totalCount = totalCount;
             this.participants = participants;
             this.participantsCount = participants.size();
