@@ -60,25 +60,10 @@ function App() {
 
 export default App;
 const Wrap = styled.div`
-	/* #bgr { */
-
-	/* width: 100vw;
-  height: 100vh;
-  overflow: hidden; */
-	/* position: fixed;
-  background-repeat: no-repeat;
- 
-  background-image: url(${imgBgr});
-  z-index: -99;
-  opacity: 50%;
-
-  overflow: scroll;
-  min-width: 1000px;
-  max-height: fit-content; */
 	font-family: "IBM Plex Sans KR", sans-serif;
 	#bg {
 		position: fixed;
-		z-index: -1;
+		z-index: -99;
 		width: 100vw;
 		height: 100vh;
 		::before {
@@ -88,19 +73,12 @@ const Wrap = styled.div`
 			background-size: 100vw 100vh;
 			background-repeat: no-repeat;
 			opacity: 0.5;
-			position: absolute;
 			top: 0px;
 			left: 0px;
 			right: 0px;
 			bottom: 0px;
-			z-index: -1;
+			z-index: -99;
 			overflow: hidden;
 		}
 	}
-
-	/* @media screen and (max-width: 1500px) {
-      padding: 30px 25px 30px 25px;
-      height: 455px;
-    } */
-	/* } */
 `;

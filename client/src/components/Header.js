@@ -11,6 +11,7 @@ const Header = () => {
 	const [msgs, setMsgs] = useState([]);
 	const [msgIds, setMsgIds] = useState([]);
 	const [showMsg, setShowMsg] = useState(false);
+	const [newMsg, setNewMsg] = useState(false);
 	const navigate = useNavigate();
 	const ref = useRef(null);
 
@@ -102,6 +103,14 @@ const Header = () => {
 			);
 		}
 	}, []);
+
+	useEffect(() => {
+		if (msgs.length > 0) {
+			setNewMsg(true);
+		} else {
+			setNewMsg(false);
+		}
+	}, [msgs]);
 
 	const msgClickHandler = (msgId, postId) => {
 		axios(`${process.env.REACT_APP_URL}/api/messages/read?messageId=${msgId}`, {
@@ -241,7 +250,11 @@ const Header = () => {
 						</li>
 
 						<div className="dropdown">
-							<div>{msgIds.length}</div>
+							<div
+								className="msgcount"
+								style={newMsg ? { color: "red" } : null}>
+								{msgIds.length}
+							</div>
 							<img
 								src={profileImg}
 								width="40"
@@ -252,7 +265,13 @@ const Header = () => {
 							<SubMenu isDropped={showMsg}>
 								<ul>
 									{showMsg && (
-										<li>
+										<li className="msgMenu">
+											<button
+												onClick={() => {
+													navigate(`/messages`);
+												}}>
+												메세지함 가기
+											</button>
 											<button
 												className="alarm"
 												onClick={() => {
@@ -265,6 +284,7 @@ const Header = () => {
 									{showMsg &&
 										msgs.map((el, idx) => (
 											<li
+												className="msg"
 												key={idx}
 												onClick={() => {
 													msgClickHandler(el.messageId, el.postId);
@@ -293,15 +313,15 @@ const SubMenu = styled.div`
 	background: gray;
 	position: absolute;
 	margin-top: 1rem;
-	width: 200px;
-	left: 50%;
+	width: 500px;
+	left: 60%;
 	text-align: center;
 	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 	border-radius: 3px;
-	opacity: 0;
+	visibility: hidden;
 	transform: translate(-50%, -10px);
 	transition: transform 0.4s ease, visibility 0.4s;
-	z-index: 9;
+	z-index: 99;
 
 	&:after {
 		content: "";
@@ -321,7 +341,7 @@ const SubMenu = styled.div`
 		css`
 			opacity: 1;
 			visibility: visible;
-			transform: translate(-50%, 0);
+			transform: translate(-50%, 55%);
 		`};
 `;
 
@@ -330,24 +350,58 @@ const HeaderSection = styled.div`
 	place-items: center;
 
 	.dropdown {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		position: relative;
 
 		img {
 			cursor: pointer;
 		}
 
-		.mgs {
-			box-sizing: border-box;
-			position: absolute;
-			margin: 40px;
-			padding: 20px;
-			border: 1px solid black;
-			border-radius: 5px;
-			box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
-			background: rgba(255, 255, 255, 0.6);
-			font-family: Roboto;
-			width: fit-content;
-			height: fit-content;
+		button {
+			cursor: pointer;
+			font-size: 1rem;
+			background-color: #dabbc9;
+			border: 1px solid #dabbc9;
+			padding: 0.1rem 1rem;
+			box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+			color: #425049;
+			&:hover {
+				background-color: #efd5c8;
+				border-color: #efd5c8;
+			}
+		}
+
+		ul {
+			overflow-y: scroll;
+
+			.msgMenu {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
+
+			.msg {
+				cursor: pointer;
+				color: black;
+				margin: 1rem;
+				padding: 1rem;
+				border-radius: 5px;
+				box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+				background: rgba(255, 255, 255, 1);
+				font-family: Roboto;
+			}
+		}
+
+		.msgcount {
+			font-size: 1.5rem;
+
+			${({ hasNewMsgs }) =>
+				hasNewMsgs &&
+				css`
+					color: red;
+				`}
 		}
 	}
 
@@ -401,29 +455,6 @@ const HeaderSection = styled.div`
 			}
 		}
 	}
-	body {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		position: relative;
-		min-height: 50vh;
-		font-family: Hack, monospace;
-	}
-
-	button {
-		font-size: 1rem;
-		background-color: #dabbc9;
-		width: fit-content;
-		border: 1px solid #dabbc9;
-		padding: 0.1rem 1rem;
-		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-		color: #425049;
-		&:hover {
-			background-color: #efd5c8;
-			border-color: #efd5c8;
-		}
-	}
 
 	div {
 		color: #727272;
@@ -435,8 +466,7 @@ const HeaderSection = styled.div`
 		box-shadow: 0 1px 4px rgba(1, 1, 0, 0.4);
 		background: #d0e8f0;
 		opacity: 90%;
-		width: 100vw;
-		padding: 0.5rem;
+		width: 100%;
 
 		.menuItems {
 			list-style: none;
@@ -449,7 +479,6 @@ const HeaderSection = styled.div`
 			}
 			li {
 				margin: 0.5rem;
-				margin-right: 3rem;
 				display: inline-block;
 
 				p {

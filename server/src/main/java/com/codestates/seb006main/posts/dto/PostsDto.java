@@ -20,8 +20,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class PostsDto {
-    @Value("${cloud.aws.s3.default-image}")
-    private static String defaultImage;
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Post {
@@ -108,7 +106,7 @@ public class PostsDto {
         private List<MemberDto.Participants> participants;
         private Integer participantsCount;
         private LocalDate closeDate;
-        private Posts.PostsStatus postsStatus;
+        private String postsStatus;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
 
@@ -122,12 +120,12 @@ public class PostsDto {
             this.startDate = travelPeriod.getStartDate();
             this.endDate = travelPeriod.getEndDate();
             this.location = location;
-            this.thumbnail = images.size() == 0 ? defaultImage : images.get(0).getStoredPath();
+            this.thumbnail = images.get(0).getStoredPath();
             this.totalCount = totalCount;
             this.participants = participants;
             this.participantsCount = participants.size();
             this.closeDate = closeDate;
-            this.postsStatus = postsStatus;
+            this.postsStatus = postsStatus.getPostsDescription();
             this.createdAt = createdAt;
             this.modifiedAt = modifiedAt;
         }

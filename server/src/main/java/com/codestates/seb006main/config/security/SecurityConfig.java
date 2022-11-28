@@ -54,11 +54,11 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.PATCH).access("hasRole('ROLE_MEMBER')")
                         .antMatchers(HttpMethod.DELETE).access("hasRole('ROLE_MEMBER')")
                         .anyRequest().permitAll());
-        http
-                .oauth2Login()
-                .successHandler(customOAuth2SuccessHandler)
-                .userInfoEndpoint()
-                .userService(customOAuth2Service);
+//        http
+//                .oauth2Login()
+//                .successHandler(customOAuth2SuccessHandler)
+//                .userInfoEndpoint()
+//                .userService(customOAuth2Service);
 
 
         http

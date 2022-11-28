@@ -68,6 +68,9 @@ public class Posts extends Auditable {
         int stepNumber;
         String postsDescription;
 
+        public String getPostsDescription() {
+            return postsDescription;
+        }
         PostsStatus(int stepNumber, String postsDescription) {
             this.stepNumber = stepNumber;
             this.postsDescription = postsDescription;

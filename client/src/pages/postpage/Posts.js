@@ -23,7 +23,7 @@ const Posts = () => {
 	const page = useSelector((state) => state.page.page);
 
 	const [data, setData] = useState([]);
-	const [size, setSize] = useState(10);
+	const [size, setSize] = useState(12);
 	const [totalElements, setTotalElements] = useState(0);
 
 	useEffect(() => {
@@ -140,22 +140,22 @@ const Posts = () => {
 						남은 인원 순
 					</button>
 				</div>
-				<div className="contents">
+				<ul className="contents">
 					{data.map((post) => (
-						<div key={post.postId} className="post">
+						<li key={post.postId}>
 							<Post post={post} />
-						</div>
+						</li>
 					))}
-					<Pagination
-						activePage={page}
-						itemsCountPerPage={size}
-						totalItemsCount={totalElements}
-						pageRangeDisplayed={5}
-						prevPageText={"‹"}
-						nextPageText={"›"}
-						onChange={handlePageChange}
-					/>
-				</div>
+				</ul>
+				<Pagination
+					activePage={page}
+					itemsCountPerPage={size}
+					totalItemsCount={totalElements}
+					pageRangeDisplayed={5}
+					prevPageText={"‹"}
+					nextPageText={"›"}
+					onChange={handlePageChange}
+				/>
 			</div>
 		</StyledPost>
 	);
@@ -163,51 +163,45 @@ const Posts = () => {
 
 export default Posts;
 const StyledPost = styled.div`
-	display: inline-block;
+	margin: auto;
 	.wrapper {
-		flex-grow: 1;
-		width: max-content;
-		min-height: 1000px;
-		height: fit-content;
-		margin-right: 20px;
 		font-family: "Segoe UI", Roboto;
 		background-color: #d5eaf1;
 		border-radius: 10px;
-		position: absolute;
 		box-shadow: 0px 3px 10px 1px rgba(0, 0, 0, 0.3);
+		z-index: -1;
+	}
+	ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		border: 0;
+	}
+	li {
+		display: list-item;
+		text-align: -webkit-match-parent;
+		position: relative;
+		width: calc((100% / 3));
+		padding: 0;
+		margin: 0;
+		border: 0;
 	}
 	.contents {
-		width: 1422px;
 		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		span {
-			box-sizing: border-box;
-			font-size: 1rem;
+		flex-wrap: wrap;
+		width: 100% !important;
+		max-width: 1080px;
+		margin: 0 auto;
+		margin-bottom: 50px;
+		list-style-type: none;
 
-			line-height: 1.3rem;
-			text-align: center;
-			font-weight: 600;
-			color: #666;
-			margin-left: 30px;
-			text-shadow: #666;
-			letter-spacing: 1px;
+		@media (min-width: 1200px) {
+			max-width: 1080px;
+			width: 87.72%;
 		}
 	}
-	.post {
-		display: flex, inline-flex;
-		justify-content: center;
-		margin: 1rem;
-		padding: 10px;
-		border-radius: 2px;
-		outline: none;
-
-		border-radius: 5px;
-		border: 1.5px solid #a19f9f;
-		background-color: white;
-		font-size: large;
-	}
 	button {
+		cursor: pointer;
 		font-size: 1rem;
 		background-color: #dabbc8;
 		width: fit-content;
