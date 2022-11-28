@@ -48,17 +48,17 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests(authorize -> authorize
                         .antMatchers(HttpMethod.POST,"/api/members/login","/api/members").permitAll()
-                        .antMatchers(HttpMethod.GET,"/login/oauth2/code/kakao","/api/members/email","/api/members/display-name","/websocket/**","/","/index.html", "/api/posts/check").permitAll()
+                        .antMatchers(HttpMethod.GET,"/login/oauth2/code/kakao","/api/members/email","/api/members/display-name","/websocket/**","/","/index.html").permitAll()
                         .antMatchers(HttpMethod.GET).access("hasRole('ROLE_MEMBER')")
                         .antMatchers(HttpMethod.POST).access("hasRole('ROLE_MEMBER')")
                         .antMatchers(HttpMethod.PATCH).access("hasRole('ROLE_MEMBER')")
                         .antMatchers(HttpMethod.DELETE).access("hasRole('ROLE_MEMBER')")
                         .anyRequest().permitAll());
-//        http
-//                .oauth2Login()
-//                .successHandler(customOAuth2SuccessHandler)
-//                .userInfoEndpoint()
-//                .userService(customOAuth2Service);
+        http
+                .oauth2Login()
+                .successHandler(customOAuth2SuccessHandler)
+                .userInfoEndpoint()
+                .userService(customOAuth2Service);
 
 
         http

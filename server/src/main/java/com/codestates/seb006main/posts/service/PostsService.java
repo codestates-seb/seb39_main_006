@@ -193,15 +193,5 @@ public class PostsService {
             throw new BusinessLogicException(ExceptionCode.DATE_VIOLATION);
         }
     }
-
-    public void checkImage() {
-        List<Posts> all = postsRepository.findAll();
-        for (Posts post: all) {
-            if (post.getImages().isEmpty()) {
-                saveImages(List.of(defaultImage), post);
-                postsRepository.save(post);
-            }
-        }
-    }
 }
 

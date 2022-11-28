@@ -75,10 +75,4 @@ public class PostsController {
         postsService.deletePosts(postId, authentication);
         return new ResponseEntity<>("정상적으로 삭제되었습니다.", HttpStatus.NO_CONTENT);
     }
-
-    @GetMapping("/check")
-    public ResponseEntity checkPosts() {
-        postsService.checkImage();
-        return new ResponseEntity<>("정상적으로 처리되었습니다.", HttpStatus.OK);
-    }
 }

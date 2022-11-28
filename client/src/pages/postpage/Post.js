@@ -108,21 +108,25 @@ const Post = ({ post }) => {
 
 	return (
 		<PostStyle>
-			{/* 썸네일 영역 */}
-			<div className="thumbnail">
-				<img src={post.thumbnail ? post.thumbnail : defaultImage} alt=""></img>
-			</div>
+			<div className="postBox" onClick={() => navigate(`/${post.postId}`)}>
+				{/* 썸네일 영역 */}
+				<div className="thumbnail">
+					<img
+						src={post.thumbnail ? post.thumbnail : defaultImage}
+						alt=""></img>
+				</div>
 
-			{/* 글 및 내용 요약 영역 */}
-			<div className="postContent">
-				<p className="postTitle">{post.title}</p>
-				<p className="postBody">{post.body}</p>
-			</div>
-			<div className="participants">
-				<span>
-					모집 인원 {post.participantsCount} / {post.totalCount}
-				</span>
-				<span>{post.postsStatus}</span>
+				{/* 글 및 내용 요약 영역 */}
+				<div className="postContent">
+					<p className="postTitle">{post.title}</p>
+					<p className="postBody">{post.body}</p>
+				</div>
+				<div className="participants">
+					<span>
+						모집 인원 {post.participantsCount} / {post.totalCount}
+					</span>
+					<span>{post.postsStatus}</span>
+				</div>
 			</div>
 
 			{/* 게시글 액션 영역 */}
@@ -153,11 +157,12 @@ const PostStyle = styled.div`
 	border: 1.5px solid #a19f9f;
 	background-color: white;
 
-	a {
+	.postBox {
 		cursor: pointer;
 	}
 
 	.thumbnail {
+		cursor: pointer;
 		position: relative;
 		height: auto;
 		width: 100%;
@@ -180,6 +185,7 @@ const PostStyle = styled.div`
 	}
 
 	.postContent {
+		cursor: pointer;
 		display: flex;
 		flex-direction: column;
 		grid-gap: 4px;
