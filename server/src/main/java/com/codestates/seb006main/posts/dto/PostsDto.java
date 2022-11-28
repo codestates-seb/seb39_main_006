@@ -122,7 +122,7 @@ public class PostsDto {
             this.startDate = travelPeriod.getStartDate();
             this.endDate = travelPeriod.getEndDate();
             this.location = location;
-            this.thumbnail = images.get(0) == null ? defaultImage : images.get(0).getStoredPath();
+            this.thumbnail = images.size() == 0 ? defaultImage : images.get(0).getStoredPath();
             this.totalCount = totalCount;
             this.participants = participants;
             this.participantsCount = participants.size();
