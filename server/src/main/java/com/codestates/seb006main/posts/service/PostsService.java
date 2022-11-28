@@ -45,6 +45,8 @@ public class PostsService {
     private String S3Bucket;
     @Value("${cloud.aws.s3.alter-domain}")
     private String domain;
+    @Value("${cloud.aws.s3.default-image}")
+    private String defaultImage;
     private final MemberPostsRepository memberPostsRepository;
     private final MemberPostsMapper memberPostsMapper;
     private final MatchingMapper matchingMapper;
@@ -63,9 +65,7 @@ public class PostsService {
         memberPostsRepository.save(memberPosts);
 
         List<String> imagePathList = findImagePathInBody(postDto.getBody());
-        if (!imagePathList.isEmpty()) {
-            saveImages(imagePathList, posts);
-        }
+        saveImages(imagePathList, posts);
 
         return postsMapper.postsToResponseDto(posts);
     }
@@ -110,9 +110,7 @@ public class PostsService {
         }
 
         List<String> imagePathList = findImagePathInBody(patchDto.getBody());
-        if (!imagePathList.isEmpty()) {
-            saveImages(imagePathList, posts);
-        }
+        saveImages(imagePathList, posts);
 
         posts.updatePosts(patchDto.getTitle(), patchDto.getBody(), patchDto.getTotalCount(), patchDto.getCloseDate());
         postsRepository.save(posts);
@@ -174,6 +172,10 @@ public class PostsService {
             imagePathList.add(imagePath);
             body = body.substring(endIdx);
         }
+        if (imagePathList.isEmpty()) {
+            return List.of(defaultImage);
+        }
+
         return imagePathList;
     }
 
@@ -188,6 +190,16 @@ public class PostsService {
         }
         if (endDate.isBefore(LocalDate.now()) || startDate.isBefore(LocalDate.now()) || closeDate.isBefore(LocalDate.now())) {
             throw new BusinessLogicException(ExceptionCode.DATE_VIOLATION);
+        }
+    }
+
+    public void checkImage() {
+        List<Posts> all = postsRepository.findAll();
+        for (Posts post: all) {
+            if (post.getImages().isEmpty()) {
+                saveImages(List.of(defaultImage), post);
+                postsRepository.save(post);
+            }
         }
     }
 }
