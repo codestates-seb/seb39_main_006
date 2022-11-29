@@ -162,14 +162,12 @@ const NewBTN = styled.div`
 	margin: 15px 15px;
 	font-weight: 700;
 	color: #f2a25f;
+	cursor: pointer;
 	&:hover {
 		color: #6d639e;
 	}
 `;
 const Wrap = styled.div`
-	/* overflow: hidden;
-  /* width: 100vw;
-  height: 100vh; */
 	position: absolute;
 	top: 170px;
 	left: 50%;
@@ -178,7 +176,6 @@ const Wrap = styled.div`
 	#bgr {
 		position: absolute;
 		top: -600px;
-		z-index: -995;
 		opacity: 50%;
 	}
 `;

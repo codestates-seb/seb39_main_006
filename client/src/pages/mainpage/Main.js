@@ -1,20 +1,13 @@
 import MainPage from "./MainPage";
-import MainSubHeader from "./MainSubHeader";
 import styled from "styled-components";
 
 const Main = () => {
 	return (
 		<StyledDiv>
-			<div className="wrapper">
-				<MainPage />
-			</div>
+			<MainPage />
 		</StyledDiv>
 	);
 };
 export default Main;
 
-const StyledDiv = styled.div`
-	.wrapper {
-		margin: 0 auto;
-	}
-`;
+const StyledDiv = styled.div``;

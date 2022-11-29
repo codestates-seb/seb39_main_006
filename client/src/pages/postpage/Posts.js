@@ -163,12 +163,19 @@ const Posts = () => {
 
 export default Posts;
 const StyledPost = styled.div`
-	margin: auto;
+	margin: 1rem auto 1.5rem;
+	width: 87.72% !important;
+	max-width: 1080px;
+
+	@media (min-width: 1200px) {
+		max-width: 1080px;
+		width: 87.72%;
+	}
+
 	.wrapper {
 		background-color: white;
 		border-radius: 10px;
 		box-shadow: 0px 3px 10px 1px rgba(0, 0, 0, 0.3);
-		z-index: -1;
 	}
 	ul {
 		list-style: none;
@@ -180,25 +187,27 @@ const StyledPost = styled.div`
 		display: list-item;
 		text-align: -webkit-match-parent;
 		position: relative;
-		width: calc((100% / 3));
+		width: 100%;
 		padding: 0;
 		margin: 0;
 		border: 0;
+
+		@media (min-width: 768px) and (max-width: 1024px) {
+			width: calc(100% / 2);
+		}
+
+		@media (min-width: 1025px) {
+			width: calc(100% / 3);
+		}
 	}
 	.contents {
 		display: flex;
 		flex-wrap: wrap;
-		width: 100% !important;
-		max-width: 1080px;
 		margin: 0 auto;
 		margin-bottom: 3rem;
 		list-style-type: none;
-
-		@media (min-width: 1200px) {
-			max-width: 1080px;
-			width: 87.72%;
-		}
 	}
+
 	button {
 		cursor: pointer;
 		font-size: 1rem;

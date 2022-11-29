@@ -25,10 +25,9 @@ export default MainPage;
 const Flex = styled.div`
 	display: flex;
 	flex-direction: column;
-	z-index: -1;
 `;
 const Section = styled.div`
-	margin: auto;
+	margin: 1rem auto;
 	section {
 		display: flex;
 		position: relative;
@@ -45,7 +44,7 @@ const Section = styled.div`
 	}
 	h2 {
 		padding: 1rem;
-		font-size: 15px;
+		font-size: 24px;
 		display: block;
 		font-family: "Montserrat", sans-serif;
 		text-transform: uppercase;

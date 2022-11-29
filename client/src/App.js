@@ -14,19 +14,16 @@ import MyPost from "./pages/mypage/MyPost";
 import MyBookmark from "./pages/mypage/MyBookmark";
 import MyMatching from "./pages/mypage/MyMatching";
 import styled from "styled-components";
-import imgBgr from "../src/img/background.png";
 import Messages from "./pages/mypage/Messages";
 import GlobalStyle from "./GlobalStyle";
 import OAuth2RedirectHandler from "./pages/account/OAuth2RedirectHandler";
 import Footer from "./components/Footer";
 function App() {
 	return (
-		<>
+		<Wrap>
 			<GlobalStyle />
-			<Wrap>
-				<div id="bg"></div>
-				<Header />
-
+			<Header />
+			<BodyWrap>
 				<Routes>
 					{sessionStorage.getItem("isLogin") === null ? (
 						<>
@@ -35,12 +32,12 @@ function App() {
 								element={<OAuth2RedirectHandler />}
 							/>
 							<Route path="/signup" element={<SignUp />}></Route>
-							<Route path="/" element={<Login />}></Route>
+							<Route path="*" element={<Login />}></Route>
 						</>
 					) : (
 						<>
 							<Route path="/main" element={<Main />} />
-							<Route path="/" element={<Login />}></Route>
+							<Route path="/" element={<Login />} />
 							<Route path="/new" element={<NewPost />} />
 							<Route path="/:id" element={<PostDetail />} />
 							<Route path="/edit/:id" element={<EditPost />} />
@@ -54,33 +51,22 @@ function App() {
 						</>
 					)}
 				</Routes>
-				<Footer />
-			</Wrap>
-		</>
+			</BodyWrap>
+			<Footer />
+		</Wrap>
 	);
 }
 
 export default App;
 const Wrap = styled.div`
 	font-family: "IBM Plex Sans KR", sans-serif;
-	#bg {
-		position: fixed;
-		z-index: -99;
-		width: 100vw;
-		height: 100vh;
-		::before {
-			content: "";
-			position: absolute;
-			background-image: url(${imgBgr});
-			background-size: 100vw 100vh;
-			background-repeat: no-repeat;
-			opacity: 0.5;
-			top: 0px;
-			left: 0px;
-			right: 0px;
-			bottom: 0px;
-			z-index: -99;
-			overflow: hidden;
-		}
-	}
+	width: 100%;
+	height: 100%;
+	position: relative;
+`;
+
+const BodyWrap = styled.div`
+	min-height: 1080px;
+	padding-top: 4rem;
+	padding-bottom: 9.5rem;
 `;

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import imgLogo from "../img/realWave.gif";
-import profileImg from "../img/bell.png";
+import bell from "../img/bell.png";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import SockJs from "sockjs-client";
@@ -13,7 +12,6 @@ const Header = () => {
 	const [showMsg, setShowMsg] = useState(false);
 	const [newMsg, setNewMsg] = useState(false);
 	const navigate = useNavigate();
-	const ref = useRef(null);
 
 	const logoutHandler = () => {
 		axios(`${process.env.REACT_APP_URL}/api/members/logout`, {
@@ -216,96 +214,98 @@ const Header = () => {
 
 	return (
 		<HeaderSection>
-			{sessionStorage.getItem("isLogin") && (
-				<nav>
-					<ul className="menuItems">
-						<li>
-							<p
-								onClick={() => {
-									sessionStorage.getItem("isLogin")
-										? navigate(`/main`)
-										: navigate(`/`);
-								}}
-								data-item="HITCH : HIKER">
-								HITCH : HIKER
-							</p>
-						</li>
-						<li>
-							<p onClick={() => navigate(`/main`)} data-item="mainpage">
-								mainpage
-							</p>
-						</li>
-						<li>
-							<p onClick={() => navigate(`/mypage`)} data-item="mypage">
-								mypage
-							</p>
-						</li>
-						<li>
-							<p data-item="준비중">준비중</p>
-						</li>
-						<li>
-							<img
-								src={sessionStorage.getItem("profileImg")}
-								width="40"
-								height="40"
-								alt=""
-							/>
-						</li>
+			<nav>
+				<ul className="menuItems">
+					<li>
+						<p
+							className="hitchhikerLogo"
+							onClick={() => {
+								navigate(`/main`);
+							}}
+							data-item="HITCH : HIKER">
+							HITCH : HIKER
+						</p>
+					</li>
+					{sessionStorage.getItem("isLogin") && (
+						<>
+							<li>
+								<p onClick={() => navigate(`/main`)} data-item="mainpage">
+									mainpage
+								</p>
+							</li>
+							<li>
+								<p onClick={() => navigate(`/mypage`)} data-item="mypage">
+									mypage
+								</p>
+							</li>
+							<li>
+								<p data-item="준비중">준비중</p>
+							</li>
 
-						<div className="dropdown">
-							<div
-								className="msgcount"
-								style={newMsg ? { color: "red" } : null}>
-								{msgIds.length}
-							</div>
-							<img
-								src={profileImg}
-								width="40"
-								height="40"
-								onClick={toggleMsg}
-								alt=""
-							/>
-							<SubMenu isDropped={showMsg}>
-								<ul>
-									{showMsg && (
-										<li className="msgMenu">
-											<button
-												onClick={() => {
-													navigate(`/messages`);
-												}}>
-												메세지함 가기
-											</button>
-											<button
-												className="alarm"
-												onClick={() => {
-													readAllMessage();
-												}}>
-												전체 읽음
-											</button>
-										</li>
-									)}
-									{showMsg &&
-										msgs.map((el, idx) => (
-											<li
-												className="msg"
-												key={idx}
-												onClick={() => {
-													msgClickHandler(el.messageId, el.postId);
-												}}>
-												{el.body}
+							<li>
+								<img
+									src={sessionStorage.getItem("profileImg")}
+									width="40"
+									height="40"
+									alt=""
+								/>
+							</li>
+
+							<div className="dropdown">
+								<div
+									className="msgcount"
+									style={newMsg ? { color: "red" } : null}>
+									{msgIds.length}
+								</div>
+								<img
+									src={bell}
+									width="40"
+									height="40"
+									onClick={toggleMsg}
+									alt=""
+								/>
+								<SubMenu isDropped={showMsg}>
+									<ul>
+										{showMsg && (
+											<li className="msgMenu">
+												<button
+													onClick={() => {
+														navigate(`/messages`);
+													}}>
+													메세지함 가기
+												</button>
+												<button
+													className="alarm"
+													onClick={() => {
+														readAllMessage();
+													}}>
+													전체 읽음
+												</button>
 											</li>
-										))}
-								</ul>
-							</SubMenu>
-						</div>
-						<li>
-							<button className="logoutBtn" onClick={logoutHandler}>
-								Logout
-							</button>
-						</li>
-					</ul>
-				</nav>
-			)}
+										)}
+										{showMsg &&
+											msgs.map((el, idx) => (
+												<li
+													className="msg"
+													key={idx}
+													onClick={() => {
+														msgClickHandler(el.messageId, el.postId);
+													}}>
+													{el.body}
+												</li>
+											))}
+									</ul>
+								</SubMenu>
+							</div>
+							<li>
+								<button className="logoutBtn" onClick={logoutHandler}>
+									Logout
+								</button>
+							</li>
+						</>
+					)}
+				</ul>
+			</nav>
 		</HeaderSection>
 	);
 };
@@ -348,9 +348,12 @@ const SubMenu = styled.div`
 		`};
 `;
 
-const HeaderSection = styled.div`
+const HeaderSection = styled.header`
 	display: grid;
 	place-items: center;
+	width: 100%;
+	position: absolute;
+	z-index: 1;
 
 	.dropdown {
 		display: flex;
@@ -399,18 +402,11 @@ const HeaderSection = styled.div`
 
 		.msgcount {
 			font-size: 1.5rem;
-
-			${({ hasNewMsgs }) =>
-				hasNewMsgs &&
-				css`
-					color: red;
-				`}
 		}
 	}
 
 	.logoutBtn {
 		cursor: pointer;
-		margin-left: 1rem;
 		padding: 10px;
 		border-color: #16213b;
 		background: #16213b;
@@ -424,7 +420,6 @@ const HeaderSection = styled.div`
 
 	#logout-btn {
 		li {
-			margin: 50%;
 			padding: 1rem;
 
 			a {
@@ -465,21 +460,18 @@ const HeaderSection = styled.div`
 	}
 
 	nav {
-		margin-bottom: 1rem;
 		box-shadow: 0 1px 4px rgba(1, 1, 0, 0.4);
-		background: #d0e8f0;
+		background: rgba(171, 217, 255, 0.1);
 		opacity: 90%;
 		width: 100%;
 
 		.menuItems {
+			height: 4rem;
 			list-style: none;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
 
-			ul {
-				text-align: center;
-			}
 			li {
 				margin: 0.5rem;
 				display: inline-block;
@@ -497,7 +489,7 @@ const HeaderSection = styled.div`
 						content: attr(data-item);
 						transition: all 1s ease-in-out;
 						white-space: pre;
-						color: #e5e5e5;
+						color: #abd9ff;
 						position: absolute;
 						top: 0;
 						bottom: 0;

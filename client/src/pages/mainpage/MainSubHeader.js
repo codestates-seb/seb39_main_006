@@ -15,7 +15,7 @@ const MainSubHeader = () => {
 
 	return (
 		<SubHeader>
-			<ul>
+			<div className="search">
 				<input
 					className="inputtext"
 					type="text"
@@ -24,6 +24,8 @@ const MainSubHeader = () => {
 					onChange={(e) => {
 						dispatch(searchActions.setTitle(e.target.value));
 					}}></input>
+			</div>
+			<div className="search">
 				<input
 					className="inputtext"
 					type="text"
@@ -32,6 +34,8 @@ const MainSubHeader = () => {
 					onChange={(e) => {
 						dispatch(searchActions.setBody(e.target.value));
 					}}></input>
+			</div>
+			<div className="search">
 				<input
 					className="inputtext"
 					type="text"
@@ -40,35 +44,29 @@ const MainSubHeader = () => {
 					onChange={(e) => {
 						dispatch(searchActions.setLocation(e.target.value));
 					}}></input>
+			</div>
+			<div className="date">
+				<span>여행 시작 날짜</span>
 				<span>
-					<span className="test2">여행 시작 날짜</span>
-					<span>
-						<input
-							id="test2"
-							type="date"
-							value={startDate}
-							onChange={(e) => {
-								dispatch(searchActions.setStartDate(e.target.value));
-							}}></input>
-						{/* <div className="test">{startDate}</div> */}
-					</span>
-				</span>
-				<span>
-					<span className="test2">여행 종료 날짜</span>
 					<input
-						id="test2"
 						type="date"
-						value={endDate}
+						value={startDate}
 						onChange={(e) => {
-							dispatch(searchActions.setEndDate(e.target.value));
+							dispatch(searchActions.setStartDate(e.target.value));
 						}}></input>
 				</span>
-				<button
-					onClick={() => {
-						navigate(`/new`);
-					}}>
-					게시글 작성
-				</button>
+			</div>
+			<div className="date">
+				<span>여행 종료 날짜</span>
+				<input
+					type="date"
+					value={endDate}
+					onChange={(e) => {
+						dispatch(searchActions.setEndDate(e.target.value));
+					}}></input>
+			</div>
+
+			<div>
 				<button
 					onClick={() => {
 						dispatch(searchActions.setTitle(""));
@@ -79,7 +77,15 @@ const MainSubHeader = () => {
 					}}>
 					초기화
 				</button>
-			</ul>
+			</div>
+			<div>
+				<button
+					onClick={() => {
+						navigate(`/new`);
+					}}>
+					새 글 작성
+				</button>
+			</div>
 		</SubHeader>
 	);
 };
@@ -87,39 +93,49 @@ const MainSubHeader = () => {
 export default MainSubHeader;
 
 const SubHeader = styled.div`
-	margin: auto;
-	ul {
-		width: fit-content;
-		min-width: max-content;
-		display: flex;
-		justify-content: center;
+	margin: 0.5rem auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	width: 87.72% !important;
+	max-width: 1080px;
+
+	background-color: white;
+	border-top: 0.1rem solid black;
+	border-bottom: 0.1rem solid black;
+
+	@media (min-width: 1025px) {
+		div {
+			width: calc(100% / 8);
+		}
 	}
+
+	.search {
+		display: flex;
+		border-right: 1px solid rgba(0, 0, 0, 0.3);
+		min-width: 120px;
+		padding: 0.2rem;
+		flex: 1;
+	}
+
+	.date {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
 	span {
-		padding: 2px;
+		padding: 0.1rem;
 		color: #777;
 		font-weight: 700;
 	}
-	#test2 {
-		border-radius: 8px;
-		padding: 0.5rem;
-	}
-	line-height: 70px;
-	width: fit-content;
-	display: block;
-	justify-content: center;
-	align-items: center;
-	height: 70px;
-	background-color: #d5eaf1;
-	border-radius: 10px;
-	input {
-		margin: 0.5rem;
-	}
+
 	button {
 		cursor: pointer;
 		font-size: 1rem;
-		background-color: #cfbcb7;
-		width: fit-content;
-		border: 1px solid #cfbcb7;
+		background-color: #dabbc8;
+		border: 1px solid #dabbc8;
 		margin: 0.5rem;
 		padding: 0.5rem 1rem;
 		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
@@ -131,12 +147,9 @@ const SubHeader = styled.div`
 	}
 
 	.inputtext {
-		width: 200px;
-		height: 40px;
 		font-size: 1rem;
-		border-radius: 10px;
-	}
-	.test {
-		border: 1px solid black;
+		width: 100%;
+		border-radius: 6px;
+		border-style: none;
 	}
 `;

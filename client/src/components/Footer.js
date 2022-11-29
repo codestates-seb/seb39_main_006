@@ -54,40 +54,49 @@ const Footer = () => {
 
 export default Footer;
 
-const FooterSection = styled.div`
+const FooterSection = styled.footer`
 	display: flex;
 	flex-direction: column;
-	background: white;
-	opacity: 0.75;
-	margin: 1rem 0 0;
-	padding: 1.2rem 0 3rem;
+	background: rgba(171, 217, 255, 0.1);
+	margin: 0 auto;
+	padding-top: 1.5rem;
+	width: 100%;
+	height: 8rem;
+	position: absolute;
+	transform: translateY(-100%);
+	z-index: 1;
 
 	a {
 		cursor: pointer;
+		font-weight: 600;
 		text-decoration: none;
 		color: black;
 	}
 
 	.footerInfo {
 		width: 90%;
-		max-width: 1080px;
+		max-width: 900px;
 		display: flex;
-		justify-content: space-around;
+		justify-content: space-between;
 		margin: 0 auto;
 		flex-direction: row;
+		border-bottom: 1px solid #333333;
+		padding-bottom: 1.5rem;
 	}
 
 	.footerLogo {
-		border-top: 1px solid #ececec;
-		padding-top: 1.5rem;
-		margin: 0 auto;
-		display: inline-block;
+		margin: 1.5rem auto;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 
 		// 왜 안됨?
 		p {
 			cursor: default;
-			font-size: 32px;
+			font-size: 48px;
 			color: #003046;
+			white-space: pre;
+			text-align: center;
 			text-transform: uppercase;
 			font-weight: 400;
 			transition: all 1s ease-in-out;
