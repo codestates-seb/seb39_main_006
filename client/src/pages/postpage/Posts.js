@@ -5,7 +5,7 @@ import Post from "./Post";
 import { useDispatch, useSelector } from "react-redux";
 import { filterActions } from "../../store/filter-slice";
 import { pageActions } from "../../store/page-slice";
-import { useNavigate } from "react-router-dom";
+import { ScrollRestoration, useNavigate } from "react-router-dom";
 
 // 페이지네이션
 import Pagination from "react-js-pagination";
@@ -79,6 +79,7 @@ const Posts = () => {
 
 	const handlePageChange = (page) => {
 		dispatch(pageActions.setPage(page));
+		window.scrollTo(0, 0);
 	};
 
 	return (
@@ -148,6 +149,7 @@ const Posts = () => {
 					))}
 				</ul>
 				<Pagination
+					className="pagination"
 					activePage={page}
 					itemsCountPerPage={size}
 					totalItemsCount={totalElements}
@@ -233,5 +235,8 @@ const StyledPost = styled.div`
 	}
 	.focusbtn {
 		background-color: white;
+	}
+	.pagination {
+		padding: 1.5rem;
 	}
 `;

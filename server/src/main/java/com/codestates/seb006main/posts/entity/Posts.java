@@ -3,6 +3,7 @@ package com.codestates.seb006main.posts.entity;
 import com.codestates.seb006main.Image.entity.Image;
 import com.codestates.seb006main.audit.Auditable;
 import com.codestates.seb006main.matching.entity.Matching;
+import com.codestates.seb006main.members.entity.Bookmark;
 import com.codestates.seb006main.members.entity.Member;
 import com.codestates.seb006main.util.Period;
 import lombok.AccessLevel;
@@ -43,6 +44,8 @@ public class Posts extends Auditable {
     private List<Matching> matching = new ArrayList<>();
     @OneToMany(mappedBy = "posts", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Bookmark> bookmarked = new ArrayList<>();
 
     // TODO: 조회수
 

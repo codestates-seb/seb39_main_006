@@ -43,9 +43,6 @@ public class WebSocketEventListener {
         Map<String, Object> map = jwtUtils.getClaimsFromToken(accessToken, "access");
         MemberSession session = new MemberSession((Long) map.get("id"), accessor.getSessionId());
         sessionMap.put((String) map.get("email"), session);
-        System.out.println("*******************************************************************************");
-        System.out.println(map.get("email") + ": Received a new web socket connection. Session ID : " + accessor.getSessionId());
-        System.out.println("*******************************************************************************");
     }
 
     @EventListener
@@ -62,24 +59,6 @@ public class WebSocketEventListener {
             }
             if (memberId == null || email == null) {
                 throw new BusinessLogicException(ExceptionCode.SESSION_NOT_FOUND);
-            }
-//            template.convertAndSend("/topic/" + memberId, "현재 세션 ID " + accessor.getSessionId() + "에서 구독 완료하였습니다.");
-            System.out.println("*******************************************************************************");
-            System.out.println(email + ": Now Subscribed /topic/" + memberId + ". Session ID : " + accessor.getSessionId());
-            System.out.println("*******************************************************************************");
-//            sendNotSentMessage(memberId, email);
-        }
-    }
-
-    private void sendNotSentMessage(Long memberId, String email) {
-        List<Message> notSentMessages = messageRepository.findNotSentMessages(email);
-        if (!notSentMessages.isEmpty()) {
-            for (Message notSentMessage : notSentMessages) {
-                MessageDto.Response message = MessageDto.Response.builder().message(notSentMessage).build();
-                String content = gson.toJson(message);
-                notSentMessage.send();
-                messageRepository.save(notSentMessage);
-                template.convertAndSend("/topic/" + memberId, content);
             }
         }
     }
@@ -98,9 +77,5 @@ public class WebSocketEventListener {
 //                }
             }
         }
-        System.out.println("*******************************************************************************");
-        System.out.println(email + ": Web socket session closed. Message : " + event.getMessage());
-        System.out.println("*******************************************************************************");
-
     }
 }

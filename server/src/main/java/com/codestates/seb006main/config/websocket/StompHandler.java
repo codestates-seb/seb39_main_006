@@ -29,8 +29,7 @@ public class StompHandler implements ChannelInterceptor {
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
         if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-            // 인증
-            System.out.println("토큰 검증했다 치고");
+            // TODO: 토큰 인증
         }
         return message;
     }

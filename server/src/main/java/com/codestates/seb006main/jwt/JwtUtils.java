@@ -76,8 +76,7 @@ public class JwtUtils {
         DecodedJWT decode=JWT.decode(token.replace("Bearer ",""));
 
         Date exp = decode.getExpiresAt();
-        System.out.println(exp.getTime());
-        System.out.println();
+
         return exp.getTime()-System.currentTimeMillis();
     }
 
