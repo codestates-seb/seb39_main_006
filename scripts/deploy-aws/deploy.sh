@@ -2,7 +2,7 @@
 echo "> 현재 시간: $(date)" >> /home/ubuntu/action/deploy.log
 
 echo "> 8080 PORT 에서 구동중인 컨테이너 id 확인"
-CONTAINER_ID=$(sudo docker container ls -f "name=hitch-hiker" -q)
+CONTAINER_ID=$(sudo docker container ls -a -f "name=hitch-hiker" -q)
 
 if [ -z $CONTAINER_ID ]
 then
