@@ -39,6 +39,14 @@ jobs:
         echo "${{ env.APPLICATION }}" > ./application.yml
       shell: bash
 
+    - name: Server Build
+      run: |
+        mkdir -p deploy-server/                     # 압축할 임시 폴더 생성 (deploy-server)
+        cd server/                                  # 리포지토리에서 server 폴더로 이동
+        chmod +x ./gradlew                          # GitHub Action 에서 gradle build를 위한 권한설정
+        ./gradlew clean bootjar -x test -x asciidoctor   # 테스트를 제외한 빌드 진행, 테스트를 원하면 -x test 옵션 삭제
+      shell: bash
+
     - name: Login to DockerHub
       uses: docker/login-action@v2.1.0
       with:
@@ -50,15 +58,8 @@ jobs:
       with:
         context: .
         file: ./Dockerfile
-        platforms: linux/amd64
         push: true
         tags: 0.1
-
-#    - name: web docker build and push
-#      run: |
-#        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-#        docker build -t ${{ secrets.DOCKER_REPO }}/hitch-hiker-server
-#        docker push ${{ secrets.DOCKER_REPO }}/hitch-hiker-server
     
     # build한 후 프로젝트를 압축합니다.
     - name: Make zip file
