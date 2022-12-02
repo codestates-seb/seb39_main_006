@@ -59,8 +59,7 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        label: llems/hitch-hiker-server
-        tags: 0.1
+        tags: ${{ secrets.DOCKER_USERNAME }}/hitch-hiker-server:0.1
     
     # build한 후 프로젝트를 압축합니다.
     - name: Make zip file
