@@ -51,6 +51,7 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
+        tags: 0.1
 
 #    - name: web docker build and push
 #      run: |
