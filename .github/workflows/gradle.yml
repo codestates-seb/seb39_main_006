@@ -62,12 +62,12 @@ jobs:
         tags: ${{ secrets.DOCKER_USERNAME }}/hitch-hiker-server:0.1
     
     # build한 후 프로젝트를 압축합니다.
-    - name: Make zip file
-      run: |
-        cp appspec.yml deploy-server/appspec.yml
-        cp -r scripts/deploy-aws deploy-server/scripts
-        zip -r deploy-server.zip ./deploy-server        # 임시 폴더 전체 deploy.zip 폴더로
-      shell: bash
+    #- name: Make zip file
+    #  run: |
+    #    cp appspec.yml deploy-server/appspec.yml
+    #    cp -r scripts/deploy-aws deploy-server/scripts
+    #    zip -r deploy-server.zip ./deploy-server        # 임시 폴더 전체 deploy.zip 폴더로
+    #  shell: bash
     
     # Access Key와 Secret Access Key를 통해 권한을 확인합니다.
     - name: Configure AWS credentials
@@ -78,12 +78,12 @@ jobs:
         aws-region: ap-northeast-2
     
     # 압축한 프로젝트를 S3로 전송합니다.
-    - name: Upload to S3
-      run: aws s3 cp --region ap-northeast-2 ./deploy-server.zip s3://$S3_BUCKET_NAME/deploy-server.zip
+    #- name: Upload to S3
+    #  run: aws s3 cp --region ap-northeast-2 ./deploy-server.zip s3://$S3_BUCKET_NAME/deploy-server.zip
     
     # CodeDeploy에게 배로 명령을 내립니다.
     - name: Code Deploy
       run: >
         aws deploy create-deployment --application-name seb-main-006
         --deployment-group-name seb-main-006-group
-        --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=deploy-server.zip
+    #    --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=deploy-server.zip
