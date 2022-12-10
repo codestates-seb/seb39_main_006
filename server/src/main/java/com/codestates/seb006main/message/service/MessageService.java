@@ -1,7 +1,7 @@
 package com.codestates.seb006main.message.service;
 
 import com.codestates.seb006main.auth.PrincipalDetails;
-import com.codestates.seb006main.config.DomainEvent;
+import com.codestates.seb006main.util.DomainEvent;
 import com.codestates.seb006main.dto.MultiResponseDto;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;

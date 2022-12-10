@@ -30,7 +30,8 @@ public enum ExceptionCode {
     NOT_ALLOWED_FILENAME_EXTENSION(415, "Not Allowed Filename Extension", "허용되지 않은 파일 형식입니다. PNG, JPG, JPEG, GIF, BMP 확장자만 업로드할 수 있습니다."),
     CLOSE_DATE_VIOLATION(409, "Close Date Violation", "매칭 종료 날짜는 여행 날짜보다 이전이어야 합니다."),
     TRAVEL_DATE_VIOLATION(409, "Travel Date Violation", "여행 시작 날짜는 여행 종료 날짜보다 이전이어야 합니다."),
-    DATE_VIOLATION(409, "Date Violation", "현재 날짜보다 이전일 수 없습니다.");
+    DATE_VIOLATION(409, "Date Violation", "현재 날짜보다 이전일 수 없습니다."),
+    ROOM_NOT_FOUND(404, "Room not found", "채팅방 정보를 찾을 수 없습니다.");
 
 
 

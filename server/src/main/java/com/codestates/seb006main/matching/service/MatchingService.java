@@ -1,15 +1,13 @@
 package com.codestates.seb006main.matching.service;
 
 import com.codestates.seb006main.auth.PrincipalDetails;
-import com.codestates.seb006main.config.DomainEvent;
+import com.codestates.seb006main.util.DomainEvent;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
 import com.codestates.seb006main.matching.dto.MatchingDto;
 import com.codestates.seb006main.matching.entity.Matching;
 import com.codestates.seb006main.matching.mapper.MatchingMapper;
 import com.codestates.seb006main.matching.repository.MatchingRepository;
-import com.codestates.seb006main.message.entity.Message;
-import com.codestates.seb006main.message.repository.MessageRepository;
 import com.codestates.seb006main.posts.entity.MemberPosts;
 import com.codestates.seb006main.posts.entity.Posts;
 import com.codestates.seb006main.posts.repository.MemberPostsRepository;

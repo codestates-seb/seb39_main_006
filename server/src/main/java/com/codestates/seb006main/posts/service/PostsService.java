@@ -4,7 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.codestates.seb006main.Image.entity.Image;
 import com.codestates.seb006main.Image.repository.ImageRepository;
 import com.codestates.seb006main.auth.PrincipalDetails;
-import com.codestates.seb006main.config.DomainEvent;
+import com.codestates.seb006main.util.DomainEvent;
 import com.codestates.seb006main.dto.MultiResponseDto;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;

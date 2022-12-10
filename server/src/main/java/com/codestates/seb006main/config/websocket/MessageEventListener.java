@@ -1,15 +1,11 @@
-package com.codestates.seb006main.websocket;
+package com.codestates.seb006main.config.websocket;
 
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
 import com.codestates.seb006main.jwt.JwtUtils;
-import com.codestates.seb006main.message.dto.MessageDto;
-import com.codestates.seb006main.message.entity.Message;
-import com.codestates.seb006main.message.repository.MessageRepository;
-import com.google.gson.Gson;
+import com.codestates.seb006main.util.MemberSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.GenericMessage;
@@ -20,17 +16,13 @@ import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
 @Component
-public class WebSocketEventListener {
-    private final SimpMessagingTemplate template;
+public class MessageEventListener {
     private final JwtUtils jwtUtils;
-    private final Gson gson;
-    private final MessageRepository messageRepository;
-    Map<String, MemberSession> sessionMap = new HashMap<>();
+    public final Map<String, MemberSession> sessionMap = new HashMap<>();
 
     @EventListener
     public void handleWebSocketConnectListener(SessionConnectedEvent event) {

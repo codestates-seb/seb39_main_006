@@ -108,7 +108,9 @@ const Post = ({ post }) => {
 
 	return (
 		<PostStyle>
-			<div className="postBox" onClick={() => navigate(`/${post.postId}`)}>
+			<div
+				className="postBox"
+				onClick={() => navigate(`/post/${post.postId}`, { state: post })}>
 				{/* 썸네일 영역 */}
 				<div className="thumbnail">
 					<img

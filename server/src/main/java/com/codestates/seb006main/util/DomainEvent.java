@@ -1,4 +1,4 @@
-package com.codestates.seb006main.config;
+package com.codestates.seb006main.util;
 
 import com.codestates.seb006main.members.entity.Member;
 import lombok.AccessLevel;
