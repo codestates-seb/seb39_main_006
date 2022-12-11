@@ -38,8 +38,9 @@ function App() {
 						</>
 					) : (
 						<>
+							{/* <Route index element={<Main />} /> */}
+							<Route path="/" element={<Login />} />
 							<Route path="/main" element={<Main />} />
-							{/* <Route path="/" element={<Login />} /> */}
 							<Route path="/new" element={<NewPost />} />
 							<Route path="/post" element={<Main />}>
 								<Route path=":id" element={<PostDetail />} />

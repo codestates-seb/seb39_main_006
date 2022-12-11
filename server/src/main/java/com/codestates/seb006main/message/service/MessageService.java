@@ -29,37 +29,87 @@ public class MessageService {
 
     public MessageDto.Response createMessage(Object entity, DomainEvent.EventType eventType) {
         String body;
-        Long postId;
+        String destinationId;
         Member member;
+        Message.MessageType messageType;
+        DomainEvent.PostEvent postEvent;
+        DomainEvent.ChatEvent chatEvent;
 
-        if (eventType == DomainEvent.EventType.CREATE_MATCHING) {
-            Matching matching = (Matching) entity;
-            body = "[" + matching.getMember().getDisplayName() + "] 님이 [" + matching.getPosts().getTitle() + "] 여행에 매칭 요청을 보내셨습니다.";
-            postId = matching.getPosts().getPostId();
-            member = matching.getPosts().getMember();
-        } else if (eventType == DomainEvent.EventType.APPLY_MATCHING) {
-            MemberPosts memberPosts = (MemberPosts) entity;
-            body = "[" + memberPosts.getPosts().getTitle() + "] 여행에 대한 매칭 요청이 수락되었습니다.";
-            postId = memberPosts.getPosts().getPostId();
-            member = memberPosts.getMember();
-        } else if (eventType == DomainEvent.EventType.CANCEL_PARTICIPATION) {
-            DomainEvent.Domain domain = (DomainEvent.Domain) entity;
-            body = "[" + domain.getTitle() + "] 여행 참여가 취소되었습니다.";
-            postId = domain.getPostId();
-            member = domain.getReceiver();
-        } else if (eventType == DomainEvent.EventType.CANCEL_MATCHING) {
-            DomainEvent.Domain domain = (DomainEvent.Domain) entity;
-            body = "[" + domain.getTitle() + "] 여행에 대한 [" + domain.getSender().getDisplayName() + "]의 매칭 요청이 취소되었습니다.";
-            postId = domain.getPostId();
-            member = domain.getReceiver();
-        } else {
-            throw new BusinessLogicException(ExceptionCode.LACK_OF_INFORMATION);
+//        if (eventType == DomainEvent.EventType.CREATE_MATCHING) {
+//            Matching matching = (Matching) entity;
+//            body = "[" + matching.getMember().getDisplayName() + "] 님이 [" + matching.getPosts().getTitle() + "] 여행에 매칭 요청을 보내셨습니다.";
+//            destinationId = String.valueOf(matching.getPosts().getPostId());
+//            member = matching.getPosts().getMember();
+//        } else if (eventType == DomainEvent.EventType.APPLY_MATCHING) {
+//            MemberPosts memberPosts = (MemberPosts) entity;
+//            body = "[" + memberPosts.getPosts().getTitle() + "] 여행에 대한 매칭 요청이 수락되었습니다.";
+//            destinationId = String.valueOf(memberPosts.getPosts().getPostId());
+//            member = memberPosts.getMember();
+//        } else if (eventType == DomainEvent.EventType.CANCEL_PARTICIPATION) {
+//            DomainEvent.PostEvent postEvent = (DomainEvent.PostEvent) entity;
+//            body = "[" + postEvent.getTitle() + "] 여행 참여가 취소되었습니다.";
+//            destinationId = String.valueOf(postEvent.getPostId());
+//            member = postEvent.getReceiver();
+//        } else if (eventType == DomainEvent.EventType.CANCEL_MATCHING) {
+//            DomainEvent.PostEvent postEvent = (DomainEvent.PostEvent) entity;
+//            body = "[" + postEvent.getTitle() + "] 여행에 대한 [" + postEvent.getSender().getDisplayName() + "]의 매칭 요청이 취소되었습니다.";
+//            destinationId = String.valueOf(postEvent.getPostId());
+//            member = postEvent.getReceiver();
+//        } else if (eventType == DomainEvent.EventType.CREATE_ROOM) {
+//            // TODO: ID 타입에 대한 문제. 분리해야할까?
+//            DomainEvent.ChatEvent chatEvent = (DomainEvent.ChatEvent) entity;
+//            body = "[" + chatEvent.getSender().getDisplayName() + "님이 대화 요청을 보내셨습니다.";
+//            destinationId = chatEvent.getRoomId();
+//            member = chatEvent.getReceiver();
+//        } else {
+//            throw new BusinessLogicException(ExceptionCode.LACK_OF_INFORMATION);
+//        }
+        switch (eventType) {
+            case CREATE_MATCHING:
+                Matching matching = (Matching) entity;
+                body = "[" + matching.getMember().getDisplayName() + "] 님이 [" + matching.getPosts().getTitle() + "] 여행에 매칭 요청을 보내셨습니다.";
+                destinationId = String.valueOf(matching.getPosts().getPostId());
+                member = matching.getPosts().getMember();
+                messageType = Message.MessageType.POST;
+                break;
+            case APPLY_MATCHING:
+                MemberPosts memberPosts = (MemberPosts) entity;
+                body = "[" + memberPosts.getPosts().getTitle() + "] 여행에 대한 매칭 요청이 수락되었습니다.";
+                destinationId = String.valueOf(memberPosts.getPosts().getPostId());
+                member = memberPosts.getMember();
+                messageType = Message.MessageType.POST;
+                break;
+            case CANCEL_MATCHING:
+                postEvent = (DomainEvent.PostEvent) entity;
+                body = "[" + postEvent.getTitle() + "] 여행에 대한 [" + postEvent.getSender().getDisplayName() + "] 의 매칭 요청이 취소되었습니다.";
+                destinationId = String.valueOf(postEvent.getPostId());
+                member = postEvent.getReceiver();
+                messageType = Message.MessageType.POST;
+                break;
+            case CANCEL_PARTICIPATION:
+                postEvent = (DomainEvent.PostEvent) entity;
+                body = "[" + postEvent.getTitle() + "] 여행 참여가 취소되었습니다.";
+                destinationId = String.valueOf(postEvent.getPostId());
+                member = postEvent.getReceiver();
+                messageType = Message.MessageType.POST;
+                break;
+            case CREATE_ROOM:
+                // TODO: ID 타입에 대한 문제. 분리해야할까?
+                chatEvent = (DomainEvent.ChatEvent) entity;
+                body = "[" + chatEvent.getSender().getDisplayName() + "] 님이 대화 요청을 보내셨습니다.";
+                destinationId = chatEvent.getRoomId();
+                member = chatEvent.getReceiver();
+                messageType = Message.MessageType.CHAT;
+                break;
+            default:
+                throw new BusinessLogicException(ExceptionCode.LACK_OF_INFORMATION);
         }
 
         Message message = Message.builder()
                 .body(body)
-                .postId(postId)
+                .destinationId(destinationId)
                 .member(member)
+                .messageType(messageType)
                 .build();
         messageRepository.save(message);
 

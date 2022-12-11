@@ -11,6 +11,7 @@ public enum ExceptionCode {
     DISPLAY_NAME_EXISTS(409, "Member exists", "이미 존재하는 닉네임입니다."),
     MEMBER_NOT_ACTIVE(409, "Member not active", "비활성화된 회원입니다."),
     ALREADY_PARTICIPATED(409, "Already participated", "이미 참여하고 있는 그룹입니다."),
+    ROOM_ALREADY_EXISTS(409, "Already participated", "이미 해당 채팅방이 존재합니다."),
     ALREADY_REQUESTED(409, "Already requested", "이미 요청된 매칭입니다. 잠시 후에 다시 시도해주시기 바랍니다."),
     ALREADY_USED_IMAGE(409, "Image already used.", "다른 곳에서 사용된 사진입니다. 새 사진을 업로드 해주세요."),
     ALREADY_REFUSED(409, "Already refused", "이미 거절된 요청입니다."),

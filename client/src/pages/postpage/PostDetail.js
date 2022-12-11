@@ -9,69 +9,66 @@ import "@toast-ui/editor/dist/toastui-editor-viewer.css";
 import { Editor, Viewer } from "@toast-ui/react-editor";
 
 const PostDetail = () => {
-	// const [detail, setDetail] = useState([]);
+	const navigate = useNavigate();
+	const { id } = useParams();
+
+	const [detail, setDetail] = useState([]);
 	const [matchList, setMatchList] = useState([]);
 	const [matchBody, setMatchBody] = useState("");
 	const [isbookmark, setIsBookmark] = useState(false);
 	const [mybookmark, setMyBookmark] = useState([]);
-	const [roomId, setRoomId] = useState("");
-
-	const navigate = useNavigate();
-	const { state } = useLocation();
-	const id = state.postId;
-	const detail = state;
 
 	useEffect(() => {
-		// axios(`${process.env.REACT_APP_URL}/api/posts/${id}`, {
-		// 	headers: {
-		// 		access_hh: sessionStorage.getItem("AccessToken"),
-		// 	},
-		// })
-		// 	.then((res) => {
-		// 		setDetail(res.data);
-		// 	})
-		// 	.catch((err) => {
-		// 		if (err.response.status === 400) {
-		// 			if (err.response.data.fieldErrors) {
-		// 				alert(err.response.data.fieldErrors[0].reason);
-		// 			} else if (
-		// 				err.response.data.fieldErrors === null &&
-		// 				err.response.data.violationErrors
-		// 			) {
-		// 				alert(err.response.data.violationErrors[0].reason);
-		// 			} else {
-		// 				alert(
-		// 					"우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
-		// 				);
-		// 			}
-		// 		} else if (err.response.status === 0)
-		// 			alert(
-		// 				"서버 오류로 인해 불러올 수 없습니다. 조금 뒤에 다시 시도해주세요"
-		// 			);
-		// 		else {
-		// 			if (
-		// 				err.response.data.korMessage ===
-		// 				"만료된 토큰입니다. 다시 로그인 해주세요."
-		// 			) {
-		// 				sessionStorage.clear();
-		// 				navigate(`/`);
-		// 				window.location.reload();
-		// 			} else if (err.response.data.korMessage) {
-		// 				if (
-		// 					err.response.data.korMessage === "존재하지 않는 게시글입니다."
-		// 				) {
-		// 					alert(err.response.data.korMessage);
-		// 					navigate(`/main`);
-		// 				}
-		// 				alert(err.response.data.korMessage);
-		// 			} else {
-		// 				alert(
-		// 					"우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
-		// 				);
-		// 			}
-		// 		}
-		// 		window.location.reload();
-		// 	});
+		axios(`${process.env.REACT_APP_URL}/api/posts/${id}`, {
+			headers: {
+				access_hh: sessionStorage.getItem("AccessToken"),
+			},
+		})
+			.then((res) => {
+				setDetail(res.data);
+			})
+			.catch((err) => {
+				if (err.response.status === 400) {
+					if (err.response.data.fieldErrors) {
+						alert(err.response.data.fieldErrors[0].reason);
+					} else if (
+						err.response.data.fieldErrors === null &&
+						err.response.data.violationErrors
+					) {
+						alert(err.response.data.violationErrors[0].reason);
+					} else {
+						alert(
+							"우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
+						);
+					}
+				} else if (err.response.status === 0)
+					alert(
+						"서버 오류로 인해 불러올 수 없습니다. 조금 뒤에 다시 시도해주세요"
+					);
+				else {
+					if (
+						err.response.data.korMessage ===
+						"만료된 토큰입니다. 다시 로그인 해주세요."
+					) {
+						sessionStorage.clear();
+						navigate(`/`);
+						window.location.reload();
+					} else if (err.response.data.korMessage) {
+						if (
+							err.response.data.korMessage === "존재하지 않는 게시글입니다."
+						) {
+							alert(err.response.data.korMessage);
+							navigate(`/main`);
+						}
+						alert(err.response.data.korMessage);
+					} else {
+						alert(
+							"우리도 무슨 오류인지 모르겠어요... 새로고침하고 다시 시도해주세요.... 미안합니다.....ㅠ"
+						);
+					}
+				}
+				window.location.reload();
+			});
 
 		axios(`${process.env.REACT_APP_URL}/api/posts/${id}/matching`, {
 			headers: {
@@ -172,20 +169,35 @@ const PostDetail = () => {
 		setIsBookmark(bookmarked);
 	}, [mybookmark, detail.postId]);
 
-	useEffect(() => {
-		if (detail.leaderName !== sessionStorage.getItem("userName")) {
-			axios(
-				`${process.env.REACT_APP_URL}/api/chat/rooms/check?checkName=${detail.leaderName}`,
-				{
-					headers: {
-						access_hh: sessionStorage.getItem("AccessToken"),
-					},
+	const chatHandler = () => {
+		axios(
+			`${process.env.REACT_APP_URL}/api/chat/rooms/check?checkName=${detail.leaderName}`,
+			{
+				headers: {
+					access_hh: sessionStorage.getItem("AccessToken"),
+				},
+			}
+		)
+			.then((res) => {
+				if (res.data.roomId) {
+					navigate(`/chat/${res.data.roomId}`);
 				}
-			).then((res) => {
-				setRoomId(res.data.roomId);
+			})
+			.catch((err) => {
+				if (err.response.status === 500) {
+					alert("서버 오류입니다. 다시 시도해주세요.");
+					return;
+				}
+				if (err.response.status !== 0) {
+					alert(err.response.data.korMessage);
+					return;
+				}
+				if (err) {
+					alert("잘못된 접근 방법입니다. 다시 시도해주세요.");
+					return;
+				}
 			});
-		}
-	}, [detail]);
+	};
 
 	const bookmarkHandler = () => {
 		setIsBookmark(!isbookmark);
@@ -596,7 +608,7 @@ const PostDetail = () => {
 												</button>
 												<button
 													onClick={() => {
-														navigate(`/chat/${roomId}`);
+														chatHandler();
 													}}>
 													대화하기
 												</button>

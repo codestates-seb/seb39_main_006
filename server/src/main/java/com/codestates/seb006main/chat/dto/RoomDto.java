@@ -1,5 +1,6 @@
 package com.codestates.seb006main.chat.dto;
 
+import com.codestates.seb006main.chat.entity.Chat;
 import lombok.*;
 
 import java.util.List;
@@ -8,12 +9,11 @@ public class RoomDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Post{
-        private Long memberId;
+        // TODO: 추가 정보가 필요할 수 있음.
         private Long otherId;
 
         @Builder
-        public Post(Long memberId, Long otherId) {
-            this.memberId = memberId;
+        public Post(Long otherId) {
             this.otherId = otherId;
         }
     }
@@ -25,7 +25,6 @@ public class RoomDto {
         private String name;
         private Long memberId;
         private Long otherId;
-
         @Builder
         public Response(String roomId, String name, Long memberId, Long otherId) {
             this.roomId = roomId;

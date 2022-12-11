@@ -6,19 +6,20 @@ import { useNavigate, useParams } from "react-router-dom";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import styled from "styled-components";
+import { ErrorHandler } from "../../util/ErrorHandler";
 
 const RoomDetail = () => {
 	const { roomId } = useParams();
 	const navigate = useNavigate();
 	const scrollRef = useRef();
-	const boxRef = useRef();
 
 	const [room, setRooom] = useState({});
 	const [chat, setChat] = useState([]);
 	const [msg, setMsg] = useState("");
+	const [pageNumber, setPageNumber] = useState(1);
 
-	// username 서버에서 체크하기.
-	const username = sessionStorage.getItem("userName");
+	// TODO: senderId 서버에서 체크하기.
+	const senderId = sessionStorage.getItem("memberId");
 	const client = useRef();
 
 	/* 
@@ -37,30 +38,36 @@ const RoomDetail = () => {
 				setRooom(res.data);
 			})
 			.catch((err) => {
-				if (err.response.status === 500) {
-					alert("서버 오류입니다. 다시 시도해주세요.");
-					navigate(-1);
-					return;
-				}
-				if (err.response.status !== 0) {
-					alert(err.response.data.korMessage);
-					navigate(-1);
-					return;
-				}
-				if (err) {
-					alert("잘못된 접근 방법입니다. 다시 시도해주세요.");
-					navigate(-1);
-					return;
-				}
+				ErrorHandler(err);
+				navigate(-1);
 			});
 		connect();
 
 		return () => disconnect();
 	}, [roomId]);
 
+	const loadChatHandler = () => {
+		axios(
+			`${process.env.REACT_APP_URL}/api/chat/rooms/${roomId}/loadchat?page=${pageNumber}`,
+			{
+				headers: {
+					access_hh: sessionStorage.getItem("AccessToken"),
+				},
+			}
+		).then((res) => {
+			setChat((chat) => [...res.data.data, ...chat]);
+			if (res.data.pageInfo.totalPages < pageNumber) {
+				alert("모든 페이지를 불러왔으니 채팅 내역 불러오기 버튼 비활성화");
+				return;
+			}
+			setPageNumber(pageNumber + 1);
+		});
+	};
+
 	const connect = () => {
 		const socket = new SockJS(`${process.env.REACT_APP_URL}/stomp/chat`);
 		client.current = Stomp.over(socket);
+		client.current.debug = null;
 		client.current.connect(
 			{
 				access_hh: sessionStorage.getItem("AccessToken"),
@@ -72,9 +79,13 @@ const RoomDetail = () => {
 
 				client.current.send(
 					"/pub/chat/enter",
-					{},
-					JSON.stringify({ roomId: roomId, writer: username })
+					{
+						access_hh: sessionStorage.getItem("AccessToken"),
+					},
+					JSON.stringify({ roomId: roomId, senderId: senderId })
 				);
+
+				client.current.send();
 			}
 		);
 	};
@@ -84,7 +95,7 @@ const RoomDetail = () => {
 		client.current.send(
 			"/pub/chat/message",
 			{},
-			JSON.stringify({ roomId: roomId, message: msg, writer: username })
+			JSON.stringify({ roomId: roomId, message: msg, senderId: senderId })
 		);
 		setMsg("");
 	};
@@ -93,7 +104,7 @@ const RoomDetail = () => {
 		client.current.send(
 			"/pub/chat/exit",
 			{},
-			JSON.stringify({ roomId: roomId, writer: username })
+			JSON.stringify({ roomId: roomId, senderId: senderId })
 		);
 		client.current.disconnect();
 	};
@@ -125,10 +136,15 @@ const RoomDetail = () => {
 		<ChatRoomStyle>
 			<h1>방 이름 : {room.name}</h1>
 			<p>방 번호 : {room.roomId}</p>
-			<ChatBox ref={boxRef}>
+			<ChatBox>
+				<div className="buttonBox">
+					<button className="loadChat" onClick={() => loadChatHandler()}>
+						이전 채팅 내역 불러오기
+					</button>
+				</div>
 				<ul className="chatList">
 					{chat.map((el, idx) =>
-						el.writer === username ? (
+						String(el.senderId) === senderId.toString() ? (
 							<li className="myChat" key={idx}>
 								{el.message}
 							</li>

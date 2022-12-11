@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.context.ApplicationEvent;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 @Getter
 public class DomainEvent extends ApplicationEvent {
     private Object entity;
@@ -22,19 +20,36 @@ public class DomainEvent extends ApplicationEvent {
         CREATE_MATCHING,
         APPLY_MATCHING,
         CANCEL_PARTICIPATION,
-        CANCEL_MATCHING;
+        CANCEL_MATCHING,
+        CREATE_ROOM;
     }
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class Domain{
+    public static class PostEvent {
         Long postId;
         String title;
         Member sender;
         Member receiver;
 
-        public Domain(Long postId, String title, Member sender, Member receiver) {
+        public PostEvent(Long postId, String title, Member sender, Member receiver) {
             this.postId = postId;
+            this.title = title;
+            this.sender = sender;
+            this.receiver = receiver;
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class ChatEvent{
+        String roomId;
+        String title;
+        Member sender;
+        Member receiver;
+
+        public ChatEvent(String roomId, String title, Member sender, Member receiver) {
+            this.roomId = roomId;
             this.title = title;
             this.sender = sender;
             this.receiver = receiver;

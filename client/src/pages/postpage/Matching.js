@@ -6,7 +6,6 @@ import styled from "styled-components";
 const Matching = () => {
 	const { matchid } = useParams();
 	const [matchData, setMatchData] = useState([]);
-	const [roomId, setRoomId] = useState("");
 	const navigate = useNavigate();
 
 	// 매칭 데이터 가져오기
@@ -20,23 +19,6 @@ const Matching = () => {
 		});
 	}, [matchid]);
 
-	// 채팅방이 존재하는지 확인
-	// TODO: matchData가 생긴 이후에 작동하도록 설계: 마운트 이후 한번 꼭 요청이 가게 된다.(500)
-	useEffect(() => {
-		if (matchData.memberName !== undefined) {
-			axios(
-				`${process.env.REACT_APP_URL}/api/chat/rooms/check?checkName=${matchData.memberName}`,
-				{
-					headers: {
-						access_hh: sessionStorage.getItem("AccessToken"),
-					},
-				}
-			).then((res) => {
-				setRoomId(res.data.roomId);
-			});
-		}
-	}, [matchData]);
-
 	// 채팅 요청 핸들러
 	const askChatHandler = () => {
 		axios(`${process.env.REACT_APP_URL}/api/chat/rooms`, {
@@ -45,17 +27,46 @@ const Matching = () => {
 			},
 			method: "POST",
 			data: {
-				memberId: sessionStorage.getItem("memberId"),
 				otherId: matchData.memberId,
 			},
-		}).then((res) => {
-			navigate(`/chat/${res.data.roomId}`);
+		}).then(() => {
+			alert(
+				"대화 요청을 전송하였습니다. 대화방에 입장하려면 대화하기 버튼을 눌러주세요."
+			);
+			// window.location.reload();
 		});
 	};
 
+	// 채팅방이 존재하는지 확인
 	// 채팅방이 존재하면 채팅하기
 	const goChatHandler = () => {
-		navigate(`/chat/${roomId}`);
+		axios(
+			`${process.env.REACT_APP_URL}/api/chat/rooms/check?checkName=${matchData.memberName}`,
+			{
+				headers: {
+					access_hh: sessionStorage.getItem("AccessToken"),
+				},
+			}
+		)
+			.then((res) => {
+				if (res.data.roomId) {
+					navigate(`/chat/${res.data.roomId}`);
+				}
+			})
+			.catch((err) => {
+				if (err.response.status === 500) {
+					alert("서버 오류입니다. 다시 시도해주세요.");
+					return;
+				}
+				if (err.response.status !== 0) {
+					alert(err.response.data.korMessage);
+					return;
+				}
+				if (err) {
+					alert("잘못된 접근 방법입니다. 다시 시도해주세요.");
+					return;
+				}
+			});
 	};
 
 	const acceptHandler = () => {
@@ -65,7 +76,7 @@ const Matching = () => {
 			},
 		})
 			.then(() => {
-				navigate(`/${matchData.postId}`);
+				navigate(`/post/${matchData.postId}`);
 			})
 			.catch((err) => {
 				if (err.response.status === 400) {
@@ -97,7 +108,7 @@ const Matching = () => {
 						err.response.data.korMessage === "매칭 정보를 찾을 수 없습니다."
 					) {
 						alert(err.response.data.korMessage);
-						navigate(`/${matchData.postId}`);
+						navigate(`/post/${matchData.postId}`);
 					} else if (err.response.data.korMessage) {
 						alert(err.response.data.korMessage);
 					} else {
@@ -117,7 +128,7 @@ const Matching = () => {
 			},
 		})
 			.then(() => {
-				navigate(`/${matchData.postId}`);
+				navigate(`/post/${matchData.postId}`);
 			})
 			.catch((err) => {
 				if (err.response.status === 400) {
@@ -149,7 +160,7 @@ const Matching = () => {
 						err.response.data.korMessage === "매칭 정보를 찾을 수 없습니다."
 					) {
 						alert(err.response.data.korMessage);
-						navigate(`/${matchData.postId}`);
+						navigate(`/post/${matchData.postId}`);
 					} else if (err.response.data.korMessage) {
 						alert(err.response.data.korMessage);
 					} else {
@@ -186,21 +197,18 @@ const Matching = () => {
 							}}>
 							거절
 						</Button>
-						{roomId !== "" ? (
-							<Button
-								onClick={() => {
-									goChatHandler();
-								}}>
-								채팅하기
-							</Button>
-						) : (
-							<Button
-								onClick={() => {
-									askChatHandler();
-								}}>
-								채팅요청
-							</Button>
-						)}
+						<Button
+							onClick={() => {
+								askChatHandler();
+							}}>
+							대화요청
+						</Button>
+						<Button
+							onClick={() => {
+								goChatHandler();
+							}}>
+							대화하기
+						</Button>
 					</span>
 				</ContentWrap>
 			</Container>
