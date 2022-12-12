@@ -70,6 +70,9 @@ public class JwtUtils {
     public String getEmailFromToken(String token){
         return JWT.decode(token).getClaim("email").asString();
     }
+    public Long getMemberIdFromToken(String token){
+        return JWT.decode(token).getClaim("id").asLong();
+    }
 
     public Long getExpire(String token){
 

@@ -8,6 +8,7 @@ import com.codestates.seb006main.chat.entity.Room;
 import com.codestates.seb006main.chat.mapper.RoomMapper;
 import com.codestates.seb006main.chat.repository.ChatRepository;
 import com.codestates.seb006main.chat.repository.RoomRepository;
+import com.codestates.seb006main.config.websocket.StompHandler;
 import com.codestates.seb006main.dto.MultiResponseDto;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
@@ -23,7 +24,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -35,6 +40,7 @@ public class RoomService {
     private final RoomMapper roomMapper;
     private final MemberRepository memberRepository;
     private final ChatRepository chatRepository;
+    private final StompHandler stompHandler;
     private final ApplicationEventPublisher applicationEventPublisher;
 
     public RoomDto.Response createRoom(RoomDto.Post postDto, Authentication authentication) {
@@ -93,17 +99,18 @@ public class RoomService {
 
     public MultiResponseDto<ChatDto.Message> loadChat(String roomId, PageRequest pageRequest, Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        Long memberId = principalDetails.getMember().getMemberId();
+        Member member = principalDetails.getMember();
 
         Room room = roomRepository.findById(UUID.fromString(roomId))
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ROOM_NOT_FOUND));
 
-        if (memberId != room.getMemberId() && memberId != room.getOtherId()) {
+        if (member.getMemberId() != room.getMemberId() && member.getMemberId() != room.getOtherId()) {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
-        
+
+        LocalDateTime lastConnected = stompHandler.sessionMap.get(member.getEmail()).getLastConnected();
         // TODO: SQL 쿼리 수정으로 1. 내림차순으로 불러온 뒤, 2. 내부에서는 오름차순으로 정렬
-        Page<Chat> chatPage = chatRepository.loadChatByRoomId(roomId, pageRequest);
+        Page<Chat> chatPage = chatRepository.loadChatByRoomId(roomId, pageRequest, lastConnected);
         List<Chat> chatList = new ArrayList<>(chatPage.getContent());
         chatList.sort((Comparator.comparing(Chat::getChatId)));
 

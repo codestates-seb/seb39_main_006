@@ -2,6 +2,7 @@ package com.codestates.seb006main.util;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
 public class MemberSession {
     private Long memberId;
     private List<String> sessionIds = new ArrayList<>();
+    private LocalDateTime lastConnected;
 
     public MemberSession(Long memberId, String sessionId) {
         this.memberId = memberId;

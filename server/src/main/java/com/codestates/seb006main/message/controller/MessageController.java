@@ -1,10 +1,10 @@
 package com.codestates.seb006main.message.controller;
 
-import com.codestates.seb006main.config.websocket.MessageEventListener;
-import com.codestates.seb006main.util.DomainEvent;
+import com.codestates.seb006main.config.websocket.StompHandler;
 import com.codestates.seb006main.dto.MultiResponseDto;
 import com.codestates.seb006main.message.dto.MessageDto;
 import com.codestates.seb006main.message.service.MessageService;
+import com.codestates.seb006main.util.DomainEvent;
 import com.codestates.seb006main.util.MemberSession;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ import java.util.List;
 @RestController
 public class MessageController {
     private final MessageService messageService;
-    private final MessageEventListener eventListener;
+    private final StompHandler stompHandler;
     private final SimpMessagingTemplate template;
     private final Gson gson;
 
@@ -63,7 +63,7 @@ public class MessageController {
     }
 
     public void sendMessage(MessageDto.Response message) throws IOException {
-        MemberSession session = eventListener.sessionMap.get(message.getEmail());
+        MemberSession session = stompHandler.sessionMap.get(message.getEmail());
         if (session == null || session.getSessionIds().isEmpty()) {
             messageService.failedToSend(message);
             return;

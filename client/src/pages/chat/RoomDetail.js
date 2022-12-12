@@ -18,7 +18,6 @@ const RoomDetail = () => {
 	const [msg, setMsg] = useState("");
 	const [pageNumber, setPageNumber] = useState(1);
 
-	// TODO: senderId 서버에서 체크하기.
 	const senderId = sessionStorage.getItem("memberId");
 	const client = useRef();
 
@@ -82,7 +81,7 @@ const RoomDetail = () => {
 					{
 						access_hh: sessionStorage.getItem("AccessToken"),
 					},
-					JSON.stringify({ roomId: roomId, senderId: senderId })
+					JSON.stringify({ roomId: roomId })
 				);
 
 				client.current.send();
@@ -94,8 +93,10 @@ const RoomDetail = () => {
 		if (!client.current.connected) return;
 		client.current.send(
 			"/pub/chat/message",
-			{},
-			JSON.stringify({ roomId: roomId, message: msg, senderId: senderId })
+			{
+				access_hh: sessionStorage.getItem("AccessToken"),
+			},
+			JSON.stringify({ roomId: roomId, message: msg })
 		);
 		setMsg("");
 	};
@@ -103,8 +104,10 @@ const RoomDetail = () => {
 	const disconnect = () => {
 		client.current.send(
 			"/pub/chat/exit",
-			{},
-			JSON.stringify({ roomId: roomId, senderId: senderId })
+			{
+				access_hh: sessionStorage.getItem("AccessToken"),
+			},
+			JSON.stringify({ roomId: roomId })
 		);
 		client.current.disconnect();
 	};
@@ -144,7 +147,7 @@ const RoomDetail = () => {
 				</div>
 				<ul className="chatList">
 					{chat.map((el, idx) =>
-						String(el.senderId) === senderId.toString() ? (
+						String(el.senderId) === senderId ? (
 							<li className="myChat" key={idx}>
 								{el.message}
 							</li>
