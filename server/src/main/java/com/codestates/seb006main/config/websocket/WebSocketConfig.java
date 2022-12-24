@@ -21,9 +21,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/websocket").setAllowedOrigins("http://localhost:3000", "https://www.hitch-hiker.kr").setAllowedOriginPatterns("*");
+//        registry.addEndpoint("/websocket").setAllowedOrigins("http://localhost:3000", "https://www.hitch-hiker.kr").setAllowedOriginPatterns("*");
         registry.addEndpoint("/websocket").setAllowedOrigins("http://localhost:3000", "https://www.hitch-hiker.kr").setAllowedOriginPatterns("*").withSockJS();
-        registry.addEndpoint("/stomp/chat").setAllowedOrigins("http://localhost:3000").setAllowedOriginPatterns("*").withSockJS();
+        registry.addEndpoint("/stomp/chat").setAllowedOrigins("http://localhost:3000", "https://www.hitch-hiker.kr").setAllowedOriginPatterns("*").withSockJS();
     }
 
     @Override
