@@ -88,6 +88,7 @@ const Header = () => {
 				},
 				() => {
 					client.subscribe(
+						// TODO: sessionStorage 값 가져오는 부분 고치기.
 						"/topic/" + sessionStorage.getItem("memberId"),
 						(msg) => {
 							setMsgs((msgs) => [...msgs, JSON.parse(msg.body)]);
@@ -110,14 +111,17 @@ const Header = () => {
 		}
 	}, [msgs]);
 
-	const msgClickHandler = (msgId, postId) => {
-		axios(`${process.env.REACT_APP_URL}/api/messages/read?messageId=${msgId}`, {
-			headers: {
-				access_hh: sessionStorage.getItem("AccessToken"),
-			},
-		})
+	const msgClickHandler = (msg) => {
+		axios(
+			`${process.env.REACT_APP_URL}/api/messages/read?messageId=${msg.messageId}`,
+			{
+				headers: {
+					access_hh: sessionStorage.getItem("AccessToken"),
+				},
+			}
+		)
 			.then(() => {
-				navigate(`/${postId}`);
+				navigateHandler(msg);
 				window.location.reload();
 			})
 			.catch((err) => {
@@ -156,6 +160,12 @@ const Header = () => {
 				}
 				window.location.reload();
 			});
+	};
+
+	const navigateHandler = (msg) => {
+		return msg.messageType === "CHAT"
+			? navigate(`/chat/${msg.destinationId}`)
+			: navigate(`/post/${msg.destinationId}`);
 	};
 
 	const readAllMessage = () => {
@@ -228,27 +238,28 @@ const Header = () => {
 					</li>
 					{sessionStorage.getItem("isLogin") && (
 						<>
-							<li>
+							<li className="mainpage">
 								<p onClick={() => navigate(`/main`)} data-item="mainpage">
 									mainpage
 								</p>
 							</li>
-							<li>
+							<li className="mypage">
 								<p onClick={() => navigate(`/mypage`)} data-item="mypage">
 									mypage
 								</p>
 							</li>
-							<li>
+							<li className="feedpage">
 								<p data-item="준비중">준비중</p>
 							</li>
 
-							<li>
+							<li className="profileBox">
 								<img
 									src={sessionStorage.getItem("profileImg")}
 									width="40"
 									height="40"
 									alt=""
 								/>
+								<p>{sessionStorage.getItem("userName")}</p>
 							</li>
 
 							<div className="dropdown">
@@ -265,7 +276,7 @@ const Header = () => {
 									alt=""
 								/>
 								<SubMenu isDropped={showMsg}>
-									<ul>
+									<ul className="msgBox">
 										{showMsg && (
 											<li className="msgMenu">
 												<button
@@ -285,13 +296,14 @@ const Header = () => {
 										)}
 										{showMsg &&
 											msgs.map((el, idx) => (
-												<li
-													className="msg"
-													key={idx}
-													onClick={() => {
-														msgClickHandler(el.messageId, el.postId);
-													}}>
-													{el.body}
+												<li className="msg" key={idx}>
+													<p
+														className="msgBody"
+														onClick={() => {
+															msgClickHandler(el);
+														}}>
+														{el.body}
+													</p>
 												</li>
 											))}
 									</ul>
@@ -312,42 +324,6 @@ const Header = () => {
 
 export default Header;
 
-const SubMenu = styled.div`
-	background: gray;
-	position: absolute;
-	margin-top: 1rem;
-	width: 500px;
-	left: 60%;
-	text-align: center;
-	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
-	border-radius: 3px;
-	visibility: hidden;
-	transform: translate(-50%, -10px);
-	transition: transform 0.4s ease, visibility 0.4s;
-	z-index: 99;
-
-	&:after {
-		content: "";
-		height: 0;
-		width: 0;
-		position: absolute;
-		top: -3px;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		border: 12px solid transparent;
-		border-top-width: 0;
-		border-bottom-color: gray;
-	}
-
-	${({ isDropped }) =>
-		isDropped &&
-		css`
-			opacity: 1;
-			visibility: visible;
-			transform: translate(-50%, 55%);
-		`};
-`;
-
 const HeaderSection = styled.header`
 	display: grid;
 	place-items: center;
@@ -363,41 +339,6 @@ const HeaderSection = styled.header`
 
 		img {
 			cursor: pointer;
-		}
-
-		button {
-			cursor: pointer;
-			font-size: 1rem;
-			background-color: #dabbc9;
-			border: 1px solid #dabbc9;
-			padding: 0.1rem 1rem;
-			box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-			color: #425049;
-			&:hover {
-				background-color: #efd5c8;
-				border-color: #efd5c8;
-			}
-		}
-
-		ul {
-			overflow-y: scroll;
-
-			.msgMenu {
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-			}
-
-			.msg {
-				cursor: pointer;
-				color: black;
-				margin: 1rem;
-				padding: 1rem;
-				border-radius: 5px;
-				box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
-				background: rgba(255, 255, 255, 1);
-				font-family: Roboto;
-			}
 		}
 
 		.msgcount {
@@ -506,6 +447,129 @@ const HeaderSection = styled.header`
 					}
 				}
 			}
+
+			.profileBox {
+				display: flex;
+				align-items: center;
+			}
 		}
 	}
+`;
+
+const SubMenu = styled.div`
+	background: gray;
+	position: absolute;
+	margin-top: 1rem;
+	width: 12rem;
+	left: 60%;
+	text-align: center;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+	border-radius: 3px;
+	visibility: hidden;
+	transform: translate(-50%, -10px);
+	transition: transform 0.4s ease, visibility 0.4s;
+	z-index: 99;
+
+	.msgBox {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		overflow: auto;
+
+		.msgMenu {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			button {
+				cursor: pointer;
+				font-size: 1rem;
+				background-color: #dabbc9;
+				border: 1px solid #dabbc9;
+				padding: 0.1rem 1rem;
+				box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+				color: #425049;
+				&:hover {
+					background-color: #efd5c8;
+					border-color: #efd5c8;
+				}
+			}
+		}
+
+		.msg {
+			display: inline-block;
+			overflow: hidden;
+			max-width: 100%;
+			vertical-align: top;
+			margin: 0.25rem;
+			padding: 0.5rem;
+			border-radius: 5px;
+			box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+			background: rgba(255, 255, 255, 1);
+
+			.msgBody {
+				cursor: pointer;
+				color: black;
+				font-size: 1rem;
+
+				display: block;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				line-height: 1.2;
+			}
+		}
+
+		::-webkit-scrollbar {
+			width: 20px;
+		}
+
+		::-webkit-scrollbar-track {
+			background-color: transparent;
+		}
+
+		::-webkit-scrollbar-thumb {
+			background-color: #d6dee1;
+			border-radius: 20px;
+			border: 6px solid transparent;
+			background-clip: content-box;
+		}
+
+		::-webkit-scrollbar-thumb:hover {
+			background-color: #a8bbbf;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		width: 15.625rem;
+	}
+
+	@media (min-width: 1440px) {
+		width: 22.5rem;
+	}
+
+	@media (min-width: 1600px) {
+		width: 31.25rem;
+	}
+
+	&:after {
+		content: "";
+		height: 0;
+		width: 0;
+		position: absolute;
+		top: -3px;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		border: 12px solid transparent;
+		border-top-width: 0;
+		border-bottom-color: gray;
+	}
+
+	${({ isDropped }) =>
+		isDropped &&
+		css`
+			opacity: 1;
+			visibility: visible;
+			transform: translate(-50%, 55%);
+		`};
 `;

@@ -63,7 +63,7 @@ const MyPost = () => {
 					<h2
 						className="wrapper"
 						onClick={() => {
-							navigate(`/${el.postId}`);
+							navigate(`/post/${el.postId}`);
 						}}>
 						{el.title} 모집인원 {el.participantsCount} / {el.totalCount}
 					</h2>

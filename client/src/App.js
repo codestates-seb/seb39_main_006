@@ -18,6 +18,8 @@ import Messages from "./pages/mypage/Messages";
 import GlobalStyle from "./GlobalStyle";
 import OAuth2RedirectHandler from "./pages/account/OAuth2RedirectHandler";
 import Footer from "./components/Footer";
+import Rooms from "./pages/chat/Rooms";
+import RoomDetail from "./pages/chat/RoomDetail";
 function App() {
 	return (
 		<Wrap>
@@ -36,10 +38,13 @@ function App() {
 						</>
 					) : (
 						<>
-							<Route path="/main" element={<Main />} />
+							{/* <Route index element={<Main />} /> */}
 							<Route path="/" element={<Login />} />
+							<Route path="/main" element={<Main />} />
 							<Route path="/new" element={<NewPost />} />
-							<Route path="/:id" element={<PostDetail />} />
+							<Route path="/post" element={<Main />}>
+								<Route path=":id" element={<PostDetail />} />
+							</Route>
 							<Route path="/edit/:id" element={<EditPost />} />
 							<Route path="/match/:matchid" element={<Matching />} />
 							<Route path="/mypage" element={<MyPage />} />
@@ -48,6 +53,8 @@ function App() {
 							<Route path="/mypost" element={<MyPost />} />
 							<Route path="/mymatchinfo" element={<MyMatching />} />
 							<Route path="/messages" element={<Messages />} />
+							<Route path="/chat" element={<Rooms />} />
+							<Route path="/chat/:roomId" element={<RoomDetail />} />
 						</>
 					)}
 				</Routes>

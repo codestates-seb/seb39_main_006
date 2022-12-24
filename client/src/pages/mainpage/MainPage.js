@@ -2,11 +2,13 @@ import React from "react";
 import Posts from "../postpage/Posts";
 import styled from "styled-components";
 import MainSubHeader from "./MainSubHeader";
+import { Outlet } from "react-router-dom";
 
 const MainPage = () => {
 	return (
 		<>
 			<Flex>
+				<Outlet />
 				<Section>
 					<section>
 						<h1>Main Page</h1>

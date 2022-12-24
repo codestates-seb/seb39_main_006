@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.web.socket.WebSocketMessage;
 
 import javax.persistence.*;
 
@@ -19,17 +18,20 @@ public class Message {
     private String body;
     @Enumerated(EnumType.STRING)
     private MessageStatus messageStatus;
-    private Long postId;
+    private String destinationId;
+    @Enumerated(EnumType.STRING)
+    private MessageType messageType;
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Builder
-    public Message(Long messageId, String body, MessageStatus messageStatus, Long postId, Member member) {
+    public Message(Long messageId, String body, MessageStatus messageStatus, String destinationId, MessageType messageType, Member member) {
         this.messageId = messageId;
         this.body = body;
-        this.postId = postId;
+        this.destinationId = destinationId;
         this.messageStatus = messageStatus == null ? MessageStatus.NOT_READ : messageStatus;
+        this.messageType = messageType;
         this.member = member;
     }
 
@@ -45,6 +47,11 @@ public class Message {
             this.stepNumber = stepNumber;
             this.messageDescription = messageDescription;
         }
+    }
+
+    public enum MessageType {
+        POST, CHAT;
+
     }
 
     public void failedToSend() {

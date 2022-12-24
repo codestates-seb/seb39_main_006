@@ -4,7 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.codestates.seb006main.Image.entity.Image;
 import com.codestates.seb006main.Image.repository.ImageRepository;
 import com.codestates.seb006main.auth.PrincipalDetails;
-import com.codestates.seb006main.config.DomainEvent;
+import com.codestates.seb006main.util.DomainEvent;
 import com.codestates.seb006main.dto.MultiResponseDto;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
@@ -149,8 +149,8 @@ public class PostsService {
                 memberPosts.getMember().getMemberId() != principalDetails.getMember().getMemberId()) {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
-        DomainEvent.Domain domain = new DomainEvent.Domain(posts.getPostId(), posts.getTitle(), posts.getMember(), memberPosts.getMember());
-        applicationEventPublisher.publishEvent(new DomainEvent(this, domain, DomainEvent.EventType.CANCEL_PARTICIPATION));
+        DomainEvent.PostEvent postEvent = new DomainEvent.PostEvent(posts.getPostId(), posts.getTitle(), posts.getMember(), memberPosts.getMember());
+        applicationEventPublisher.publishEvent(new DomainEvent(this, postEvent, DomainEvent.EventType.CANCEL_PARTICIPATION));
 
         posts.deleteParticipant(memberPosts);
         memberPostsRepository.deleteById(participantId);
