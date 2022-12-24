@@ -15,15 +15,14 @@ public class ChatService {
     private final MemberRepository memberRepository;
     private final JwtUtils jwtUtils;
 
-    public Long saveAndSendChatWithSenderId(ChatDto.Message message, String accessToken) {
-        Long senderId = getMemberIdFromToken(accessToken);
+    //TODO: 이 부분을 카프카에 메시지를 보낸 뒤 처리하도록 한다.
+    public void saveChat(ChatDto.Message message) {
         Chat chat = Chat.builder()
                 .roomId(message.getRoomId())
-                .senderId(senderId)
+                .senderId(message.getSenderId())
                 .message(message.getMessage())
                 .build();
         chatRepository.save(chat);
-        return senderId;
     }
 
     public String getDisplayName(String accessToken) {
@@ -33,7 +32,6 @@ public class ChatService {
 
     public Long getMemberIdFromToken(String accessToken) {
         accessToken = accessToken.replace("Bearer ", "");
-        System.out.println(jwtUtils.getMemberIdFromToken(accessToken));
         return jwtUtils.getMemberIdFromToken(accessToken);
     }
 }

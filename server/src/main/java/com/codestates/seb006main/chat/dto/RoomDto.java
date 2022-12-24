@@ -1,7 +1,9 @@
 package com.codestates.seb006main.chat.dto;
 
-import com.codestates.seb006main.chat.entity.Chat;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -34,6 +36,7 @@ public class RoomDto {
         }
     }
 
+    // Sender Receiver 나눌 필요가 없을듯?
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class ResponseList {

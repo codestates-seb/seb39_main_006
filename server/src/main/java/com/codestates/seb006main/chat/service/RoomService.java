@@ -58,7 +58,6 @@ public class RoomService {
             Room room = Room.builder()
                     .memberId(member.getMemberId())
                     .otherId(other.getMemberId())
-                    // TODO: 채팅방의 제목으로 구분을 지어주는 것이 좋을까?
                     .name("[" + member.getDisplayName() + "]님과 [" + other.getDisplayName() + "]님의 채팅방")
                     .build();
             roomRepository.save(room);
