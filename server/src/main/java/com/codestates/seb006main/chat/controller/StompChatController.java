@@ -38,7 +38,7 @@ public class StompChatController {
     }
 
     // Kafka로 보낸 뒤 저장하기 (메시지 순서 보장 및 손실 방지)
-    @KafkaListener(groupId = "hitch-hiker", topics = "${spring.kafka.topic.name}")
+    @KafkaListener(groupId = "#{T(java.util.UUID).randomUUID().toString()}", topics = "${spring.kafka.topic.name}")
     public void receiveMessage(ChatDto.Message message) {
         chatService.saveChat(message);
         template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
