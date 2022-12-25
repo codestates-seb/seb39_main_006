@@ -35,13 +35,13 @@ public class StompChatController {
     public void sendMessage(ChatDto.Message message, @Header("access_hh") String accessToken) {
         message.setSenderId(chatService.getMemberIdFromToken(accessToken));
         kafkaTemplate.send(KAFKA_TOPIC, message);
+        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
     }
 
     // Kafka로 보낸 뒤 저장하기 (메시지 순서 보장 및 손실 방지)
     @KafkaListener(groupId = "${spring.kafka.consumer.group-id}", topics = "${spring.kafka.topic.name}")
     public void receiveMessage(ChatDto.Message message) {
         chatService.saveChat(message);
-        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
     }
 
     @MessageMapping("/chat/exit")
