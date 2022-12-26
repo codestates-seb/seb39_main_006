@@ -11,6 +11,7 @@ public enum ExceptionCode {
     DISPLAY_NAME_EXISTS(409, "Member exists", "이미 존재하는 닉네임입니다."),
     MEMBER_NOT_ACTIVE(409, "Member not active", "비활성화된 회원입니다."),
     ALREADY_PARTICIPATED(409, "Already participated", "이미 참여하고 있는 그룹입니다."),
+    ROOM_ALREADY_EXISTS(409, "Already participated", "이미 해당 채팅방이 존재합니다."),
     ALREADY_REQUESTED(409, "Already requested", "이미 요청된 매칭입니다. 잠시 후에 다시 시도해주시기 바랍니다."),
     ALREADY_USED_IMAGE(409, "Image already used.", "다른 곳에서 사용된 사진입니다. 새 사진을 업로드 해주세요."),
     ALREADY_REFUSED(409, "Already refused", "이미 거절된 요청입니다."),
@@ -30,7 +31,8 @@ public enum ExceptionCode {
     NOT_ALLOWED_FILENAME_EXTENSION(415, "Not Allowed Filename Extension", "허용되지 않은 파일 형식입니다. PNG, JPG, JPEG, GIF, BMP 확장자만 업로드할 수 있습니다."),
     CLOSE_DATE_VIOLATION(409, "Close Date Violation", "매칭 종료 날짜는 여행 날짜보다 이전이어야 합니다."),
     TRAVEL_DATE_VIOLATION(409, "Travel Date Violation", "여행 시작 날짜는 여행 종료 날짜보다 이전이어야 합니다."),
-    DATE_VIOLATION(409, "Date Violation", "현재 날짜보다 이전일 수 없습니다.");
+    DATE_VIOLATION(409, "Date Violation", "현재 날짜보다 이전일 수 없습니다."),
+    ROOM_NOT_FOUND(404, "Room not found", "채팅방 정보를 찾을 수 없습니다.");
 
 
 

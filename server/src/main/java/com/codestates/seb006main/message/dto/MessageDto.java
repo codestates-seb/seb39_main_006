@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.web.socket.WebSocketMessage;
 
 public class MessageDto {
     @Getter
@@ -14,16 +13,18 @@ public class MessageDto {
         private Long messageId;
         private String body;
         private String email;
-        private Long postId;
+        private String destinationId;
         private Message.MessageStatus messageStatus;
+        private Message.MessageType messageType;
 
         @Builder
         public Response(Message message) {
             this.messageId = message.getMessageId();
             this.body = message.getBody();
             this.email = message.getMember().getEmail();
-            this.postId = message.getPostId();
+            this.destinationId = message.getDestinationId();
             this.messageStatus = message.getMessageStatus();
+            this.messageType = message.getMessageType();
         }
     }
 }

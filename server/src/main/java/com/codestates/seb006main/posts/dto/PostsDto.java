@@ -1,5 +1,6 @@
 package com.codestates.seb006main.posts.dto;
 
+import com.codestates.seb006main.Image.entity.Image;
 import com.codestates.seb006main.members.dto.MemberDto;
 import com.codestates.seb006main.members.entity.Member;
 import com.codestates.seb006main.posts.entity.Posts;
@@ -9,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.Valid;
@@ -99,16 +101,17 @@ public class PostsDto {
         private LocalDate startDate;
         private LocalDate endDate;
         private String location;
+        private String thumbnail;
         private Integer totalCount;
         private List<MemberDto.Participants> participants;
         private Integer participantsCount;
         private LocalDate closeDate;
-        private Posts.PostsStatus postsStatus;
+        private String postsStatus;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
 
         @Builder
-        public Response(Long postId, String title, String body, Member member, Period travelPeriod, String location, Integer totalCount, List<MemberDto.Participants> participants, LocalDate closeDate, Posts.PostsStatus postsStatus, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+        public Response(Long postId, String title, String body, Member member, Period travelPeriod, String location, List<Image> images, Integer totalCount, List<MemberDto.Participants> participants, LocalDate closeDate, Posts.PostsStatus postsStatus, LocalDateTime createdAt, LocalDateTime modifiedAt) {
             this.postId = postId;
             this.title = title;
             this.body = body;
@@ -117,11 +120,12 @@ public class PostsDto {
             this.startDate = travelPeriod.getStartDate();
             this.endDate = travelPeriod.getEndDate();
             this.location = location;
+            this.thumbnail = images.isEmpty() ? null : images.get(0).getStoredPath();
             this.totalCount = totalCount;
             this.participants = participants;
             this.participantsCount = participants.size();
             this.closeDate = closeDate;
-            this.postsStatus = postsStatus;
+            this.postsStatus = postsStatus.getPostsDescription();
             this.createdAt = createdAt;
             this.modifiedAt = modifiedAt;
         }
