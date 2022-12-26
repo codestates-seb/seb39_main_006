@@ -13,13 +13,13 @@ let persistor = persistStore(store);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <BrowserRouter>
-        <ScrollToTop />
-        <GlobalStyle />
-        <App />
-      </BrowserRouter>
-    </PersistGate>
-  </Provider>
+	<Provider store={store}>
+		<PersistGate loading={null} persistor={persistor}>
+			<BrowserRouter>
+				<ScrollToTop />
+				<GlobalStyle />
+				<App />
+			</BrowserRouter>
+		</PersistGate>
+	</Provider>
 );

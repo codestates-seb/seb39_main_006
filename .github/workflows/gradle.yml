@@ -38,35 +38,28 @@ jobs:
         cd server/src/main/resources
         echo "${{ env.APPLICATION }}" > ./application.yml
       shell: bash
-    
-#     - name: Set YML
-#       uses: microsoft/variable-substitution@v1
-#       with:
-#         files: ${{ env.RESOURCE_PATH }}
-#       env:
-#         spring.datasource.url: ${{ secrets.MYSQL_URL }}
-#         spring.datasource.username: ${{ secrets.MYSQL_USERNAME }}
-#         spring.datasource.password: ${{ secrets.MYSQL_PASSWORD }}
-#         cloud.aws.credentials.access-key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#         cloud.aws.credentials.secret-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#         jwt.access: ${{ secrets.ACCESS_TOKEN_KEY }}
-#         jwt.refresh: ${{ secrets.REFRESH_TOKEN_KEY }}
-#         mail.smtp.host: ${{ secrets.EMAIL_HOST }}
-#         mail.smtp.port: ${{ secrets.EMAIL_PORT }}
-#         mail.smtp.username: ${{ secrets.EMAIL_USERNAME }}
-#         mail.smtp.password: ${{ secrets.EMAIL_PASSWORD }}
-#         mail.smtp.auth: ${{ secrets.EMAIL_AUTH }}
-#         mail.smtp.starttls.enable: ${{ secrets.EMAIL_ENABLE }}
-        
+
     - name: Server Build
-      run: |                                        # 개별 실행 옵션, 없으면 29 ~ 35줄까지 모두 한줄에 실행됨
+      run: |
         mkdir -p deploy-server/                     # 압축할 임시 폴더 생성 (deploy-server)
         cd server/                                  # 리포지토리에서 server 폴더로 이동
         chmod +x ./gradlew                          # GitHub Action 에서 gradle build를 위한 권한설정
         ./gradlew clean bootjar -x test -x asciidoctor   # 테스트를 제외한 빌드 진행, 테스트를 원하면 -x test 옵션 삭제
-        cd ..                                       # 리포지토리 기본 위치로 이동
-        cp server/build/libs/*.jar deploy-server/   # jar 파일 임시 폴더로 복사
       shell: bash
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v2.1.0
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v3.2.0
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKER_USERNAME }}/hitch-hiker-server:0.1
     
     # build한 후 프로젝트를 압축합니다.
     - name: Make zip file
@@ -92,6 +85,5 @@ jobs:
     - name: Code Deploy
       run: >
         aws deploy create-deployment --application-name seb-main-006
-        --deployment-config-name CodeDeployDefault.AllAtOnce
         --deployment-group-name seb-main-006-group
         --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=deploy-server.zip

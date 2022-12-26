@@ -14,100 +14,66 @@ import MyPost from "./pages/mypage/MyPost";
 import MyBookmark from "./pages/mypage/MyBookmark";
 import MyMatching from "./pages/mypage/MyMatching";
 import styled from "styled-components";
-import imgBgr from "../src/img/background.png";
 import Messages from "./pages/mypage/Messages";
 import GlobalStyle from "./GlobalStyle";
 import OAuth2RedirectHandler from "./pages/account/OAuth2RedirectHandler";
+import Footer from "./components/Footer";
+import Rooms from "./pages/chat/Rooms";
+import RoomDetail from "./pages/chat/RoomDetail";
 function App() {
-  return (
-    <>
-      <GlobalStyle />
-      <Wrap>
-        {/* <img
-        id="bgr"
-        src={imgBgr}
-        alt="./background.png"
-        width="2000"
-        height="2800"// 이게 background image로 가야합니다보통은!
-      /> */}
-        <div id="bg"></div>
-        <Header />
-
-        <Routes>
-          {sessionStorage.getItem("isLogin") === null ? (
-            <>
-              <Route
-                path="/oauth2/redirect"
-                element={<OAuth2RedirectHandler />}
-              />
-              <Route path="/signup" element={<SignUp />}></Route>
-              <Route path="/" element={<Login />}></Route>
-            </>
-          ) : (
-            <>
-              <Route path="/main" element={<Main />} />
-              <Route path="/" element={<Login />}></Route>
-              <Route path="/new" element={<NewPost />} />
-              <Route path="/:id" element={<PostDetail />} />
-              <Route path="/edit/:id" element={<EditPost />} />
-              <Route path="/match/:matchid" element={<Matching />} />
-              <Route path="/mypage" element={<MyPage />} />
-              <Route path="/userinfo" element={<UserInfo />} />
-              <Route path="/mybookmark" element={<MyBookmark />} />
-              <Route path="/mypost" element={<MyPost />} />
-              <Route path="/mymatchinfo" element={<MyMatching />} />
-              <Route path="/messages" element={<Messages />} />
-            </>
-          )}
-        </Routes>
-      </Wrap>
-    </>
-  );
+	return (
+		<Wrap>
+			<GlobalStyle />
+			<Header />
+			<BodyWrap>
+				<Routes>
+					{sessionStorage.getItem("isLogin") === null ? (
+						<>
+							<Route
+								path="/oauth2/redirect"
+								element={<OAuth2RedirectHandler />}
+							/>
+							<Route path="/signup" element={<SignUp />}></Route>
+							<Route path="*" element={<Login />}></Route>
+						</>
+					) : (
+						<>
+							{/* <Route index element={<Main />} /> */}
+							<Route path="/" element={<Login />} />
+							<Route path="/main" element={<Main />} />
+							<Route path="/new" element={<NewPost />} />
+							<Route path="/post" element={<Main />}>
+								<Route path=":id" element={<PostDetail />} />
+							</Route>
+							<Route path="/edit/:id" element={<EditPost />} />
+							<Route path="/match/:matchid" element={<Matching />} />
+							<Route path="/mypage" element={<MyPage />} />
+							<Route path="/userinfo" element={<UserInfo />} />
+							<Route path="/mybookmark" element={<MyBookmark />} />
+							<Route path="/mypost" element={<MyPost />} />
+							<Route path="/mymatchinfo" element={<MyMatching />} />
+							<Route path="/messages" element={<Messages />} />
+							<Route path="/chat" element={<Rooms />} />
+							<Route path="/chat/:roomId" element={<RoomDetail />} />
+						</>
+					)}
+				</Routes>
+			</BodyWrap>
+			<Footer />
+		</Wrap>
+	);
 }
 
 export default App;
 const Wrap = styled.div`
-  /* #bgr { */
+	font-family: "IBM Plex Sans KR", sans-serif;
+	width: 100%;
+	height: 100%;
+	position: relative;
+`;
 
-  /* width: 100vw;
-  height: 100vh;
-  overflow: hidden; */
-  /* position: fixed;
-  background-repeat: no-repeat;
- 
-  background-image: url(${imgBgr});
-  z-index: -99;
-  opacity: 50%;
-
-  overflow: scroll;
-  min-width: 1000px;
-  max-height: fit-content; */
-  font-family: "IBM Plex Sans KR", sans-serif;
-  #bg {
-    position: fixed;
-    z-index: -1;
-    width: 100vw;
-    height: 100vh;
-    ::before {
-      content: "";
-      position: absolute;
-      background-image: url(${imgBgr});
-      background-size: 100vw 100vh;
-      background-repeat: no-repeat;
-      opacity: 0.5;
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      right: 0px;
-      bottom: 0px;
-      z-index: -1;
-      overflow: hidden;
-    }
-  }
-
-  /* @media screen and (max-width: 1500px) {
-      padding: 30px 25px 30px 25px;
-      height: 455px;
-    } */
-  /* } */
+const BodyWrap = styled.div`
+	min-height: 1080px;
+	padding-top: 4rem;
+	padding-bottom: 9.5rem;
 `;

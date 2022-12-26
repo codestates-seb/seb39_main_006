@@ -70,14 +70,16 @@ public class JwtUtils {
     public String getEmailFromToken(String token){
         return JWT.decode(token).getClaim("email").asString();
     }
+    public Long getMemberIdFromToken(String token){
+        return JWT.decode(token).getClaim("id").asLong();
+    }
 
     public Long getExpire(String token){
 
         DecodedJWT decode=JWT.decode(token.replace("Bearer ",""));
 
         Date exp = decode.getExpiresAt();
-        System.out.println(exp.getTime());
-        System.out.println();
+
         return exp.getTime()-System.currentTimeMillis();
     }
 

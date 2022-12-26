@@ -1,15 +1,13 @@
 package com.codestates.seb006main.matching.service;
 
 import com.codestates.seb006main.auth.PrincipalDetails;
-import com.codestates.seb006main.config.DomainEvent;
+import com.codestates.seb006main.util.DomainEvent;
 import com.codestates.seb006main.exception.BusinessLogicException;
 import com.codestates.seb006main.exception.ExceptionCode;
 import com.codestates.seb006main.matching.dto.MatchingDto;
 import com.codestates.seb006main.matching.entity.Matching;
 import com.codestates.seb006main.matching.mapper.MatchingMapper;
 import com.codestates.seb006main.matching.repository.MatchingRepository;
-import com.codestates.seb006main.message.entity.Message;
-import com.codestates.seb006main.message.repository.MessageRepository;
 import com.codestates.seb006main.posts.entity.MemberPosts;
 import com.codestates.seb006main.posts.entity.Posts;
 import com.codestates.seb006main.posts.repository.MemberPostsRepository;
@@ -58,6 +56,10 @@ public class MatchingService {
 
     public MatchingDto.Response readMatching(Long matchingId, Authentication authentication) {
         Matching matching = matchingRepository.findById(matchingId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MATCHING_NOT_FOUND));
+
+        // 매칭 신청자도 읽을 수 있게 해놨지만, 매칭 정보에 다시 접근할 방법은 아직 없다.
+        // 매칭 정보를 신청자도 조회할 수 있게 하고, 매칭 정보를 수정하거나 확인할 수 있게 하자.
+        // 세션 스토리지 보단 permission check를 하는 것이 좋을 것 같다.
         if (!checkLeader(matching, authentication) && !checkPermission(matching, authentication)) {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         } else if (checkLeader(matching, authentication)) {
@@ -101,8 +103,8 @@ public class MatchingService {
             throw new BusinessLogicException(ExceptionCode.PERMISSION_DENIED);
         }
 
-        DomainEvent.Domain domain = new DomainEvent.Domain(matching.getPosts().getPostId(), matching.getPosts().getTitle(), matching.getMember(), matching.getPosts().getMember());
-        applicationEventPublisher.publishEvent(new DomainEvent(this, domain, DomainEvent.EventType.CANCEL_MATCHING));
+        DomainEvent.PostEvent postEvent = new DomainEvent.PostEvent(matching.getPosts().getPostId(), matching.getPosts().getTitle(), matching.getMember(), matching.getPosts().getMember());
+        applicationEventPublisher.publishEvent(new DomainEvent(this, postEvent, DomainEvent.EventType.CANCEL_MATCHING));
 
         matchingRepository.deleteById(matchingId);
     }

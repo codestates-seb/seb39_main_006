@@ -1,7 +1,5 @@
 package com.codestates.seb006main.jwt.filter;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.codestates.seb006main.auth.PrincipalDetails;
 import com.codestates.seb006main.config.redis.RedisUtils;
 import com.codestates.seb006main.exception.BusinessLogicException;
@@ -9,6 +7,7 @@ import com.codestates.seb006main.exception.ExceptionCode;
 import com.codestates.seb006main.jwt.JwtUtils;
 import com.codestates.seb006main.members.entity.Member;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,8 +20,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 
+@Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
@@ -60,7 +59,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
 
-        System.out.println("successfulAuthentication");
+        log.info("successfulAuthentication");
         PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
         if(!principalDetails.getMember().getMemberStatus().name().equals("ACTIVE")){
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_ACTIVE);

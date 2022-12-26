@@ -1,6 +1,7 @@
 package com.codestates.seb006main.config.batch;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersInvalidException;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class BatchScheduler {
@@ -31,7 +33,7 @@ public class BatchScheduler {
         try {
             jobLauncher.run(batchConfig.deleteUnusedObject(), jobParameters);
         } catch (JobExecutionAlreadyRunningException | JobInstanceAlreadyCompleteException | JobParametersInvalidException | JobRestartException e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 }
