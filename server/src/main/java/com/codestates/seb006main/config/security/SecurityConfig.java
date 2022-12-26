@@ -60,6 +60,19 @@ public class SecurityConfig {
                 .userInfoEndpoint()
                 .userService(customOAuth2Service);
 
+        http
+                .exceptionHandling()
+                .authenticationEntryPoint((request,response,authenticationException)->{
+                    response.sendRedirect("http://localhost:3000/");
+                })
+                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                    response.sendRedirect("http://localhost:3000/");
+                    /*
+                     * 다시 로그인을 할 수 있도록 해야한다.
+                     * 1. 다시 로그인을 시도해주세요 라는 팝업창을 실행 후
+                     * 2. 메인 페이지로 이동할 수 있도록 한다.
+                     * */
+                });
 
         http
                 .logout()

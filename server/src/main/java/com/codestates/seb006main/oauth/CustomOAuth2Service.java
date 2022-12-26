@@ -30,11 +30,11 @@ public class CustomOAuth2Service extends DefaultOAuth2UserService {
 
         // OAuth2UserService
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
-        Member member = saveOrUpdate(attributes);
+        Member member = saveOrUpdate(attributes,registrationId);
         return new PrincipalDetails(member, oAuth2User.getAttributes());
     }
 
-    private Member saveOrUpdate(OAuthAttributes attributes){
+    private Member saveOrUpdate(OAuthAttributes attributes, String registrationId){
         Member member = memberRepository.findByEmail(attributes.getEmail())
                 .map(entity -> entity.updateOAuth(attributes.getName(), attributes.getPicture()))
                         .orElse(attributes.toEntity());
