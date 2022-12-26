@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 // import AccountInfo from "./AccountInfo";
 import kakaoLogo from "../../img/kakao.png";
-import googleLogo from "../../img/google.png";
+import googleLogo from "../../img/google.png"
 
 const Login = () => {
   const [validateEmailText, setValidateEmailText] = useState("");
@@ -140,7 +140,7 @@ const Login = () => {
                 </NewBTN>
               </div>
               <div align="center">
-                <a href="http://localhost:8080/oauth2/authorization/kakao">
+                <a href="https://server.seb-006.shop/oauth2/authorization/kakao">
                   <img
                     className="Button"
                     src={kakaoLogo}
@@ -151,7 +151,7 @@ const Login = () => {
                 </a>
               </div>
               <div align="center">
-                <a href="http://localhost:8080/oauth2/authorization/google">
+                <a href="https://server.seb-006.shop/oauth2/authorization/google">
                   <img
                     className="Button"
                     src={googleLogo}
