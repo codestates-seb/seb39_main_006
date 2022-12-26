@@ -23,8 +23,16 @@ public class OAuthAttributes {
     }
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes){
-
-        return ofKakao("id", attributes);
+        System.out.println(registrationId + " : "+ userNameAttributeName);
+        if(registrationId.equalsIgnoreCase("kakao")){
+            System.out.println("카카오 진입");
+            return ofKakao("id", attributes);
+        }else if(registrationId.equalsIgnoreCase("google")){
+            System.out.println("구글 진입");
+            return ofGoogle(userNameAttributeName,attributes);
+        }else {
+            throw new RuntimeException("잘못된 로그인 방식입니다.");
+        }
     }
 
     private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
@@ -35,6 +43,16 @@ public class OAuthAttributes {
                 .name((String) kakaoProfile.get("nickname"))
                 .email((String) kakaoAccount.get("email"))
                 .picture((String) kakaoProfile.get("profile_image_url"))
+                .attributes(attributes)
+                .nameAttributeKey(userNameAttributeName)
+                .build();
+    }
+
+    private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
+        return OAuthAttributes.builder()
+                .name((String) attributes.get("name"))
+                .email((String) attributes.get("email"))
+                .picture((String) attributes.get("picture"))
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
