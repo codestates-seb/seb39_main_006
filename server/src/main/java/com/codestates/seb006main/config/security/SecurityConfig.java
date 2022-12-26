@@ -63,10 +63,10 @@ public class SecurityConfig {
         http
                 .exceptionHandling()
                 .authenticationEntryPoint((request,response,authenticationException)->{
-                    response.sendRedirect("http://localhost:3000/");
+                    response.sendRedirect("https://hitch-hiker.kr/");
                 })
                 .accessDeniedHandler((request, response, accessDeniedException) -> {
-                    response.sendRedirect("http://localhost:3000/");
+                    response.sendRedirect("https://hitch-hiker.kr/");
                     /*
                      * 다시 로그인을 할 수 있도록 해야한다.
                      * 1. 다시 로그인을 시도해주세요 라는 팝업창을 실행 후
