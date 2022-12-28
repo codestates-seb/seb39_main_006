@@ -5,8 +5,9 @@ import { SubmitBtn } from "../../components/ui/Button";
 import styled from "styled-components";
 
 // import AccountInfo from "./AccountInfo";
-import kakaoLogo from "../../img/kakao.png";
-import googleLogo from "../../img/google.png"
+import kakaoLogo from "../../img/kakaologo.png";
+import googleLogo from "../../img/googlelogo.png"
+import naverLogo from "../../img/naverlogo.png"
 
 const Login = () => {
   const [validateEmailText, setValidateEmailText] = useState("");
@@ -139,28 +140,41 @@ const Login = () => {
                   Create new account
                 </NewBTN>
               </div>
+              <SocilaContainer>
+              <div align="center">
+                <a href="https://server.seb-006.shop/authorization/google">
+                  <img
+                    className="Button"
+                    src={googleLogo}
+                    alt="./googlelogo.png"
+                    width="80"
+                    height="80"
+                  ></img>
+                </a>
+              </div>
               <div align="center">
                 <a href="https://server.seb-006.shop/oauth2/authorization/kakao">
                   <img
                     className="Button"
                     src={kakaoLogo}
-                    alt="./Kakao.png"
-                    width="200"
-                    height="45"
+                    alt="./Kakaologo.png"
+                    width="80"
+                    height="80"
                   ></img>
                 </a>
               </div>
               <div align="center">
-                <a href="https://server.seb-006.shop/oauth2/authorization/google">
+                <a href="https://server.seb-006.shop/oauth2/authorization/naver">
                   <img
                     className="Button"
-                    src={googleLogo}
-                    alt="./google.png"
-                    width="200"
-                    height="45"
+                    src={naverLogo}
+                    alt="./naverlogo.png"
+                    width="80"
+                    height="80"
                   ></img>
                 </a>
               </div>
+              </SocilaContainer>
             </div>
           </section>
         </LoginContainer>
@@ -300,4 +314,9 @@ const InputWrapper = styled.div`
   #focus:focus {
     border: 1.5px solid #2962ff;
   }
+`;
+const SocilaContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 `;
