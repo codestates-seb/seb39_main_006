@@ -30,6 +30,9 @@ public class OAuthAttributes {
         }else if(registrationId.equalsIgnoreCase("google")){
             System.out.println("구글 진입");
             return ofGoogle(userNameAttributeName,attributes);
+        }else if(registrationId.equalsIgnoreCase("naver")){
+            System.out.println("네이버 진입");
+            return ofNaver(userNameAttributeName,attributes);
         }else {
             throw new RuntimeException("잘못된 로그인 방식입니다.");
         }
@@ -54,6 +57,17 @@ public class OAuthAttributes {
                 .email((String) attributes.get("email"))
                 .picture((String) attributes.get("picture"))
                 .attributes(attributes)
+                .nameAttributeKey(userNameAttributeName)
+                .build();
+    }
+    private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+
+        return OAuthAttributes.builder()
+                .name((String) response.get("name"))
+                .email((String) response.get("email"))
+                .picture((String) response.get("profile_image"))
+                .attributes(response)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
     }
